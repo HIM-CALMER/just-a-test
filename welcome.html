@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COREVEST.COM</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            width: 90%; /* Adjust width for smaller screens */
+            max-width: 600px; /* Limit width on larger screens */
+            margin: 20px; /* Adjust margin */
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        .note {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .note h1 {
+            font-size: 20px; /* Adjust font size for smaller screens */
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .note p {
+            font-size: 16px; /* Adjust font size for smaller screens */
+            margin-bottom: 10px;
+        }
+
+        .selection {
+            text-align: center;
+            display: flex;
+            flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+            justify-content: center;
+        }
+
+        button {
+            padding: 10px 15px; /* Adjust padding */
+            font-size: 14px; /* Adjust font size */
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            margin: 5px; /* Adjust margin */
+        }
+
+        button:hover {
+            background-color: #3e8e41;
+        }
+
+        #refer-btn {
+            margin-top: 15px;
+        }
+
+        #refer-link {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        /* Media Query for smaller screens (e.g., phones) */
+        @media (max-width: 600px) {
+            .container {
+                width: 95%;
+                margin: 10px;
+                padding: 15px;
+            }
+
+            .note h1 {
+                font-size: 18px;
+            }
+
+            .note p {
+                font-size: 14px;
+            }
+
+            button {
+                font-size: 12px;
+                padding: 8px 12px;
+                margin: 3px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="note">
+            <h1>WELCOME TO CORE-VEST WEBSITE</h1>
+            <p><mark>START EARNING TODAY</mark></p>
+            <p>Register through our link and purchase a referral code to get started. <a href="create.html">Register Now</a></p>
+            <p>Already registered? <a href="create.html">Login</a></p>
+            <p>Want to refer and earn? <button id="refer-btn">Refer and Earn</button></p>
+            <p id="refer-link" style="display: none;">Your referral link: <a id="refer-link-url" href=""></a></p>
+        </div>
+        <div class="selection">
+            <button onclick="location.href='about.html'">ABOUT US</button>
+            <button onclick="location.href='create.html'">CREATE AN ACCOUNT</button>
+            <button onclick="location.href='cupon.html'">PURCHASE COUPON</button>
+        </div>
+    </div>
+
+   <script>
+    const referBtn = document.getElementById('refer-btn');
+    const referLink = document.getElementById('refer-link');
+    const referLinkUrl = document.getElementById('refer-link-url');
+
+    referBtn.addEventListener('click', generateReferLink);
+
+    function generateReferLink() {
+        // In a real application, this link would be dynamic and potentially include a user ID
+        // For this client-side demo, it's a simple placeholder.
+        const link = `https://example.com/refer/${Math.random().toString(36).substr(2, 9)}`;
+        referLinkUrl.href = link;
+        referLinkUrl.textContent = link;
+        referLink.style.display = 'block';
+    }
+   </script>
+</body>
+</html>

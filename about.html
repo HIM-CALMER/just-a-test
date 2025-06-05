@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - COREVEST</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 20px;
+            flex-grow: 1; /* Allows container to take available space */
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 0 0 8px 8px;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        .header mark {
+            background-color: #fff;
+            color: #4CAF50;
+            padding: 5px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .nav {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .nav ul li a {
+            color: #4CAF50;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: color 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 5px;
+            background-color: #e8f5e9; /* Light green background for navigation buttons */
+        }
+
+        .nav ul li a:hover {
+            color: #fff;
+            background-color: #45a049;
+        }
+
+        .about-section {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .about-section h2 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .about-section p {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        .about-section ul {
+            list-style: disc;
+            margin-left: 20px;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .about-section ul li {
+            margin-bottom: 8px;
+        }
+
+        .cta-button {
+            display: block;
+            width: fit-content;
+            margin: 20px auto 0;
+            padding: 12px 25px;
+            background-color: #2196F3;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: #1a78c2;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #333;
+            color: #f0f0f0;
+            text-align: center;
+            font-size: 0.9rem;
+            border-top: 5px solid #4CAF50;
+        }
+
+        .footer p {
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav ul li {
+                margin: 5px 0;
+            }
+
+            .about-section {
+                padding: 20px;
+            }
+
+            .about-section h2 {
+                font-size: 1.7rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .header p {
+                font-size: 0.9rem;
+            }
+
+            .nav ul li a {
+                font-size: 1rem;
+                padding: 10px;
+            }
+
+            .about-section h2 {
+                font-size: 1.5rem;
+            }
+
+            .about-section p, .about-section ul li {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Welcome to COREVEST!</h1>
+        <p><mark>Your Gateway to Smart Earnings</mark></p>
+        <p>At COREVEST, we believe in empowering individuals to achieve financial independence through simple and accessible online tasks. Join our growing community and start earning today!</p>
+    </div>
+
+    <div class="container">
+        <nav class="nav">
+            <ul>
+                <li><a href="welcome.html">HOME</a></li>
+                <li><a href="create.html">CREATE AN ACCOUNT</a></li>
+                <li><a href="login.html">LOGIN</a></li>
+                <li><a href="cupon.html">PURCHASE COUPON</a></li>
+                <li><a href="#">ABOUT US</a></li> </ul>
+        </nav>
+
+        <section class="about-section">
+            <h2>Our Mission</h2>
+            <p>At COREVEST, our mission is to provide a legitimate and user-friendly platform where individuals can earn income by engaging in straightforward online activities, primarily watching videos. We are dedicated to creating a transparent and rewarding experience for all our users, helping them to supplement their income with minimal effort and no prior experience.</p>
+        </section>
+
+        <section class="about-section">
+            <h2>What We Offer</h2>
+            <p>COREVEST is designed for simplicity and accessibility. Here’s what you can expect:</p>
+            <ul>
+                <li>
+                    <b>Daily Video Tasks:</b> Earn real money by watching short video clips. Our task list is updated regularly, giving you consistent earning opportunities.
+                </li>
+                <li>
+                    <b>Flexible Earnings:</b> The more videos you watch, the more you earn. We offer competitive rewards for each completed task.
+                </li>
+                <li>
+                    <b>Referral Program:</b> Share the opportunity with your friends and family! Our "Refer and Earn" program allows you to generate a unique referral link and earn bonuses when new users join and activate their accounts through your link.
+                </li>
+                <li>
+                    <b>Secure Withdrawals:</b> Your earnings are safe and accessible. We provide a clear and structured withdrawal process, with payments enabled after a minimum of three weeks from your initial sign-up, ensuring a stable and reliable payout system.
+                </li>
+                <li>
+                    <b>Transparent System:</b> Track your earnings, completed tasks, and withdrawal status directly from your personalized dashboard.
+                </li>
+            </ul>
+        </section>
+
+        <section class="about-section">
+            <h2>How It Works</h2>
+            <p>Getting started with COREVEST is easy:</p>
+            <ol>
+                <li>
+                    <b>Register:</b> Create your free account on our platform.
+                </li>
+                <li>
+                    <b>Activate with a Coupon:</b> Purchase a one-time activation coupon to unlock access to all earning features and benefits. This ensures a serious and committed community.
+                </li>
+                <li>
+                    <b>Watch & Earn:</b> Dive into our daily video tasks. Watch videos for the required duration to unlock and claim your rewards.
+                </li>
+                <li>
+                    <b>Refer & Grow:</b> Generate your referral link and invite others to join COREVEST. Earn additional income for successful referrals.
+                </li>
+                <li>
+                    <b>Withdraw Your Earnings:</b> Once your account meets the withdrawal criteria (minimum three weeks from sign-up and having saved withdrawal details), you can request your payout.
+                </li>
+            </ol>
+        </section>
+
+        <section class="about-section">
+            <h2>Our Commitment</h2>
+            <p>We are committed to maintaining a trustworthy and supportive environment for our users. We continuously work to improve our platform, enhance security measures, and provide timely support to ensure a smooth and enjoyable earning experience. Your success is our priority.</p>
+        </section>
+
+        <a href="create.html" class="cta-button">Ready to Start Earning? Join COREVEST Today!</a>
+
+    </div>
+
+    <footer class="footer">
+        <p>© 2025 COREVEST. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

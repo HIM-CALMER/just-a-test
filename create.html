@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COREVEST - Account</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base Styles (Mobile-first approach is generally recommended) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px; /* Consistent padding for all screen sizes */
+            overflow-x: hidden; /* Prevent horizontal scroll on small screens */
+        }
+
+        .container {
+            width: 100%; /* Make it take full width on smaller screens */
+            max-width: 450px;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            margin: 0 15px; /* Add some side margin for smaller screens to prevent sticking to edges */
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #4CAF50;
+            margin-bottom: 25px;
+            /* Consider adjusting line-height for better readability on small screens if title wraps */
+            line-height: 1.2;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+            font-size: 0.95rem; /* Slightly smaller label for compact feel on mobile */
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            -webkit-appearance: none; /* Reset default browser styles for input fields on iOS */
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: #4CAF50;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2); /* Subtle focus ring */
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 10px;
+            -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+        }
+
+        button:hover {
+            background-color: #3e8e41;
+            transform: translateY(-2px);
+        }
+        /* Active state for better feedback on touch devices */
+        button:active {
+            transform: translateY(0);
+            background-color: #347c37;
+        }
+
+        .message {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            display: none; /* Hidden by default */
+            font-size: 0.9rem; /* Slightly smaller message text */
+        }
+
+        .message.success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #4CAF50;
+        }
+
+        .message.error {
+            background-color: #ffebee;
+            color: #d32f2f;
+            border: 1px solid #f44336;
+        }
+
+        .toggle-link {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #2196F3;
+            cursor: pointer;
+            text-decoration: underline;
+            -webkit-tap-highlight-color: transparent; /* Remove tap highlight */
+        }
+
+        .toggle-link:hover {
+            color: #1a78c2;
+        }
+
+        /* Initial state: Login form is hidden */
+        #login-section {
+            display: none;
+        }
+
+        /*
+            Refined Media Queries:
+            - Start with mobile-first (base styles apply to mobile)
+            - Use `min-width` for larger screens
+        */
+        @media (min-width: 481px) {
+            .container {
+                padding: 30px; /* Restore original padding for larger screens */
+                margin: 0; /* Remove side margin as max-width will control it */
+            }
+
+            h1 {
+                font-size: 2rem; /* Restore original font size */
+            }
+
+            button {
+                font-size: 1.1rem; /* Restore original font size */
+                padding: 12px;
+            }
+
+            label {
+                font-size: 1rem; /* Restore original label font size */
+            }
+
+            .message {
+                font-size: 1rem; /* Restore original message font size */
+            }
+        }
+
+        /* Optional: Even larger screens like tablets/desktops */
+        @media (min-width: 768px) {
+            .container {
+                max-width: 500px; /* Allow container to be slightly wider on larger screens if desired */
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div id="create-account-section">
+            <h1>Create Your COREVEST Account</h1>
+            <div class="form-group">
+                <label for="create-username">Username:</label>
+                <input type="text" id="create-username" placeholder="Choose a username" required>
+            </div>
+            <div class="form-group">
+                <label for="create-password">Password:</label>
+                <input type="password" id="create-password" placeholder="Create a strong password" required>
+            </div>
+            <button id="create-account-btn">Create Account</button>
+            <p class="toggle-link" id="show-login-link">Already have an account? Login</p>
+            <div id="create-message" class="message"></div>
+        </div>
+
+        <div id="login-section">
+            <h1>Login to COREVEST</h1>
+            <div class="form-group">
+                <label for="login-username">Username:</label>
+                <input type="text" id="login-username" placeholder="Enter your username" required>
+            </div>
+            <div class="form-group">
+                <label for="login-password">Password:</label>
+                <input type="password" id="login-password" placeholder="Enter your password" required>
+            </div>
+            <button id="login-btn">Login</button>
+            <p class="toggle-link" id="show-create-link">Don't have an account? Create one</p>
+            <div id="login-message" class="message"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- ELEMENTS ---
+            const createAccountSection = document.getElementById('create-account-section');
+            const loginSection = document.getElementById('login-section');
+
+            const createUsernameInput = document.getElementById('create-username');
+            const createPasswordInput = document.getElementById('create-password');
+            const createAccountBtn = document.getElementById('create-account-btn');
+            const createMessageDiv = document.getElementById('create-message');
+
+            const loginUsernameInput = document.getElementById('login-username');
+            const loginPasswordInput = document.getElementById('login-password');
+            const loginBtn = document.getElementById('login-btn');
+            const loginMessageDiv = document.getElementById('login-message');
+
+            const showLoginLink = document.getElementById('show-login-link');
+            const showCreateLink = document.getElementById('show-create-link');
+
+            // --- LOCAL STORAGE KEY ---
+            const ALL_USER_CREDENTIALS_KEY = 'corevestAllUserCredentials';
+
+            // --- FUNCTIONS ---
+
+            // Function to display messages
+            function showMessage(element, text, type) {
+                element.textContent = text;
+                element.className = `message ${type}`; // success or error
+                element.style.display = 'block';
+                setTimeout(() => {
+                    element.style.display = 'none';
+                }, 3000); // Hide message after 3 seconds
+            }
+
+            // Function to switch between forms
+            function showForm(formToShow) {
+                if (formToShow === 'login') {
+                    createAccountSection.style.display = 'none';
+                    loginSection.style.display = 'block';
+                    createMessageDiv.style.display = 'none'; // Hide create message when switching
+                } else { // 'create'
+                    createAccountSection.style.display = 'block';
+                    loginSection.style.display = 'none';
+                    loginMessageDiv.style.display = 'none'; // Hide login message when switching
+                }
+                // Clear inputs when switching forms for a cleaner experience
+                createUsernameInput.value = '';
+                createPasswordInput.value = '';
+                loginUsernameInput.value = '';
+                loginPasswordInput.value = '';
+            }
+
+            // Handle Create Account
+            createAccountBtn.addEventListener('click', function() {
+                const username = createUsernameInput.value.trim();
+                const password = createPasswordInput.value.trim();
+
+                if (username === '' || password === '') {
+                    showMessage(createMessageDiv, 'Please fill in all fields.', 'error');
+                    return;
+                }
+
+                const storedUsersString = localStorage.getItem(ALL_USER_CREDENTIALS_KEY);
+                let users = storedUsersString ? JSON.parse(storedUsersString) : [];
+
+                const userExists = users.some(user => user.username === username);
+                if (userExists) {
+                    showMessage(createMessageDiv, 'Username already taken. Please choose another or login.', 'error');
+                    return;
+                }
+
+                const newUser = { username: username, password: password };
+                users.push(newUser);
+                localStorage.setItem(ALL_USER_CREDENTIALS_KEY, JSON.stringify(users));
+
+                showMessage(createMessageDiv, 'Account created successfully! Please login.', 'success');
+                
+                setTimeout(() => {
+                    showForm('login');
+                    loginUsernameInput.value = username;
+                    loginPasswordInput.focus();
+                }, 1500);
+            });
+
+            // Handle Login
+            loginBtn.addEventListener('click', function() {
+                const username = loginUsernameInput.value.trim();
+                const password = loginPasswordInput.value.trim();
+
+                if (username === '' || password === '') {
+                    showMessage(loginMessageDiv, 'Please enter both username and password.', 'error');
+                    return;
+                }
+
+                const storedUsersString = localStorage.getItem(ALL_USER_CREDENTIALS_KEY);
+
+                if (!storedUsersString) {
+                    showMessage(loginMessageDiv, 'No accounts found. Please create an account first.', 'error');
+                    return;
+                }
+
+                const users = JSON.parse(storedUsersString);
+
+                const foundUser = users.find(user => user.username === username && user.password === password);
+
+                if (foundUser) {
+                    showMessage(loginMessageDiv, 'Login successful! Redirecting...', 'success');
+                    setTimeout(() => {
+                        window.location.href = 'tasks.html';
+                    }, 1000);
+                } else {
+                    showMessage(loginMessageDiv, 'Invalid username or password.', 'error');
+                }
+            });
+
+            // Toggle links functionality
+            showLoginLink.addEventListener('click', () => showForm('login'));
+            showCreateLink.addEventListener('click', () => showForm('create'));
+
+            // --- INITIALIZATION ---
+            const existingUsers = localStorage.getItem(ALL_USER_CREDENTIALS_KEY);
+            if (existingUsers && JSON.parse(existingUsers).length > 0) {
+                showForm('login');
+            } else {
+                showForm('create');
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Core Vest Coupon Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: white;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        #generate-btn {
+            padding: 12px 25px;
+            font-size: 18px;
+            cursor: pointer;
+            color: white;
+            background-color: #008000;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        #generate-btn:hover {
+            background-color: #006600;
+        }
+
+        #coupon-code {
+            font-size: 28px;
+            font-weight: bold;
+            margin-top: 25px;
+            color: #333;
+        }
+
+        #coupon-price {
+            font-size: 40px;
+            font-weight: bold;
+            color: #008000;
+            margin-top: 10px;
+        }
+
+        #buy-now-btn, #payment-made-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        #buy-now-btn:hover, #payment-made-btn:hover {
+            background-color: #45a049;
+        }
+
+        #payment-details, #coupon-details {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #555;
+        }
+
+        #payment-details h2, #coupon-details h2 {
+            color: #008000;
+            margin-bottom: 15px;
+        }
+
+        #coupon-details p {
+            margin-bottom: 10px;
+        }
+
+        /* REVISED: Instruction message base style - it's always block unless 'hidden' class is applied */
+        .instruction-message {
+            margin-top: 25px;
+            padding: 15px;
+            background-color: #e6ffe6;
+            border: 1px solid #a0e6a0;
+            border-radius: 8px;
+            font-size: 1.2em;
+            color: #006600;
+            font-weight: normal;
+            line-height: 1.5;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Essential utility class to hide elements */
+        .hidden {
+            display: none !important; /* Use !important to ensure it overrides other display properties */
+        }
+
+        .instruction-message strong {
+            color: #004d00;
+            font-weight: bold;
+        }
+
+        .instruction-message a {
+            color: #008000;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .instruction-message a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 95%;
+                margin: 20px auto;
+                padding: 15px;
+            }
+            #generate-btn {
+                font-size: 16px;
+                padding: 10px 20px;
+            }
+            #coupon-code {
+                font-size: 22px;
+            }
+            #coupon-price {
+                font-size: 32px;
+            }
+            .instruction-message {
+                font-size: 1em;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Core Vest Coupon Generator</h1>
+        <button id="generate-btn">Generate Coupon</button>
+        <div id="coupon-code"></div>
+        <div id="coupon-price"></div>
+
+        <div id="buy-now-container" style="display: none;">
+            <button id="buy-now-btn">Buy Now (₦<span id="buy-now-price"></span>)</button>
+        </div>
+
+        <div id="payment-details" style="display: none;">
+            <h2>Payment Details</h2>
+            <p>Account Name: sochi </p>
+            <p>Account Number: 9066095454</p>
+            <p>Bank Name: OPAY </p>
+            <button id="payment-made-btn">Payment Made</button>
+        </div>
+        <div id="coupon-details" style="display: none;">
+            <h2>Coupon Details</h2>
+            <p>Coupon Code: <span id="coupon-code-final"></span></p>
+            <p>Price: ₦<span id="coupon-price-final"></span></p>
+            <p>Payment Amount: ₦<span id="payment-amount"></span></p>
+            
+            <p class="instruction-message hidden" id="couponInstruction">
+                Please <strong>copy this coupon code</strong> and <strong>paste it into the "VIDEO TASK FIELD" TO VERIFY</strong> AFTER CREATING AN ACCOUNT <a href="create.html"> creation page</a>.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const generateBtn = document.getElementById('generate-btn');
+        const couponCodeDiv = document.getElementById('coupon-code');
+        const couponPriceDiv = document.getElementById('coupon-price');
+        const buyNowContainer = document.getElementById('buy-now-container');
+        const buyNowBtn = document.getElementById('buy-now-btn');
+        const buyNowPrice = document.getElementById('buy-now-price');
+        const paymentDetails = document.getElementById('payment-details');
+        const paymentMadeBtn = document.getElementById('payment-made-btn');
+        const couponDetails = document.getElementById('coupon-details');
+        const couponCodeFinal = document.getElementById('coupon-code-final');
+        const couponPriceFinal = document.getElementById('coupon-price-final');
+        const paymentAmount = document.getElementById('payment-amount');
+        const couponInstruction = document.getElementById('couponInstruction');
+
+        let generatedCouponCode = '';
+        let generatedCouponPrice = 0;
+
+        generateBtn.addEventListener('click', generateCoupon);
+        buyNowBtn.addEventListener('click', showPaymentDetails);
+        paymentMadeBtn.addEventListener('click', showCouponDetails);
+
+        function generateCoupon() {
+            generateBtn.disabled = true;
+            generateBtn.textContent = 'Generating...';
+            couponCodeDiv.textContent = '';
+            couponPriceDiv.textContent = '';
+            buyNowContainer.style.display = 'none';
+            paymentDetails.style.display = 'none';
+            couponDetails.style.display = 'none';
+            
+            // Hiding instruction on generate using the 'hidden' class
+            couponInstruction.classList.add('hidden'); 
+
+            setTimeout(() => {
+                generatedCouponCode = generateRandomCode();
+                generatedCouponPrice = generateRandomPrice();
+                couponCodeDiv.textContent = `Coupon Code: ${generatedCouponCode}`;
+                couponPriceDiv.textContent = `₦${generatedCouponPrice.toLocaleString('en-NG')}`;
+                buyNowPrice.textContent = generatedCouponPrice.toLocaleString('en-NG');
+                buyNowContainer.style.display = 'block';
+                generateBtn.disabled = false;
+                generateBtn.textContent = 'Generate Coupon';
+            }, 3000);
+        }
+
+        function showPaymentDetails() {
+            buyNowContainer.style.display = 'none';
+            paymentDetails.style.display = 'block';
+            
+            // Hiding instruction on show payment details using the 'hidden' class
+            couponInstruction.classList.add('hidden');
+        }
+
+        function showCouponDetails() {
+            paymentDetails.style.display = 'none';
+            couponDetails.style.display = 'block';
+            couponCodeFinal.textContent = generatedCouponCode;
+            couponPriceFinal.textContent = generatedCouponPrice.toLocaleString('en-NG');
+            paymentAmount.textContent = generatedCouponPrice.toLocaleString('en-NG');
+            
+            // Showing the instruction message by removing the 'hidden' class
+            couponInstruction.classList.remove('hidden'); 
+        }
+
+        function generateRandomCode() {
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let code = '';
+            for (let i = 0; i < 8; i++) {
+                code += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            return code;
+        }
+
+        function generateRandomPrice() {
+            return Math.floor(Math.random() * (100000 - 15000 + 1)) + 15000;
+        }
+    </script>
+</body>
+</html>

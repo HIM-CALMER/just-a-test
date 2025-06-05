@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Tasks - COREVEST</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensures footer sticks to bottom */
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            flex-grow: 1; /* Allows container to take available space */
+        }
+        .header, .coupon-section, .task-card, .user-info-section, .withdrawal-info, .withdrawal-section {
+            background-color: #fff;
+            padding: 20px 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+        }
+        h1 {
+            margin: 0;
+            color: #4CAF50;
+            font-size: 24px;
+            text-align: center;
+        }
+        .user-info-section h2, .coupon-section h2, .withdrawal-section h2 {
+            margin-top: 0;
+            text-align: center;
+            color: #333;
+        }
+        .user-name-display {
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 15px;
+            color: #555;
+        }
+        .user-name-display span {
+            font-weight: bold;
+            color: #2196F3;
+        }
+        .earnings-display {
+            font-size: 18px;
+            margin-top: 10px;
+            text-align: center;
+        }
+        .earnings-display span {
+            font-weight: bold;
+            color: #3e8e41;
+            font-size: 22px;
+        }
+        .total-record {
+            font-size: 16px;
+            text-align: center;
+            color: #666;
+            margin-top: 5px;
+        }
+        .coupon-input-group, .user-input-group {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        .withdrawal-input-group {
+            margin-bottom: 15px;
+        }
+        .withdrawal-input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        .withdrawal-input-group input[type="text"] {
+            width: calc(100% - 22px); /* Account for padding and border */
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        #coupon-input, #full-name-input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        #verify-coupon-btn, #save-name-btn, #save-withdrawal-btn, #request-withdrawal-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            white-space: nowrap; /* Prevent text wrapping */
+        }
+        #verify-coupon-btn:hover, #save-name-btn:hover, #save-withdrawal-btn:hover, #request-withdrawal-btn:hover { background-color: #3e8e41; }
+        #verify-coupon-btn:disabled, #save-withdrawal-btn:disabled, #request-withdrawal-btn:disabled {
+            background-color: #aaa;
+            cursor: not-allowed;
+        }
+        #coupon-status {
+            text-align: center;
+            font-weight: bold;
+            height: 20px;
+        }
+        .task-list.disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        .task-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        .task-card.completed {
+            border-color: #4CAF50;
+            background-color: #f1f8e9;
+        }
+        .task-info h3 { margin: 0 0 5px 0; }
+        .task-info p { margin: 0; font-size: 14px; color: #666; }
+        .task-reward { font-size: 16px; font-weight: bold; color: #4CAF50; }
+        .task-actions { display: flex; gap: 10px; align-items: center; }
+        .task-btn {
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            font-size: 14px;
+            cursor: pointer;
+            min-width: 120px;
+        }
+        .watch-btn { background-color: #2196F3; }
+        .watch-btn:hover { background-color: #1a78c2; }
+        .claim-btn { background-color: #4CAF50; }
+        .task-btn:disabled { background-color: #aaa; cursor: not-allowed; }
+
+        .withdrawal-info {
+            background-color: #ffe0b2; /* Light orange background */
+            color: #e65100; /* Dark orange text */
+            text-align: center;
+            font-weight: bold;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #ff9800;
+        }
+
+        .withdrawal-details-display p {
+            margin: 5px 0;
+            font-size: 16px;
+        }
+        .withdrawal-details-display strong {
+            color: #2196F3;
+        }
+        .withdrawal-status {
+            font-weight: bold;
+            color: #ff9800; /* Orange for unpaid */
+        }
+        .withdrawal-status.paid {
+            color: #4CAF50; /* Green for paid */
+        }
+
+        /* Video Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            position: relative;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 560px;
+            text-align: center;
+        }
+        .modal-content iframe {
+            width: 100%;
+            height: 315px;
+            border: none;
+        }
+        .modal-timer { font-size: 18px; font-weight: bold; margin-top: 15px; }
+        .close-btn { position: absolute; top: -10px; right: -10px; background: #ff5c5c; color: white; border-radius: 50%; width: 30px; height: 30px; border: none; font-size: 18px; cursor: pointer; }
+        
+        /* Footer Styles */
+        .footer {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #333;
+            color: #f0f0f0;
+            text-align: center;
+            font-size: 14px;
+            border-top: 5px solid #4CAF50;
+        }
+        .footer p {
+            margin: 0;
+        }
+
+        @media (max-width: 600px) {
+            .task-card { flex-direction: column; align-items: flex-start; gap: 15px; }
+            .task-actions { width: 100%; flex-direction: column; }
+            .task-btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="user-info-section">
+            <h2>Your COREVEST Profile</h2>
+            <div class="user-input-group">
+                <input type="text" id="full-name-input" placeholder="Enter your User name">
+                <button id="save-name-btn">Save Name</button>
+            </div>
+            <p class="user-name-display">Welcome, <span id="display-name">Guest</span>!</p>
+        </div>
+
+        <div class="coupon-section">
+            <h2>Verify Your Coupon to Start</h2>
+            <div class="coupon-input-group">
+                <input type="text" id="coupon-input" placeholder="Enter your coupon code">
+                <button id="verify-coupon-btn">Verify</button>
+            </div>
+            <p id="coupon-status"></p>
+        </div>
+
+        <div class="header">
+            <h1>Daily Video Tasks</h1>
+            <div class="earnings-display">
+                Total Earnings: <span id="total-earnings">₦0</span>
+            </div>
+            <div class="total-record">
+                Tasks Completed: <span id="tasks-completed-count">0</span> / <span id="total-tasks-count">0</span>
+            </div>
+        </div>
+
+        <div class="withdrawal-info">
+            Please note: Withdrawals will be enabled after a minimum of three weeks from your initial sign-up date.
+        </div>
+
+        <div class="task-list disabled" id="task-list">
+        </div>
+
+        <div class="withdrawal-section">
+            <h2>Withdrawal Details</h2>
+            <div class="withdrawal-input-group">
+                <label for="account-number-input">Account Number:</label>
+                <input type="text" id="account-number-input" placeholder="Enter your account number">
+            </div>
+            <div class="withdrawal-input-group">
+                <label for="bank-name-input">Bank Name:</label>
+                <input type="text" id="bank-name-input" placeholder="Enter your bank name">
+            </div>
+            <div class="withdrawal-input-group">
+                <label for="account-name-input">Account Name:</label>
+                <input type="text" id="account-name-input" placeholder="Enter your account name">
+            </div>
+            <button id="save-withdrawal-btn">Save Withdrawal Details</button>
+            <div id="withdrawal-details-display" class="withdrawal-details-display" style="margin-top: 20px;">
+                </div>
+            <button id="request-withdrawal-btn" style="margin-top: 20px;" disabled>Request Withdrawal</button>
+        </div>
+    </div>
+
+    <div id="video-modal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" id="close-modal-btn">×</button>
+            <h3 id="modal-title"></h3>
+            <iframe id="video-iframe" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            <p class="modal-timer" id="modal-timer"></p>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 COREVEST. All rights reserved.</p>
+    </footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // --- ELEMENTS ---
+    const fullNameInput = document.getElementById('full-name-input');
+    const saveNameBtn = document.getElementById('save-name-btn');
+    const displayName = document.getElementById('display-name');
+    const couponInput = document.getElementById('coupon-input');
+    const verifyBtn = document.getElementById('verify-coupon-btn');
+    const couponStatus = document.getElementById('coupon-status');
+    const taskList = document.getElementById('task-list');
+    const totalEarningsEl = document.getElementById('total-earnings');
+    const tasksCompletedCountEl = document.getElementById('tasks-completed-count');
+    const totalTasksCountEl = document.getElementById('total-tasks-count');
+    const modal = document.getElementById('video-modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalTimer = document.getElementById('modal-timer');
+    const videoIframe = document.getElementById('video-iframe');
+    const closeModalBtn = document.getElementById('close-modal-btn');
+
+    // Withdrawal elements
+    const accountNumberInput = document.getElementById('account-number-input');
+    const bankNameInput = document.getElementById('bank-name-input');
+    const accountNameInput = document.getElementById('account-name-input');
+    const saveWithdrawalBtn = document.getElementById('save-withdrawal-btn');
+    const withdrawalDetailsDisplay = document.getElementById('withdrawal-details-display');
+    const requestWithdrawalBtn = document.getElementById('request-withdrawal-btn');
+
+    // --- STATE VARIABLES ---
+    let state = {
+        fullName: 'Guest',
+        coupon: null,
+        totalEarnings: 0,
+        completedTasks: [],
+        signUpDate: null, // Stores the date the coupon was first verified
+        withdrawalDetails: null // { accountNumber, bankName, accountName, status: 'Unpaid', submissionDate, projectedPaymentDate }
+    };
+    
+    // --- DATABASE (SIMULATED) ---
+    const validCoupons = {
+        "BASIC7500": 7500, "PRO15000": 15000, "ELITE25K": 25000, "VIP50K": 50000
+    };
+
+    const videoTasks = [
+        { id: 1, title: "Watch Tech Review", url: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" }, // Rick Astley
+        { id: 2, title: "Explore Nature Scenes", url: "https://www.youtube.com/embed/g_yQY-a0j7o?autoplay=1" }, 
+        { id: 3, title: "Digital Art Timelapse", url: "https://www.youtube.com/embed/j_A4F-sX0sA?autoplay=1" }, 
+        { id: 4, title: "Learn a Quick Recipe", url: "https://www.youtube.com/embed/M0mE2d-1m_4?autoplay=1" }, 
+        { id: 5, title: "Workout Motivation", url: "https://www.youtube.com/embed/KxGRhpkU330?autoplay=1" }, 
+        { id: 6, title: "Amazing Drone Shots", url: "https://www.youtube.com/embed/LXb3EKWsInQ?autoplay=1" }, 
+        { id: 7, title: "Financial Tips", url: "https://www.youtube.com/embed/Y-6dKkYjN3Q?autoplay=1" }, 
+        { id: 8, title: "DIY Home Project", url: "https://www.youtube.com/embed/v9qI90nK2fQ?autoplay=1" }, 
+        { id: 9, title: "Product Unboxing", url: "https://www.youtube.com/embed/wE5nF04t-a0?autoplay=1" }, 
+        { id: 10, title: "Travel Highlights", url: "https://www.youtube.com/embed/e1P0G4l1a-0?autoplay=1" } 
+    ];
+
+    // --- FUNCTIONS ---
+    function loadState() {
+        const savedState = JSON.parse(localStorage.getItem('corevestTaskState'));
+        if (savedState) {
+            state = savedState;
+            if (state.fullName) {
+                fullNameInput.value = state.fullName;
+                displayName.textContent = state.fullName;
+            }
+            if (state.coupon) {
+                couponInput.value = state.coupon.code;
+                handleCouponVerification(true); // Re-verify on load
+            }
+            if (state.withdrawalDetails) {
+                accountNumberInput.value = state.withdrawalDetails.accountNumber;
+                bankNameInput.value = state.withdrawalDetails.bankName;
+                accountNameInput.value = state.withdrawalDetails.accountName;
+                renderWithdrawalSection(); // Display saved withdrawal info
+            }
+        }
+        updateRecordDisplay();
+    }
+
+    function saveState() {
+        localStorage.setItem('corevestTaskState', JSON.stringify(state));
+    }
+
+    function updateRecordDisplay() {
+        tasksCompletedCountEl.textContent = state.completedTasks.length;
+        totalTasksCountEl.textContent = videoTasks.length;
+    }
+
+    function addWeeksToDate(date, weeks) {
+        const newDate = new Date(date);
+        newDate.setDate(newDate.getDate() + (weeks * 7));
+        return newDate;
+    }
+
+    function formatDate(date) {
+        return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    }
+
+    function handleSaveName() {
+        const name = fullNameInput.value.trim();
+        if (name) {
+            state.fullName = name;
+            displayName.textContent = name;
+            saveState();
+        } else {
+            displayName.textContent = 'Guest';
+        }
+    }
+
+    function handleCouponVerification(isReload = false) {
+        const code = couponInput.value.toUpperCase();
+        if (validCoupons[code]) {
+            state.coupon = { code: code, value: validCoupons[code] };
+            couponStatus.textContent = `Coupon Verified! Value: ₦${state.coupon.value.toLocaleString()}`;
+            couponStatus.style.color = 'green';
+            couponInput.disabled = true;
+            verifyBtn.disabled = true;
+            taskList.classList.remove('disabled');
+            
+            if (!isReload && !state.signUpDate) {
+                state.signUpDate = new Date().toISOString(); // Set sign-up date only once on first successful verification
+            }
+            saveState(); // Save state after setting sign-up date
+            renderTasks();
+            renderWithdrawalSection(); // Update withdrawal section in case signup date affected it
+        } else {
+            couponStatus.textContent = 'Invalid coupon code. Please try again.';
+            couponStatus.style.color = 'red';
+            state.coupon = null;
+            taskList.classList.add('disabled'); // Disable tasks if coupon is invalid
+            saveState(); // Save state to clear invalid coupon
+            renderWithdrawalSection(); // Clear withdrawal section info related to coupon
+        }
+    }
+
+    function renderTasks() {
+        taskList.innerHTML = '';
+        totalEarningsEl.textContent = `₦${state.totalEarnings.toLocaleString()}`;
+        updateRecordDisplay(); // Update task count display
+        videoTasks.forEach(task => {
+            const isCompleted = state.completedTasks.includes(task.id);
+            const reward = calculateReward(task.id);
+            const taskCard = document.createElement('div');
+            taskCard.className = `task-card ${isCompleted ? 'completed' : ''}`;
+            taskCard.innerHTML = `
+                <div class="task-info">
+                    <h3>${task.title}</h3>
+                    <p>Watch the 15s video to claim your reward.</p>
+                </div>
+                <div class="task-actions">
+                    <span class="task-reward">Reward: ₦${reward.toLocaleString()}</span>
+                    <button class="task-btn watch-btn" data-task-id="${task.id}" ${isCompleted || !state.coupon ? 'disabled' : ''}>Watch Video</button>
+                    <button class="task-btn claim-btn" data-task-id="${task.id}" disabled>Claim Reward</button>
+                </div>
+            `;
+            taskList.appendChild(taskCard);
+
+            // If task is completed, make sure claim button is disabled and watch button too
+            if (isCompleted) {
+                const claimBtn = taskCard.querySelector('.claim-btn');
+                const watchBtn = taskCard.querySelector('.watch-btn');
+                claimBtn.disabled = true;
+                watchBtn.disabled = true;
+            }
+        });
+    }
+
+    function calculateReward(taskId) {
+        if (!state.coupon) return 0;
+        const baseReward = state.coupon.value * 0.005;
+        const randomBonus = Math.floor(Math.random() * 20);
+        const rawReward = baseReward + randomBonus + (taskId * 2); 
+        return Math.ceil(rawReward * 5); 
+    }
+
+    function playVideo(taskId) {
+        const task = videoTasks.find(t => t.id === taskId);
+        modalTitle.textContent = task.title;
+        videoIframe.src = task.url; 
+        modal.style.display = 'flex';
+
+        let countdown = 15;
+        modalTimer.textContent = `Watch for ${countdown} seconds to unlock reward...`;
+        
+        const timerInterval = setInterval(() => {
+            countdown--;
+            modalTimer.textContent = `Reward unlocks in ${countdown} seconds...`;
+            if (countdown <= 0) {
+                clearInterval(timerInterval);
+                modalTimer.textContent = 'Reward Unlocked! You can close this window.';
+                document.querySelector(`.claim-btn[data-task-id='${taskId}']`).disabled = false;
+                document.querySelector(`.watch-btn[data-task-id='${taskId}']`).disabled = true; 
+            }
+        }, 1000);
+
+        modal.dataset.timerId = timerInterval;
+    }
+
+    function closeVideoModal() {
+        const timerId = modal.dataset.timerId;
+        if (timerId) clearInterval(timerId);
+        videoIframe.src = ''; 
+        modal.style.display = 'none';
+    }
+
+    function claimReward(taskId) {
+        if (state.completedTasks.includes(taskId)) {
+            console.warn(`Task ${taskId} already completed.`);
+            return;
+        }
+
+        const reward = calculateReward(taskId);
+        state.totalEarnings += reward;
+        state.completedTasks.push(taskId);
+        saveState();
+        renderTasks();
+    }
+
+    function handleSaveWithdrawalDetails() {
+        const accountNumber = accountNumberInput.value.trim();
+        const bankName = bankNameInput.value.trim();
+        const accountName = accountNameInput.value.trim();
+
+        if (!accountNumber || !bankName || !accountName) {
+            alert('Please fill in all withdrawal details.');
+            return;
+        }
+
+        const submissionDate = new Date();
+        // If signUpDate is not set, set it now. This marks the start of the 3-week interval.
+        if (!state.signUpDate) {
+            state.signUpDate = submissionDate.toISOString(); 
+        }
+
+        const projectedPaymentDate = addWeeksToDate(new Date(state.signUpDate), 3);
+
+        state.withdrawalDetails = {
+            accountNumber,
+            bankName,
+            accountName,
+            status: 'Unpaid',
+            submissionDate: submissionDate.toISOString(),
+            projectedPaymentDate: projectedPaymentDate.toISOString()
+        };
+        saveState();
+        renderWithdrawalSection();
+        alert('Withdrawal details saved!');
+    }
+
+    function renderWithdrawalSection() {
+        withdrawalDetailsDisplay.innerHTML = ''; // Clear previous display
+
+        if (state.withdrawalDetails) {
+            const details = state.withdrawalDetails;
+            withdrawalDetailsDisplay.innerHTML = `
+                <p><strong>Account Number:</strong> ${details.accountNumber}</p>
+                <p><strong>Bank Name:</strong> ${details.bankName}</p>
+                <p><strong>Account Name:</strong> ${details.accountName}</p>
+                <p><strong>Status:</strong> <span class="withdrawal-status ${details.status.toLowerCase()}">${details.status}</span></p>
+            `;
+
+            if (state.signUpDate) {
+                const signUpDateTime = new Date(state.signUpDate);
+                const projectedPaymentDateTime = addWeeksToDate(signUpDateTime, 3);
+                const now = new Date();
+                const isPaymentDue = now >= projectedPaymentDateTime;
+
+                withdrawalDetailsDisplay.innerHTML += `
+                    <p><strong>Sign-up Date:</strong> ${formatDate(signUpDateTime)}</p>
+                    <p><strong>Projected Payment Date:</strong> ${formatDate(projectedPaymentDateTime)}</p>
+                `;
+
+                if (isPaymentDue && details.status === 'Unpaid') {
+                    requestWithdrawalBtn.disabled = false;
+                    requestWithdrawalBtn.textContent = 'Request Withdrawal (Due)';
+                } else if (details.status === 'Paid') {
+                    requestWithdrawalBtn.disabled = true;
+                    requestWithdrawalBtn.textContent = 'Withdrawal Paid';
+                } else {
+                    requestWithdrawalBtn.disabled = true;
+                    requestWithdrawalBtn.textContent = 'Withdrawal Not Yet Due';
+                }
+            } else {
+                requestWithdrawalBtn.disabled = true;
+                requestWithdrawalBtn.textContent = 'Verify coupon to enable withdrawals';
+            }
+        } else {
+            withdrawalDetailsDisplay.innerHTML = `<p>No withdrawal details saved yet.</p>`;
+            requestWithdrawalBtn.disabled = true;
+            requestWithdrawalBtn.textContent = 'Save details to enable withdrawals';
+        }
+    }
+
+    function handleRequestWithdrawal() {
+        if (state.withdrawalDetails && state.withdrawalDetails.status === 'Unpaid') {
+            const signUpDateTime = new Date(state.signUpDate);
+            const projectedPaymentDateTime = addWeeksToDate(signUpDateTime, 3);
+            const now = new Date();
+
+            if (now >= projectedPaymentDateTime) {
+                alert(`Withdrawal request for ₦${state.totalEarnings.toLocaleString()} sent! Please allow 2-3 business days for processing.`);
+                // Simulate marking as paid and resetting earnings (in a real app, this would involve backend logic)
+                state.withdrawalDetails.status = 'Paid';
+                state.totalEarnings = 0; // Reset earnings after withdrawal
+                state.completedTasks = []; // Optionally reset tasks or mark them for a new cycle
+                saveState();
+                renderWithdrawalSection();
+                renderTasks(); // Update earnings display
+            } else {
+                alert('Withdrawal is not yet due. Please wait until the projected payment date.');
+            }
+        }
+    }
+
+    // --- EVENT LISTENERS ---
+    saveNameBtn.addEventListener('click', handleSaveName);
+    verifyBtn.addEventListener('click', () => handleCouponVerification(false));
+    closeModalBtn.addEventListener('click', closeVideoModal);
+    saveWithdrawalBtn.addEventListener('click', handleSaveWithdrawalDetails);
+    requestWithdrawalBtn.addEventListener('click', handleRequestWithdrawal);
+
+    taskList.addEventListener('click', (e) => {
+        const target = e.target;
+        if (target.classList.contains('watch-btn')) {
+            const taskId = parseInt(target.dataset.taskId);
+            playVideo(taskId);
+        }
+        if (target.classList.contains('claim-btn')) {
+            const taskId = parseInt(target.dataset.taskId);
+            claimReward(taskId);
+        }
+    });
+
+    // --- INITIALIZATION ---
+    loadState();
+    renderWithdrawalSection(); // Ensure withdrawal section is rendered on load
+});
+</script>
+
+</body>
+</html>
