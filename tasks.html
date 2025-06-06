@@ -122,6 +122,7 @@
             justify-content: space-between;
             align-items: center;
             transition: all 0.3s ease;
+            margin-bottom: 15px; /* Spacing between task cards */
         }
         .task-card.completed {
             border-color: #4CAF50;
@@ -242,11 +243,12 @@
 
         <div class="header">
             <h1>Daily Video Tasks</h1>
+            <p id="current-date" style="text-align: center; font-size: 14px; color: #777; margin-top: 5px;"></p>
             <div class="earnings-display">
                 Total Earnings: <span id="total-earnings">₦0</span>
             </div>
             <div class="total-record">
-                Tasks Completed: <span id="tasks-completed-count">0</span> / <span id="total-tasks-count">0</span>
+                Today's Tasks Completed: <span id="tasks-completed-today-count">0</span> / 2
             </div>
         </div>
 
@@ -255,7 +257,7 @@
         </div>
 
         <div class="task-list disabled" id="task-list">
-        </div>
+            </div>
 
         <div class="withdrawal-section">
             <h2>Withdrawal Details</h2>
@@ -273,8 +275,14 @@
             </div>
             <button id="save-withdrawal-btn">Save Withdrawal Details</button>
             <div id="withdrawal-details-display" class="withdrawal-details-display" style="margin-top: 20px;">
-                </div>
+            </div>
             <button id="request-withdrawal-btn" style="margin-top: 20px;" disabled>Request Withdrawal</button>
+
+            <hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;">
+            <h3>Past Withdrawals</h3>
+            <div id="past-withdrawals-list" style="margin-top: 15px;">
+                <p>No past withdrawals yet.</p>
+            </div>
         </div>
     </div>
 
@@ -288,7 +296,7 @@
     </div>
 
     <footer class="footer">
-        <p>&copy; 2025 COREVEST. All rights reserved.</p>
+        <p>© 2025 COREVEST. All rights reserved.</p>
     </footer>
 
 <script>
@@ -302,8 +310,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const couponStatus = document.getElementById('coupon-status');
     const taskList = document.getElementById('task-list');
     const totalEarningsEl = document.getElementById('total-earnings');
-    const tasksCompletedCountEl = document.getElementById('tasks-completed-count');
-    const totalTasksCountEl = document.getElementById('total-tasks-count');
+    const tasksCompletedTodayCountEl = document.getElementById('tasks-completed-today-count');
+    const currentDateEl = document.getElementById('current-date');
     const modal = document.getElementById('video-modal');
     const modalTitle = document.getElementById('modal-title');
     const modalTimer = document.getElementById('modal-timer');
@@ -317,15 +325,20 @@ document.addEventListener('DOMContentLoaded', function() {
     const saveWithdrawalBtn = document.getElementById('save-withdrawal-btn');
     const withdrawalDetailsDisplay = document.getElementById('withdrawal-details-display');
     const requestWithdrawalBtn = document.getElementById('request-withdrawal-btn');
+    const pastWithdrawalsList = document.getElementById('past-withdrawals-list');
 
     // --- STATE VARIABLES ---
     let state = {
         fullName: 'Guest',
         coupon: null,
         totalEarnings: 0,
-        completedTasks: [],
-        signUpDate: null, // Stores the date the coupon was first verified
-        withdrawalDetails: null // { accountNumber, bankName, accountName, status: 'Unpaid', submissionDate, projectedPaymentDate }
+        // completedTasks will now be an object to store daily task completion
+        // e.g., { "2025-06-05": [101, 102], "2025-06-06": [201] }
+        completedTasks: {}, 
+        signUpDate: null, 
+        withdrawalDetails: null, 
+        pastWithdrawals: [],
+        lastTaskGenerationDate: null // To track when tasks were last generated
     };
     
     // --- DATABASE (SIMULATED) ---
@@ -333,18 +346,19 @@ document.addEventListener('DOMContentLoaded', function() {
         "BASIC7500": 7500, "PRO15000": 15000, "ELITE25K": 25000, "VIP50K": 50000
     };
 
-    const videoTasks = [
-        { id: 1, title: "Watch Tech Review", url: "https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" }, // Rick Astley
-        { id: 2, title: "Explore Nature Scenes", url: "https://www.youtube.com/embed/g_yQY-a0j7o?autoplay=1" }, 
-        { id: 3, title: "Digital Art Timelapse", url: "https://www.youtube.com/embed/j_A4F-sX0sA?autoplay=1" }, 
-        { id: 4, title: "Learn a Quick Recipe", url: "https://www.youtube.com/embed/M0mE2d-1m_4?autoplay=1" }, 
-        { id: 5, title: "Workout Motivation", url: "https://www.youtube.com/embed/KxGRhpkU330?autoplay=1" }, 
-        { id: 6, title: "Amazing Drone Shots", url: "https://www.youtube.com/embed/LXb3EKWsInQ?autoplay=1" }, 
-        { id: 7, title: "Financial Tips", url: "https://www.youtube.com/embed/Y-6dKkYjN3Q?autoplay=1" }, 
-        { id: 8, title: "DIY Home Project", url: "https://www.youtube.com/embed/v9qI90nK2fQ?autoplay=1" }, 
-        { id: 9, title: "Product Unboxing", url: "https://www.youtube.com/embed/wE5nF04t-a0?autoplay=1" }, 
-        { id: 10, title: "Travel Highlights", url: "https://www.youtube.com/embed/e1P0G4l1a-0?autoplay=1" } 
-    ];
+    // Generate a large list of unique video tasks (600 tasks for 300 days)
+    const allVideoTasks = [];
+    const videoTitles = ["Tech Review", "Nature Exploration", "Art Timelapse", "Quick Recipe", "Workout Motivation", "Drone Shots", "Financial Tips", "DIY Project", "Product Unboxing", "Travel Highlights", "Science Explained", "Historical Facts", "Gaming Montage", "Coding Tutorial", "Book Summary", "Musical Performance", "Animal Facts", "Meditation Guide", "Comedy Sketch", "Gardening Tips"];
+    for (let i = 0; i < 600; i++) {
+        const titleIndex = i % videoTitles.length;
+        allVideoTasks.push({ 
+            id: i + 1, 
+            title: `${videoTitles[titleIndex]} #${Math.floor(i / videoTitles.length) + 1}`, 
+            url: `https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1&controls=0&start=${(i * 5) % 300}` // Using Rick Astley, modifying start time for uniqueness
+        });
+    }
+    
+    const TASKS_PER_DAY = 2; // Number of tasks to display daily
 
     // --- FUNCTIONS ---
     function loadState() {
@@ -357,25 +371,33 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             if (state.coupon) {
                 couponInput.value = state.coupon.code;
-                handleCouponVerification(true); // Re-verify on load
+                handleCouponVerification(true); 
             }
             if (state.withdrawalDetails) {
                 accountNumberInput.value = state.withdrawalDetails.accountNumber;
                 bankNameInput.value = state.withdrawalDetails.bankName;
                 accountNameInput.value = state.withdrawalDetails.accountName;
-                renderWithdrawalSection(); // Display saved withdrawal info
+                renderWithdrawalSection(); 
             }
         }
         updateRecordDisplay();
+        renderPastWithdrawals();
     }
 
     function saveState() {
         localStorage.setItem('corevestTaskState', JSON.stringify(state));
     }
 
+    function getTodayDateString() {
+        const today = new Date();
+        return today.toISOString().split('T')[0]; // Format YYYY-MM-DD
+    }
+
     function updateRecordDisplay() {
-        tasksCompletedCountEl.textContent = state.completedTasks.length;
-        totalTasksCountEl.textContent = videoTasks.length;
+        const todayDate = getTodayDateString();
+        const completedToday = (state.completedTasks[todayDate] || []).length;
+        tasksCompletedTodayCountEl.textContent = completedToday;
+        totalEarningsEl.textContent = `₦${state.totalEarnings.toLocaleString()}`;
     }
 
     function addWeeksToDate(date, weeks) {
@@ -410,27 +432,80 @@ document.addEventListener('DOMContentLoaded', function() {
             taskList.classList.remove('disabled');
             
             if (!isReload && !state.signUpDate) {
-                state.signUpDate = new Date().toISOString(); // Set sign-up date only once on first successful verification
+                state.signUpDate = new Date().toISOString(); 
             }
-            saveState(); // Save state after setting sign-up date
-            renderTasks();
-            renderWithdrawalSection(); // Update withdrawal section in case signup date affected it
+            saveState(); 
+            displayDailyTasks(); // Call the new task display function
+            renderWithdrawalSection(); 
         } else {
             couponStatus.textContent = 'Invalid coupon code. Please try again.';
             couponStatus.style.color = 'red';
             state.coupon = null;
-            taskList.classList.add('disabled'); // Disable tasks if coupon is invalid
-            saveState(); // Save state to clear invalid coupon
-            renderWithdrawalSection(); // Clear withdrawal section info related to coupon
+            taskList.classList.add('disabled'); 
+            saveState(); 
+            renderWithdrawalSection(); 
         }
     }
 
-    function renderTasks() {
+    function generateDailyTasks() {
+        const todayDate = getTodayDateString();
+        if (state.lastTaskGenerationDate === todayDate && state.dailyTasks) {
+            // Tasks already generated for today, return existing ones
+            return state.dailyTasks;
+        }
+
+        const dailyTasks = [];
+        const availableTasks = allVideoTasks.filter(task => {
+            // Filter out tasks that have been completed on *any* past day
+            for (const date in state.completedTasks) {
+                if (state.completedTasks[date].includes(task.id)) {
+                    return false;
+                }
+            }
+            return true;
+        });
+
+        // Ensure we don't run out of tasks if the user has completed many
+        if (availableTasks.length < TASKS_PER_DAY) {
+            console.warn("Ran out of unique tasks! Consider adding more video tasks.");
+            // Optionally, cycle back to older tasks or show a message
+            return availableTasks; // Return whatever is left
+        }
+
+        // Randomly pick tasks
+        for (let i = 0; i < TASKS_PER_DAY; i++) {
+            const randomIndex = Math.floor(Math.random() * availableTasks.length);
+            dailyTasks.push(availableTasks[randomIndex]);
+            availableTasks.splice(randomIndex, 1); // Remove picked task to avoid duplicates today
+        }
+
+        state.dailyTasks = dailyTasks; // Store daily tasks in state
+        state.lastTaskGenerationDate = todayDate; // Record the date of generation
+        saveState();
+        return dailyTasks;
+    }
+
+    function displayDailyTasks() {
         taskList.innerHTML = '';
-        totalEarningsEl.textContent = `₦${state.totalEarnings.toLocaleString()}`;
-        updateRecordDisplay(); // Update task count display
-        videoTasks.forEach(task => {
-            const isCompleted = state.completedTasks.includes(task.id);
+        const todayTasks = generateDailyTasks();
+        const todayDate = getTodayDateString();
+        const completedTodayIds = state.completedTasks[todayDate] || [];
+
+        currentDateEl.textContent = `Date: ${formatDate(new Date())}`; // Display current date
+        updateRecordDisplay();
+
+        if (!state.coupon) {
+            taskList.innerHTML = '<p style="text-align: center; color: #888;">Verify your coupon to see daily tasks.</p>';
+            return;
+        }
+
+        if (todayTasks.length === 0) {
+            taskList.innerHTML = '<p style="text-align: center; color: #888;">No tasks available for today. Check back tomorrow!</p>';
+            return;
+        }
+
+        todayTasks.forEach(task => {
+            const isCompleted = completedTodayIds.includes(task.id);
             const reward = calculateReward(task.id);
             const taskCard = document.createElement('div');
             taskCard.className = `task-card ${isCompleted ? 'completed' : ''}`;
@@ -441,13 +516,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
                 <div class="task-actions">
                     <span class="task-reward">Reward: ₦${reward.toLocaleString()}</span>
-                    <button class="task-btn watch-btn" data-task-id="${task.id}" ${isCompleted || !state.coupon ? 'disabled' : ''}>Watch Video</button>
-                    <button class="task-btn claim-btn" data-task-id="${task.id}" disabled>Claim Reward</button>
+                    <button class="task-btn watch-btn" data-task-id="${task.id}" ${isCompleted ? 'disabled' : ''}>Watch Video</button>
+                    <button class="task-btn claim-btn" data-task-id="${task.id}" ${isCompleted ? 'disabled' : 'disabled'}>Claim Reward</button>
                 </div>
             `;
             taskList.appendChild(taskCard);
 
-            // If task is completed, make sure claim button is disabled and watch button too
             if (isCompleted) {
                 const claimBtn = taskCard.querySelector('.claim-btn');
                 const watchBtn = taskCard.querySelector('.watch-btn');
@@ -466,7 +540,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function playVideo(taskId) {
-        const task = videoTasks.find(t => t.id === taskId);
+        // Find the task from the currently displayed daily tasks
+        const task = state.dailyTasks.find(t => t.id === taskId);
+        if (!task) {
+            console.error('Task not found for playing:', taskId);
+            return;
+        }
+
         modalTitle.textContent = task.title;
         videoIframe.src = task.url; 
         modal.style.display = 'flex';
@@ -496,16 +576,19 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function claimReward(taskId) {
-        if (state.completedTasks.includes(taskId)) {
-            console.warn(`Task ${taskId} already completed.`);
+        const todayDate = getTodayDateString();
+        state.completedTasks[todayDate] = state.completedTasks[todayDate] || [];
+
+        if (state.completedTasks[todayDate].includes(taskId)) {
+            console.warn(`Task ${taskId} already completed today.`);
             return;
         }
 
         const reward = calculateReward(taskId);
         state.totalEarnings += reward;
-        state.completedTasks.push(taskId);
+        state.completedTasks[todayDate].push(taskId);
         saveState();
-        renderTasks();
+        displayDailyTasks(); // Re-render to update status and counts
     }
 
     function handleSaveWithdrawalDetails() {
@@ -519,7 +602,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         const submissionDate = new Date();
-        // If signUpDate is not set, set it now. This marks the start of the 3-week interval.
         if (!state.signUpDate) {
             state.signUpDate = submissionDate.toISOString(); 
         }
@@ -540,7 +622,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function renderWithdrawalSection() {
-        withdrawalDetailsDisplay.innerHTML = ''; // Clear previous display
+        withdrawalDetailsDisplay.innerHTML = ''; 
 
         if (state.withdrawalDetails) {
             const details = state.withdrawalDetails;
@@ -591,17 +673,57 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (now >= projectedPaymentDateTime) {
                 alert(`Withdrawal request for ₦${state.totalEarnings.toLocaleString()} sent! Please allow 2-3 business days for processing.`);
-                // Simulate marking as paid and resetting earnings (in a real app, this would involve backend logic)
-                state.withdrawalDetails.status = 'Paid';
-                state.totalEarnings = 0; // Reset earnings after withdrawal
-                state.completedTasks = []; // Optionally reset tasks or mark them for a new cycle
+                
+                const pastWithdrawalRecord = {
+                    amount: state.totalEarnings,
+                    date: new Date().toISOString(),
+                    account: state.withdrawalDetails.accountNumber,
+                    bank: state.withdrawalDetails.bankName,
+                    status: 'Paid' 
+                };
+                state.pastWithdrawals.push(pastWithdrawalRecord); 
+
+                // Reset for next withdrawal cycle
+                state.withdrawalDetails = null; 
+                state.totalEarnings = 0; 
+                state.completedTasks = {}; // Reset all completed tasks for a fresh cycle
+                state.signUpDate = null; // Reset signup date for a new 3-week waiting period
+
                 saveState();
                 renderWithdrawalSection();
-                renderTasks(); // Update earnings display
+                displayDailyTasks(); // Re-render tasks, earnings will be reset
+                renderPastWithdrawals(); 
             } else {
                 alert('Withdrawal is not yet due. Please wait until the projected payment date.');
             }
         }
+    }
+
+    function renderPastWithdrawals() {
+        pastWithdrawalsList.innerHTML = ''; 
+
+        if (state.pastWithdrawals.length === 0) {
+            pastWithdrawalsList.innerHTML = '<p>No past withdrawals yet.</p>';
+            return;
+        }
+
+        state.pastWithdrawals.forEach(withdrawal => {
+            const withdrawalItem = document.createElement('div');
+            withdrawalItem.style.marginBottom = '10px';
+            withdrawalItem.style.padding = '10px';
+            withdrawalItem.style.border = '1px solid #ddd';
+            withdrawalItem.style.borderRadius = '5px';
+            withdrawalItem.style.backgroundColor = '#e8f5e9'; 
+
+            withdrawalItem.innerHTML = `
+                <p style="margin: 0;"><strong>Amount:</strong> ₦${withdrawal.amount.toLocaleString()}</p>
+                <p style="margin: 5px 0 0;"><strong>Date:</strong> ${formatDate(new Date(withdrawal.date))}</p>
+                <p style="margin: 5px 0 0;"><strong>Account:</strong> ${withdrawal.account}</p>
+                <p style="margin: 5px 0 0;"><strong>Bank:</strong> ${withdrawal.bank}</p>
+                <p style="margin: 5px 0 0;"><strong>Status:</strong> <span style="font-weight: bold; color: #4CAF50;">${withdrawal.status}</span></p>
+            `;
+            pastWithdrawalsList.appendChild(withdrawalItem);
+        });
     }
 
     // --- EVENT LISTENERS ---
@@ -625,7 +747,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- INITIALIZATION ---
     loadState();
-    renderWithdrawalSection(); // Ensure withdrawal section is rendered on load
+    // Only display tasks if a coupon is already verified on load
+    if (state.coupon) {
+        displayDailyTasks();
+    } else {
+        taskList.innerHTML = '<p style="text-align: center; color: #888;">Verify your coupon to see daily tasks.</p>';
+    }
+    renderWithdrawalSection(); 
 });
 </script>
 
