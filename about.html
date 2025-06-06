@@ -6,6 +6,7 @@
     <title>About Us - COREVEST</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Existing CSS styles remain the same */
         * {
             margin: 0;
             padding: 0;
@@ -196,6 +197,93 @@
                 font-size: 0.9rem;
             }
         }
+
+        /* --- NEW FAQ STYLES (for the section itself) --- */
+        .faq-section {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .faq-section h2 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .faq-search {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .faq-search input {
+            width: 100%;
+            max-width: 500px;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .faq-search input:focus {
+            border-color: #4CAF50;
+        }
+
+        .faq-item {
+            margin-bottom: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #f9f9f9;
+        }
+
+        .faq-item summary {
+            background-color: #e8f5e9; /* Light green */
+            color: #333;
+            padding: 15px 20px;
+            font-weight: 600;
+            cursor: pointer;
+            outline: none;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .faq-item summary:hover {
+            background-color: #dcedc8; /* Slightly darker green on hover */
+        }
+
+        .faq-item summary::marker, /* Standard way to hide default marker */
+        .faq-item summary::-webkit-details-marker /* For WebKit browsers */ {
+            display: none;
+        }
+
+        .faq-item summary::after {
+            content: '▼'; /* Custom down arrow */
+            font-size: 0.8em;
+            transition: transform 0.2s;
+        }
+
+        .faq-item[open] summary::after {
+            content: '▲'; /* Custom up arrow when open */
+            transform: rotate(0deg); /* No rotation needed, just change icon */
+        }
+
+        .faq-item .faq-answer {
+            padding: 15px 20px;
+            background-color: #fff;
+            border-top: 1px solid #f0f0f0;
+            color: #555;
+        }
     </style>
 </head>
 <body>
@@ -213,7 +301,8 @@
                 <li><a href="create.html">CREATE AN ACCOUNT</a></li>
                 <li><a href="login.html">LOGIN</a></li>
                 <li><a href="cupon.html">PURCHASE COUPON</a></li>
-                <li><a href="#">ABOUT US</a></li> </ul>
+                <li><a href="#">ABOUT US</a></li>
+                </ul>
         </nav>
 
         <section class="about-section">
@@ -272,11 +361,127 @@
 
         <a href="create.html" class="cta-button">Ready to Start Earning? Join COREVEST Today!</a>
 
-    </div>
+        <section class="faq-section">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+            <div class="faq-search">
+                <input type="text" id="faqSearchInput" placeholder="Search for answers...">
+            </div>
+            <div id="faqList">
+                </div>
+        </section>
+        </div>
 
     <footer class="footer">
         <p>© 2025 COREVEST. All rights reserved.</p>
     </footer>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // FAQ data
+            const faqData = [
+                {
+                    question: "What is COREVEST?",
+                    answer: "COREVEST is an online platform that allows individuals to earn income by watching short video clips and participating in a referral program."
+                },
+                {
+                    question: "How do I get started?",
+                    answer: "To get started, you need to register for a free account, then purchase a one-time activation coupon to unlock earning features. After that, you can start watching daily videos and earning rewards."
+                },
+                {
+                    question: "Do I need to pay to join COREVEST?",
+                    answer: "Registration is free, but you'll need to purchase a one-time activation coupon to access earning opportunities and the referral program."
+                },
+                {
+                    question: "How do I earn money?",
+                    answer: "You earn money primarily by watching short daily video tasks. We also offer a referral program where you earn bonuses for inviting new users."
+                },
+                {
+                    question: "What is a coupon code and why do I need it?",
+                    answer: "A coupon code is a one-time activation key that verifies your account and unlocks all earning features on COREVEST. It helps us maintain a committed and secure community."
+                },
+                {
+                    question: "How often are new tasks available?",
+                    answer: "New video tasks are updated daily, providing consistent opportunities to earn."
+                },
+                {
+                    question: "How much can I earn per video?",
+                    answer: "The reward per video varies based on your coupon tier and a small random bonus. You can see the exact reward listed for each task."
+                },
+                {
+                    question: "How do I withdraw my earnings?",
+                    answer: "You can withdraw your earnings by providing your bank account details. Withdrawals are enabled after a minimum of three weeks from your initial coupon activation date."
+                },
+                {
+                    question: "Is there a minimum withdrawal amount?",
+                    answer: "No, there's no minimum withdrawal amount. However, withdrawals are enabled only after your account has been active for a minimum of three weeks from your sign-up date."
+                },
+                {
+                    question: "How long does it take for withdrawals to be processed?",
+                    answer: "Once requested and approved, withdrawals are typically processed within 2-3 business days."
+                },
+                {
+                    question: "What is the referral program?",
+                    answer: "Our referral program allows you to share COREVEST with friends and family. You earn a bonus when someone signs up and activates their account using your unique referral link."
+                },
+                {
+                    question: "Is COREVEST available worldwide?",
+                    answer: "COREVEST is currently available for users in Nigeria. We aim to expand to more regions in the future."
+                },
+                {
+                    question: "What if I have a problem or question not listed here?",
+                    answer: "If you have further questions, please contact our support team through the contact us page (once available) or the provided customer service channels."
+                }
+            ];
+
+            const faqListContainer = document.getElementById('faqList');
+            const faqSearchInput = document.getElementById('faqSearchInput');
+
+            // Function to render FAQ items
+            function renderFAQs(filterText = '') {
+                faqListContainer.innerHTML = ''; // Clear existing FAQs
+
+                const lowerCaseFilter = filterText.toLowerCase();
+
+                faqData.forEach((item, index) => {
+                    const question = item.question;
+                    const answer = item.answer;
+
+                    // Check if question or answer contains the filter text
+                    if (question.toLowerCase().includes(lowerCaseFilter) || answer.toLowerCase().includes(lowerCaseFilter)) {
+                        const faqItem = document.createElement('details');
+                        faqItem.classList.add('faq-item');
+
+                        const summary = document.createElement('summary');
+                        summary.textContent = question;
+
+                        const answerDiv = document.createElement('div');
+                        answerDiv.classList.add('faq-answer');
+                        answerDiv.textContent = answer;
+
+                        faqItem.appendChild(summary);
+                        faqItem.appendChild(answerDiv);
+                        faqListContainer.appendChild(faqItem);
+                    }
+                });
+
+                if (faqListContainer.children.length === 0 && filterText.length > 0) {
+                    faqListContainer.innerHTML = '<p style="text-align: center; color: #777;">No matching questions found.</p>';
+                } else if (faqListContainer.children.length === 0) {
+                    faqListContainer.innerHTML = '<p style="text-align: center; color: #777;">FAQs loading...</p>'; // Should not happen if faqData is populated
+                }
+            }
+
+            // Event listener for search input
+            faqSearchInput.addEventListener('input', function() {
+                renderFAQs(this.value);
+            });
+
+            // Initial render of all FAQs on page load
+            renderFAQs();
+
+            // Removed the JavaScript code that modified the navigation link.
+            // The FAQ link is now physically removed from the HTML navigation.
+        });
+    </script>
 </body>
 </html>
