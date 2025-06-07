@@ -351,10 +351,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const videoTitles = ["Tech Review", "Nature Exploration", "Art Timelapse", "Quick Recipe", "Workout Motivation", "Drone Shots", "Financial Tips", "DIY Project", "Product Unboxing", "Travel Highlights", "Science Explained", "Historical Facts", "Gaming Montage", "Coding Tutorial", "Book Summary", "Musical Performance", "Animal Facts", "Meditation Guide", "Comedy Sketch", "Gardening Tips"];
     for (let i = 0; i < 600; i++) {
         const titleIndex = i % videoTitles.length;
+        // Using a generic YouTube embed URL - you can replace with actual video IDs
+        // For example, "https://www.youtube.com/embed/dQw4w9WgXcQ" for Rick Astley
         allVideoTasks.push({ 
             id: i + 1, 
-            title: `<span class="math-inline">\{videoTitles\[titleIndex\]\} \#</span>{Math.floor(i / videoTitles.length) + 1}`, 
-            url: `https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1&controls=0&start=${(i * 5) % 300}` // Using Rick Astley, modifying start time for uniqueness
+            title: `${videoTitles[titleIndex]} #${Math.floor(i / videoTitles.length) + 1}`, 
+            url: `https://www.youtube.com/embed/videoseries?list=PL${(i * 5) % 1000}` // Placeholder: a generic video series
         });
     }
     
@@ -365,6 +367,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const savedState = JSON.parse(localStorage.getItem('corevestTaskState'));
         if (savedState) {
             state = savedState;
+            // Ensure completedTasks is an object
+            if (typeof state.completedTasks !== 'object' || state.completedTasks === null) {
+                state.completedTasks = {};
+            }
             if (state.fullName) {
                 fullNameInput.value = state.fullName;
                 displayName.textContent = state.fullName;
@@ -449,40 +455,35 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function generateDailyTasks() {
         const todayDate = getTodayDateString();
-        if (state.lastTaskGenerationDate === todayDate && state.dailyTasks) {
-            // Tasks already generated for today, return existing ones
-            return state.dailyTasks;
-        }
-
-        const dailyTasks = [];
-        const availableTasks = allVideoTasks.filter(task => {
-            // Filter out tasks that have been completed on *any* past day
+        // If tasks for today haven't been generated or it's a new day, generate new ones
+        if (state.lastTaskGenerationDate !== todayDate) {
+            const dailyTasks = [];
+            const completedTaskIdsAllTime = new Set();
             for (const date in state.completedTasks) {
-                if (state.completedTasks[date].includes(task.id)) {
-                    return false;
-                }
+                state.completedTasks[date].forEach(id => completedTaskIdsAllTime.add(id));
             }
-            return true;
-        });
 
-        // Ensure we don't run out of tasks if the user has completed many
-        if (availableTasks.length < TASKS_PER_DAY) {
-            console.warn("Ran out of unique tasks! Consider adding more video tasks.");
-            // Optionally, cycle back to older tasks or show a message
-            return availableTasks; // Return whatever is left
+            const availableTasks = allVideoTasks.filter(task => !completedTaskIdsAllTime.has(task.id));
+
+            if (availableTasks.length < TASKS_PER_DAY) {
+                console.warn("Ran out of unique tasks! Consider adding more video tasks.");
+                // Fallback: If not enough unique tasks, reuse some (optional: based on your logic)
+                // For simplicity, we'll just take what's available
+                state.dailyTasks = availableTasks;
+            } else {
+                // Randomly pick tasks
+                for (let i = 0; i < TASKS_PER_DAY; i++) {
+                    const randomIndex = Math.floor(Math.random() * availableTasks.length);
+                    dailyTasks.push(availableTasks[randomIndex]);
+                    availableTasks.splice(randomIndex, 1); // Remove picked task to avoid duplicates today
+                }
+                state.dailyTasks = dailyTasks; // Store daily tasks in state
+            }
+            
+            state.lastTaskGenerationDate = todayDate; // Record the date of generation
+            saveState();
         }
-
-        // Randomly pick tasks
-        for (let i = 0; i < TASKS_PER_DAY; i++) {
-            const randomIndex = Math.floor(Math.random() * availableTasks.length);
-            dailyTasks.push(availableTasks[randomIndex]);
-            availableTasks.splice(randomIndex, 1); // Remove picked task to avoid duplicates today
-        }
-
-        state.dailyTasks = dailyTasks; // Store daily tasks in state
-        state.lastTaskGenerationDate = todayDate; // Record the date of generation
-        saveState();
-        return dailyTasks;
+        return state.dailyTasks;
     }
 
     function displayDailyTasks() {
@@ -511,13 +512,13 @@ document.addEventListener('DOMContentLoaded', function() {
             taskCard.className = `task-card ${isCompleted ? 'completed' : ''}`;
             taskCard.innerHTML = `
                 <div class="task-info">
-                    <h3><span class="math-inline">\{task\.title\}</h3\>
-<p\>Watch the 15s video to claim your reward\.</p\>
-</div\>
-<div class\="task\-actions"\>
-<span class\="task\-reward"\>Reward\: ₦</span>{reward.toLocaleString()}</span>
-                    <button class="task-btn watch-btn" data-task-id="${task.id}" <span class="math-inline">\{isCompleted ? 'disabled' \: ''\}\>Watch Video</button\>
-<button class\="task\-btn claim\-btn" data\-task\-id\="</span>{task.id}" ${isCompleted ? 'disabled' : 'disabled'}>Claim Reward</button>
+                    <h3>${task.title}</h3>
+                    <p>Watch the 15s video to claim your reward.</p>
+                </div>
+                <div class="task-actions">
+                    <span class="task-reward">Reward: ₦${reward.toLocaleString()}</span>
+                    <button class="task-btn watch-btn" data-task-id="${task.id}" ${isCompleted ? 'disabled' : ''}>Watch Video</button>
+                    <button class="task-btn claim-btn" data-task-id="${task.id}" ${isCompleted ? 'disabled' : 'disabled'}>Claim Reward</button>
                 </div>
             `;
             taskList.appendChild(taskCard);
@@ -560,6 +561,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (countdown <= 0) {
                 clearInterval(timerInterval);
                 modalTimer.textContent = 'Reward Unlocked! You can close this window.';
+                // Enable claim button for this specific task
                 document.querySelector(`.claim-btn[data-task-id='${taskId}']`).disabled = false;
                 document.querySelector(`.watch-btn[data-task-id='${taskId}']`).disabled = true; 
             }
@@ -575,4 +577,168 @@ document.addEventListener('DOMContentLoaded', function() {
         modal.style.display = 'none';
     }
 
-    function claimReward(taskId)
+    function claimReward(taskId) {
+        const todayDate = getTodayDateString();
+        // Initialize completedTasks for today if it doesn't exist
+        if (!state.completedTasks[todayDate]) {
+            state.completedTasks[todayDate] = [];
+        }
+
+        // Prevent claiming if already completed today
+        if (state.completedTasks[todayDate].includes(taskId)) {
+            alert('You have already claimed this task for today!');
+            return;
+        }
+
+        const taskCard = document.querySelector(`.task-card .watch-btn[data-task-id='${taskId}']`).closest('.task-card');
+        const claimBtn = taskCard.querySelector('.claim-btn');
+        const watchBtn = taskCard.querySelector('.watch-btn');
+
+        if (claimBtn.disabled) {
+            alert('Please watch the video completely before claiming the reward.');
+            return;
+        }
+
+        const reward = calculateReward(taskId);
+        state.totalEarnings += reward;
+
+        state.completedTasks[todayDate].push(taskId); // Mark task as completed for today
+        saveState();
+        updateRecordDisplay();
+
+        // Disable buttons and mark card as completed
+        claimBtn.disabled = true;
+        watchBtn.disabled = true;
+        taskCard.classList.add('completed');
+        
+        alert(`Successfully claimed ₦${reward.toLocaleString()} for Task ID ${taskId}!`);
+        closeVideoModal(); // Close modal after claiming
+    }
+
+    function handleSaveWithdrawalDetails() {
+        const accountNumber = accountNumberInput.value.trim();
+        const bankName = bankNameInput.value.trim();
+        const accountName = accountNameInput.value.trim();
+
+        if (accountNumber && bankName && accountName) {
+            state.withdrawalDetails = { accountNumber, bankName, accountName };
+            saveState();
+            renderWithdrawalSection();
+            alert('Withdrawal details saved successfully!');
+        } else {
+            alert('Please fill in all withdrawal details.');
+        }
+    }
+
+    function renderWithdrawalSection() {
+        withdrawalDetailsDisplay.innerHTML = '';
+        if (state.withdrawalDetails) {
+            withdrawalDetailsDisplay.innerHTML = `
+                <p><strong>Account Number:</strong> ${state.withdrawalDetails.accountNumber}</p>
+                <p><strong>Bank Name:</strong> ${state.withdrawalDetails.bankName}</p>
+                <p><strong>Account Name:</strong> ${state.withdrawalDetails.accountName}</p>
+            `;
+        }
+
+        requestWithdrawalBtn.disabled = true; // Disable by default
+        const minimumWithdrawalDate = state.signUpDate ? addWeeksToDate(new Date(state.signUpDate), 3) : null;
+        const today = new Date();
+
+        if (state.coupon && state.coupon.value && state.withdrawalDetails) {
+            if (minimumWithdrawalDate && today >= minimumWithdrawalDate) {
+                // Check for minimum earnings based on coupon value (e.g., 50% of coupon value)
+                const minEarningsForWithdrawal = state.coupon.value * 0.5; // Example: 50% of coupon value
+                if (state.totalEarnings >= minEarningsForWithdrawal) {
+                    requestWithdrawalBtn.disabled = false;
+                } else {
+                    requestWithdrawalBtn.disabled = true;
+                    withdrawalDetailsDisplay.innerHTML += `<p style="color: red; font-weight: bold;">Minimum earnings for withdrawal (${minEarningsForWithdrawal.toLocaleString()}) not met yet.</p>`;
+                }
+            } else {
+                requestWithdrawalBtn.disabled = true;
+                if (minimumWithdrawalDate) {
+                    withdrawalDetailsDisplay.innerHTML += `<p style="color: red; font-weight: bold;">Withdrawals enabled after ${formatDate(minimumWithdrawalDate)}.</p>`;
+                } else {
+                    withdrawalDetailsDisplay.innerHTML += `<p style="color: red; font-weight: bold;">Sign up date not recorded. Verify coupon to set it.</p>`;
+                }
+            }
+        } else {
+            withdrawalDetailsDisplay.innerHTML += `<p style="color: red; font-weight: bold;">Save your withdrawal details and verify coupon to enable withdrawals.</p>`;
+        }
+    }
+
+    function requestWithdrawal() {
+        if (!state.withdrawalDetails) {
+            alert('Please save your withdrawal details first.');
+            return;
+        }
+
+        if (state.totalEarnings <= 0) {
+            alert('You have no earnings to withdraw.');
+            return;
+        }
+
+        const withdrawalAmount = state.totalEarnings;
+        const todayDate = getTodayDateString();
+
+        const newWithdrawal = {
+            id: state.pastWithdrawals.length + 1,
+            amount: withdrawalAmount,
+            date: todayDate,
+            status: 'Pending' // Initial status
+        };
+
+        state.pastWithdrawals.push(newWithdrawal);
+        state.totalEarnings = 0; // Reset earnings after withdrawal
+        saveState();
+        updateRecordDisplay();
+        renderPastWithdrawals();
+        renderWithdrawalSection(); // Re-render to update withdrawal button state
+        alert(`Withdrawal request for ₦${withdrawalAmount.toLocaleString()} submitted successfully!`);
+    }
+
+    function renderPastWithdrawals() {
+        pastWithdrawalsList.innerHTML = '';
+        if (state.pastWithdrawals.length === 0) {
+            pastWithdrawalsList.innerHTML = '<p>No past withdrawals yet.</p>';
+            return;
+        }
+
+        state.pastWithdrawals.forEach(withdrawal => {
+            const withdrawalItem = document.createElement('div');
+            withdrawalItem.className = 'withdrawal-item';
+            withdrawalItem.innerHTML = `
+                <p><strong>Amount:</strong> ₦${withdrawal.amount.toLocaleString()}</p>
+                <p><strong>Date:</strong> ${withdrawal.date}</p>
+                <p><strong>Status:</strong> <span class="withdrawal-status ${withdrawal.status === 'Paid' ? 'paid' : ''}">${withdrawal.status}</span></p>
+                <hr>
+            `;
+            pastWithdrawalsList.appendChild(withdrawalItem);
+        });
+    }
+
+    // --- EVENT LISTENERS ---
+    saveNameBtn.addEventListener('click', handleSaveName);
+    verifyBtn.addEventListener('click', handleCouponVerification);
+    closeModalBtn.addEventListener('click', closeVideoModal);
+
+    taskList.addEventListener('click', function(event) {
+        if (event.target.classList.contains('watch-btn')) {
+            const taskId = parseInt(event.target.dataset.taskId);
+            playVideo(taskId);
+        } else if (event.target.classList.contains('claim-btn')) {
+            const taskId = parseInt(event.target.dataset.taskId);
+            claimReward(taskId);
+        }
+    });
+
+    saveWithdrawalBtn.addEventListener('click', handleSaveWithdrawalDetails);
+    requestWithdrawalBtn.addEventListener('click', requestWithdrawal);
+
+    // Initial load
+    loadState();
+    displayDailyTasks();
+});
+</script>
+</body>
+</html>
