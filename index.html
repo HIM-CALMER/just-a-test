@@ -3,250 +3,707 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>COREVEST.COM</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Welcome to COREVEST!</title> <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Base Styles */
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6; /* Equivalent to bg-gray-100 */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            padding: 1rem; /* Equivalent to p-4 */
+        /* Existing CSS styles remain the same */
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
         }
 
         .container {
-            background-color: #ffffff; /* Equivalent to bg-white */
-            padding: 1.5rem; /* Equivalent to p-6 */
-            border-radius: 0.75rem; /* Equivalent to rounded-xl */
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Equivalent to shadow-lg */
-            width: 100%;
-            max-width: 28rem; /* Equivalent to max-w-md */
-            margin-left: auto;
-            margin-right: auto;
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 20px;
+            flex-grow: 1; /* Allows container to take available space */
         }
 
-        /* Note Section Styles */
-        .note {
+        .header {
             text-align: center;
-            margin-bottom: 1.5rem; /* Equivalent to mb-6 */
+            padding: 20px;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 0 0 8px 8px;
+            margin-bottom: 20px;
         }
 
-        .note h1 {
-            font-size: 1.5rem; /* Equivalent to text-2xl */
-            font-weight: 700; /* Equivalent to font-bold */
-            color: #1f2937; /* Equivalent to text-gray-800 */
-            margin-bottom: 0.5rem; /* Equivalent to mb-2 */
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
         }
 
-        .note p {
-            font-size: 1.125rem; /* Equivalent to text-lg */
-            color: #374151; /* Equivalent to text-gray-700 */
-            margin-bottom: 1rem; /* Equivalent to mb-4 */
-        }
-        
-        .note p:last-of-type {
-             margin-bottom: 0; /* Remove bottom margin for the last paragraph in .note */
+        .header p {
+            font-size: 1rem;
+            margin-bottom: 10px;
         }
 
-        .note mark {
-            background-color: #d1fae5; /* A light green for the marker */
-            color: #10b981; /* A slightly darker green for text on marker */
-            padding: 0.1rem 0.4rem;
-            border-radius: 0.375rem; /* rounded-md */
-            display: inline-block; /* Ensures padding and border-radius apply correctly */
+        .header mark {
+            background-color: #fff;
+            color: #4CAF50;
+            padding: 5px;
+            border-radius: 5px;
+            font-weight: bold;
         }
 
-        .note a {
-            font-weight: 600; /* Equivalent to font-semibold */
-            transition: color 200ms ease-in-out; /* Equivalent to transition duration-200 ease-in-out */
+        .nav {
+            text-align: center;
+            margin-bottom: 30px;
         }
 
-        .note a.text-green {
-            color: #059669; /* Equivalent to text-green-600 */
-        }
-
-        .note a.text-green:hover {
-            color: #047857; /* Equivalent to hover:text-green-700 */
-        }
-
-        .note a.text-blue {
-            color: #2563eb; /* Equivalent to text-blue-600 */
-        }
-
-        .note a.text-blue:hover {
-            color: #1d4ed8; /* Equivalent to hover:text-blue-700 */
-        }
-
-        /* Refer and Earn Button */
-        #refer-btn {
-            background-color: #9333ea; /* Equivalent to bg-purple-600 */
-            color: #ffffff; /* Equivalent to text-white */
-            padding: 0.5rem 1.25rem; /* Equivalent to py-2 px-5 */
-            border-radius: 0.375rem; /* Equivalent to rounded-md */
-            font-weight: 500; /* Equivalent to font-medium */
-            transition: background-color 200ms ease-in-out; /* Equivalent to transition duration-200 ease-in-out */
-            border: none;
-            cursor: pointer;
-            outline: none;
-        }
-
-        #refer-btn:hover {
-            background-color: #7e22ce; /* Equivalent to hover:bg-purple-700 */
-        }
-
-        #refer-btn:focus {
-            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.5); /* A subtle purple focus ring */
-        }
-
-        #refer-btn:disabled {
-            background-color: #9ca3af; /* Equivalent to bg-gray-400 */
-            cursor: not-allowed; /* Equivalent to cursor-not-allowed */
-        }
-
-        #refer-link {
-            font-size: 0.875rem; /* Equivalent to text-sm */
-            color: #374151; /* Equivalent to text-gray-700 */
-            margin-top: 0.75rem; /* Equivalent to mt-3 */
-            word-break: break-all; /* Equivalent to break-words */
-            display: none; /* Hidden by default, toggled by JS */
-        }
-
-        #refer-link.show {
-            display: block;
-        }
-
-        #refer-link-url {
-            color: #2563eb; /* Equivalent to text-blue-600 */
-            text-decoration: underline; /* Equivalent to underline */
-        }
-
-        #refer-link-url:hover {
-            color: #1d4ed8; /* Equivalent to hover:text-blue-700 */
-        }
-
-        /* Selection Buttons */
-        .selection {
+        .nav ul {
+            list-style: none;
             display: flex;
-            flex-direction: column; /* Equivalent to flex-col */
-            flex-wrap: wrap; /* Equivalent to flex-wrap */
             justify-content: center;
-            gap: 0.75rem; /* Equivalent to gap-3 */
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
-        .selection button {
-            padding: 0.75rem 1.5rem; /* Equivalent to py-3 px-6 */
-            border-radius: 0.5rem; /* Equivalent to rounded-lg */
-            font-weight: 600; /* Equivalent to font-semibold */
-            transition: background-color 200ms ease-in-out; /* Equivalent to transition duration-200 ease-in-out */
-            color: #ffffff; /* Equivalent to text-white */
-            border: none;
-            cursor: pointer;
-            flex: 1; /* Equivalent to flex-1 */
-            min-width: 9.375rem; /* Equivalent to min-w-[150px] */
+        .nav ul li a {
+            color: #4CAF50;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: color 0.3s ease;
+            padding: 8px 15px;
+            border-radius: 5px;
+            background-color: #e8f5e9; /* Light green background for navigation buttons */
+        }
+
+        .nav ul li a:hover {
+            color: #fff;
+            background-color: #45a049;
+        }
+
+        .about-section, .faq-section, .customer-care-section, .hiring-section { /* Added .hiring-section */
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .about-section h2, .faq-section h2, .customer-care-section h2, .hiring-section h2 { /* Added .hiring-section h2 */
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .about-section p, .hiring-section p { /* Added .hiring-section p */
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        .about-section ul {
+            list-style: disc;
+            margin-left: 20px;
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .about-section ul li {
+            margin-bottom: 8px;
+        }
+
+        .cta-button {
+            display: block;
+            width: fit-content;
+            margin: 20px auto 0;
+            padding: 12px 25px;
+            background-color: #2196F3;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: #1a78c2;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #333;
+            color: #f0f0f0;
+            text-align: center;
+            font-size: 0.9rem;
+            border-top: 5px solid #4CAF50;
+        }
+
+        .footer p {
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .nav ul li {
+                margin: 5px 0;
+            }
+
+            .about-section, .faq-section, .customer-care-section, .hiring-section { /* Added .hiring-section */
+                padding: 20px;
+            }
+
+            .about-section h2, .faq-section h2, .customer-care-section h2, .hiring-section h2 { /* Added .hiring-section h2 */
+                font-size: 1.7rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .header p {
+                font-size: 0.9rem;
+            }
+
+            .nav ul li a {
+                font-size: 1rem;
+                padding: 10px;
+            }
+
+            .about-section h2, .faq-section h2, .customer-care-section h2, .hiring-section h2 { /* Added .hiring-section h2 */
+                font-size: 1.5rem;
+            }
+
+            .about-section p, .about-section ul li, .hiring-section p, .hiring-section ul li { /* Added .hiring-section p, li */
+                font-size: 0.9rem;
+            }
+        }
+
+        /* --- NEW FAQ STYLES (for the section itself) --- */
+        .faq-section {
+            /* styles defined above in combined selector */
+        }
+
+        .faq-section h2 {
+            /* styles defined above in combined selector */
+        }
+
+        .faq-search {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .faq-search input {
+            width: 100%;
+            max-width: 500px;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
             outline: none;
+            transition: border-color 0.3s ease;
         }
 
-        .selection button.bg-green {
-            background-color: #22c55e; /* Equivalent to bg-green-500 */
+        .faq-search input:focus {
+            border-color: #4CAF50;
         }
 
-        .selection button.bg-green:hover {
-            background-color: #16a34a; /* Equivalent to hover:bg-green-600 */
+        .faq-item {
+            margin-bottom: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #f9f9f9;
         }
 
-        .selection button.bg-blue {
-            background-color: #3b82f6; /* Equivalent to bg-blue-500 */
+        .faq-item summary {
+            background-color: #e8f5e9; /* Light green */
+            color: #333;
+            padding: 15px 20px;
+            font-weight: 600;
+            cursor: pointer;
+            outline: none;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
         }
 
-        .selection button.bg-blue:hover {
-            background-color: #2563eb; /* Equivalent to hover:bg-blue-600 */
+        .faq-item summary:hover {
+            background-color: #dcedc8; /* Slightly darker green on hover */
         }
 
-        .selection button:focus {
-            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.5); /* A subtle green focus ring */
+        .faq-item summary::marker, /* Standard way to hide default marker */
+        .faq-item summary::-webkit-details-marker /* For WebKit browsers */ {
+            display: none;
         }
 
-        /* Responsive adjustments */
-        @media (min-width: 640px) { /* Equivalent to sm breakpoint */
-            .container {
-                padding: 2rem; /* Equivalent to sm:p-8 */
-            }
+        .faq-item summary::after {
+            content: '▼'; /* Custom down arrow */
+            font-size: 0.8em;
+            transition: transform 0.2s;
+        }
 
-            .note h1 {
-                font-size: 1.875rem; /* Equivalent to sm:text-3xl */
-            }
+        .faq-item[open] summary::after {
+            content: '▲'; /* Custom up arrow when open */
+            transform: rotate(0deg); /* No rotation needed, just change icon */
+        }
 
-            .note p {
-                font-size: 1.25rem; /* Equivalent to sm:text-xl */
-            }
+        .faq-item .faq-answer {
+            padding: 15px 20px;
+            background-color: #fff;
+            border-top: 1px solid #f0f0f0;
+            color: #555;
+        }
 
-            #refer-link {
-                font-size: 1rem; /* Equivalent to sm:text-base */
-            }
+        /* --- CUSTOMER CARE STYLES --- */
+        .customer-care-section {
+            /* styles defined above in combined selector */
+            text-align: center;
+        }
 
-            .selection {
-                flex-direction: row; /* Equivalent to sm:flex-row */
+        .customer-care-section h2 {
+            /* styles defined above in combined selector */
+        }
+
+        .customer-care-section p {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 25px;
+        }
+
+        .contact-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap; /* Allows buttons to wrap on smaller screens */
+        }
+
+        .contact-buttons a {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .contact-buttons a i {
+            margin-right: 10px;
+        }
+
+        .whatsapp-button {
+            background-color: #25D366; /* WhatsApp Green */
+            color: white;
+        }
+
+        .whatsapp-button:hover {
+            background-color: #1DA851;
+            transform: translateY(-2px);
+        }
+
+        .call-button {
+            background-color: #007bff; /* Blue for call */
+            color: white;
+        }
+
+        .call-button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        /* Font Awesome for icons */
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+
+        /* --- NEW HIRING SECTION STYLES --- */
+        .hiring-section {
+            /* styles defined above in combined selector */
+            text-align: center; /* Center main heading and overall message */
+        }
+
+        .hiring-section .job-roles {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .hiring-section .job-role-card {
+            background-color: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 25px;
+            flex: 1 1 calc(50% - 25px); /* Two columns, responsive */
+            max-width: 450px; /* Limit card width */
+            text-align: left;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .hiring-section .job-role-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .hiring-section h3 {
+            color: #4CAF50;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .hiring-section .job-role-card p {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .hiring-section .job-role-card ul {
+            list-style: none; /* No bullets by default */
+            margin-left: 0;
+            padding-left: 0;
+            margin-bottom: 20px;
+        }
+
+        .hiring-section .job-role-card ul li {
+            font-size: 0.9rem;
+            color: #555;
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 20px; /* Space for custom icon */
+        }
+
+        .hiring-section .job-role-card ul li:before {
+            content: '✓'; /* Custom checkmark */
+            color: #4CAF50;
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-weight: bold;
+        }
+
+        .hiring-section .application-instructions {
+            margin-top: 30px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+
+        .hiring-section .application-instructions p {
+            font-size: 1.05rem;
+            color: #444;
+            margin-bottom: 15px;
+        }
+
+        .hiring-section .application-instructions strong {
+            color: #333;
+        }
+
+        .hiring-section .application-email {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 10px;
+        }
+
+        .hiring-section .application-email:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .hiring-section .job-role-card {
+                flex: 1 1 100%; /* Stack cards on smaller screens */
+                max-width: 100%;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="note">
-            <h1>WELCOME TO CORE-VEST</h1>
-            <p>
-                <mark>START EARNING TODAY</mark>
-            </p>
-            <p>
-                Register through our link and purchase a referral code to get started.
-                <a href="create.html" class="text-green">Register Now</a>
-            </p>
-            <p>
-                Already registered?
-                <a href="create.html" class="text-blue">Login</a>
-            </p>
-            <p>
-                Want to refer and earn?
-                <button id="refer-btn">Refer and Earn</button>
-            </p>
-            <p id="refer-link">
-                Your referral link:
-                <a id="refer-link-url" href=""></a>
-            </p>
-        </div>
 
-        <div class="selection">
-            <button onclick="location.href='about.html'" class="bg-green">ABOUT US</button>
-            <button onclick="location.href='create.html'" class="bg-green">CREATE AN ACCOUNT</button>
-            <button onclick="location.href='cupon.html'" class="bg-green">PURCHASE COUPON</button>
-        </div>
+    <div class="header">
+        <h1>Welcome to COREVEST!</h1>
+        <p><mark>Your Gateway to Smart Earnings</mark></p>
+        <p>At COREVEST, we believe in empowering individuals to achieve financial independence through simple and accessible online tasks. Join our growing community and start earning today!</p>
     </div>
 
+    <div class="container">
+        <nav class="nav">
+            <ul>
+                <li><a href="create.html">CREATE ACCOUNT and LOGIN</a></li>
+                <li><a href="cupon.html">PURCHASE COUPON</a></li>
+                <li><a href="about.html">ABOUT US</a></li>
+            </ul>
+        </nav>
+
+        <section class="about-section">
+            <h2>Our Mission</h2>
+            <p>At COREVEST, our mission is to provide a legitimate and user-friendly platform where individuals can earn income by engaging in straightforward online activities, primarily watching videos. We are dedicated to creating a transparent and rewarding experience for all our users, helping them to supplement their income with minimal effort and no prior experience.</p>
+        </section>
+
+        <section class="about-section">
+            <h2>What We Offer</h2>
+            <p>COREVEST is designed for simplicity and accessibility. Here’s what you can expect:</p>
+            <ul>
+                <li>
+                    <b>Daily Video Tasks:</b> Earn real money by watching short video clips. Our task list is updated regularly, giving you consistent earning opportunities.
+                </li>
+                <li>
+                    <b>Flexible Earnings:</b> The more videos you watch, the more you earn. We offer competitive rewards for each completed task.
+                </li>
+                <li>
+                    <b>Referral Program:</b> Share the opportunity with your friends and family! Our "Refer and Earn" program allows you to generate a unique referral link and earn bonuses when new users join and activate their accounts through your link.
+                </li>
+                <li>
+                    <b>Secure Withdrawals:</b> Your earnings are safe and accessible. We provide a clear and structured withdrawal process, with payments enabled after a minimum of three weeks from your initial sign-up, ensuring a stable and reliable payout system.
+                </li>
+                <li>
+                    <b>Transparent System:</b> Track your earnings, completed tasks, and withdrawal status directly from your personalized dashboard.
+                </li>
+            </ul>
+        </section>
+
+        <section class="about-section">
+            <h2>How It Works</h2>
+            <p>Getting started with COREVEST is easy:</p>
+            <ol>
+                <li>
+                    <b>Register:</b> Create your free account on our platform.
+                </li>
+                <li>
+                    <b>Activate with a Coupon:</b> Purchase a one-time activation coupon to unlock access to all earning features and benefits. This ensures a serious and committed community.
+                </li>
+                <li>
+                    <b>Watch & Earn:</b> Dive into our daily video tasks. Watch videos for the required duration to unlock and claim your rewards.
+                </li>
+                <li>
+                    <b>Refer & Grow:</b> Generate your referral link and invite others to join COREVEST. Earn additional income for successful referrals.
+                </li>
+                <li>
+                    <b>Withdraw Your Earnings:</b> Once your account meets the withdrawal criteria (minimum three weeks from sign-up and having saved withdrawal details), you can request your payout.
+                </li>
+            </ol>
+        </section>
+
+        <section class="about-section">
+            <h2>Our Commitment</h2>
+            <p>We are committed to maintaining a trustworthy and supportive environment for our users. We continuously work to improve our platform, enhance security measures, and provide timely support to ensure a smooth and enjoyable earning experience. Your success is our priority.</p>
+        </section>
+
+        <section class="hiring-section">
+            <h2>Join Our Team!</h2>
+            <p>Are you passionate about helping others and eager to grow with a dynamic online platform? COREVEST is expanding and we're looking for talented individuals to join our remote team!</p>
+
+            <div class="job-roles">
+                <div class="job-role-card">
+                    <h3>Remote Customer Attendant</h3>
+                    <p>Be the friendly voice of COREVEST! You'll assist our users with inquiries, provide support, and ensure a seamless experience, all from the comfort of your home.</p>
+                    <h4>Requirements:</h4>
+                    <ul>
+                        <li>Strong communication skills (written and verbal).</li>
+                        <li>Excellent problem-solving abilities.</li>
+                        <li>Ability to work independently and manage time effectively.</li>
+                        <li>Reliable internet access and a suitable home workspace.</li>
+                        <li>Prior customer service experience is a plus.</li>
+                    </ul>
+                </div>
+
+                <div class="job-role-card">
+                    <h3>Business Advertiser (Referral-Based)</h3>
+                    <p>Help us grow by actively promoting COREVEST and attracting new users through your personal network and self-referral efforts. Earn commissions for every successful referral!</p>
+                    <h4>Requirements:</h4>
+                    <ul>
+                        <li>Proven ability to network and build relationships.</li>
+                        <li>Strong persuasive and marketing skills.</li>
+                        <li>Self-motivated and goal-oriented.</li>
+                        <li>Familiarity with online marketing and social media.</li>
+                        <li>Experience in direct sales or referral programs is an advantage.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="application-instructions">
+                <p>If you're ready to make an impact and contribute to the COREVEST mission, we invite you to apply!</p>
+                <p><strong>To apply, please send the following documents to our careers email:</strong></p>
+                <ul>
+                    <li>Your Updated Resume/CV</li>
+                    <li>A Copy of Your Valid Government-Issued ID (e.g., National ID, Driver's License, International Passport)</li>
+                    <li>Your Active Email Address</li>
+                    <li>Your Active Phone Number</li>
+                    <li>Details of Relevant Working Experience</li>
+                </ul>
+                <p>Send your application to:</p>
+                <a href="mailto:careers@corevest.com?subject=Job Application - [Your Name] - [Desired Role]" class="application-email">
+                    careers@corevest.com
+                </a>
+                <p style="font-size: 0.85rem; color: #777; margin-top: 15px;">Please title your email: "Job Application - [Your Name] - [Desired Role]".</p>
+            </div>
+        </section>
+
+        <section class="customer-care-section">
+            <h2>Having a Problem?</h2>
+            <p>Don't hesitate to reach out! Our customer service team is here to help you with any questions or issues you might have.</p>
+            <div class="contact-buttons">
+                <a href="https://wa.me/2348012345678" target="_blank" class="whatsapp-button">
+                    <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+                </a>
+                <a href="tel:+2348012345678" class="call-button">
+                    <i class="fas fa-phone-alt"></i> Call Us
+                </a>
+            </div>
+        </section>
+
+        <a href="create.html" class="cta-button">Ready to Start Earning? Join COREVEST Today!</a>
+
+        <section class="faq-section">
+            <h2>Frequently Asked Questions (FAQ)</h2>
+            <div class="faq-search">
+                <input type="text" id="faqSearchInput" placeholder="Search for answers...">
+            </div>
+            <div id="faqList">
+                </div>
+        </section>
+        </div>
+
+    <footer class="footer">
+        <p>© 2025 COREVEST. All rights reserved.</p>
+    </footer>
+
     <script>
-        const referBtn = document.getElementById('refer-btn');
-        const referLink = document.getElementById('refer-link');
-        const referLinkUrl = document.getElementById('refer-link-url');
+        document.addEventListener('DOMContentLoaded', function() {
+            // FAQ data
+            const faqData = [
+                {
+                    question: "What is COREVEST?",
+                    answer: "COREVEST is an online platform that allows individuals to earn income by watching short video clips and participating in a referral program."
+                },
+                {
+                    question: "How do I get started?",
+                    answer: "To get started, you need to register for a free account, then purchase a one-time activation coupon to unlock earning features. After that, you can start watching daily videos and earning rewards."
+                },
+                {
+                    question: "Do I need to pay to join COREVEST?",
+                    answer: "Registration is free, but you'll need to purchase a one-time activation coupon to access earning opportunities and the referral program."
+                },
+                {
+                    question: "How do I earn money?",
+                    answer: "You earn money primarily by watching short daily video tasks. We also offer a referral program where you earn bonuses for inviting new users."
+                },
+                {
+                    question: "What is a coupon code and why do I need it?",
+                    answer: "A coupon code is a one-time activation key that verifies your account and unlocks all earning features on COREVEST. It helps us maintain a committed and secure community."
+                },
+                {
+                    question: "How often are new tasks available?",
+                    answer: "New video tasks are updated daily, providing consistent opportunities to earn."
+                },
+                {
+                    question: "How much can I earn per video?",
+                    answer: "The reward per video varies based on your coupon tier and a small random bonus. You can see the exact reward listed for each task."
+                },
+                {
+                    question: "How do I withdraw my earnings?",
+                    answer: "You can withdraw your earnings by providing your bank account details. Withdrawals are enabled after a minimum of three weeks from your initial coupon activation date."
+                },
+                {
+                    question: "Is there a minimum withdrawal amount?",
+                    answer: "No, there's no minimum withdrawal amount. However, withdrawals are enabled only after your account has been active for a minimum of three weeks from your sign-up date."
+                },
+                {
+                    question: "How long does it take for withdrawals to be processed?",
+                    answer: "Once requested and approved, withdrawals are typically processed within 2-3 business days."
+                },
+                {
+                    question: "What is the referral program?",
+                    answer: "Our referral program allows you to share COREVEST with friends and family. You earn a bonus when someone signs up and activates their account using your unique referral link."
+                },
+                {
+                    question: "Is COREVEST available worldwide?",
+                    answer: "COREVEST is currently available for users in Nigeria. We aim to expand to more regions in the future."
+                },
+                {
+                    question: "What if I have a problem or question not listed here?",
+                    answer: "If you have further questions, please contact our support team through the contact us page (once available) or the provided customer service channels."
+                }
+            ];
 
-        referBtn.addEventListener('click', generateReferLink);
+            const faqListContainer = document.getElementById('faqList');
+            const faqSearchInput = document.getElementById('faqSearchInput');
 
-        function generateReferLink() {
-            const link = `https://corevest.com/refer/${Math.random().toString(36).substr(2, 9)}`;
-            
-            referLinkUrl.href = link;
-            referLinkUrl.textContent = link;
-            
-            referLink.classList.add('show');
-            
-            referBtn.disabled = true;
-            referBtn.textContent = 'Link Generated!';
-            referBtn.classList.add('bg-gray-400', 'cursor-not-allowed');
-            referBtn.style.backgroundColor = '#9ca3af'; // Apply the gray background directly
-            referBtn.style.cursor = 'not-allowed'; // Apply the not-allowed cursor directly
-        }
+            // Function to render FAQ items
+            function renderFAQs(filterText = '') {
+                faqListContainer.innerHTML = ''; // Clear existing FAQs
+
+                const lowerCaseFilter = filterText.toLowerCase();
+
+                faqData.forEach((item, index) => {
+                    const question = item.question;
+                    const answer = item.answer;
+
+                    // Check if question or answer contains the filter text
+                    if (question.toLowerCase().includes(lowerCaseFilter) || answer.toLowerCase().includes(lowerCaseFilter)) {
+                        const faqItem = document.createElement('details');
+                        faqItem.classList.add('faq-item');
+
+                        const summary = document.createElement('summary');
+                        summary.textContent = question;
+
+                        const answerDiv = document.createElement('div');
+                        answerDiv.classList.add('faq-answer');
+                        answerDiv.textContent = answer;
+
+                        faqItem.appendChild(summary);
+                        faqItem.appendChild(answerDiv);
+                        faqListContainer.appendChild(faqItem);
+                    }
+                });
+
+                if (faqListContainer.children.length === 0 && filterText.length > 0) {
+                    faqListContainer.innerHTML = '<p style="text-align: center; color: #777;">No matching questions found.</p>';
+                } else if (faqListContainer.children.length === 0) {
+                    faqListContainer.innerHTML = '<p style="text-align: center; color: #777;">FAQs loading...</p>'; // Should not happen if faqData is populated
+                }
+            }
+
+            // Event listener for search input
+            faqSearchInput.addEventListener('input', function() {
+                renderFAQs(this.value);
+            });
+
+            // Initial render of all FAQs on page load
+            renderFAQs();
+
+            // Removed the JavaScript code that modified the navigation link.
+            // The FAQ link is now physically removed from the HTML navigation.
+        });
     </script>
 </body>
 </html>
