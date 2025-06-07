@@ -353,7 +353,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const titleIndex = i % videoTitles.length;
         allVideoTasks.push({ 
             id: i + 1, 
-            title: `${videoTitles[titleIndex]} #${Math.floor(i / videoTitles.length) + 1}`, 
+            title: `<span class="math-inline">\{videoTitles\[titleIndex\]\} \#</span>{Math.floor(i / videoTitles.length) + 1}`, 
             url: `https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1&controls=0&start=${(i * 5) % 300}` // Using Rick Astley, modifying start time for uniqueness
         });
     }
@@ -511,13 +511,13 @@ document.addEventListener('DOMContentLoaded', function() {
             taskCard.className = `task-card ${isCompleted ? 'completed' : ''}`;
             taskCard.innerHTML = `
                 <div class="task-info">
-                    <h3>${task.title}</h3>
-                    <p>Watch the 15s video to claim your reward.</p>
-                </div>
-                <div class="task-actions">
-                    <span class="task-reward">Reward: ₦${reward.toLocaleString()}</span>
-                    <button class="task-btn watch-btn" data-task-id="${task.id}" ${isCompleted ? 'disabled' : ''}>Watch Video</button>
-                    <button class="task-btn claim-btn" data-task-id="${task.id}" ${isCompleted ? 'disabled' : 'disabled'}>Claim Reward</button>
+                    <h3><span class="math-inline">\{task\.title\}</h3\>
+<p\>Watch the 15s video to claim your reward\.</p\>
+</div\>
+<div class\="task\-actions"\>
+<span class\="task\-reward"\>Reward\: ₦</span>{reward.toLocaleString()}</span>
+                    <button class="task-btn watch-btn" data-task-id="${task.id}" <span class="math-inline">\{isCompleted ? 'disabled' \: ''\}\>Watch Video</button\>
+<button class\="task\-btn claim\-btn" data\-task\-id\="</span>{task.id}" ${isCompleted ? 'disabled' : 'disabled'}>Claim Reward</button>
                 </div>
             `;
             taskList.appendChild(taskCard);
@@ -575,187 +575,4 @@ document.addEventListener('DOMContentLoaded', function() {
         modal.style.display = 'none';
     }
 
-    function claimReward(taskId) {
-        const todayDate = getTodayDateString();
-        state.completedTasks[todayDate] = state.completedTasks[todayDate] || [];
-
-        if (state.completedTasks[todayDate].includes(taskId)) {
-            console.warn(`Task ${taskId} already completed today.`);
-            return;
-        }
-
-        const reward = calculateReward(taskId);
-        state.totalEarnings += reward;
-        state.completedTasks[todayDate].push(taskId);
-        saveState();
-        displayDailyTasks(); // Re-render to update status and counts
-    }
-
-    function handleSaveWithdrawalDetails() {
-        const accountNumber = accountNumberInput.value.trim();
-        const bankName = bankNameInput.value.trim();
-        const accountName = accountNameInput.value.trim();
-
-        if (!accountNumber || !bankName || !accountName) {
-            alert('Please fill in all withdrawal details.');
-            return;
-        }
-
-        const submissionDate = new Date();
-        if (!state.signUpDate) {
-            state.signUpDate = submissionDate.toISOString(); 
-        }
-
-        const projectedPaymentDate = addWeeksToDate(new Date(state.signUpDate), 3);
-
-        state.withdrawalDetails = {
-            accountNumber,
-            bankName,
-            accountName,
-            status: 'Unpaid',
-            submissionDate: submissionDate.toISOString(),
-            projectedPaymentDate: projectedPaymentDate.toISOString()
-        };
-        saveState();
-        renderWithdrawalSection();
-        alert('Withdrawal details saved!');
-    }
-
-    function renderWithdrawalSection() {
-        withdrawalDetailsDisplay.innerHTML = ''; 
-
-        if (state.withdrawalDetails) {
-            const details = state.withdrawalDetails;
-            withdrawalDetailsDisplay.innerHTML = `
-                <p><strong>Account Number:</strong> ${details.accountNumber}</p>
-                <p><strong>Bank Name:</strong> ${details.bankName}</p>
-                <p><strong>Account Name:</strong> ${details.accountName}</p>
-                <p><strong>Status:</strong> <span class="withdrawal-status ${details.status.toLowerCase()}">${details.status}</span></p>
-            `;
-
-            if (state.signUpDate) {
-                const signUpDateTime = new Date(state.signUpDate);
-                const projectedPaymentDateTime = addWeeksToDate(signUpDateTime, 3);
-                const now = new Date();
-                const isPaymentDue = now >= projectedPaymentDateTime;
-
-                withdrawalDetailsDisplay.innerHTML += `
-                    <p><strong>Sign-up Date:</strong> ${formatDate(signUpDateTime)}</p>
-                    <p><strong>Projected Payment Date:</strong> ${formatDate(projectedPaymentDateTime)}</p>
-                `;
-
-                if (isPaymentDue && details.status === 'Unpaid') {
-                    requestWithdrawalBtn.disabled = false;
-                    requestWithdrawalBtn.textContent = 'Request Withdrawal (Due)';
-                } else if (details.status === 'Paid') {
-                    requestWithdrawalBtn.disabled = true;
-                    requestWithdrawalBtn.textContent = 'Withdrawal Paid';
-                } else {
-                    requestWithdrawalBtn.disabled = true;
-                    requestWithdrawalBtn.textContent = 'Withdrawal Not Yet Due';
-                }
-            } else {
-                requestWithdrawalBtn.disabled = true;
-                requestWithdrawalBtn.textContent = 'Verify coupon to enable withdrawals';
-            }
-        } else {
-            withdrawalDetailsDisplay.innerHTML = `<p>No withdrawal details saved yet.</p>`;
-            requestWithdrawalBtn.disabled = true;
-            requestWithdrawalBtn.textContent = 'Save details to enable withdrawals';
-        }
-    }
-
-    function handleRequestWithdrawal() {
-        if (state.withdrawalDetails && state.withdrawalDetails.status === 'Unpaid') {
-            const signUpDateTime = new Date(state.signUpDate);
-            const projectedPaymentDateTime = addWeeksToDate(signUpDateTime, 3);
-            const now = new Date();
-
-            if (now >= projectedPaymentDateTime) {
-                alert(`Withdrawal request for ₦${state.totalEarnings.toLocaleString()} sent! Please allow 2-3 business days for processing.`);
-                
-                const pastWithdrawalRecord = {
-                    amount: state.totalEarnings,
-                    date: new Date().toISOString(),
-                    account: state.withdrawalDetails.accountNumber,
-                    bank: state.withdrawalDetails.bankName,
-                    status: 'Paid' 
-                };
-                state.pastWithdrawals.push(pastWithdrawalRecord); 
-
-                // Reset for next withdrawal cycle
-                state.withdrawalDetails = null; 
-                state.totalEarnings = 0; 
-                state.completedTasks = {}; // Reset all completed tasks for a fresh cycle
-                state.signUpDate = null; // Reset signup date for a new 3-week waiting period
-
-                saveState();
-                renderWithdrawalSection();
-                displayDailyTasks(); // Re-render tasks, earnings will be reset
-                renderPastWithdrawals(); 
-            } else {
-                alert('Withdrawal is not yet due. Please wait until the projected payment date.');
-            }
-        }
-    }
-
-    function renderPastWithdrawals() {
-        pastWithdrawalsList.innerHTML = ''; 
-
-        if (state.pastWithdrawals.length === 0) {
-            pastWithdrawalsList.innerHTML = '<p>No past withdrawals yet.</p>';
-            return;
-        }
-
-        state.pastWithdrawals.forEach(withdrawal => {
-            const withdrawalItem = document.createElement('div');
-            withdrawalItem.style.marginBottom = '10px';
-            withdrawalItem.style.padding = '10px';
-            withdrawalItem.style.border = '1px solid #ddd';
-            withdrawalItem.style.borderRadius = '5px';
-            withdrawalItem.style.backgroundColor = '#e8f5e9'; 
-
-            withdrawalItem.innerHTML = `
-                <p style="margin: 0;"><strong>Amount:</strong> ₦${withdrawal.amount.toLocaleString()}</p>
-                <p style="margin: 5px 0 0;"><strong>Date:</strong> ${formatDate(new Date(withdrawal.date))}</p>
-                <p style="margin: 5px 0 0;"><strong>Account:</strong> ${withdrawal.account}</p>
-                <p style="margin: 5px 0 0;"><strong>Bank:</strong> ${withdrawal.bank}</p>
-                <p style="margin: 5px 0 0;"><strong>Status:</strong> <span style="font-weight: bold; color: #4CAF50;">${withdrawal.status}</span></p>
-            `;
-            pastWithdrawalsList.appendChild(withdrawalItem);
-        });
-    }
-
-    // --- EVENT LISTENERS ---
-    saveNameBtn.addEventListener('click', handleSaveName);
-    verifyBtn.addEventListener('click', () => handleCouponVerification(false));
-    closeModalBtn.addEventListener('click', closeVideoModal);
-    saveWithdrawalBtn.addEventListener('click', handleSaveWithdrawalDetails);
-    requestWithdrawalBtn.addEventListener('click', handleRequestWithdrawal);
-
-    taskList.addEventListener('click', (e) => {
-        const target = e.target;
-        if (target.classList.contains('watch-btn')) {
-            const taskId = parseInt(target.dataset.taskId);
-            playVideo(taskId);
-        }
-        if (target.classList.contains('claim-btn')) {
-            const taskId = parseInt(target.dataset.taskId);
-            claimReward(taskId);
-        }
-    });
-
-    // --- INITIALIZATION ---
-    loadState();
-    // Only display tasks if a coupon is already verified on load
-    if (state.coupon) {
-        displayDailyTasks();
-    } else {
-        taskList.innerHTML = '<p style="text-align: center; color: #888;">Verify your coupon to see daily tasks.</p>';
-    }
-    renderWithdrawalSection(); 
-});
-</script>
-
-</body>
-</html>
+    function claimReward(taskId)

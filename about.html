@@ -284,6 +284,76 @@
             border-top: 1px solid #f0f0f0;
             color: #555;
         }
+
+        /* --- NEW CUSTOMER CARE STYLES --- */
+        .customer-care-section {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px; /* Space before the CTA button */
+            text-align: center;
+        }
+
+        .customer-care-section h2 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .customer-care-section p {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 25px;
+        }
+
+        .contact-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap; /* Allows buttons to wrap on smaller screens */
+        }
+
+        .contact-buttons a {
+            display: inline-flex;
+            align-items: center;
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .contact-buttons a i {
+            margin-right: 10px;
+        }
+
+        .whatsapp-button {
+            background-color: #25D366; /* WhatsApp Green */
+            color: white;
+        }
+
+        .whatsapp-button:hover {
+            background-color: #1DA851;
+            transform: translateY(-2px);
+        }
+
+        .call-button {
+            background-color: #007bff; /* Blue for call */
+            color: white;
+        }
+
+        .call-button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        /* Font Awesome for icons */
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
     </style>
 </head>
 <body>
@@ -359,7 +429,26 @@
             <p>We are committed to maintaining a trustworthy and supportive environment for our users. We continuously work to improve our platform, enhance security measures, and provide timely support to ensure a smooth and enjoyable earning experience. Your success is our priority.</p>
         </section>
 
+        ---
+
+        <section class="customer-care-section">
+            <h2>Having a Problem?</h2>
+            <p>Don't hesitate to reach out! Our customer service team is here to help you with any questions or issues you might have.</p>
+            <div class="contact-buttons">
+                <a href="https://wa.me/2348012345678" target="_blank" class="whatsapp-button">
+                    <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+                </a>
+                <a href="tel:+2348012345678" class="call-button">
+                    <i class="fas fa-phone-alt"></i> Call Us
+                </a>
+            </div>
+        </section>
+
+        ---
+
         <a href="create.html" class="cta-button">Ready to Start Earning? Join COREVEST Today!</a>
+
+        ---
 
         <section class="faq-section">
             <h2>Frequently Asked Questions (FAQ)</h2>
