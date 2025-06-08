@@ -43,21 +43,68 @@
             background-color: #006600;
         }
 
-        #coupon-code {
-            font-size: 28px;
-            font-weight: bold;
+        /* Styles for the dynamically generated coupon options */
+        #coupon-options {
             margin-top: 25px;
-            color: #333;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background-color: #fcfcfc;
         }
 
-        #coupon-price {
-            font-size: 40px;
+        .coupon-option-card {
+            background-color: #fff;
+            border: 1px solid #cceeff; /* Light blue border */
+            border-radius: 8px;
+            padding: 20px;
+            width: 150px; /* Fixed width for card */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Pushes button to bottom */
+            align-items: center;
+        }
+
+        .coupon-option-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .coupon-option-card h3 {
+            color: #007bff; /* Blue for coupon title */
+            margin-bottom: 10px;
+            font-size: 1.3em;
+        }
+
+        .coupon-option-card .price {
+            font-size: 2.2em;
             font-weight: bold;
-            color: #008000;
-            margin-top: 10px;
+            color: #008000; /* Green for price */
+            margin-bottom: 15px;
         }
 
-        #buy-now-btn, #payment-made-btn {
+        .coupon-option-card button {
+            padding: 10px 18px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50; /* Green buy button */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            width: 100%; /* Make button full width of card */
+            transition: background-color 0.3s ease;
+        }
+
+        .coupon-option-card button:hover {
+            background-color: #45a049;
+        }
+
+        #buy-now-btn, #payment-made-btn { /* Kept existing styles for #payment-made-btn */
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
@@ -73,14 +120,23 @@
             background-color: #45a049;
         }
 
-        #payment-details, #coupon-details {
+        #payment-details, #coupon-details, #merchant-info {
             margin-top: 30px;
             padding-top: 20px;
             border-top: 1px solid #eee;
             color: #555;
         }
+        /* Styling for the new merchant info section */
+        #merchant-info {
+            background-color: #f0f7f0; /* Light green background */
+            border: 1px solid #c8e6c9; /* Green border */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-top: 30px;
+        }
 
-        #payment-details h2, #coupon-details h2 {
+        #payment-details h2, #coupon-details h2, #merchant-info h2 {
             color: #008000;
             margin-bottom: 15px;
         }
@@ -89,7 +145,6 @@
             margin-bottom: 10px;
         }
 
-        /* REVISED: Instruction message base style - it's always block unless 'hidden' class is applied */
         .instruction-message {
             margin-top: 25px;
             padding: 15px;
@@ -103,9 +158,8 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
         }
 
-        /* Essential utility class to hide elements */
         .hidden {
-            display: none !important; /* Use !important to ensure it overrides other display properties */
+            display: none !important;
         }
 
         .instruction-message strong {
@@ -123,6 +177,46 @@
             text-decoration: underline;
         }
 
+        .whatsapp-btn {
+            display: inline-block;
+            padding: 12px 25px;
+            font-size: 18px;
+            background-color: #25D366; /* WhatsApp green */
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .whatsapp-btn:hover {
+            background-color: #1DA851; /* Darker green on hover */
+        }
+
+        .payment-warning {
+            color: #d32f2f; /* Red for warning */
+            font-weight: bold;
+            margin-top: 15px;
+            font-size: 1.1em;
+            background-color: #ffebee;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ef9a9a;
+        }
+
+        #countdown-timer {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #e65100; /* Orange for urgency */
+            margin-top: 15px;
+            background-color: #fff3e0;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ffcc80;
+        }
+
         @media (max-width: 600px) {
             .container {
                 width: 95%;
@@ -133,15 +227,20 @@
                 font-size: 16px;
                 padding: 10px 20px;
             }
-            #coupon-code {
-                font-size: 22px;
+            #coupon-options {
+                flex-direction: column; /* Stack cards vertically on small screens */
+                align-items: center;
             }
-            #coupon-price {
-                font-size: 32px;
+            .coupon-option-card {
+                width: 80%; /* Wider on small screens */
             }
-            .instruction-message {
+            .instruction-message, .payment-warning, #countdown-timer {
                 font-size: 1em;
                 padding: 10px;
+            }
+            .whatsapp-btn {
+                padding: 10px 20px;
+                font-size: 16px;
             }
         }
     </style>
@@ -149,110 +248,211 @@
 <body>
     <div class="container">
         <h1>Core Vest Coupon Generator</h1>
-        <button id="generate-btn">Generate Coupon</button>
-        <div id="coupon-code"></div>
-        <div id="coupon-price"></div>
+        
+        <button id="generate-btn">View Available Coupons</button>
 
-        <div id="buy-now-container" style="display: none;">
-            <button id="buy-now-btn">Buy Now (₦<span id="buy-now-price"></span>)</button>
+        <div id="coupon-options" class="hidden">
+            </div>
+
+        <div id="payment-details" class="hidden">
+            <h2>Payment Details for ₦<span id="payment-for-price"></span></h2>
+            <p class="payment-info">Account Name: COREVEST SOLUTIONS</p>
+            <p class="payment-info">Account Number: 1234567890</p>
+            <p class="payment-info">Bank Name: COREVEST BANK</p>
+            <p class="payment-info" style="font-style: italic;">This is a **one-time bank account** for this transaction only.</p>
+            
+            <div id="countdown-timer">Time Remaining: 02:00</div>
+            
+            <p class="payment-warning">
+                <strong>IMPORTANT:</strong> DO NOT CLICK 'I Have Made Payment' if you haven't actually paid, to avoid account restriction.
+            </p>
+            
+            <button id="payment-made-btn">I Have Made Payment</button>
         </div>
 
-        <div id="payment-details" style="display: none;">
-            <h2>Payment Details</h2>
-            <p>Account Name:?? </p>
-            <p>Account Number:?? .</p>
-            <p>Bank Name: ?? </p>
-            <button id="payment-made-btn">Payment Made</button>
-        </div>
-        <div id="coupon-details" style="display: none;">
-            <h2>Coupon Details</h2>
+        <div id="coupon-details" class="hidden">
+            <h2>Your Purchased Coupon</h2>
             <p>Coupon Code: <span id="coupon-code-final"></span></p>
             <p>Price: ₦<span id="coupon-price-final"></span></p>
             <p>Payment Amount: ₦<span id="payment-amount"></span></p>
             
             <p class="instruction-message hidden" id="couponInstruction">
-                Please <strong>copy this coupon code</strong> and <strong>paste it into the "VIDEO TASK FIELD" TO VERIFY</strong> AFTER CREATING AN ACCOUNT <a href="create.html"> creation page</a>.
+                Please **copy this coupon code** and **paste it into the "VIDEO TASK FIELD" TO VERIFY** AFTER CREATING AN ACCOUNT <a href="create.html"> creation page</a>.
             </p>
+            <button id="buy-another-coupon-btn" style="margin-top: 20px; padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Buy Another Coupon</button>
         </div>
-    </div>
+
+        <div id="merchant-info">
+            <h2>Need a Verified Coupon?</h2>
+            <p>You can also get a verified coupon code directly from our official merchant! It's fast and reliable.</p>
+            <a href="https://wa.me/YOUR_PHONE_NUMBER" class="whatsapp-btn" target="_blank">Chat on WhatsApp</a>
+        </div>
+        </div>
 
     <script>
+        // DOM Elements
         const generateBtn = document.getElementById('generate-btn');
-        const couponCodeDiv = document.getElementById('coupon-code');
-        const couponPriceDiv = document.getElementById('coupon-price');
-        const buyNowContainer = document.getElementById('buy-now-container');
-        const buyNowBtn = document.getElementById('buy-now-btn');
-        const buyNowPrice = document.getElementById('buy-now-price');
-        const paymentDetails = document.getElementById('payment-details');
+        const couponOptionsDiv = document.getElementById('coupon-options');
+        const paymentDetailsDiv = document.getElementById('payment-details');
+        const paymentForPriceSpan = document.getElementById('payment-for-price');
         const paymentMadeBtn = document.getElementById('payment-made-btn');
-        const couponDetails = document.getElementById('coupon-details');
-        const couponCodeFinal = document.getElementById('coupon-code-final');
-        const couponPriceFinal = document.getElementById('coupon-price-final');
-        const paymentAmount = document.getElementById('payment-amount');
+        const countdownTimerDiv = document.getElementById('countdown-timer');
+        const couponDetailsDiv = document.getElementById('coupon-details');
+        const couponCodeFinalSpan = document.getElementById('coupon-code-final');
+        const couponPriceFinalSpan = document.getElementById('coupon-price-final');
+        const paymentAmountSpan = document.getElementById('payment-amount');
         const couponInstruction = document.getElementById('couponInstruction');
+        const buyAnotherCouponBtn = document.getElementById('buy-another-coupon-btn');
 
-        let generatedCouponCode = '';
-        let generatedCouponPrice = 0;
+        // Pre-defined coupon data (expanded range)
+        const couponsData = [
+            { id: 'bronze', name: 'Bronze Coupon', price: 15000, code: 'CVB15K' },
+            { id: 'silver', name: 'Silver Coupon', price: 25000, code: 'CVS25K' },
+            { id: 'gold', name: 'Gold Coupon', price: 50000, code: 'CVG50K' },
+            { id: 'premium', name: 'Premium Coupon', price: 100000, code: 'CVP100K' },
+            { id: 'vip', name: 'VIP Coupon', price: 250000, code: 'CVVIP250K' },
+            { id: 'elite', name: 'Elite Coupon', price: 500000, code: 'CVELITE500K' },
+            { id: 'ultimate', name: 'Ultimate Coupon', price: 1000000, code: 'CVULT1M' }
+        ];
 
-        generateBtn.addEventListener('click', generateCoupon);
-        buyNowBtn.addEventListener('click', showPaymentDetails);
-        paymentMadeBtn.addEventListener('click', showCouponDetails);
+        let currentSelectedCoupon = null; // Stores the coupon object selected by the user
+        let countdownInterval; // To store the interval ID for the timer
+        const paymentTimeoutSeconds = 120; // 2 minutes
 
-        function generateCoupon() {
-            generateBtn.disabled = true;
-            generateBtn.textContent = 'Generating...';
-            couponCodeDiv.textContent = '';
-            couponPriceDiv.textContent = '';
-            buyNowContainer.style.display = 'none';
-            paymentDetails.style.display = 'none';
-            couponDetails.style.display = 'none';
-            
-            // Hiding instruction on generate using the 'hidden' class
-            couponInstruction.classList.add('hidden'); 
+        // Event Listeners
+        generateBtn.addEventListener('click', displayCouponOptions);
+        paymentMadeBtn.addEventListener('click', () => showPurchasedCoupon(false)); // Not from storage
+        buyAnotherCouponBtn.addEventListener('click', resetAndDisplayOptions);
 
-            setTimeout(() => {
-                generatedCouponCode = generateRandomCode();
-                generatedCouponPrice = generateRandomPrice();
-                couponCodeDiv.textContent = `Coupon Code: ${generatedCouponCode}`;
-                couponPriceDiv.textContent = `₦${generatedCouponPrice.toLocaleString('en-NG')}`;
-                buyNowPrice.textContent = generatedCouponPrice.toLocaleString('en-NG');
-                buyNowContainer.style.display = 'block';
-                generateBtn.disabled = false;
-                generateBtn.textContent = 'Generate Coupon';
-            }, 3000);
-        }
 
-        function showPaymentDetails() {
-            buyNowContainer.style.display = 'none';
-            paymentDetails.style.display = 'block';
-            
-            // Hiding instruction on show payment details using the 'hidden' class
-            couponInstruction.classList.add('hidden');
-        }
+        // --- Functions ---
 
-        function showCouponDetails() {
-            paymentDetails.style.display = 'none';
-            couponDetails.style.display = 'block';
-            couponCodeFinal.textContent = generatedCouponCode;
-            couponPriceFinal.textContent = generatedCouponPrice.toLocaleString('en-NG');
-            paymentAmount.textContent = generatedCouponPrice.toLocaleString('en-NG');
-            
-            // Showing the instruction message by removing the 'hidden' class
-            couponInstruction.classList.remove('hidden'); 
-        }
-
-        function generateRandomCode() {
-            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            let code = '';
-            for (let i = 0; i < 8; i++) {
-                code += characters.charAt(Math.floor(Math.random() * characters.length));
+        // Initialize the page state on load
+        function init() {
+            const storedCoupon = localStorage.getItem('purchasedCorevestCoupon');
+            if (storedCoupon) {
+                // If a coupon was previously purchased, display it
+                currentSelectedCoupon = JSON.parse(storedCoupon);
+                showPurchasedCoupon(true); // Pass true to indicate it's from storage, not a new payment
+            } else {
+                // Otherwise, show the initial "View Available Coupons" button
+                generateBtn.classList.remove('hidden');
             }
-            return code;
         }
 
-        function generateRandomPrice() {
-            return Math.floor(Math.random() * (100000 - 15000 + 1)) + 15000;
+        // Displays the list of available coupon options
+        function displayCouponOptions() {
+            hideAllSections(); // Hide other active sections first
+            generateBtn.classList.add('hidden'); // Hide the initial generate button
+
+            couponOptionsDiv.innerHTML = ''; // Clear previous options
+            couponsData.forEach(coupon => {
+                const card = document.createElement('div');
+                card.classList.add('coupon-option-card');
+                card.innerHTML = `
+                    <h3>${coupon.name}</h3>
+                    <div class="price">₦${coupon.price.toLocaleString('en-NG')}</div>
+                    <button data-coupon-id="${coupon.id}">Buy Now</button>
+                `;
+                couponOptionsDiv.appendChild(card);
+            });
+            couponOptionsDiv.classList.remove('hidden'); // Show the coupon options
+
+            // Add event listeners to the new "Buy Now" buttons
+            couponOptionsDiv.querySelectorAll('button').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const couponId = event.target.dataset.couponId;
+                    selectCoupon(couponId);
+                });
+            });
         }
+
+        // Handles selection of a coupon and shows payment details
+        function selectCoupon(couponId) {
+            currentSelectedCoupon = couponsData.find(coupon => coupon.id === couponId);
+
+            if (currentSelectedCoupon) {
+                hideAllSections();
+                paymentForPriceSpan.textContent = currentSelectedCoupon.price.toLocaleString('en-NG');
+                paymentDetailsDiv.classList.remove('hidden');
+                startCountdown(); // Start the payment countdown
+            } else {
+                alert('Error: Coupon not found.');
+                resetAndDisplayOptions();
+            }
+        }
+
+        // Starts the payment countdown timer
+        function startCountdown() {
+            let timeLeft = paymentTimeoutSeconds;
+            clearInterval(countdownInterval); // Clear any existing timer
+
+            function updateTimer() {
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                countdownTimerDiv.textContent = `Time Remaining: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+                if (timeLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    alert('Payment time expired! Please select a coupon and try again.');
+                    resetAndDisplayOptions();
+                }
+                timeLeft--;
+            }
+
+            updateTimer(); // Call immediately to show initial time
+            countdownInterval = setInterval(updateTimer, 1000);
+        }
+
+        // Shows the purchased coupon details and stores it in localStorage
+        function showPurchasedCoupon(fromStorage = false) {
+            // Stop the countdown timer when payment is "made" or loaded from storage
+            clearInterval(countdownInterval);
+
+            if (!currentSelectedCoupon) {
+                alert('No coupon selected or purchased.');
+                resetAndDisplayOptions();
+                return;
+            }
+
+            hideAllSections();
+            
+            couponCodeFinalSpan.textContent = currentSelectedCoupon.code;
+            couponPriceFinalSpan.textContent = currentSelectedCoupon.price.toLocaleString('en-NG');
+            paymentAmountSpan.textContent = currentSelectedCoupon.price.toLocaleString('en-NG');
+            
+            couponDetailsDiv.classList.remove('hidden');
+            couponInstruction.classList.remove('hidden'); // Show the instruction message
+
+            // Only store in localStorage if it's a new purchase, not loading from storage
+            if (!fromStorage) {
+                localStorage.setItem('purchasedCorevestCoupon', JSON.stringify(currentSelectedCoupon));
+                alert('Coupon code revealed! Your coupon has been saved.');
+            }
+        }
+
+        // Resets the UI to allow buying another coupon
+        function resetAndDisplayOptions() {
+            clearInterval(countdownInterval); // Ensure timer is stopped on reset
+            localStorage.removeItem('purchasedCorevestCoupon'); // Clear previously purchased coupon
+            currentSelectedCoupon = null; // Clear current selection
+            hideAllSections();
+            generateBtn.classList.remove('hidden'); // Show initial button
+            couponInstruction.classList.add('hidden'); // Hide instruction if visible
+        }
+
+        // Helper function to hide all major content sections
+        function hideAllSections() {
+            generateBtn.classList.add('hidden');
+            couponOptionsDiv.classList.add('hidden');
+            paymentDetailsDiv.classList.add('hidden');
+            couponDetailsDiv.classList.add('hidden');
+            couponInstruction.classList.add('hidden'); // Ensure instruction is hidden too
+        }
+
+        // Initial call to set up the page when it loads
+        document.addEventListener('DOMContentLoaded', init);
+
     </script>
 </body>
 </html>
