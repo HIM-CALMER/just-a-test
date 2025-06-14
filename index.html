@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to COREVEST!</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         /* Existing CSS styles remain the same */
         * {
@@ -173,6 +174,19 @@
             .about-section h2, .faq-section h2, .customer-care-section h2, .hiring-section h2 { /* Added .hiring-section h2 */
                 font-size: 1.7rem;
             }
+
+            /* Responsive styling for the game link */
+            .game-link-container {
+                width: 150px;
+                height: 150px;
+                margin: 30px auto;
+            }
+            .game-link-content .icon {
+                font-size: 3rem; /* Adjust icon size for smaller screens */
+            }
+            .game-link-content .text {
+                font-size: 0.9rem; /* Adjust text size for smaller screens */
+            }
         }
 
         @media (max-width: 480px) {
@@ -195,6 +209,19 @@
 
             .about-section p, .about-section ul li, .hiring-section p, .hiring-section ul li { /* Added .hiring-section p, li */
                 font-size: 0.9rem;
+            }
+
+            /* More compact responsive styling for the game link */
+            .game-link-container {
+                width: 120px;
+                height: 120px;
+                margin: 20px auto;
+            }
+            .game-link-content .icon {
+                font-size: 2.5rem; /* Adjust icon size for smaller screens */
+            }
+            .game-link-content .text {
+                font-size: 0.8rem; /* Adjust text size for smaller screens */
             }
         }
 
@@ -334,9 +361,6 @@
             transform: translateY(-2px);
         }
 
-        /* Font Awesome for icons */
-        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
-
         /* --- NEW HIRING SECTION STYLES --- */
         .hiring-section {
             /* styles defined above in combined selector */
@@ -446,6 +470,60 @@
                 max-width: 100%;
             }
         }
+
+        /* --- NEW GAME LINK STYLES --- */
+        .game-link-container {
+            width: 200px;
+            height: 200px;
+            background-color: #f9f9f9;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column; /* Stack icon and text vertically */
+            justify-content: center;
+            align-items: center;
+            margin: 40px auto; /* Centers the circle and adds vertical spacing */
+            border: 3px solid #4CAF50; /* Green border */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Soft shadow */
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            cursor: pointer; /* Indicates it's clickable */
+            text-decoration: none; /* Remove underline from the container if it becomes a link */
+            color: inherit; /* Ensure text color is inherited */
+        }
+
+        .game-link-container:hover {
+            transform: scale(1.05); /* Slightly enlarges on hover */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Deeper shadow on hover */
+        }
+
+        .game-link-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            color: #333; /* Dark gray text */
+            transition: color 0.3s ease-in-out;
+        }
+
+        .game-link-container:hover .game-link-content {
+            color: #4CAF50; /* Green text on hover */
+        }
+
+        .game-link-content .icon {
+            font-size: 3.5rem; /* Large icon size */
+            margin-bottom: 5px; /* Space between icon and text */
+        }
+
+        .game-link-content .text {
+            font-size: 1rem;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+
+        .game-link-content .sub-text {
+            font-size: 0.8rem;
+            margin-top: 2px;
+            color: #666; /* Slightly lighter color for sub-text */
+        }
     </style>
 </head>
 <body>
@@ -465,6 +543,12 @@
             </ul>
         </nav>
 
+        <a href="game.html" class="game-link-container" id="gameLinkCircle">
+            <div class="game-link-content">
+                <i class="fas fa-gamepad icon"></i> <span class="text">COREVEST GAMES</span>
+                <span class="sub-text">Tap to Play Now!</span>
+            </div>
+        </a>
         <section class="about-section">
             <h2>Our Mission</h2>
             <p>At COREVEST, our mission is to provide a legitimate and user-friendly platform where individuals can earn income by engaging in straightforward online activities, primarily watching videos. We are dedicated to creating a transparent and rewarding experience for all our users, helping them to supplement their income with minimal effort and no prior experience.</p>
@@ -592,7 +676,7 @@
             <div id="faqList">
             </div>
         </section>
-        </div>
+    </div>
 
     <footer class="footer">
         <p>© 2025 COREVEST. All rights reserved.</p>
@@ -658,6 +742,7 @@
 
             const faqListContainer = document.getElementById('faqList');
             const faqSearchInput = document.getElementById('faqSearchInput');
+            const gameLinkCircle = document.getElementById('gameLinkCircle'); // Get the game link circle element
 
             // Function to render FAQ items
             function renderFAQs(filterText = '') {
@@ -702,8 +787,13 @@
             // Initial render of all FAQs on page load
             renderFAQs();
 
-            // Removed the JavaScript code that modified the navigation link.
-            // The FAQ link is now physically removed from the HTML navigation.
+            // JavaScript for the game link (optional, but adds a nice touch)
+            gameLinkCircle.addEventListener('click', function(event) {
+                // You can add more interactive JavaScript here if needed,
+                // for example, an animation before redirecting, or a confirmation.
+                // For now, it will simply follow the href.
+                console.log("Game link clicked! Redirecting to game.html");
+            });
         });
     </script>
 </body>
