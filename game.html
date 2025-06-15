@@ -335,7 +335,7 @@
     <main class="container">
         <div id="dashboardView">
             <div class="game-grid" id="gameList">
-                </div>
+            </div>
         </div>
 
         <div id="spinTheWheelGame">
@@ -372,6 +372,7 @@
                 <strong>Account Number:</strong> 0123456789<br>
                 <strong>Amount:</strong> <span id="paymentAmountDisplay">₦0.00</span>
             </div>
+            <p id="paymentWarningMessage" style="color: red; font-weight: bold; margin-top: 15px;"></p>
             <p style="margin-top: 20px; font-style: italic;">(Simulating payment authentication... please wait)</p>
         </div>
     </div>
@@ -385,6 +386,8 @@
             const backToDashboardBtn = document.getElementById('backToDashboardBtn');
             const paymentOverlay = document.getElementById('paymentOverlay');
             const paymentAmountDisplay = document.getElementById('paymentAmountDisplay');
+            // Get the element for the new warning message
+            const paymentWarningMessage = document.getElementById('paymentWarningMessage');
 
             // Game specific elements for Spin the Wheel
             const wheelCanvas = document.getElementById('wheelCanvas');
@@ -681,7 +684,7 @@
                 if (winnings > 0) {
                     setGameMessage(`Congratulations! You won ₦${winnings.toLocaleString()}!`, 'green');
                 } else if (winnings < currentBetAmount) {
-                     setGameMessage(`You landed on ₦${winnings.toLocaleString()}. Better luck next time!`, 'orange');
+                    setGameMessage(`You landed on ₦${winnings.toLocaleString()}. Better luck next time!`, 'orange');
                 } else {
                     setGameMessage("You won nothing. Try again!", 'red');
                 }
@@ -714,10 +717,12 @@
 
                 // Simulate payment display
                 paymentAmountDisplay.textContent = `₦${bet.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                // Set the warning message
+                paymentWarningMessage.textContent = "Important: Please ensure you send the exact amount selected.";
                 paymentOverlay.style.display = 'flex'; // Show overlay
 
-                // Simulate authentication time (e.g., 3 seconds)
-                let paymentSeconds = 3;
+                // Simulate authentication time (e.g., 5 seconds for a longer period)
+                let paymentSeconds = 5; // Changed from 3 to 5 seconds
                 simulatedPaymentInterval = setInterval(() => {
                     paymentSeconds--;
                     if (paymentSeconds <= 0) {
@@ -725,6 +730,8 @@
                         paymentOverlay.style.display = 'none'; // Hide overlay
                         setGameMessage(`Bet of ₦${currentBetAmount.toLocaleString()} placed! Click SPIN.`, 'green');
                         spinButton.disabled = false; // Enable spin button
+                        // Clear the warning message after authentication
+                        paymentWarningMessage.textContent = ""; // Clear the warning
                     }
                 }, 1000);
             });
