@@ -44,6 +44,14 @@
             max-width: 1200px;
             margin: 20px auto;
             padding: 1rem;
+            flex-grow: 1; /* Allow container to grow and push footer down */
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Dashboard specific styles */
+        #dashboardView {
+            display: block; /* Shown by default */
         }
 
         .game-grid {
@@ -67,6 +75,21 @@
         .game-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .game-card.locked {
+            opacity: 0.6;
+            cursor: not-allowed;
+            filter: grayscale(100%);
+        }
+
+        .game-card.locked .play-button {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+
+        .game-card.locked .play-button:hover {
+            background-color: #6c757d; /* No change on hover for locked buttons */
         }
 
         .icon-container {
@@ -105,11 +128,185 @@
             border-radius: 8px;
             font-weight: 600;
             transition: background-color 0.3s ease;
+            cursor: pointer; /* Ensure it looks clickable */
         }
 
         .play-button:hover {
             background-color: #0056b3;
         }
+
+        /* Game specific styles (for Spin the Wheel) */
+        #spinTheWheelGame {
+            display: none; /* Hidden by default */
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+            padding: 2rem;
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        #spinTheWheelGame h2 {
+            color: #333;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .game-balance-info {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .game-balance-info span {
+            color: #5cb85c; /* Green for balance */
+        }
+
+        .bet-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .bet-section label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .bet-section input[type="number"] {
+            padding: 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            width: 150px;
+            text-align: center;
+            font-size: 1rem;
+            margin-right: 10px;
+        }
+
+        .bet-section button {
+            padding: 0.75rem 1.5rem;
+            background-color: #28a745; /* Green bet button */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .bet-section button:hover:not(:disabled) {
+            background-color: #218838;
+        }
+        .bet-section button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        #wheelCanvas {
+            border: 2px solid #ddd;
+            border-radius: 50%;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #spinButton {
+            padding: 1rem 2rem;
+            background-color: #007bff; /* Blue spin button */
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #spinButton:hover:not(:disabled) {
+            background-color: #0056b3;
+        }
+        #spinButton:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        #gameMessage {
+            margin-top: 1.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #555;
+            min-height: 25px; /* Reserve space */
+        }
+
+        #paymentOverlay {
+            display: none; /* Hidden by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .payment-box {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            max-width: 400px;
+            width: 90%;
+            color: #333;
+        }
+
+        .payment-box h3 {
+            color: #007bff;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .payment-box p {
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        .payment-box .account-details {
+            background-color: #e9ecef;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-family: 'monospace', sans-serif;
+            text-align: left;
+        }
+
+        .payment-box .account-details strong {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .go-back-button {
+            margin-top: 20px;
+            padding: 0.75rem 1.5rem;
+            background-color: #f44336; /* Red go back button */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .go-back-button:hover {
+            background-color: #da190b;
+        }
+
 
         .footer {
             background-color: #333;
@@ -136,113 +333,220 @@
     </header>
 
     <main class="container">
-        <div id="gameList" class="game-grid">
+        <div id="dashboardView">
+            <div class="game-grid" id="gameList">
+                </div>
+        </div>
+
+        <div id="spinTheWheelGame">
+            <button class="go-back-button" id="backToDashboardBtn"><i class="fas fa-arrow-left"></i> Back to Dashboard</button>
+            <h2>Spin the Wheel</h2>
+            <div class="game-balance-info">
+                <div>Current Balance: <span id="gameBalanceDisplay">₦0.00</span></div>
             </div>
+
+            <div class="bet-section">
+                <label for="betAmount">Bet Amount (₦):</label>
+                <input type="number" id="betAmount" value="700" min="700" max="1000000" step="100">
+                <button id="placeBetButton">Place Bet</button>
+            </div>
+
+            <canvas id="wheelCanvas" width="400" height="400"></canvas>
+            <button id="spinButton" disabled>SPIN</button>
+
+            <div id="gameMessage" class="game-message">Place your bet to activate the wheel!</div>
+        </div>
     </main>
 
     <footer class="footer">
         <p>&copy; 2025 COREVEST Games. All rights reserved.</p>
     </footer>
 
+    <div id="paymentOverlay">
+        <div class="payment-box">
+            <h3>Complete Your Payment</h3>
+            <p>Please make a transfer to the account details below. Your balance will be updated automatically once payment is authenticated.</p>
+            <div class="account-details">
+                <strong>Bank Name:</strong> COREVEST Bank<br>
+                <strong>Account Name:</strong> COREVEST Games<br>
+                <strong>Account Number:</strong> 0123456789<br>
+                <strong>Amount:</strong> <span id="paymentAmountDisplay">₦0.00</span>
+            </div>
+            <p style="margin-top: 20px; font-style: italic;">(Simulating payment authentication... please wait)</p>
+        </div>
+    </div>
+
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            const dashboardView = document.getElementById('dashboardView');
+            const spinTheWheelGame = document.getElementById('spinTheWheelGame');
             const gameListContainer = document.getElementById('gameList');
+            const backToDashboardBtn = document.getElementById('backToDashboardBtn');
+            const paymentOverlay = document.getElementById('paymentOverlay');
+            const paymentAmountDisplay = document.getElementById('paymentAmountDisplay');
 
-            // Define the 12 games with their details
+            // Game specific elements for Spin the Wheel
+            const wheelCanvas = document.getElementById('wheelCanvas');
+            const wheelCtx = wheelCanvas.getContext('2d');
+            const gameBalanceDisplay = document.getElementById('gameBalanceDisplay');
+            const betAmountInput = document.getElementById('betAmount');
+            const placeBetButton = document.getElementById('placeBetButton');
+            const spinButton = document.getElementById('spinButton');
+            const gameMessage = document.getElementById('gameMessage');
+
+            let currentBalance = 50000.00; // Starting balance, can be loaded from storage
+            let currentBetAmount = 0;
+            let isSpinning = false;
+            let wheelSpinTimeout;
+            let simulatedPaymentInterval;
+
+            // --- Wheel Configuration ---
+            const segments = [
+                { text: "₦1000", color: "#FFEB3B", value: 1000 },
+                { text: "₦5000", color: "#4CAF50", value: 5000 },
+                { text: "Nothing", color: "#F44336", value: 0 },
+                { text: "₦10000", color: "#2196F3", value: 10000 },
+                { text: "₦2000", color: "#FF9800", value: 2000 },
+                { text: "₦0", color: "#E91E63", value: 0 },
+                { text: "₦7000", color: "#9C27B0", value: 7000 },
+                { text: "₦500", color: "#00BCD4", value: 500 } // Less than bet, example
+            ];
+            const numSegments = segments.length;
+            const arc = Math.PI / (numSegments / 2); // Angle of each segment
+
+            // --- Game Data (Dashboard) ---
             const games = [
                 {
                     id: "spin-the-wheel",
                     title: "Spin the Wheel",
                     icon: "fa-solid fa-spinner",
-                    description: "Test your luck! Pay an entry fee to spin the wheel and land on exciting prizes, cash, or even free spins. Each spin is a new adventure!.",
-                    link: "spin_the_wheel.html"
+                    description: "Test your luck! Pay an entry fee to spin the wheel and land on exciting prizes, cash, or even free spins. Each spin is a new adventure!",
+                    link: "#", // No HTML file, handled by JS
+                    available: true // This game is available
                 },
                 {
                     id: "spin-da-bottle",
                     title: "Spin da Bottle",
                     icon: "fa-solid fa-bottle-droplet",
                     description: "A classic party game re-imagined. Spin the bottle and let fate decide who takes on a truth or a dare. Perfect for group fun!",
-                    link: "spin_da_bottle.html"
+                    link: "#",
+                    available: false // Unavailable
                 },
                 {
                     id: "spin-2-win",
                     title: "Spin 2 Win",
                     icon: "fa-solid fa-award",
                     description: "Another thrilling wheel-based game! Spin to match symbols or land on winning combinations for great rewards.",
-                    link: "spin_2_win.html"
+                    link: "#",
+                    available: false // Unavailable
                 },
                 {
                     id: "flying-plane",
                     title: "Flying Plane Challenge",
                     icon: "fa-solid fa-plane-departure",
                     description: "Take control of a plane and navigate through obstacles. See how far you can fly without crashing!",
-                    link: "flying_plane.html"
+                    link: "#",
+                    available: false // Unavailable
                 },
                 {
                     id: "coin-flip",
                     title: "Coin Flip Fortune",
                     icon: "fa-solid fa-coins",
                     description: "A simple game of chance. Predict whether the coin will land on heads or tails to double your earnings!",
-                    link: "coin_flip.html"
+                    link: "#",
+                    available: false // Unavailable
                 },
                 {
                     id: "card-match",
                     title: "Card Matching Game",
                     icon: "fa-regular fa-clone",
                     description: "Flip pairs of cards to find matching symbols. Test your memory and concentration skills!",
-                    link: "card_match.html"
+                    link: "#",
+                    available: false // Unavailable
                 },
                 {
                     id: "treasure-hunt",
                     title: "Treasure Hunt Adventure",
                     icon: "fa-solid fa-treasure-chest",
                     description: "Follow the clues to uncover hidden treasure. Navigate through a virtual map and solve puzzles to claim your reward.",
-                    link: "treasure_hunt.html"
+                    link: "#",
+                    available: false // Unavailable
                 },
                 {
                     id: "word-scramble",
                     title: "Word Scramble Challenge",
                     icon: "fa-solid fa-puzzle-piece",
                     description: "Unscramble the jumbled letters to form valid words. Expand your vocabulary and test your anagram skills.",
-                    link: "word_scramble.html"
+                    link: "#",
+                    available: false // Unavailable
                 },
                 {
                     id: "slot-machine",
                     title: "Virtual Slot Machine",
                     icon: "fa-solid fa-slot-machine",
                     description: "Pull the lever and watch the reels spin! Match the symbols to win exciting prizes in this classic casino game.",
-                    link: "slot_machine.html"
+                    link: "#",
+                    available: false // Unavailable
                 },
                 {
                     id: "dart-game",
                     title: "Virtual Darts",
                     icon: "fa-solid fa-bullseye",
                     description: "Aim and throw darts at the target. Score points based on where your darts land. A game of precision and skill.",
-                    link: "dart_game.html"
+                    link: "#",
+                    available: false // Unavailable
                 },
                 {
                     id: "balloon-pop",
                     title: "Balloon Pop Frenzy",
                     icon: "fa-solid fa-balloon",
                     description: "Pop as many balloons as you can within the time limit. A fast-paced and colorful game of reflexes.",
-                    link: "balloon_pop.html"
+                    link: "#",
+                    available: false // Unavailable
                 },
                 {
                     id: "racing-game",
                     title: "Mini Racing Challenge",
                     icon: "fa-solid fa-car",
                     description: "Race against opponents in this fun mini-racing game. Compete for the top spot and earn rewards.",
-                    link: "racing_game.html"
+                    link: "#",
+                    available: false // Unavailable
                 }
             ];
 
-            // Function to render game cards
-            function renderGameCards() {
-                gameListContainer.innerHTML = ''; // Clear existing content
+            // --- UI Update Functions ---
+            function updateBalanceDisplay() {
+                gameBalanceDisplay.textContent = `₦${currentBalance.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            }
 
+            function setGameMessage(message, color = '#555') {
+                gameMessage.textContent = message;
+                gameMessage.style.color = color;
+            }
+
+            function showDashboard() {
+                dashboardView.style.display = 'block';
+                spinTheWheelGame.style.display = 'none';
+            }
+
+            function showSpinTheWheel() {
+                dashboardView.style.display = 'none';
+                spinTheWheelGame.style.display = 'block';
+                updateBalanceDisplay(); // Update balance when entering game
+                setGameMessage("Place your bet to activate the wheel!");
+                spinButton.disabled = true; // Disable spin button initially
+            }
+
+            // --- Game Card Rendering (Dashboard) ---
+            function renderGameCards() {
+                gameListContainer.innerHTML = '';
                 games.forEach(game => {
                     const gameCard = document.createElement('div');
-                    gameCard.classList.add('game-card'); // CSS-styled card
+                    gameCard.classList.add('game-card');
+                    if (!game.available) {
+                        gameCard.classList.add('locked'); // Add locked class for styling
+                    }
 
                     gameCard.innerHTML = `
                         <div class="icon-container">
@@ -250,14 +554,190 @@
                         </div>
                         <h3>${game.title}</h3>
                         <p>${game.description}</p>
-                        <a href="${game.link}" class="play-button">Play Now <i class="fas fa-arrow-right ml-2"></i></a>
+                        <a href="${game.link}" class="play-button">${game.available ? 'Play Now' : 'Locked'} <i class="fas fa-arrow-right ml-2"></i></a>
                     `;
                     gameListContainer.appendChild(gameCard);
+
+                    // Add event listener to the play button
+                    const playButton = gameCard.querySelector('.play-button');
+                    playButton.addEventListener('click', (event) => {
+                        if (!game.available) {
+                            event.preventDefault(); // Prevent navigation/action if locked
+                            setGameMessage(`"${game.title}" is currently locked. Play "Spin the Wheel" to unlock more games!`, 'orange'); // This message will appear on the game screen, need to refine or add global message area
+                            alert(`"${game.title}" is currently locked. Play "Spin the Wheel" to unlock more games!`);
+                            return;
+                        }
+                        if (game.id === "spin-the-wheel") {
+                            event.preventDefault(); // Prevent default link behavior
+                            showSpinTheWheel();
+                        }
+                        // Add conditions for other games here if they get implemented later
+                    });
                 });
             }
 
-            // Initial render of game cards on page load
-            renderGameCards();
+            // --- Spin the Wheel Game Logic ---
+
+            // Draw the wheel segments and text
+            function drawWheel() {
+                const centerX = wheelCanvas.width / 2;
+                const centerY = wheelCanvas.height / 2;
+                const radius = Math.min(centerX, centerY) - 10; // Slightly smaller to avoid cutting off
+
+                wheelCtx.clearRect(0, 0, wheelCanvas.width, wheelCanvas.height);
+
+                segments.forEach((segment, i) => {
+                    const angle = arc * i;
+                    wheelCtx.beginPath();
+                    wheelCtx.arc(centerX, centerY, radius, angle, angle + arc);
+                    wheelCtx.lineTo(centerX, centerY);
+                    wheelCtx.fillStyle = segment.color;
+                    wheelCtx.fill();
+
+                    // Draw text (prize)
+                    wheelCtx.save();
+                    wheelCtx.translate(centerX, centerY);
+                    wheelCtx.rotate(angle + arc / 2);
+                    wheelCtx.textAlign = "right";
+                    wheelCtx.fillStyle = "#333";
+                    wheelCtx.font = "bold 16px Inter";
+                    wheelCtx.fillText(segment.text, radius - 15, 0);
+                    wheelCtx.restore();
+                });
+
+                // Draw the spinner pointer
+                wheelCtx.beginPath();
+                wheelCtx.moveTo(centerX + radius + 10, centerY);
+                wheelCtx.lineTo(centerX + radius + 30, centerY - 10);
+                wheelCtx.lineTo(centerX + radius + 30, centerY + 10);
+                wheelCtx.fillStyle = "#333";
+                wheelCtx.fill();
+            }
+
+            let rotation = 0; // Current rotation of the wheel
+            let targetRotation = 0; // Target rotation for animation
+
+            function animateSpin() {
+                rotation += (targetRotation - rotation) * 0.05 + 0.1; // Ease-out effect
+                if (Math.abs(targetRotation - rotation) < 0.1) {
+                    rotation = targetRotation;
+                    isSpinning = false;
+                    clearTimeout(wheelSpinTimeout);
+                    // Determine prize
+                    const prizeIndex = Math.floor( (numSegments - (rotation % (2 * Math.PI)) / arc ) % numSegments);
+                    const wonSegment = segments[prizeIndex];
+                    handleWin(wonSegment.value);
+                    return;
+                }
+
+                wheelCtx.clearRect(0, 0, wheelCanvas.width, wheelCanvas.height);
+                wheelCtx.save();
+                wheelCtx.translate(wheelCanvas.width / 2, wheelCanvas.height / 2);
+                wheelCtx.rotate(rotation);
+                wheelCtx.translate(-wheelCanvas.width / 2, -wheelCanvas.height / 2);
+                drawWheel(); // Redraw segments
+                wheelCtx.restore(); // Restore context for pointer
+
+                // Redraw pointer outside of rotated context
+                const centerX = wheelCanvas.width / 2;
+                const centerY = wheelCanvas.height / 2;
+                const radius = Math.min(centerX, centerY) - 10;
+                wheelCtx.beginPath();
+                wheelCtx.moveTo(centerX + radius + 10, centerY);
+                wheelCtx.lineTo(centerX + radius + 30, centerY - 10);
+                wheelCtx.lineTo(centerX + radius + 30, centerY + 10);
+                wheelCtx.fillStyle = "#333";
+                wheelCtx.fill();
+
+
+                requestAnimationFrame(animateSpin);
+            }
+
+            function spinWheel() {
+                if (isSpinning || currentBetAmount === 0) return;
+
+                isSpinning = true;
+                spinButton.disabled = true;
+                placeBetButton.disabled = true;
+                betAmountInput.disabled = true;
+                setGameMessage("Wheel spinning... Good luck!");
+
+                // Deduct bet from balance immediately upon spinning
+                currentBalance -= currentBetAmount;
+                updateBalanceDisplay();
+
+                // Calculate a random target rotation (e.g., 5-10 full spins plus a specific segment)
+                const randomSpins = Math.floor(Math.random() * 5) + 5; // 5 to 9 full spins
+                const randomSegmentIndex = Math.floor(Math.random() * numSegments); // Which segment to land on
+                targetRotation = (randomSpins * 2 * Math.PI) + (2 * Math.PI - arc * randomSegmentIndex - arc / 2); // Land in the middle of the segment
+
+                // Start animation
+                animateSpin();
+            }
+
+            function handleWin(winnings) {
+                currentBalance += winnings;
+                updateBalanceDisplay();
+                if (winnings > 0) {
+                    setGameMessage(`Congratulations! You won ₦${winnings.toLocaleString()}!`, 'green');
+                } else if (winnings < currentBetAmount) {
+                     setGameMessage(`You landed on ₦${winnings.toLocaleString()}. Better luck next time!`, 'orange');
+                } else {
+                    setGameMessage("You won nothing. Try again!", 'red');
+                }
+                
+                // Reset for next spin
+                spinButton.disabled = true; // Disable until new bet
+                placeBetButton.disabled = false;
+                betAmountInput.disabled = false;
+                currentBetAmount = 0; // Clear current bet
+            }
+
+            // --- Event Listeners ---
+            backToDashboardBtn.addEventListener('click', showDashboard);
+
+            placeBetButton.addEventListener('click', () => {
+                const bet = parseFloat(betAmountInput.value);
+                if (isNaN(bet) || bet < 700 || bet > 1000000) {
+                    setGameMessage("Bet must be between ₦700 and ₦1,000,000.", 'red');
+                    return;
+                }
+                if (bet > currentBalance) {
+                    setGameMessage("Insufficient balance. Please make a deposit.", 'red');
+                    return;
+                }
+
+                currentBetAmount = bet;
+                setGameMessage("Payment authentication in progress...", 'blue');
+                placeBetButton.disabled = true;
+                betAmountInput.disabled = true;
+
+                // Simulate payment display
+                paymentAmountDisplay.textContent = `₦${bet.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                paymentOverlay.style.display = 'flex'; // Show overlay
+
+                // Simulate authentication time (e.g., 3 seconds)
+                let paymentSeconds = 3;
+                simulatedPaymentInterval = setInterval(() => {
+                    paymentSeconds--;
+                    if (paymentSeconds <= 0) {
+                        clearInterval(simulatedPaymentInterval);
+                        paymentOverlay.style.display = 'none'; // Hide overlay
+                        setGameMessage(`Bet of ₦${currentBetAmount.toLocaleString()} placed! Click SPIN.`, 'green');
+                        spinButton.disabled = false; // Enable spin button
+                    }
+                }, 1000);
+            });
+
+            spinButton.addEventListener('click', spinWheel);
+
+            // --- Initial Setup ---
+            renderGameCards(); // Render dashboard games
+            drawWheel(); // Draw initial wheel
+
+            // Initial dashboard view
+            showDashboard();
+            updateBalanceDisplay();
         });
     </script>
 </body>
