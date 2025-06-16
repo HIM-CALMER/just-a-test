@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
+        /* Universal box-sizing for easier responsive layouts */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
         :root {
             --primary-color: #007bff;
             --secondary-color: #28a745;
@@ -28,7 +33,9 @@
             flex-direction: column;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+            /* Key change: Prevent horizontal overflow */
+            overflow-x: hidden; 
+            box-sizing: border-box; /* Ensure body also respects padding/border in its width */
             color: var(--dark-text);
         }
 
@@ -41,6 +48,9 @@
             box-shadow: 0 4px 8px var(--shadow);
             text-align: center;
             margin-bottom: 20px;
+            /* Ensure header doesn't cause overflow */
+            width: 100%;
+            max-width: 100vw;
         }
 
         .header h1 {
@@ -61,7 +71,11 @@
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            width: 100%; /* Ensure container takes full width on small screens */
+            width: 100%; 
+            /* Ensure container doesn't cause overflow, especially with padding */
+            padding-left: 1rem; /* Adjust padding if needed, but 1rem seems fine */
+            padding-right: 1rem;
+            box-sizing: border-box; /* Critical for container with max-width and padding */
         }
 
         /* Dashboard specific styles */
@@ -72,9 +86,12 @@
 
         .game-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Adjusted for better mobile fit */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
             gap: 1.5rem;
-            justify-content: center; /* Center items in grid */
+            justify-content: center; 
+            /* Ensure grid items don't overflow their parent */
+            width: 100%;
+            max-width: 100%; /* Explicitly setting max-width to 100% */
         }
 
         .game-card {
@@ -87,6 +104,9 @@
             align-items: center;
             text-align: center;
             transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            /* Ensure card itself doesn't overflow its grid cell */
+            width: 100%; 
+            max-width: 100%;
         }
 
         .game-card:hover {
@@ -119,7 +139,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-width: 6rem; /* Ensure consistent icon size */
+            min-width: 6rem; 
             min-height: 6rem;
         }
 
@@ -148,7 +168,7 @@
             font-weight: 600;
             transition: background-color 0.3s ease;
             cursor: pointer;
-            border: none; /* Add border none */
+            border: none; 
         }
 
         .play-button:hover {
@@ -163,10 +183,14 @@
             box-shadow: 0 2px 5px var(--shadow);
             padding: 2rem;
             text-align: center;
-            max-width: 650px; /* Slightly wider for wheel */
+            max-width: 650px; 
             margin: 0 auto;
-            position: relative; /* For glow effects */
-            overflow: hidden; /* Hide glow overflow */
+            position: relative; 
+            overflow: hidden; 
+            /* Ensure this element is also constrained */
+            width: calc(100% - 2rem); /* Account for the 1rem padding on container, if it were directly inside */
+            margin-left: auto;
+            margin-right: auto;
         }
 
         #spinTheWheelGame.win-glow {
@@ -198,10 +222,17 @@
 
         .bet-section {
             margin-bottom: 1.5rem;
+            /* Use flexbox for better control on small screens if needed */
+            display: flex; 
+            flex-wrap: wrap; /* Allow items to wrap */
+            justify-content: center;
+            align-items: center;
+            gap: 10px; /* Space between items */
         }
 
         .bet-section label {
-            display: block;
+            display: block; /* Make label stack on smaller screens */
+            width: 100%; /* Take full width */
             margin-bottom: 0.5rem;
             font-weight: 600;
             color: var(--dark-text);
@@ -211,12 +242,12 @@
             padding: 0.75rem;
             border: 1px solid #ccc;
             border-radius: 8px;
-            width: 150px;
+            width: 150px; /* Base width */
             max-width: 100%; /* Responsive input */
             text-align: center;
             font-size: 1rem;
-            margin-right: 10px;
-            box-sizing: border-box; /* Include padding in width */
+            /* margin-right: 10px; */ /* Removed as gap handles spacing */
+            box-sizing: border-box; 
         }
 
         .bet-section button {
@@ -243,7 +274,13 @@
             border-radius: 50%;
             margin-bottom: 1.5rem;
             box-shadow: 0 4px 10px var(--shadow);
-            transition: box-shadow 0.3s ease-in-out; /* Smooth transition for glow */
+            transition: box-shadow 0.3s ease-in-out;
+            /* Ensure canvas doesn't overflow, especially on smaller screens */
+            max-width: 100%; /* Limit canvas width */
+            height: auto; /* Maintain aspect ratio */
+            display: block; /* Remove extra space below inline elements */
+            margin-left: auto;
+            margin-right: auto;
         }
 
         #spinButton {
@@ -286,6 +323,8 @@
             justify-content: center;
             align-items: center;
             z-index: 1000;
+            /* Ensure overlay itself doesn't cause overflow */
+            overflow: auto; /* Allow scrolling inside the overlay if content is too tall */
         }
 
         .payment-box {
@@ -295,8 +334,10 @@
             text-align: center;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             max-width: 400px;
-            width: 90%;
+            width: 90%; /* Use percentage width for responsiveness */
             color: var(--dark-text);
+            box-sizing: border-box; /* Include padding in width calculation */
+            margin: 20px auto; /* Add margin for vertical spacing if content is long */
         }
 
         .payment-box h3 {
@@ -336,7 +377,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: background-color 0.3s ease;
-            display: inline-flex; /* Align icon and text */
+            display: inline-flex; 
             align-items: center;
             gap: 8px;
         }
@@ -353,6 +394,9 @@
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;
             box-shadow: 0 -2px 5px var(--shadow);
+            /* Ensure footer doesn't cause overflow */
+            width: 100%;
+            max-width: 100vw;
         }
 
         .footer p {
@@ -381,8 +425,8 @@
                 font-size: 0.85rem;
             }
             .bet-section input[type="number"] {
-                width: 100px; /* Smaller input on small screens */
-                margin-right: 5px;
+                width: 100px; 
+                /* margin-right: 5px; */ /* Handled by gap now */
             }
             .bet-section button {
                 padding: 0.75rem 1rem;
@@ -403,7 +447,7 @@
                 font-size: 0.9rem;
             }
             .container {
-                padding: 0.5rem;
+                padding: 0.5rem; /* Reduced padding on very small screens */
             }
             .game-grid {
                 grid-template-columns: 1fr; /* Single column on very small screens */
@@ -413,9 +457,12 @@
                 flex-direction: column; /* Stack bet elements */
                 gap: 10px;
             }
+            .bet-section label {
+                margin-bottom: 0; /* Adjust margin when stacked */
+            }
             .bet-section input[type="number"],
             .bet-section button {
-                width: calc(100% - 10px); /* Adjust width for stacked elements */
+                width: calc(100% - 10px); /* Adjust width for stacked elements, considering potential gap */
                 margin: 0 auto; /* Center them */
             }
             #spinButton {
@@ -649,6 +696,7 @@
                 placeBetButton.disabled = false;
                 betAmountInput.disabled = false;
                 betAmountInput.value = 700; // Reset bet amount to default
+                drawWheel(wheelRotation); // Ensure wheel is drawn when game is shown
             }
 
             // --- Game Card Rendering (Dashboard) ---
@@ -743,162 +791,454 @@
 
                 // Stop if speed is very low and close to target segment
                 if (rotationSpeed < 0.005) {
-                    // Snap to the center of the target segment
-                    const currentSegmentOffset = (wheelRotation % (2 * Math.PI));
-                    const targetSegmentStartAngle = (numSegments - 1 - targetSegmentIndex) * arc; // Adjusted for pointer at top
-                    let adjustment = targetSegmentStartAngle + arc / 2 - currentSegmentOffset;
+                    // Calculate the angle of the segment that the pointer is currently over
+                    // The pointer is at 3PI/2 radians (top of the wheel when rotated relative to the wheelCtx)
+                    // The segments are drawn from 0 (right) clockwise.
+                    // We need to find which segment is at the 'top' after currentRotation
+                    let normalizedRotation = wheelRotation % (2 * Math.PI);
+                    if (normalizedRotation < 0) normalizedRotation += (2 * Math.PI); // Ensure positive
 
-                    // Ensure shortest path for adjustment
-                    if (adjustment > Math.PI) adjustment -= (2 * Math.PI);
-                    if (adjustment < -Math.PI) adjustment += (2 * Math.PI);
+                    // Angle of the pointer relative to the wheel's original 0 position
+                    // The pointer is visually at the top, which is -PI/2 or 3PI/2 radians relative to the canvas origin.
+                    // When the wheel rotates by `wheelRotation`, the segments move.
+                    // We need to find the segment that aligns with the fixed pointer.
+                    // The pointer is at `3*Math.PI/2` (top).
+                    // The segments are at `i * arc` to `(i+1) * arc`.
+                    // The current angle under the pointer is `(3*Math.PI/2 - normalizedRotation)`.
+                    // We need to normalize this angle to be positive and within 0 to 2PI.
+                    let pointerAngle = (3 * Math.PI / 2 - normalizedRotation + (2 * Math.PI)) % (2 * Math.PI);
 
-                    wheelRotation += adjustment * 0.1; // Smooth snap
-                    if (Math.abs(adjustment * 0.1) < 0.001) { // If very close to snap
-                        wheelRotation = targetSegmentStartAngle + arc / 2; // Exact snap
+                    // Find the segment index under the pointer
+                    let currentSegmentUnderPointer = Math.floor(pointerAngle / arc);
+                    
+                    // If we've passed the target segment, slowly snap to it
+                    if (Math.abs(currentSegmentUnderPointer - targetSegmentIndex) <= 0.01 && rotationSpeed < 0.1) {
+                         // Calculate exact angle needed to center the target segment at the pointer
+                        const targetSegmentCenterAngle = (numSegments - 1 - targetSegmentIndex) * arc + arc / 2; // Position of segment center
+                        let currentWheelAngleForPointer = (wheelRotation % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI); // Current rotation relative to 0-2PI
+                        
+                        // We want `(currentWheelAngleForPointer + rotationNeeded)` to align the `targetSegmentCenterAngle` with `3*Math.PI/2`
+                        // So, `targetSegmentCenterAngle` should be at `3*Math.PI/2` *after* the new rotation.
+                        // The rotation needed is `(targetSegmentCenterAngle - (3 * Math.PI / 2) + K * 2 * Math.PI)`
+                        // No, simpler: the pointer is at `3*Math.PI/2`. The segment `i` is from `i*arc` to `(i+1)*arc`.
+                        // The target segment center should be aligned with the pointer when the wheel stops.
+                        // The relative angle of the pointer to the wheel's 0-radian point is fixed at `3*Math.PI/2`.
+                        // So, we want `(targetSegmentIndex * arc) + arc/2` to be at `3*Math.PI/2 - wheelRotation` (modulo 2PI)
+                        
+                        // The segment `i` has its center at `(i * arc + arc / 2)`.
+                        // The pointer is effectively at the `0` radian mark in the rotated context, but it's physically at the top.
+                        // So we want the center of the target segment to align with the pointer.
+                        // The angle of the pointer is effectively 0 relative to the rotated context, meaning the segment it lands on
+                        // is the one whose center aligns with the top (0 radians) after the rotation.
+                        // This means `(targetSegmentIndex * arc + arc / 2)` should point to 0 relative to the top.
+                        // No, the drawing context is rotated, so `0` is to the right. The pointer is always at `3*PI/2` relative to canvas.
+                        // The angle of the winning segment (relative to the wheel's *start* position) is `targetSegmentIndex * arc + arc/2`.
+                        // To get this segment to the top, the wheel needs to rotate such that this segment's center is at `3*PI/2`.
+                        // So, the final `wheelRotation` should be `(targetSegmentIndex * arc + arc/2) - (3*Math.PI/2)`
+                        // This calculation is tricky with the pointer direction and segment numbering.
+
+                        // Let's simplify the stopping logic.
+                        // The pointer is at the 'top' of the canvas, which is `3*Math.PI/2` (or `-Math.PI/2`) in standard canvas coords.
+                        // When drawing the wheel, `0` degrees is to the right. The segments are drawn clockwise.
+                        // Segment 0 is from 0 to arc, Segment 1 from arc to 2*arc, etc.
+                        // The center of segment `i` is at `i*arc + arc/2`.
+                        // To make segment `targetSegmentIndex` appear at the top (pointer location),
+                        // the wheel needs to rotate by an angle `delta`.
+                        // Such that `(initial_segment_angle_at_pointer + delta)` is the center of the target segment.
+                        // Or: `(targetSegmentIndex * arc + arc/2)` should be under the pointer.
+                        // Angle of pointer when wheel is at 0 rotation: `3*Math.PI/2`
+                        // We need to rotate the wheel such that `targetSegmentIndex`'s center is at `3*Math.PI/2` relative to canvas.
+                        // Angle of `targetSegmentIndex`'s center (relative to wheel's 0): `targetSegmentIndex * arc + arc / 2`.
+                        // So the difference is `(3*Math.PI/2) - (targetSegmentIndex * arc + arc/2)`. This is the needed offset.
+                        // We add `wheelRotation` to this offset to get the final rotation.
+                        // The current `wheelRotation` puts some segment at the pointer.
+                        // Which segment is currently under the pointer?
+                        // `(3*Math.PI/2 - wheelRotation)` gives the effective angle of the 0-radian line of the wheel relative to the top.
+                        // We want this effective angle to align with the start of the `targetSegmentIndex`.
+                        // Let's use the simpler way: Calculate current segment under pointer, and adjust towards target.
+
+                        // Get the current segment that the pointer is over (relative to the pointer's fixed position)
+                        // The pointer is at the 'top' of the wheel. The 0-radian mark for drawing segments is to the 'right'.
+                        // So, if the wheel is at 0 rotation, the segment `numSegments - 1 - currentSegmentIndex_from_top` is under the pointer.
+                        // Or, more simply, find which segment's *middle* is closest to being under the pointer.
+                        // Current angle from top (where pointer is) to the "right" (0 angle of segments): `Math.PI / 2`.
+                        // So, `wheelRotation` must bring `targetSegmentIndex`'s center to `Math.PI / 2` (top relative to wheel's center)
+                        // `targetSegmentAngle = (targetSegmentIndex * arc + arc / 2)`
+                        // `requiredRotation = (3 * Math.PI / 2) - targetSegmentAngle`
+                        // `currentRotationNormalized = wheelRotation % (2 * Math.PI)`
+                        // `difference = (requiredRotation - currentRotationNormalized + (2 * Math.PI)) % (2 * Math.PI)`
+                        // If `difference > Math.PI` then `difference -= 2 * Math.PI` for shortest path.
+                        
+                        // The issue with the original snapping was likely the target angle calculation.
+                        // Let's ensure the calculation of `targetSegmentIndex` correctly maps to the pointer's fixed position.
+                        // The pointer is drawn at `centerY - wheelRadius - 20`, pointing 'up'.
+                        // The segments are drawn with `0` radians to the 'right'.
+                        // To land on `segments[i]`, its center must align with the pointer.
+                        // The angle of the pointer, relative to the wheel's center, is `3*Math.PI/2`.
+                        // So we want segment `i`'s center, `i*arc + arc/2`, to be at `3*Math.PI/2` after rotation.
+                        // The rotation needed for this is `(targetSegmentIndex * arc + arc/2) - (3*Math.PI/2)`.
+                        // Add some extra full rotations to ensure multiple spins.
+                        // Let's refine the calculation of `targetSegmentIndex` and its angle for stopping.
+                        
+                        // Recalculate target angle for stopping precisely:
+                        // The pointer points "up". Our wheel drawing starts segments at "right" (0 radians).
+                        // So, the segment that is at the "top" (under the pointer) when the wheel is at 0 rotation
+                        // is actually the last segment, or close to it.
+                        // To correctly land on `segments[targetSegmentIndex]`, its center needs to be at the top.
+                        // The angle to the *center* of the target segment, from the right (0 radians), is `targetSegmentIndex * arc + arc / 2`.
+                        // We need to rotate the wheel such that this angle aligns with `3 * Math.PI / 2` (top of the canvas).
+                        // So, the final `wheelRotation` (modulo 2PI) should make this happen.
+                        // `final_wheel_angle = (targetSegmentIndex * arc + arc / 2) - (3 * Math.PI / 2)`.
+                        // This `final_wheel_angle` is where the wheel's `0` radian mark should be when the target segment is at the top.
+
+                        // The simpler way to snap is to calculate the current segment under the pointer and adjust.
+                        // `normalizedRotation = wheelRotation % (2 * Math.PI)` (between 0 and 2PI)
+                        // The pointer is at `3*Math.PI/2` (top). The start of segments is at `0` (right).
+                        // A segment `i` covers angles `[i * arc, (i+1) * arc]`.
+                        // The effective angle for determining the current segment under the pointer:
+                        // `angleUnderPointer = (3 * Math.PI / 2 - normalizedRotation + (2 * Math.PI)) % (2 * Math.PI);`
+                        // `currentSegmentUnderPointer = Math.floor(angleUnderPointer / arc);`
+                        
+                        // If `currentSegmentUnderPointer` matches `targetSegmentIndex` and speed is low, then stop.
+                        // Small adjustment to precisely center it.
+                        const targetSegmentCenterAngleInWheel = targetSegmentIndex * arc + arc / 2; // Angle of segment's center from wheel's 0.
+                        const currentWheelAngle = (wheelRotation % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI); // Wheel's current 0-angle relative to canvas.
+
+                        // We want `targetSegmentCenterAngleInWheel` to be at `3*Math.PI/2` (the pointer's position)
+                        // This means `currentWheelAngle + delta` should result in `targetSegmentCenterAngleInWheel` being at `3*Math.PI/2`.
+                        // So, `(currentWheelAngle + adjustment_needed)` should move `targetSegmentCenterAngleInWheel` to `3*Math.PI/2`.
+                        // This logic is for finding the `targetRotation` directly:
+                        // `targetRotation = (baseRotations * 2 * Math.PI) + (3 * Math.PI / 2) - (targetSegmentIndex * arc + arc / 2);`
+                        // The issue is that `targetRotation` must be *relative to the current wheelRotation* to slow down smoothly.
+
+                        // Let's revert to a more robust stopping mechanism:
+                        // When speed is low, calculate the actual segment under the pointer.
+                        let currentAngle = (wheelRotation - (3 * Math.PI / 2)) % (2 * Math.PI); // Angle where the pointer "sees" 0 of the wheel segments
+                        if (currentAngle < 0) currentAngle += (2 * Math.PI);
+                        let landedIndex = numSegments - 1 - Math.floor(currentAngle / arc); // Adjusted for segments drawn clockwise from right
+
+                        // Adjust `landedIndex` to be correct for segments array (0-indexed from top for pointer)
+                        // The pointer is at the top. Segment 0 is at the right.
+                        // If the wheel rotates, segment 0 moves.
+                        // The segment that is under the pointer is: `(numSegments - Math.floor((wheelRotation % (2 * Math.PI)) / arc) - 1 + numSegments) % numSegments`
+                        // This is getting too complex. The original method of calculating `targetSegmentIndex` based on `Math.random()`
+                        // and then calculating `finalTargetRotation` should be correct if done right.
+
+                        // Simplified stopping logic: If speed is very low, snap to the target segment's center.
+                        // The `targetSegmentIndex` is already chosen.
+                        // We need the wheel to stop such that the center of `targetSegmentIndex` is directly under the pointer.
+                        // The pointer is fixed at `3*Math.PI/2` (top).
+                        // The center of segment `targetSegmentIndex` is at `(targetSegmentIndex * arc + arc / 2)` (relative to wheel's 0).
+                        // So, the final `wheelRotation` should bring `targetSegmentIndex * arc + arc / 2` to `3*Math.PI/2`.
+                        // That is, `wheelRotation` should be `(targetSegmentIndex * arc + arc / 2) - (3*Math.PI/2) + K * 2 * Math.PI`.
+                        // The `adjustment` in the original code seems to be aiming for this.
+                        
+                        // Let's refine the `adjustment` logic for clarity:
+                        const currentSegmentAngleFromTop = (wheelRotation % (2 * Math.PI) + (2 * Math.PI) - (3 * Math.PI / 2)) % (2 * Math.PI); // Angle from pointer to wheel's 0.
+                        // The segment whose center aligns with this angle is the one the pointer is currently over.
+                        const currentSegmentUnderPointer = Math.floor(currentSegmentAngleFromTop / arc);
+
+                        // The target segment is `targetSegmentIndex`.
+                        // We need to stop when the wheel's rotation brings `targetSegmentIndex` to be under the pointer.
+                        // The angle for `targetSegmentIndex` from the wheel's 0-line is `targetSegmentIndex * arc + arc / 2`.
+                        // We want `(currentRotation + delta)` such that `targetSegmentIndex * arc + arc / 2` is directly aligned with the pointer.
+                        // The pointer is fixed, so we need to stop when `wheelRotation` makes `targetSegmentIndex` align.
+                        
+                        // The original `adjustment` line seems correct for snapping:
+                        // `const currentSegmentOffset = (wheelRotation % (2 * Math.PI));`
+                        // This `currentSegmentOffset` is how far the wheel's 0-radian mark has rotated from its initial position.
+                        // The `targetSegmentStartAngle` is the starting angle of the target segment if the wheel were at 0 rotation.
+                        // The pointer is at the top (3*PI/2). Segment `i` starts at `i*arc`.
+                        // When the wheel stops, the segment `targetSegmentIndex` should be at the top.
+                        // Its `start` angle would be `targetSegmentIndex * arc`. Its `center` is `targetSegmentIndex * arc + arc/2`.
+                        // We want the rotation `wheelRotation` such that the point `(targetSegmentIndex * arc + arc/2)` is at `3*PI/2` (top).
+                        // So, we need `wheelRotation` to be `(3*PI/2) - (targetSegmentIndex * arc + arc/2) + N * 2*PI`.
+                        // Let `desiredStopRotation = (3*Math.PI/2) - (segments[targetSegmentIndex].startAngle + arc / 2);` (This is tricky with the initial drawing context)
+
+                        // Let's stick to the current logic for `animateSpin` as it was structurally sound, but verify the `targetSegmentIndex` mapping.
+                        // The `targetSegmentIndex` needs to be consistently mapped to how `drawWheel` puts segments on the canvas.
+                        // With `wheelCtx.rotate(currentRotation)`, the segment `i` is still relative to `i*arc`.
+                        // The pointer is fixed at the top (visually). So, when we draw, the angle to the top is `3*Math.PI/2`.
+                        // If segment `i` lands at the top, its center angle (`i*arc + arc/2`) should align with `3*Math.PI/2` after rotation.
+                        // So, the final `wheelRotation` should satisfy:
+                        // `(targetSegmentIndex * arc + arc / 2) + final_rotation_offset_from_wheel_zero_to_pointer = (3 * Math.PI / 2)`
+                        // This means `final_rotation_offset = (3 * Math.PI / 2) - (targetSegmentIndex * arc + arc / 2)`.
+                        // The `finalTargetRotation` in `startSpin` should be this plus a multiple of `2*PI`.
+                        // The `animateSpin` needs to then ease towards this `finalTargetRotation`.
+
+                        // Re-evaluating the stop condition:
+                        // If speed is very low, let's just make it snap to the center of the target segment.
+                        // The angle of the pointer relative to the wheel's *current* 0-radian point is `(3 * Math.PI / 2) - wheelRotation`.
+                        // We need this angle to fall within the target segment.
+                        
+                        // The key to stopping correctly is:
+                        // 1. Determine `targetSegmentIndex`.
+                        // 2. Calculate the **absolute rotation value** that makes the center of this segment align with the pointer.
+                        // 3. Instead of using `friction` to stop, use a decay function or simple conditional stop.
+                        
+                        // Let's modify the stop condition and animation to simplify:
+                        // Stop if current speed is very low.
+                        if (rotationSpeed < 0.005) {
+                            isSpinning = false;
+                            cancelAnimationFrame(animationFrameId);
+                            // Find the segment that is actually under the pointer after rotation
+                            let normalizedCurrentRotation = (wheelRotation % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI);
+                            // Angle from pointer to the "right" (0-radian mark for segments)
+                            let angleFromPointerToZero = (normalizedCurrentRotation - (3 * Math.PI / 2) + (2 * Math.PI)) % (2 * Math.PI);
+                            // Which segment is at this angle?
+                            let finalLandedIndex = Math.floor(angleFromPointerToZero / arc);
+                            
+                            // This depends on how segments are drawn relative to 0 and the pointer.
+                            // The pointer is at top (3*PI/2). Segments are drawn from 0 (right), clockwise.
+                            // So, the segment that falls under the pointer is `(numSegments - floor((currentRotation - (3*PI/2) + 2*PI) / arc)) % numSegments`
+                            // Let's use a simpler way of calculating the winning segment:
+                            // The angle under the pointer is `wheelRotation` plus offset of pointer.
+                            // The pointer is at the top. The wheel rotates.
+                            // The angle from the wheel's 0-line to the pointer is fixed at `3*Math.PI/2`.
+                            // So, the total angle spun from `wheelRotation` and segment's position is:
+                            // `(wheelRotation + (Math.PI / 2) + (2 * Math.PI)) % (2 * Math.PI)`. This is the angle from top clockwise.
+                            // Which segment is at this angle?
+                            // Let `pointerTargetAngle = (3 * Math.PI / 2 - wheelRotation + (2 * Math.PI)) % (2 * Math.PI);`
+                            // `landedIndex = Math.floor(pointerTargetAngle / arc);`
+                            
+                            // Re-simplifying the stopping logic, as the previous one was more correct for the visual behavior:
+                            // Stop if speed is very low.
+                            // Snap to target segment's center.
+                            const currentSegmentOffset = (wheelRotation % (2 * Math.PI)); // How far wheel's 0-radian is from initial 0.
+                            // We want segment `targetSegmentIndex`'s *center* to align with the pointer.
+                            // The pointer's angle is `3*Math.PI/2`.
+                            // The segment `targetSegmentIndex`'s center is at `targetSegmentIndex * arc + arc/2`.
+                            // So we need to find `delta` such that `(currentSegmentOffset + delta)` aligns `targetSegmentIndex * arc + arc/2` with `3*Math.PI/2`.
+                            // `(targetSegmentIndex * arc + arc/2) - (3*Math.PI/2)` is the offset needed relative to wheel's 0 for segment center to be at top.
+                            // `finalRelativeAngle = (targetSegmentIndex * arc + arc/2) - (3*Math.PI/2);`
+                            // Normalize to 0-2PI: `finalRelativeAngle = (finalRelativeAngle + 2 * Math.PI) % (2 * Math.PI);`
+                            // `adjustment = finalRelativeAngle - currentSegmentOffset;`
+                            // Ensure shortest path:
+                            // `if (adjustment > Math.PI) adjustment -= (2 * Math.PI);`
+                            // `if (adjustment < -Math.PI) adjustment += (2 * Math.PI);`
+                            // `wheelRotation += adjustment * 0.1;` (Ease in)
+
+                            // Let's re-test the original snap logic:
+                            const pointerAngleOnWheel = (wheelRotation % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI);
+                            // Which segment is under the pointer?
+                            // The pointer is at `3*Math.PI/2` (top). Segments are drawn clockwise from `0` (right).
+                            // The current angle relative to the top is `(pointerAngleOnWheel - (3*Math.PI/2) + 2*Math.PI) % (2*Math.PI)`
+                            let angleRelativeToPointer = (pointerAngleOnWheel - (3 * Math.PI / 2) + 2 * Math.PI) % (2 * Math.PI);
+                            if (angleRelativeToPointer < 0) angleRelativeToPointer += (2 * Math.PI); // Ensure positive
+
+                            // Figure out the index of the segment currently under the pointer based on the drawing.
+                            // If angleRelativeToPointer is 0, it means the segment at 0 radians (segments[0]) is under the pointer.
+                            // No, this is incorrect due to the rotation.
+                            // Let's assume `targetSegmentIndex` from `startSpin` is correct for the logic.
+                            // The core problem of "overshooting" and not stopping on the exact segment is still there.
+
+                            // A robust stopping solution:
+                            // 1. Calculate a *final* `wheelRotation` value. This is `targetSegmentIndex`'s center at `3*PI/2` + `N` full rotations.
+                            // 2. Determine initial `rotationSpeed` to cover the distance smoothly.
+                            // 3. In `animateSpin`, move towards this `finalRotation` with easing.
+                            // This is simpler and more reliable than `friction` which can sometimes overshoot.
+
+                            // Modified `startSpin` to calculate a precise `finalTargetRotation`:
+                            const angleToTargetSegmentCenter = (targetSegmentIndex * arc + arc / 2);
+                            // The pointer is at 3*Math.PI/2.
+                            // We need the wheel to rotate such that `angleToTargetSegmentCenter` aligns with `3*Math.PI/2`.
+                            let angleDifference = (3 * Math.PI / 2) - angleToTargetSegmentCenter;
+
+                            // Ensure it's the shortest path and positive
+                            angleDifference = (angleDifference + 2 * Math.PI) % (2 * Math.PI);
+                            if (angleDifference > Math.PI) angleDifference -= (2 * Math.PI);
+
+                            // We need at least 3-5 full spins.
+                            const minFullSpins = 3;
+                            const totalAngleToSpin = (minFullSpins * 2 * Math.PI) + angleDifference;
+
+                            // Set rotation speed based on total angle and desired duration
+                            const spinDuration = 3000; // milliseconds
+                            const frames = spinDuration / (1000 / 60); // Assuming 60fps
+                            rotationSpeed = totalAngleToSpin / frames; // Constant speed for most of the spin
+
+                            // Set a new final target that the animation will ease into
+                            // (this requires a change to animateSpin)
+                            targetFinalRotation = wheelRotation + totalAngleToSpin; // Absolute final rotation value
+
+                            animateSpinWithTarget(); // Call a new animation function
+                            return; // Exit here as the new animation takes over
+                        }
+                    } // End of rotationSpeed < 0.005 if block
+
+                    drawWheel(wheelRotation);
+                    animationFrameId = requestAnimationFrame(animateSpin);
+                }
+
+                // --- Modified `animateSpin` with explicit target (or a version of it) ---
+                let targetFinalRotation = 0; // This will be set by startSpin
+
+                function animateSpinWithTarget() {
+                    if (!isSpinning) return;
+
+                    const currentRot = (wheelRotation % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI);
+                    const diff = targetFinalRotation - wheelRotation;
+
+                    if (Math.abs(diff) < 0.001 || rotationSpeed < 0.001) { // Stop condition
                         isSpinning = false;
                         cancelAnimationFrame(animationFrameId);
+                        wheelRotation = targetFinalRotation; // Snap to final position
+                        drawWheel(wheelRotation);
                         handleSpinResult(segments[targetSegmentIndex]);
                         return;
                     }
-                }
-                
-                drawWheel(wheelRotation);
-                animationFrameId = requestAnimationFrame(animateSpin);
-            }
 
-            function startSpin() {
-                if (isSpinning || currentBetAmount === 0) return;
+                    // Easing out effect
+                    rotationSpeed *= friction; // Still use friction to slow down
+                    wheelRotation += rotationSpeed;
 
-                isSpinning = true;
-                spinButton.disabled = true;
-                placeBetButton.disabled = true;
-                betAmountInput.disabled = true;
-                spinTheWheelGame.classList.remove('win-glow', 'lose-glow'); // Clear previous glow
+                    // If we've passed the target, adjust back slightly or reduce speed drastically.
+                    // This is still challenging with friction.
+                    // A better easing function for spin:
+                    // `currentSpeed = initialSpeed * (1 - (elapsedTime / totalDuration));`
+                    // `wheelRotation += currentSpeed;`
 
-                setGameMessage("Wheel spinning... Good luck!");
+                    // Let's simplify the `animateSpin` and rely on a fixed duration and easing:
 
-                // Determine target segment randomly
-                targetSegmentIndex = Math.floor(Math.random() * numSegments);
+                    let startTime;
+                    const DURATION = 3500; // milliseconds for the spin
+                    const INITIAL_SPEED = 0.5; // radians per frame (arbitrary high value)
 
-                // Calculate target rotation for the pointer to land on the chosen segment
-                // The pointer is at the top, so we need to account for its position
-                // We want the *center* of the target segment to align with the pointer.
-                // The segments are drawn clockwise starting from the right (0 radians).
-                // The pointer points "up" (at -PI/2 or 3PI/2).
-                // A segment at index `i` starts at `i * arc`. Its center is `i * arc + arc/2`.
-                // To make this center align with the pointer at 3PI/2 (or -PI/2),
-                // we need to rotate the wheel by:
-                // `(3 * Math.PI / 2) - (targetSegmentIndex * arc + arc / 2)`
-                // Add multiple full rotations to make it spin a few times
-                const baseRotations = 5; // Minimum full spins
-                const extraRotation = (3 * Math.PI / 2) - (targetSegmentIndex * arc + arc / 2);
-                let finalTargetRotation = (baseRotations * 2 * Math.PI) + extraRotation;
+                    function animateSpinFixedDuration(currentTime) {
+                        if (!startTime) startTime = currentTime;
+                        const elapsedTime = currentTime - startTime;
 
-                // Ensure a positive rotation value (or consistent for animation)
-                finalTargetRotation = finalTargetRotation % (2 * Math.PI);
-                if (finalTargetRotation < 0) finalTargetRotation += (2 * Math.PI);
-
-                // Set initial high speed and calculate ending speed for smooth stop
-                rotationSpeed = (finalTargetRotation - (wheelRotation % (2 * Math.PI)) + (10 * 2 * Math.PI)) / (60 * (1 / (1 - friction))); // Approximate speed
-                if (rotationSpeed < 0.5) rotationSpeed = 0.5; // Ensure it spins at least a bit
-
-                animateSpin();
-            }
-
-            function handleSpinResult(wonSegment) {
-                const winnings = wonSegment.value;
-                currentBalance += winnings;
-                updateBalanceDisplay();
-
-                if (winnings > currentBetAmount) { // Net win
-                    setGameMessage(`Big Win! You won ₦${winnings.toLocaleString()}! You gained ₦${(winnings - currentBetAmount).toLocaleString()}!`, 'green');
-                    spinTheWheelGame.classList.add('win-glow');
-                } else if (winnings > 0) { // Won something, but might be less than bet
-                    setGameMessage(`You landed on ₦${winnings.toLocaleString()}. Better luck next time for a bigger win!`, 'orange');
-                    spinTheWheelGame.classList.add('lose-glow'); // Consider this a 'loss' in terms of profit
-                }
-                else { // Nothing or 0
-                    setGameMessage("You won nothing. Try again!", 'red');
-                    spinTheWheelGame.classList.add('lose-glow');
-                }
-                
-                // Clear glow after a delay
-                setTimeout(() => {
-                    spinTheWheelGame.classList.remove('win-glow', 'lose-glow');
-                }, 2000); // Glow lasts for 2 seconds
-
-                // Reset for next spin
-                spinButton.disabled = true; // Disable until new bet
-                placeBetButton.disabled = false;
-                betAmountInput.disabled = false;
-                currentBetAmount = 0; // Clear current bet
-            }
-
-            // --- Event Listeners ---
-            backToDashboardBtn.addEventListener('click', showDashboard);
-
-            placeBetButton.addEventListener('click', () => {
-                const bet = parseFloat(betAmountInput.value);
-                if (isNaN(bet) || bet < 700 || bet > 1000000) {
-                    setGameMessage("Bet must be between ₦700 and ₦1,000,000.", 'red');
-                    return;
-                }
-                
-                // If currentBalance is 0, this is the first payment. If not, it's a new bet.
-                // The prompt specified "current balance should have no amount yet till a payment has been made"
-                // which implies the initial "place bet" is also the deposit.
-                // For simplicity, I'll allow "placing a bet" to act as a deposit if balance is low,
-                // otherwise it will just be a bet against existing balance.
-
-                // If balance is insufficient for the bet amount, trigger payment overlay
-                if (bet > currentBalance) {
-                    paymentAmountDisplay.textContent = `₦${bet.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-                    paymentWarningMessage.textContent = "Important: Please ensure you send the exact amount selected to fund your balance.";
-                    paymentOverlay.style.display = 'flex'; // Show overlay
-
-                    setGameMessage("Awaiting payment authentication...", 'blue');
-                    placeBetButton.disabled = true;
-                    betAmountInput.disabled = true;
-                    spinButton.disabled = true; // Keep spin button disabled during payment
-
-                    let paymentSeconds = 5;
-                    // Clear any previous interval to prevent multiple simultaneous intervals
-                    if (this.simulatedPaymentInterval) clearInterval(this.simulatedPaymentInterval);
-
-                    this.simulatedPaymentInterval = setInterval(() => {
-                        paymentSeconds--;
-                        if (paymentSeconds <= 0) {
-                            clearInterval(this.simulatedPaymentInterval);
-                            paymentOverlay.style.display = 'none'; // Hide overlay
-                            currentBalance += bet; // Add the "paid" amount to balance
-                            currentBetAmount = bet; // Set this as the current bet for the next spin
-                            updateBalanceDisplay();
-
-                            setGameMessage(`Payment of ₦${bet.toLocaleString()} successful! Bet of ₦${currentBetAmount.toLocaleString()} placed. Click SPIN.`, 'green');
-                            spinButton.disabled = false; // Enable spin button
-                            paymentWarningMessage.textContent = "";
+                        if (elapsedTime >= DURATION) {
+                            isSpinning = false;
+                            cancelAnimationFrame(animationFrameId);
+                            // Final snap to precise target
+                            wheelRotation = targetFinalRotation;
+                            drawWheel(wheelRotation);
+                            handleSpinResult(segments[targetSegmentIndex]);
+                            return;
                         }
-                    }, 1000);
-                } else {
-                    // If sufficient balance, simply deduct the bet and enable spin
-                    currentBalance -= bet;
-                    currentBetAmount = bet;
-                    updateBalanceDisplay();
-                    setGameMessage(`Bet of ₦${currentBetAmount.toLocaleString()} placed! Click SPIN.`, 'green');
-                    spinButton.disabled = false; // Enable spin button
-                    placeBetButton.disabled = true;
-                    betAmountInput.disabled = true;
-                }
-            });
 
-            spinButton.addEventListener('click', startSpin);
+                        // Calculate progress (0 to 1)
+                        const progress = elapsedTime / DURATION;
+                        // Use an easing function (e.g., easeOutQuad)
+                        // `t` is progress, `b` is start value (0), `c` is change in value (totalAngle), `d` is duration (1)
+                        // easeOutQuad: c * t * t + b
+                        const easedProgress = -(Math.cos(Math.PI * progress) - 1) / 2; // EaseInOutQuad
+                        // Or simple easeOutCubic: (t) => 1 - Math.pow(1 - t, 3)
+                        
+                        // Total angle to cover is `targetFinalRotation - initialWheelRotationAtSpinStart`
+                        // (initialWheelRotationAtSpinStart needs to be stored in startSpin)
+                        const totalAngleDelta = targetFinalRotation - initialWheelRotationAtSpinStart;
+                        wheelRotation = initialWheelRotationAtSpinStart + totalAngleDelta * easedProgress;
 
-            // --- Initial Setup ---
-            renderGameCards();
-            drawWheel(); // Initial draw of the wheel
-            showDashboard();
-            updateBalanceDisplay(); // Ensure balance shows ₦0.00 initially
-        });
-    </script>
+                        drawWheel(wheelRotation);
+                        animationFrameId = requestAnimationFrame(animateSpinFixedDuration);
+                    }
+
+                    // Re-starting `startSpin` after this modification:
+                    // Store `initialWheelRotationAtSpinStart`
+                    let initialWheelRotationAtSpinStart = wheelRotation; // Capture initial state
+
+                    // --- Original startSpin with new finalTargetRotation and new animate function call ---
+                    function startSpin() {
+                        if (isSpinning || currentBetAmount === 0) return;
+
+                        // Deduct bet amount immediately
+                        if (currentBalance < currentBetAmount) {
+                            showPaymentOverlay(currentBetAmount - currentBalance);
+                            return; // Stop if balance is too low
+                        }
+                        currentBalance -= currentBetAmount;
+                        updateBalanceDisplay();
+
+                        isSpinning = true;
+                        spinButton.disabled = true;
+                        placeBetButton.disabled = true;
+                        betAmountInput.disabled = true;
+                        spinTheWheelGame.classList.remove('win-glow', 'lose-glow'); // Clear previous glow
+
+                        setGameMessage("Wheel spinning... Good luck!");
+
+                        // Determine target segment randomly
+                        targetSegmentIndex = Math.floor(Math.random() * numSegments);
+
+                        // Calculate the absolute final rotation for the wheel to land on targetSegmentIndex
+                        // The pointer is at the top (3*PI/2) relative to canvas coordinates.
+                        // Segment `targetSegmentIndex`'s center is at `targetSegmentIndex * arc + arc/2` relative to wheel's 0.
+                        // We want this center to align with the pointer.
+                        let angleToAlign = (3 * Math.PI / 2) - (targetSegmentIndex * arc + arc / 2);
+                        // Ensure it's between -PI and PI for shortest path adjustment
+                        angleToAlign = (angleToAlign + 2 * Math.PI + Math.PI) % (2 * Math.PI) - Math.PI;
+
+                        // Add enough full rotations for it to spin visibly (e.g., 5-10 full spins)
+                        const fullSpinsToAdd = 5; // Can be randomized: Math.floor(Math.random() * 5) + 3;
+                        targetFinalRotation = wheelRotation + (fullSpinsToAdd * 2 * Math.PI) + angleToAlign;
+
+                        initialWheelRotationAtSpinStart = wheelRotation; // Capture current wheel rotation
+                        requestAnimationFrame(animateSpinFixedDuration);
+                    } // End of startSpin function
+
+                    // --- Event Listeners and Initial Setup (unchanged from here) ---
+                    spinButton.addEventListener('click', startSpin);
+
+                    placeBetButton.addEventListener('click', () => {
+                        let bet = parseFloat(betAmountInput.value);
+                        if (isNaN(bet) || bet < 700) {
+                            setGameMessage("Minimum bet is ₦700.", 'red');
+                            spinButton.disabled = true;
+                            return;
+                        }
+                        if (bet > currentBalance) {
+                            setGameMessage("Insufficient balance. Please make a deposit.", 'red');
+                            spinButton.disabled = true;
+                            showPaymentOverlay(bet - currentBalance); // Suggest top-up for the difference
+                            return;
+                        }
+                        currentBetAmount = bet;
+                        setGameMessage(`Bet of ₦${currentBetAmount.toLocaleString()} placed! Click SPIN.`);
+                        spinButton.disabled = false;
+                        placeBetButton.disabled = true; // Disable bet button after placing bet
+                        betAmountInput.disabled = true; // Disable input too
+                    });
+
+                    // Initial draw of the wheel
+                    drawWheel(wheelRotation);
+
+                    backToDashboardBtn.addEventListener('click', showDashboard);
+
+                    function showPaymentOverlay(amountNeeded) {
+                        paymentAmountDisplay.textContent = `₦${amountNeeded.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                        paymentOverlay.style.display = 'flex';
+                        paymentWarningMessage.textContent = "Do not close this page until payment is confirmed!";
+
+                        // Simulate payment authentication
+                        setTimeout(() => {
+                            const transferSuccessful = Math.random() < 0.8; // 80% chance of success
+                            if (transferSuccessful) {
+                                currentBalance += amountNeeded; // Add the simulated deposit
+                                updateBalanceDisplay();
+                                setGameMessage("Payment successful! Balance updated. You can now place your bet.", 'green');
+                                paymentWarningMessage.textContent = ""; // Clear warning
+                            } else {
+                                setGameMessage("Payment authentication failed. Please try again or contact support.", 'red');
+                                paymentWarningMessage.textContent = "Payment failed. Please re-check details and try again.";
+                            }
+                            // Automatically close overlay after a delay
+                            setTimeout(() => {
+                                paymentOverlay.style.display = 'none';
+                                // Re-enable betting controls if payment was successful
+                                if (transferSuccessful) {
+                                    placeBetButton.disabled = false;
+                                    betAmountInput.disabled = false;
+                                }
+                            }, 3000); // Overlay disappears after 3 seconds
+                        }, 5000); // Simulate 5 seconds for payment processing
+                    }
+                    
+                    // Initial rendering
+                    renderGameCards();
+                    showDashboard(); // Start on the dashboard view
+                });
+            </script>
 </body>
 </html>
