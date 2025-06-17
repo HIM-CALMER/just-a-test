@@ -23,6 +23,7 @@
             --shadow: rgba(0, 0, 0, 0.1);
             --glow-win: 0 0 15px 5px #4CAF50, 0 0 30px 10px #8bc34a;
             --glow-lose: 0 0 15px 5px #F44336, 0 0 30px 10px #FF5252;
+            --glow-draw: 0 0 15px 5px #FFC107, 0 0 30px 10px #FFD700; /* New: for draws */
         }
 
         body {
@@ -175,9 +176,9 @@
             background-color: #0056b3;
         }
 
-        /* Game specific styles (for Spin the Wheel) */
-        #spinTheWheelGame {
-            display: none;
+        /* Common Game styles */
+        .game-container {
+            display: none; /* Controlled by JS */
             background-color: var(--card-background);
             border-radius: 10px;
             box-shadow: 0 2px 5px var(--shadow);
@@ -187,21 +188,23 @@
             margin: 0 auto;
             position: relative; 
             overflow: hidden; 
-            /* Ensure this element is also constrained */
-            width: calc(100% - 2rem); /* Account for the 1rem padding on container, if it were directly inside */
+            width: calc(100% - 2rem); 
             margin-left: auto;
             margin-right: auto;
         }
 
-        #spinTheWheelGame.win-glow {
+        .game-container.win-glow {
             box-shadow: var(--glow-win);
         }
 
-        #spinTheWheelGame.lose-glow {
+        .game-container.lose-glow {
             box-shadow: var(--glow-lose);
         }
+        .game-container.draw-glow { 
+            box-shadow: var(--glow-draw);
+        }
 
-        #spinTheWheelGame h2 {
+        .game-container h2 {
             color: var(--dark-text);
             font-size: 2rem;
             margin-bottom: 1.5rem;
@@ -222,17 +225,16 @@
 
         .bet-section {
             margin-bottom: 1.5rem;
-            /* Use flexbox for better control on small screens if needed */
             display: flex; 
-            flex-wrap: wrap; /* Allow items to wrap */
+            flex-wrap: wrap; 
             justify-content: center;
             align-items: center;
-            gap: 10px; /* Space between items */
+            gap: 10px; 
         }
 
         .bet-section label {
-            display: block; /* Make label stack on smaller screens */
-            width: 100%; /* Take full width */
+            display: block; 
+            width: 100%; 
             margin-bottom: 0.5rem;
             font-weight: 600;
             color: var(--dark-text);
@@ -242,11 +244,10 @@
             padding: 0.75rem;
             border: 1px solid #ccc;
             border-radius: 8px;
-            width: 150px; /* Base width */
-            max-width: 100%; /* Responsive input */
+            width: 150px; 
+            max-width: 100%; 
             text-align: center;
             font-size: 1rem;
-            /* margin-right: 10px; */ /* Removed as gap handles spacing */
             box-sizing: border-box; 
         }
 
@@ -269,21 +270,151 @@
             cursor: not-allowed;
         }
 
-        #wheelCanvas {
-            border: 2px solid #ddd;
-            border-radius: 50%;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 4px 10px var(--shadow);
-            transition: box-shadow 0.3s ease-in-out;
-            /* Ensure canvas doesn't overflow, especially on smaller screens */
-            max-width: 100%; /* Limit canvas width */
-            height: auto; /* Maintain aspect ratio */
-            display: block; /* Remove extra space below inline elements */
-            margin-left: auto;
-            margin-right: auto;
+        #gameMessage {
+            margin-top: 1.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #555;
+            min-height: 25px;
+        }
+        
+        /* NEW: Visual Soccer Match List View */
+        #soccerMatchListView {
+            display: none; /* Controlled by JS */
+            padding: 1rem;
+        }
+        .match-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .match-card {
+            background-color: var(--card-background);
+            border-radius: 10px;
+            box-shadow: 0 2px 5px var(--shadow);
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            cursor: pointer; /* Indicate clickable */
+        }
+        .match-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+        .match-card h4 {
+            font-size: 1.2rem;
+            color: #555;
+            margin-bottom: 0.5rem;
+        }
+        .match-card .teams {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        .match-card .odds-display {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+        .match-card .odd-item {
+            padding: 5px 10px;
+            border-radius: 5px;
+            background-color: #e9ecef;
+        }
+        .match-card .bet-now-button {
+            display: none; /* Removed, card itself is clickable */
         }
 
-        #spinButton {
+
+        /* Specific Visual Soccer Game Details View */
+        #visualSoccerGame {
+            display: none; /* Hidden by default, shown via JS */
+            padding-bottom: 2rem; /* Give space below buttons */
+        }
+
+        .visual-soccer-match-details {
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background-color: #f8f8f8;
+            border-radius: 8px;
+            border: 1px dashed #ccc;
+        }
+        .visual-soccer-match-details h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #007bff;
+        }
+        .visual-soccer-match-details .match-info {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+        .team-names {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            gap: 10px;
+        }
+        .team-names span {
+            flex: 1;
+            text-align: center;
+            padding: 5px;
+        }
+        .vs {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #666;
+            padding: 0 10px;
+        }
+        .match-score {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #333;
+            margin-top: 1rem;
+            min-height: 40px; /* Prevent layout shift */
+        }
+        .bet-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 1.5rem;
+        }
+        .bet-option-btn {
+            padding: 0.8rem 1.5rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            flex: 1; /* Allow buttons to grow */
+            min-width: 120px; /* Minimum width for buttons */
+            max-width: 180px; /* Max width to prevent overly wide buttons on larger screens */
+        }
+        .bet-option-btn:hover:not(:disabled) {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+        .bet-option-btn.selected {
+            background-color: #0056b3;
+            border: 2px solid var(--accent-color);
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+        }
+        .bet-option-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background-color: #6c757d;
+        }
+        #simulateMatchButton {
+            margin-top: 2rem;
             padding: 1rem 2rem;
             background-color: var(--primary-color);
             color: var(--light-text);
@@ -294,22 +425,24 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
-
-        #spinButton:hover:not(:disabled) {
+        #simulateMatchButton:hover:not(:disabled) {
             background-color: #0056b3;
         }
-        #spinButton:disabled {
+        #simulateMatchButton:disabled {
             opacity: 0.6;
             cursor: not-allowed;
         }
 
-        #gameMessage {
-            margin-top: 1.5rem;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #555;
-            min-height: 25px;
+        /* NEW: Visual Match Simulation Canvas */
+        #soccerVisualCanvas {
+            border: 1px solid #ccc;
+            background-color: #4CAF50; /* Green grass */
+            margin: 1.5rem auto;
+            display: block;
+            border-radius: 5px;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
         }
+
 
         /* Payment Overlay */
         #paymentOverlay {
@@ -430,8 +563,38 @@
             .bet-section button {
                 padding: 0.75rem 1rem;
             }
-            #spinTheWheelGame {
+            .game-container {
                 padding: 1.5rem;
+            }
+            .visual-soccer-match-details h3 {
+                font-size: 1.5rem;
+            }
+            .team-names {
+                font-size: 1.2rem;
+            }
+            .vs {
+                font-size: 1rem;
+            }
+            .match-score {
+                font-size: 2rem;
+            }
+            .bet-option-btn {
+                min-width: unset; /* Allow smaller buttons */
+                max-width: unset;
+                flex: 1 1 30%; /* Adjust for 3 columns on small screens if space allows */
+            }
+            .match-card .teams {
+                font-size: 1.3rem;
+            }
+            .match-card h4 {
+                font-size: 1.1rem;
+            }
+            .match-card .odds-display {
+                font-size: 0.9rem;
+            }
+            #soccerVisualCanvas {
+                width: 250px;
+                height: 150px;
             }
         }
 
@@ -464,12 +627,26 @@
                 width: calc(100% - 10px); /* Adjust width for stacked elements, considering potential gap */
                 margin: 0 auto; /* Center them */
             }
-            #spinButton {
+            #spinButton, #simulateMatchButton {
                 padding: 0.8rem 1.5rem;
                 font-size: 1.1rem;
             }
             .payment-box {
                 padding: 20px;
+            }
+            .bet-options {
+                flex-direction: column;
+            }
+            .bet-option-btn {
+                width: 100%;
+                max-width: unset; /* Remove max-width when stacked */
+            }
+            #soccerVisualCanvas {
+                width: 200px;
+                height: 120px;
+            }
+            .match-list {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -487,7 +664,20 @@
             </div>
         </div>
 
-        <div id="spinTheWheelGame">
+        <!-- NEW: Visual Soccer Match List View -->
+        <div id="soccerMatchListView">
+            <button class="go-back-button" id="backToDashboardBtnSoccerList"><i class="fas fa-arrow-left"></i> Back to Dashboard</button>
+            <h2>Available Soccer Matches</h2>
+            <div class="game-balance-info">
+                <div>Current Balance: <span id="soccerListBalanceDisplay">₦0.00</span></div>
+            </div>
+            <div class="match-list" id="soccerMatchListContainer">
+                <!-- Matches will be dynamically loaded here -->
+            </div>
+        </div>
+
+        <!-- Spin the Wheel Game Section -->
+        <div id="spinTheWheelGame" class="game-container">
             <button class="go-back-button" id="backToDashboardBtn"><i class="fas fa-arrow-left"></i> Back to Dashboard</button>
             <h2>Spin the Wheel</h2>
             <div class="game-balance-info">
@@ -504,6 +694,40 @@
             <button id="spinButton" disabled>SPIN</button>
 
             <div id="gameMessage" class="game-message">Place your bet to activate the wheel!</div>
+        </div>
+
+        <!-- Visual Soccer Game Details View -->
+        <div id="visualSoccerGame" class="game-container">
+            <button class="go-back-button" id="backToSoccerListBtn"><i class="fas fa-arrow-left"></i> Back to Matches</button>
+            <h2>Match Details & Bet</h2>
+            <div class="game-balance-info">
+                <div>Current Balance: <span id="soccerGameBalanceDisplay">₦0.00</span></div>
+            </div>
+
+            <div class="bet-section">
+                <label for="soccerBetAmount">Bet Amount (₦):</label>
+                <input type="number" id="soccerBetAmount" value="1000" min="1000" max="1000000" step="100">
+                <button id="placeSoccerBetButton">Place Bet</button>
+            </div>
+
+            <div class="visual-soccer-match-details">
+                <h3 id="currentMatchTeams">Team A vs Team B</h3>
+                <p class="match-info"><span id="currentMatchLeague">League: Premier League</span> | <span id="currentMatchTime">Today 18:00</span></p>
+                
+                <!-- Visual Match Simulation Canvas (NEW) -->
+                <canvas id="soccerVisualCanvas" width="300" height="180"></canvas>
+                <div class="match-score" id="matchScoreDisplay">0 - 0</div>
+                <div id="visualMatchMessage" class="game-message" style="margin-top:10px; font-weight:normal;">Kick-off!</div>
+
+                <div class="bet-options">
+                    <button class="bet-option-btn" data-outcome="home" id="betHomeButton">Home Win (x<span id="oddHome">1.8</span>)</button>
+                    <button class="bet-option-btn" data-outcome="draw" id="betDrawButton">Draw (x<span id="oddDraw">3.5</span>)</button>
+                    <button class="bet-option-btn" data-outcome="away" id="betAwayButton">Away Win (x<span id="oddAway">2.5</span>)</button>
+                </div>
+            </div>
+
+            <button id="simulateMatchButton" disabled>Simulate Match</button>
+            <div id="soccerGameMessage" class="game-message">Place your bet and select an outcome.</div>
         </div>
     </main>
 
@@ -531,12 +755,18 @@
         document.addEventListener('DOMContentLoaded', () => {
             const dashboardView = document.getElementById('dashboardView');
             const spinTheWheelGame = document.getElementById('spinTheWheelGame');
+            const visualSoccerGame = document.getElementById('visualSoccerGame');
+            const soccerMatchListView = document.getElementById('soccerMatchListView'); 
+            const soccerMatchListContainer = document.getElementById('soccerMatchListContainer'); 
             const gameListContainer = document.getElementById('gameList');
             const backToDashboardBtn = document.getElementById('backToDashboardBtn');
+            const backToDashboardBtnSoccerList = document.getElementById('backToDashboardBtnSoccerList'); 
+            const backToSoccerListBtn = document.getElementById('backToSoccerListBtn'); 
             const paymentOverlay = document.getElementById('paymentOverlay');
             const paymentAmountDisplay = document.getElementById('paymentAmountDisplay');
             const paymentWarningMessage = document.getElementById('paymentWarningMessage');
 
+            // Spin the Wheel elements
             const wheelCanvas = document.getElementById('wheelCanvas');
             const wheelCtx = wheelCanvas.getContext('2d');
             const gameBalanceDisplay = document.getElementById('gameBalanceDisplay');
@@ -545,14 +775,55 @@
             const spinButton = document.getElementById('spinButton');
             const gameMessage = document.getElementById('gameMessage');
 
-            let currentBalance = 0.00; // Starting balance is now 0.00
-            let currentBetAmount = 0;
+            // Visual Soccer elements
+            const soccerListBalanceDisplay = document.getElementById('soccerListBalanceDisplay'); 
+            const soccerGameBalanceDisplay = document.getElementById('soccerGameBalanceDisplay');
+            const soccerBetAmountInput = document.getElementById('soccerBetAmount');
+            const placeSoccerBetButton = document.getElementById('placeSoccerBetButton');
+            const currentMatchTeams = document.getElementById('currentMatchTeams'); 
+            const currentMatchLeague = document.getElementById('currentMatchLeague'); 
+            const currentMatchTime = document.getElementById('currentMatchTime'); 
+            const matchScoreDisplay = document.getElementById('matchScoreDisplay');
+            const betOptionButtons = document.querySelectorAll('.bet-option-btn');
+            const oddHome = document.getElementById('oddHome'); 
+            const oddDraw = document.getElementById('oddDraw'); 
+            const oddAway = document.getElementById('oddAway'); 
+            const simulateMatchButton = document.getElementById('simulateMatchButton');
+            const soccerGameMessage = document.getElementById('soccerGameMessage');
+            const soccerVisualCanvas = document.getElementById('soccerVisualCanvas'); 
+            const soccerVisualCtx = soccerVisualCanvas.getContext('2d'); 
+            const visualMatchMessage = document.getElementById('visualMatchMessage'); 
+
+            let currentBalance = 0.00;
+            let currentBetAmountSpinWheel = 0;
+            let currentBetAmountSoccer = 0;
+            let selectedSoccerOutcome = null;
+            let currentSelectedSoccerMatch = null; 
+
             let isSpinning = false;
-            let wheelRotation = 0; // Current rotation in radians
-            let targetSegmentIndex = -1; // The index of the segment the wheel will land on
-            let animationFrameId; // To store requestAnimationFrame ID for cancellation
-            let targetFinalRotation = 0; // Absolute final rotation value for the wheel
-            let initialWheelRotationAtSpinStart = 0; // Store initial rotation for easing
+            let wheelRotation = 0; 
+            let targetSegmentIndex = -1;
+            let animationFrameId; // For Spin the Wheel
+            let targetFinalRotation = 0; 
+            let initialWheelRotationAtSpinStart = 0;
+            let wheelSpinStartTime; 
+
+            // --- Visual Soccer Animation Globals ---
+            let soccerAnimationId; // For Visual Soccer
+            let soccerMatchStartTime;
+            const SOCCER_MATCH_DURATION_SECONDS = 90; // Simulate a 90-minute match
+            const SOCCER_ANIMATION_DURATION_MS = 10000; // 10 seconds of animation time
+            let ballPos = { x: soccerVisualCanvas.width / 2, y: soccerVisualCanvas.height / 2 };
+            let ballTarget = { x: soccerVisualCanvas.width / 2, y: soccerVisualCanvas.height / 2 };
+            const ballSpeed = 3; // pixels per frame, faster movement
+            const PLAYER_RADIUS = 6;
+            const PLAYER_COUNT_PER_TEAM = 5; // Reduced for simpler visual representation
+            let homePlayers = [];
+            let awayPlayers = [];
+            let homeScore = 0;
+            let awayScore = 0;
+            let matchVisualState = 'pre_kickoff'; // 'pre_kickoff', 'playing', 'goal', 'halftime', 'fulltime'
+            let goalEvents = []; // To store simulated goal times and scorers
 
             // --- Wheel Configuration ---
             const segments = [
@@ -578,6 +849,14 @@
                     description: "Test your luck! Pay an entry fee to spin the wheel and land on exciting prizes, cash, or even free spins. Each spin is a new adventure!",
                     link: "#",
                     available: true
+                },
+                { 
+                    id: "visual-soccer",
+                    title: "Visual Soccer",
+                    icon: "fa-solid fa-futbol",
+                    description: "Bet on the outcome of simulated football matches from various leagues and watch the virtual action unfold!",
+                    link: "#",
+                    available: true 
                 },
                 {
                     id: "spin-da-bottle",
@@ -672,6 +951,8 @@
             // --- UI Update Functions ---
             function updateBalanceDisplay() {
                 gameBalanceDisplay.textContent = `₦${currentBalance.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                soccerGameBalanceDisplay.textContent = `₦${currentBalance.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                soccerListBalanceDisplay.textContent = `₦${currentBalance.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`; 
             }
 
             function setGameMessage(message, color = '#555') {
@@ -679,24 +960,85 @@
                 gameMessage.style.color = color;
             }
 
-            function showDashboard() {
-                dashboardView.style.display = 'block';
+            function setSoccerGameMessage(message, color = '#555') {
+                soccerGameMessage.textContent = message;
+                soccerGameMessage.style.color = color;
+            }
+
+            function setVisualMatchMessage(message, color = '#333') { 
+                visualMatchMessage.textContent = message;
+                visualMatchMessage.style.color = color;
+            }
+
+            function hideAllGameViews() { 
+                dashboardView.style.display = 'none';
                 spinTheWheelGame.style.display = 'none';
-                // Clear any glows when leaving the game
+                visualSoccerGame.style.display = 'none';
+                soccerMatchListView.style.display = 'none';
+                // Clear all glows
                 spinTheWheelGame.classList.remove('win-glow', 'lose-glow');
-                renderGameCards(); // Ensure cards are rendered when showing dashboard
+                visualSoccerGame.classList.remove('win-glow', 'lose-glow', 'draw-glow');
+            }
+
+            function showDashboard() {
+                hideAllGameViews();
+                dashboardView.style.display = 'block';
+                renderGameCards(); 
             }
 
             function showSpinTheWheel() {
-                dashboardView.style.display = 'none';
+                hideAllGameViews();
                 spinTheWheelGame.style.display = 'block';
                 updateBalanceDisplay();
                 setGameMessage("Place your bet to activate the wheel!");
-                spinButton.disabled = true; // Disable spin button initially
+                spinButton.disabled = true;
                 placeBetButton.disabled = false;
                 betAmountInput.disabled = false;
-                betAmountInput.value = 700; // Reset bet amount to default
-                drawWheel(wheelRotation); // Ensure wheel is drawn when game is shown
+                betAmountInput.value = 700;
+                drawWheel(wheelRotation);
+            }
+
+            function showSoccerMatchList() { 
+                hideAllGameViews();
+                soccerMatchListView.style.display = 'block';
+                updateBalanceDisplay(); 
+                // Regenerate matches each time list is shown for freshness
+                availableSoccerMatches = generateSoccerMatches(); 
+                renderSoccerMatches();
+            }
+
+            function showVisualSoccer(match) { 
+                hideAllGameViews();
+                visualSoccerGame.style.display = 'block';
+                currentSelectedSoccerMatch = match; 
+                updateBalanceDisplay();
+                setSoccerGameMessage("Place your bet and select an outcome.");
+                simulateMatchButton.disabled = true;
+                placeSoccerBetButton.disabled = false;
+                soccerBetAmountInput.disabled = false;
+                soccerBetAmountInput.value = 1000;
+                betOptionButtons.forEach(btn => {
+                    btn.classList.remove('selected');
+                    btn.disabled = true; 
+                });
+                selectedSoccerOutcome = null;
+
+                // Update match details in the view
+                currentMatchTeams.textContent = `${match.homeTeam} vs ${match.awayTeam}`;
+                currentMatchLeague.textContent = `League: ${match.league}`;
+                currentMatchTime.textContent = `Today ${match.time}`;
+                oddHome.textContent = match.odds.home.toFixed(2);
+                oddDraw.textContent = match.odds.draw.toFixed(2);
+                oddAway.textContent = match.odds.away.toFixed(2);
+
+                // Reset visual match display
+                homeScore = 0;
+                awayScore = 0;
+                matchScoreDisplay.textContent = '0 - 0';
+                setVisualMatchMessage('Match ready! Place your bet.');
+                drawSoccerVisuals(0, homeScore, awayScore); // Draw initial pitch
+                cancelAnimationFrame(soccerAnimationId); // Stop any lingering animation
+                initPlayers(); // Initialize player positions
             }
 
             // --- Game Card Rendering (Dashboard) ---
@@ -721,28 +1063,26 @@
 
                     const playButton = gameCard.querySelector('.play-button');
                     playButton.addEventListener('click', (event) => {
+                        event.preventDefault();
                         if (!game.available) {
-                            event.preventDefault();
                             alert(`"${game.title}" is currently locked. Play "Spin the Wheel" to unlock more games!`);
                             return;
                         }
                         if (game.id === "spin-the-wheel") {
-                            event.preventDefault();
                             showSpinTheWheel();
+                        } else if (game.id === "visual-soccer") {
+                            showSoccerMatchList(); 
                         }
                     });
                 });
             }
 
             // --- Spin the Wheel Game Logic ---
-
-            // Draw the wheel segments and text
             function drawWheel(currentRotation = 0) {
                 const centerX = wheelCanvas.width / 2;
                 const centerY = wheelCanvas.height / 2;
 
                 wheelCtx.clearRect(0, 0, wheelCanvas.width, wheelCanvas.height);
-
                 wheelCtx.save();
                 wheelCtx.translate(centerX, centerY);
                 wheelCtx.rotate(currentRotation);
@@ -750,62 +1090,55 @@
                 segments.forEach((segment, i) => {
                     const startAngle = arc * i;
                     const endAngle = startAngle + arc;
-
                     wheelCtx.beginPath();
                     wheelCtx.arc(0, 0, wheelRadius, startAngle, endAngle);
                     wheelCtx.lineTo(0, 0);
                     wheelCtx.fillStyle = segment.color;
                     wheelCtx.fill();
-                    wheelCtx.strokeStyle = "#ccc"; // Add subtle stroke
+                    wheelCtx.strokeStyle = "#ccc";
                     wheelCtx.lineWidth = 1;
                     wheelCtx.stroke();
 
-                    // Draw text (prize)
                     wheelCtx.save();
                     const textAngle = startAngle + arc / 2;
                     wheelCtx.rotate(textAngle);
                     wheelCtx.textAlign = "right";
                     wheelCtx.fillStyle = "#333";
-                    wheelCtx.font = "bold 18px Inter"; // Slightly larger font
+                    wheelCtx.font = "bold 18px Inter";
                     wheelCtx.fillText(segment.text, wheelRadius - 20, 0);
                     wheelCtx.restore();
                 });
 
-                wheelCtx.restore(); // Restore context to draw pointer at fixed position
+                wheelCtx.restore();
 
-                // Draw the spinner pointer (fixed at the top)
                 wheelCtx.beginPath();
-                wheelCtx.moveTo(centerX, centerY - wheelRadius - 20); // Top tip
-                wheelCtx.lineTo(centerX - 15, centerY - wheelRadius - 5); // Bottom left
-                wheelCtx.lineTo(centerX + 15, centerY - wheelRadius - 5); // Bottom right
+                wheelCtx.moveTo(centerX, centerY - wheelRadius - 20);
+                wheelCtx.lineTo(centerX - 15, centerY - wheelRadius - 5);
+                wheelCtx.lineTo(centerX + 15, centerY - wheelRadius - 5);
                 wheelCtx.closePath();
-                wheelCtx.fillStyle = "#333"; // Darker pointer
+                wheelCtx.fillStyle = "#333";
                 wheelCtx.fill();
             }
 
-            let startTime;
-            const DURATION = 3500; // milliseconds for the spin
+            const SPIN_WHEEL_DURATION = 3500;
 
             function animateSpinFixedDuration(currentTime) {
-                if (!startTime) startTime = currentTime;
-                const elapsedTime = currentTime - startTime;
+                if (!wheelSpinStartTime) wheelSpinStartTime = currentTime;
+                const elapsedTime = currentTime - wheelSpinStartTime;
 
-                if (elapsedTime >= DURATION) {
+                if (elapsedTime >= SPIN_WHEEL_DURATION) {
                     isSpinning = false;
                     cancelAnimationFrame(animationFrameId);
-                    // Final snap to precise target
                     wheelRotation = targetFinalRotation;
                     drawWheel(wheelRotation);
                     handleSpinResult(segments[targetSegmentIndex]);
+                    wheelSpinStartTime = null; 
                     return;
                 }
 
-                // Calculate progress (0 to 1)
-                const progress = elapsedTime / DURATION;
-                // Easing function (easeOutCubic) for smoother deceleration
-                const easedProgress = 1 - Math.pow(1 - progress, 3);
+                const progress = elapsedTime / SPIN_WHEEL_DURATION;
+                const easedProgress = 1 - Math.pow(1 - progress, 3); 
                 
-                // Total angle to cover is `targetFinalRotation - initialWheelRotationAtSpinStart`
                 const totalAngleDelta = targetFinalRotation - initialWheelRotationAtSpinStart;
                 wheelRotation = initialWheelRotationAtSpinStart + totalAngleDelta * easedProgress;
 
@@ -814,41 +1147,33 @@
             }
 
             function startSpin() {
-                if (isSpinning || currentBetAmount === 0) return;
+                if (isSpinning || currentBetAmountSpinWheel === 0) return;
 
-                // Deduct bet amount immediately
-                if (currentBalance < currentBetAmount) {
-                    showPaymentOverlay(currentBetAmount - currentBalance);
-                    return; // Stop if balance is too low
+                if (currentBalance < currentBetAmountSpinWheel) {
+                    showPaymentOverlay(currentBetAmountSpinWheel);
+                    return;
                 }
-                currentBalance -= currentBetAmount;
+                currentBalance -= currentBetAmountSpinWheel;
                 updateBalanceDisplay();
 
                 isSpinning = true;
                 spinButton.disabled = true;
                 placeBetButton.disabled = true;
                 betAmountInput.disabled = true;
-                spinTheWheelGame.classList.remove('win-glow', 'lose-glow'); // Clear previous glow
+                spinTheWheelGame.classList.remove('win-glow', 'lose-glow');
 
                 setGameMessage("Wheel spinning... Good luck!");
 
-                // Determine target segment randomly
                 targetSegmentIndex = Math.floor(Math.random() * numSegments);
 
-                // Calculate the absolute final rotation for the wheel to land on targetSegmentIndex
-                // The pointer is at the top (3*PI/2) relative to canvas coordinates.
-                // Segment `targetSegmentIndex`'s center is at `targetSegmentIndex * arc + arc/2` relative to wheel's 0.
-                // We want this center to align with the pointer.
-                let angleToAlign = (3 * Math.PI / 2) - (targetSegmentIndex * arc + arc / 2);
-                // Normalize angleToAlign to be within -PI to PI for shortest path
-                angleToAlign = (angleToAlign + 2 * Math.PI + Math.PI) % (2 * Math.PI) - Math.PI;
+                const angleToAlign = (3 * Math.PI / 2) - (targetSegmentIndex * arc + arc / 2);
+                const normalizedAngleToAlign = (angleToAlign + 2 * Math.PI + Math.PI) % (2 * Math.PI) - Math.PI;
 
-                // Add enough full rotations for it to spin visibly (e.g., 5-10 full spins)
-                const fullSpinsToAdd = Math.floor(Math.random() * 6) + 5; // Random between 5 and 10 full spins
-                targetFinalRotation = wheelRotation + (fullSpinsToAdd * 2 * Math.PI) + angleToAlign;
+                const fullSpinsToAdd = Math.floor(Math.random() * 6) + 5; 
+                targetFinalRotation = wheelRotation + (fullSpinsToAdd * 2 * Math.PI) + normalizedAngleToAlign;
 
-                initialWheelRotationAtSpinStart = wheelRotation; // Capture current wheel rotation
-                startTime = null; // Reset startTime for the new animation
+                initialWheelRotationAtSpinStart = wheelRotation;
+                wheelSpinStartTime = null; 
                 requestAnimationFrame(animateSpinFixedDuration);
             }
 
@@ -863,15 +1188,547 @@
                 }
                 updateBalanceDisplay();
 
-                // Re-enable controls
-                spinButton.disabled = true; // Keep spin button disabled until new bet is placed
+                spinButton.disabled = true;
                 placeBetButton.disabled = false;
                 betAmountInput.disabled = false;
             }
 
-            // --- Event Listeners and Initial Setup ---
-            spinButton.addEventListener('click', startSpin);
+            // --- Visual Soccer Game Logic (NEW & Enhanced) ---
+            const SOCCER_TEAMS = [
+                "Real Madrid", "FC Barcelona", "Manchester United", "Liverpool FC",
+                "Bayern Munich", "Paris SG", "Juventus", "Inter Milan",
+                "Arsenal FC", "Chelsea FC", "Tottenham Hotspur", "Atlético Madrid",
+                "Borussia Dortmund", "AC Milan", "Napoli", "Benfica",
+                "Porto", "Ajax", "Roma", "Lazio", "Sevilla", "Valencia",
+                "RB Leipzig", "Borussia Mönchengladbach", "Lyon", "Marseille",
+                "Fiorentina", "Atalanta", "Real Betis", "Villarreal"
+            ];
+            const SOCCER_LEAGUES = [
+                "Premier League", "La Liga", "Serie A", "Bundesliga", "Ligue 1", 
+                "Champions League", "Europa League", "FA Cup" // Added more leagues
+            ];
+            const SOCCER_ODDS_POOL = [ 
+                { home: 1.7, draw: 3.8, away: 4.2 },
+                { home: 2.1, draw: 3.3, away: 3.0 },
+                { home: 1.5, draw: 4.0, away: 5.5 },
+                { home: 2.5, draw: 3.2, away: 2.8 },
+                { home: 1.9, draw: 3.5, away: 3.6 },
+                { home: 2.2, draw: 3.0, away: 3.1 }
+            ];
 
+            function generateSoccerMatches(count = 7) { 
+                const matches = [];
+                const generatedTimes = new Set(); 
+                for (let i = 0; i < count; i++) {
+                    let team1Index = Math.floor(Math.random() * SOCCER_TEAMS.length);
+                    let team2Index;
+                    do {
+                        team2Index = Math.floor(Math.random() * SOCCER_TEAMS.length);
+                    } while (team1Index === team2Index);
+
+                    const home = SOCCER_TEAMS[team1Index];
+                    const away = SOCCER_TEAMS[team2Index];
+                    const league = SOCCER_LEAGUES[Math.floor(Math.random() * SOCCER_LEAGUES.length)];
+                    const odds = SOCCER_ODDS_POOL[Math.floor(Math.random() * SOCCER_ODDS_POOL.length)];
+                    
+                    let time;
+                    do {
+                        const timeHour = Math.floor(Math.random() * 6) + 16; 
+                        const timeMinute = Math.floor(Math.random() * 12) * 5; 
+                        time = `${String(timeHour).padStart(2, '0')}:${String(timeMinute).padStart(2, '0')}`;
+                    } while (generatedTimes.has(time));
+                    generatedTimes.add(time);
+
+                    matches.push({
+                        id: `match-${i}`,
+                        homeTeam: home,
+                        awayTeam: away,
+                        league: league,
+                        time: time,
+                        odds: { ...odds } 
+                    });
+                }
+                return matches;
+            }
+
+            let availableSoccerMatches = generateSoccerMatches(); 
+
+            function renderSoccerMatches() {
+                soccerMatchListContainer.innerHTML = '';
+                availableSoccerMatches.forEach(match => {
+                    const matchCard = document.createElement('div');
+                    matchCard.classList.add('match-card');
+                    matchCard.dataset.matchId = match.id; 
+                    matchCard.innerHTML = `
+                        <h4>${match.league} | ${match.time}</h4>
+                        <div class="teams">${match.homeTeam} <span class="vs">VS</span> ${match.awayTeam}</div>
+                        <div class="odds-display">
+                            <span class="odd-item">H: ${match.odds.home.toFixed(2)}</span>
+                            <span class="odd-item">D: ${match.odds.draw.toFixed(2)}</span>
+                            <span class="odd-item">A: ${match.odds.away.toFixed(2)}</span>
+                        </div>
+                    `;
+                    soccerMatchListContainer.appendChild(matchCard);
+                });
+
+                // Add event listeners for "Bet Now" buttons (now the whole card)
+                soccerMatchListContainer.querySelectorAll('.match-card').forEach(card => {
+                    card.addEventListener('click', (event) => {
+                        const matchId = event.currentTarget.dataset.matchId;
+                        const selectedMatch = availableSoccerMatches.find(m => m.id === matchId);
+                        if (selectedMatch) {
+                            showVisualSoccer(selectedMatch);
+                        }
+                    });
+                });
+            }
+
+            function resetSoccerGameControls() {
+                simulateMatchButton.disabled = true;
+                placeSoccerBetButton.disabled = false;
+                soccerBetAmountInput.disabled = false;
+                betOptionButtons.forEach(btn => {
+                    btn.classList.remove('selected');
+                    btn.disabled = true; 
+                });
+                selectedSoccerOutcome = null;
+                visualSoccerGame.classList.remove('win-glow', 'lose-glow', 'draw-glow');
+                setSoccerGameMessage("Place your bet and select an outcome.");
+                setVisualMatchMessage('Match ready! Place your bet.');
+                
+                // Clear any running visual animation
+                cancelAnimationFrame(soccerAnimationId);
+                homeScore = 0;
+                awayScore = 0;
+                matchScoreDisplay.textContent = '0 - 0';
+                drawSoccerVisuals(0, homeScore, awayScore); 
+                initPlayers(); 
+                goalEvents = []; 
+                currentBetAmountSoccer = 0; 
+            }
+
+            // Initialize player positions
+            function initPlayers() {
+                homePlayers = [];
+                awayPlayers = [];
+                const canvas = soccerVisualCanvas;
+                const fieldWidth = canvas.width;
+                const fieldHeight = canvas.height;
+
+                // Home players (left half)
+                for (let i = 0; i < PLAYER_COUNT_PER_TEAM; i++) {
+                    homePlayers.push({
+                        x: Math.random() * (fieldWidth / 2 - 20) + 10,
+                        y: Math.random() * (fieldHeight - 20) + 10,
+                        targetX: 0, targetY: 0, // Will be set by setNewPlayerTargets
+                        color: '#0000FF' // Blue
+                    });
+                }
+                // Away players (right half)
+                for (let i = 0; i < PLAYER_COUNT_PER_TEAM; i++) {
+                    awayPlayers.push({
+                        x: Math.random() * (fieldWidth / 2 - 20) + fieldWidth / 2 + 10,
+                        y: Math.random() * (fieldHeight - 20) + 10,
+                        targetX: 0, targetY: 0, // Will be set by setNewPlayerTargets
+                        color: '#FF0000' // Red
+                    });
+                }
+                setNewPlayerTargets(); // Set initial random targets for players
+            }
+
+            function setNewPlayerTargets() {
+                const canvas = soccerVisualCanvas;
+                homePlayers.forEach(p => {
+                    p.targetX = Math.random() * (canvas.width / 2 - 20) + 10;
+                    p.targetY = Math.random() * (canvas.height - 20) + 10;
+                });
+                awayPlayers.forEach(p => {
+                    p.targetX = Math.random() * (canvas.width / 2 - 20) + canvas.width / 2 + 10;
+                    p.targetY = Math.random() * (canvas.height - 20) + 10;
+                });
+            }
+
+            // Soccer Visuals Canvas Drawing
+            function drawSoccerVisuals(timeElapsedPercent, currentHomeScore, currentAwayScore) {
+                const canvas = soccerVisualCanvas;
+                const ctx = soccerVisualCtx;
+                const width = canvas.width;
+                const height = canvas.height;
+
+                ctx.clearRect(0, 0, width, height);
+
+                // Draw pitch
+                ctx.fillStyle = '#4CAF50'; // Green grass
+                ctx.fillRect(0, 0, width, height);
+
+                // Draw lines (white)
+                ctx.strokeStyle = '#FFFFFF';
+                ctx.lineWidth = 2;
+
+                // Outer boundary (already by fillRect, but emphasizing)
+                ctx.strokeRect(0, 0, width, height);
+
+                // Halfway line
+                ctx.beginPath();
+                ctx.moveTo(width / 2, 0);
+                ctx.lineTo(width / 2, height);
+                ctx.stroke();
+
+                // Center circle
+                ctx.beginPath();
+                ctx.arc(width / 2, height / 2, Math.min(width, height) * 0.15, 0, 2 * Math.PI);
+                ctx.stroke();
+
+                // Center spot
+                ctx.beginPath();
+                ctx.arc(width / 2, height / 2, 2, 0, 2 * Math.PI);
+                ctx.fillStyle = '#FFFFFF';
+                ctx.fill();
+
+                // Penalty boxes
+                const penaltyBoxWidth = width * 0.25;
+                const penaltyBoxHeight = height * 0.5;
+                ctx.strokeRect(0, (height - penaltyBoxHeight) / 2, penaltyBoxWidth, penaltyBoxHeight); // Left
+                ctx.strokeRect(width - penaltyBoxWidth, (height - penaltyBoxHeight) / 2, penaltyBoxWidth, penaltyBoxHeight); // Right
+
+                // Goal areas (smaller boxes inside penalty box)
+                const goalAreaWidth = width * 0.1;
+                const goalAreaHeight = height * 0.25;
+                ctx.strokeRect(0, (height - goalAreaHeight) / 2, goalAreaWidth, goalAreaHeight); // Left
+                ctx.strokeRect(width - goalAreaWidth, (height - goalAreaHeight) / 2, goalAreaWidth, goalAreaHeight); // Right
+
+                // Goals (very small rectangles at the edges)
+                const goalWidth = 5;
+                const goalHeight = height * 0.15;
+                ctx.fillStyle = '#AAAAAA';
+                ctx.fillRect(0, (height - goalHeight) / 2, goalWidth, goalHeight); // Left Goal
+                ctx.fillRect(width - goalWidth, (height - goalHeight) / 2, goalWidth, goalHeight); // Right Goal
+
+                // Draw Players (tiny images)
+                homePlayers.forEach(p => {
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, PLAYER_RADIUS, 0, 2 * Math.PI);
+                    ctx.fillStyle = p.color;
+                    ctx.fill();
+                    ctx.strokeStyle = '#333';
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+                });
+                awayPlayers.forEach(p => {
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, PLAYER_RADIUS, 0, 2 * Math.PI);
+                    ctx.fillStyle = p.color;
+                    ctx.fill();
+                    ctx.strokeStyle = '#333';
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+                });
+
+                // Draw the ball
+                ctx.beginPath();
+                ctx.arc(ballPos.x, ballPos.y, 5, 0, 2 * Math.PI); // Small white circle for ball
+                ctx.fillStyle = '#FFFFFF';
+                ctx.fill();
+                ctx.strokeStyle = '#333';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+
+                // Display simulated match time
+                const simulatedMatchTime = Math.min(SOCCER_MATCH_DURATION_SECONDS, Math.floor(timeElapsedPercent * SOCCER_MATCH_DURATION_SECONDS)); 
+                ctx.fillStyle = '#333';
+                ctx.font = 'bold 14px Inter';
+                ctx.textAlign = 'center';
+                ctx.fillText(`Time: ${simulatedMatchTime}'`, width / 2, height - 10);
+                ctx.textAlign = 'left';
+            }
+
+            function updateBallAndPlayersPositions() {
+                const canvas = soccerVisualCanvas;
+                const width = canvas.width;
+                const height = canvas.height;
+
+                // Move ball towards target
+                const dx_ball = ballTarget.x - ballPos.x;
+                const dy_ball = ballTarget.y - ballPos.y;
+                const distance_ball = Math.sqrt(dx_ball * dx_ball + dy_ball * dy_ball);
+
+                if (distance_ball > ballSpeed) {
+                    ballPos.x += (dx_ball / distance_ball) * ballSpeed;
+                    ballPos.y += (dy_ball / distance_ball) * ballSpeed;
+                } else {
+                    ballPos.x = ballTarget.x;
+                    ballPos.y = ballTarget.y;
+                    // Set a new random target for the ball across the field
+                    ballTarget = {
+                        x: Math.random() * width,
+                        y: Math.random() * height
+                    };
+                }
+
+                // Move players towards their targets, and occasionally towards the ball
+                const playerSpeed = 1.5;
+                homePlayers.forEach(p => {
+                    let target = {x: p.targetX, y: p.targetY};
+                    // Have players sometimes gravitate towards the ball
+                    if (Math.random() < 0.1) { // 10% chance to track ball
+                        target = {x: ballPos.x + (Math.random() * 20 - 10), y: ballPos.y + (Math.random() * 20 - 10)};
+                    }
+                    const dx = target.x - p.x;
+                    const dy = target.y - p.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist > playerSpeed) {
+                        p.x += (dx / dist) * playerSpeed;
+                        p.y += (dy / dist) * playerSpeed;
+                    } else {
+                        // If arrived at target, set a new random target within their half
+                        p.targetX = Math.random() * (width / 2 - 20) + 10;
+                        p.targetY = Math.random() * (height - 20) + 10;
+                    }
+                });
+                awayPlayers.forEach(p => {
+                    let target = {x: p.targetX, y: p.targetY};
+                    if (Math.random() < 0.1) {
+                        target = {x: ballPos.x + (Math.random() * 20 - 10), y: ballPos.y + (Math.random() * 20 - 10)};
+                    }
+                    const dx = target.x - p.x;
+                    const dy = target.y - p.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist > playerSpeed) {
+                        p.x += (dx / dist) * playerSpeed;
+                        p.y += (dy / dist) * playerSpeed;
+                    } else {
+                        p.targetX = Math.random() * (width / 2 - 20) + width / 2 + 10;
+                        p.targetY = Math.random() * (height - 20) + 10;
+                    }
+                });
+            }
+
+
+            function animateSoccerMatch(currentTime) {
+                if (!soccerMatchStartTime) soccerMatchStartTime = currentTime;
+                const elapsedTime = currentTime - soccerMatchStartTime;
+                const timeElapsedPercent = Math.min(1, elapsedTime / SOCCER_ANIMATION_DURATION_MS);
+
+                if (timeElapsedPercent >= 1) { // Match over
+                    cancelAnimationFrame(soccerAnimationId);
+                    matchVisualState = 'fulltime';
+                    setVisualMatchMessage('Full-time!', 'darkblue');
+                    handleSoccerMatchResult(homeScore, awayScore);
+                    soccerMatchStartTime = null; 
+                    return;
+                }
+
+                updateBallAndPlayersPositions(); // Move the ball and players
+                drawSoccerVisuals(timeElapsedPercent, homeScore, awayScore);
+
+                // Check for goal events
+                if (goalEvents.length > 0 && goalEvents[0].time <= elapsedTime) {
+                    const goal = goalEvents.shift(); // Get the next goal event
+                    if (goal.team === 'home') {
+                        homeScore++;
+                    } else {
+                        awayScore++;
+                    }
+                    matchScoreDisplay.textContent = `${homeScore} - ${awayScore}`;
+                    setVisualMatchMessage(`GOAL! ${goal.team === 'home' ? currentSelectedSoccerMatch.homeTeam : currentSelectedSoccerMatch.awayTeam} scores!`, 'darkgreen');
+                    // Briefly move ball to the scored goal area
+                    ballTarget = {
+                        x: goal.team === 'home' ? soccerVisualCanvas.width * 0.9 : soccerVisualCanvas.width * 0.1,
+                        y: soccerVisualCanvas.height / 2
+                    };
+                    setTimeout(() => { // Clear goal message after a short while
+                        setVisualMatchMessage('Match in progress...', '#333');
+                        ballTarget = { x: soccerVisualCanvas.width / 2, y: soccerVisualCanvas.height / 2 }; // Return to center
+                    }, 1500); 
+                }
+
+                // Update general match messages based on time
+                if (timeElapsedPercent > 0.49 && timeElapsedPercent < 0.51 && matchVisualState !== 'halftime') { // Around 45 minutes mark
+                    setVisualMatchMessage('Half-time! Teams are resting.', 'gray');
+                    matchVisualState = 'halftime';
+                    // Briefly pause ball movement during half time
+                    const tempBallSpeed = ballSpeed; // Store current ball speed
+                    ballTarget = { x: soccerVisualCanvas.width / 2, y: soccerVisualCanvas.height / 2 }; // Move ball to center
+                    // No need to set ballSpeed to 0 here if it's already slowing towards center
+                    setTimeout(() => {
+                        // ballSpeed = tempBallSpeed; // Restore ball speed
+                        setVisualMatchMessage('Second half begins!', '#333');
+                        matchVisualState = 'playing';
+                    }, 2000); // Pause for 2 seconds
+                } else if (timeElapsedPercent < 0.05 && matchVisualState === 'pre_kickoff') {
+                    setVisualMatchMessage('Kick-off!', '#333');
+                    matchVisualState = 'playing';
+                }
+                // Ensure message returns to normal if it was a goal message
+                if (matchVisualState === 'playing' && visualMatchMessage.textContent.includes("GOAL!")) {
+                     // Do nothing, let the timeout clear it.
+                } else if (matchVisualState === 'playing' && !visualMatchMessage.textContent.includes("Match in progress") && !visualMatchMessage.textContent.includes("Half-time!")) {
+                    setVisualMatchMessage('Match in progress...', '#333');
+                }
+
+
+                soccerAnimationId = requestAnimationFrame(animateSoccerMatch);
+            }
+
+            function startSoccerMatchSimulation() {
+                if (currentBetAmountSoccer === 0) {
+                    setSoccerGameMessage("Please place a bet first.", 'red');
+                    return;
+                }
+                if (!selectedSoccerOutcome) {
+                    setSoccerGameMessage("Please select an outcome (Home Win, Draw, Away Win).", 'red');
+                    return;
+                }
+
+                simulateMatchButton.disabled = true;
+                placeSoccerBetButton.disabled = true;
+                soccerBetAmountInput.disabled = true;
+                betOptionButtons.forEach(btn => btn.disabled = true); // Disable options during simulation
+                setSoccerGameMessage("Simulating match... please wait.", 'blue');
+                visualSoccerGame.classList.remove('win-glow', 'lose-glow', 'draw-glow');
+
+                homeScore = 0; // Reset scores for simulation
+                awayScore = 0;
+                matchScoreDisplay.textContent = '0 - 0'; // Update score display
+
+                // Determine final outcome based on odds (weighted random)
+                const finalOutcome = determineMatchOutcome();
+                let actualHomeGoals = 0;
+                let actualAwayGoals = 0;
+
+                // Simulate final scores (random but consistent with outcome)
+                if (finalOutcome === 'home') {
+                    actualHomeGoals = Math.floor(Math.random() * 3) + 1; 
+                    actualAwayGoals = Math.floor(Math.random() * actualHomeGoals); 
+                } else if (finalOutcome === 'away') {
+                    actualAwayGoals = Math.floor(Math.random() * 3) + 1;
+                    actualHomeGoals = Math.floor(Math.random() * actualAwayGoals);
+                } else { // draw
+                    actualHomeGoals = Math.floor(Math.random() * 2); 
+                    actualAwayGoals = actualHomeGoals;
+                }
+
+                // Generate realistic goal timings
+                goalEvents = [];
+                const totalGoals = actualHomeGoals + actualAwayGoals;
+                for (let i = 0; i < totalGoals; i++) {
+                    // Spread goals across match duration
+                    const goalTimeMs = Math.random() * SOCCER_ANIMATION_DURATION_MS * (Math.random() < 0.5 ? 0.45 : 1); // More goals in first half/late game
+                    let scorer;
+                    // Simple logic to assign scorer, try to match overall outcome
+                    if (actualHomeGoals > actualAwayGoals) { // Home likely to score more
+                        scorer = Math.random() < 0.6 ? 'home' : 'away';
+                    } else if (actualAwayGoals > actualHomeGoals) { // Away likely to score more
+                        scorer = Math.random() < 0.6 ? 'away' : 'home';
+                    } else { // Draw, equal chance
+                        scorer = Math.random() < 0.5 ? 'home' : 'away';
+                    }
+                    goalEvents.push({ time: goalTimeMs, team: scorer });
+                }
+                goalEvents.sort((a, b) => a.time - b.time); // Sort goals by time
+
+                soccerMatchStartTime = null; // Reset start time for animation
+                matchVisualState = 'pre_kickoff'; // Set initial state
+                requestAnimationFrame(animateSoccerMatch);
+            }
+
+            function determineMatchOutcome() {
+                const homeWinProb = 1 / currentSelectedSoccerMatch.odds.home;
+                const drawProb = 1 / currentSelectedSoccerMatch.odds.draw;
+                const awayWinProb = 1 / currentSelectedSoccerMatch.odds.away;
+
+                const totalProb = homeWinProb + drawProb + awayWinProb;
+                const normalizedHomeWin = homeWinProb / totalProb;
+                const normalizedDraw = drawProb / totalProb;
+                const normalizedAwayWin = awayWinProb / totalProb;
+
+                const random = Math.random();
+
+                if (random < normalizedHomeWin) {
+                    return 'home';
+                } else if (random < normalizedHomeWin + normalizedDraw) {
+                    return 'draw';
+                } else {
+                    return 'away';
+                }
+            }
+
+
+            function handleSoccerMatchResult(finalHomeScore, finalAwayScore) {
+                matchScoreDisplay.textContent = `${finalHomeScore} - ${finalAwayScore}`; 
+
+                let actualOutcome;
+                if (finalHomeScore > finalAwayScore) {
+                    actualOutcome = 'home';
+                } else if (finalHomeScore < finalAwayScore) {
+                    actualOutcome = 'away';
+                } else {
+                    actualOutcome = 'draw';
+                }
+
+                if (selectedSoccerOutcome === actualOutcome) {
+                    const winnings = currentBetAmountSoccer * currentSelectedSoccerMatch.odds[actualOutcome];
+                    currentBalance += winnings;
+                    setSoccerGameMessage(`CONGRATULATIONS! Your bet on ${selectedSoccerOutcome.toUpperCase()} was correct! You won ₦${winnings.toLocaleString()}!`, 'green');
+                    visualSoccerGame.classList.add('win-glow');
+                } else {
+                    setSoccerGameMessage(`BET LOST! The match was a ${actualOutcome.toUpperCase()} (${finalHomeScore} - ${finalAwayScore}). Your balance is ₦${currentBalance.toLocaleString()}.`, 'red');
+                    visualSoccerGame.classList.add('lose-glow');
+                    if (actualOutcome === 'draw') { 
+                        visualSoccerGame.classList.add('draw-glow');
+                    }
+                }
+                updateBalanceDisplay();
+
+                setTimeout(() => {
+                    resetSoccerGameControls(); 
+                }, 2000); 
+            }
+
+
+            // --- Common Payment Overlay ---
+            function showPaymentOverlay(amountNeeded) {
+                paymentAmountDisplay.textContent = `₦${amountNeeded.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                paymentOverlay.style.display = 'flex';
+                paymentWarningMessage.textContent = "Do not close this page until payment is confirmed!";
+
+                setTimeout(() => {
+                    const transferSuccessful = Math.random() < 0.8;
+                    if (transferSuccessful) {
+                        currentBalance += amountNeeded;
+                        updateBalanceDisplay();
+                        setGameMessage("Payment successful! Balance updated. You can now place your bet.", 'green');
+                        setSoccerGameMessage("Payment successful! Balance updated. You can now place your bet.", 'green');
+                        setVisualMatchMessage("Payment successful! Balance updated.", 'green'); 
+                        paymentWarningMessage.textContent = "";
+                    } else {
+                        setGameMessage("Payment authentication failed. Please try again or contact support.", 'red');
+                        setSoccerGameMessage("Payment authentication failed. Please try again or contact support.", 'red');
+                        setVisualMatchMessage("Payment authentication failed.", 'red'); 
+                        paymentWarningMessage.textContent = "Payment failed. Please re-check details and try again.";
+                    }
+                    setTimeout(() => {
+                        paymentOverlay.style.display = 'none';
+                        if (transferSuccessful) {
+                            placeBetButton.disabled = false;
+                            betAmountInput.disabled = false;
+                            placeSoccerBetButton.disabled = false;
+                            soccerBetAmountInput.disabled = false;
+                            if (visualSoccerGame.style.display === 'block' && currentSelectedSoccerMatch) {
+                                // If already on a soccer match details page, re-enable bet options
+                                betOptionButtons.forEach(btn => btn.disabled = false);
+                                if (selectedSoccerOutcome) { 
+                                    simulateMatchButton.disabled = false;
+                                }
+                            }
+                        }
+                    }, 3000);
+                }, 5000);
+            }
+            
+            // --- Event Listeners ---
+            // Spin the Wheel
+            spinButton.addEventListener('click', startSpin);
             placeBetButton.addEventListener('click', () => {
                 let bet = parseFloat(betAmountInput.value);
                 if (isNaN(bet) || bet < 700) {
@@ -882,53 +1739,70 @@
                 if (bet > currentBalance) {
                     setGameMessage("Insufficient balance. Please make a deposit.", 'red');
                     spinButton.disabled = true;
-                    showPaymentOverlay(bet - currentBalance); // Suggest top-up for the difference
+                    showPaymentOverlay(bet); 
                     return;
                 }
-                currentBetAmount = bet;
-                setGameMessage(`Bet of ₦${currentBetAmount.toLocaleString()} placed! Click SPIN.`);
+                currentBetAmountSpinWheel = bet; 
+                setGameMessage(`Bet of ₦${currentBetAmountSpinWheel.toLocaleString()} placed! Click SPIN.`);
                 spinButton.disabled = false;
-                placeBetButton.disabled = true; // Disable bet button after placing bet
-                betAmountInput.disabled = true; // Disable input too
+                placeBetButton.disabled = true;
+                betAmountInput.disabled = true;
             });
-
-            // Initial draw of the wheel
-            drawWheel(wheelRotation);
-
             backToDashboardBtn.addEventListener('click', showDashboard);
 
-            function showPaymentOverlay(amountNeeded) {
-                paymentAmountDisplay.textContent = `₦${amountNeeded.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-                paymentOverlay.style.display = 'flex';
-                paymentWarningMessage.textContent = "Do not close this page until payment is confirmed!";
-
-                // Simulate payment authentication
-                setTimeout(() => {
-                    const transferSuccessful = Math.random() < 0.8; // 80% chance of success
-                    if (transferSuccessful) {
-                        currentBalance += amountNeeded; // Add the simulated deposit
-                        updateBalanceDisplay();
-                        setGameMessage("Payment successful! Balance updated. You can now place your bet.", 'green');
-                        paymentWarningMessage.textContent = ""; // Clear warning
-                    } else {
-                        setGameMessage("Payment authentication failed. Please try again or contact support.", 'red');
-                        paymentWarningMessage.textContent = "Payment failed. Please re-check details and try again.";
-                    }
-                    // Automatically close overlay after a delay
-                    setTimeout(() => {
-                        paymentOverlay.style.display = 'none';
-                        // Re-enable betting controls if payment was successful
-                        if (transferSuccessful) {
-                            placeBetButton.disabled = false;
-                            betAmountInput.disabled = false;
-                        }
-                    }, 3000); // Overlay disappears after 3 seconds
-                }, 5000); // Simulate 5 seconds for payment processing
-            }
+            // Visual Soccer List & Detail View
+            backToDashboardBtnSoccerList.addEventListener('click', showDashboard); 
+            backToSoccerListBtn.addEventListener('click', showSoccerMatchList); 
             
-            // Initial rendering - THIS IS THE CRITICAL FIX!
-            renderGameCards(); // Call this to populate the dashboard with games
-            showDashboard(); // Start on the dashboard view
+            // Handle clicking on bet outcome buttons
+            betOptionButtons.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    // Corrected logic: Allow selection IF bet has been placed (placeSoccerBetButton is disabled)
+                    if (placeSoccerBetButton.disabled && currentBetAmountSoccer > 0) { 
+                        betOptionButtons.forEach(btn => btn.classList.remove('selected'));
+                        button.classList.add('selected');
+                        selectedSoccerOutcome = button.dataset.outcome;
+                        setSoccerGameMessage(`You selected ${button.textContent}. Click 'Simulate Match' to proceed.`);
+                        simulateMatchButton.disabled = false; // Enable simulate button after outcome selection
+                    } else if (currentBetAmountSoccer === 0) {
+                        setSoccerGameMessage("Please place your bet amount first.", 'orange');
+                    }
+                });
+            });
+
+
+            placeSoccerBetButton.addEventListener('click', () => {
+                let bet = parseFloat(soccerBetAmountInput.value);
+                if (isNaN(bet) || bet < 1000) {
+                    setSoccerGameMessage("Minimum bet is ₦1,000.", 'red');
+                    simulateMatchButton.disabled = true;
+                    return;
+                }
+                if (bet > currentBalance) {
+                    setSoccerGameMessage("Insufficient balance. Please make a deposit.", 'red');
+                    simulateMatchButton.disabled = true;
+                    showPaymentOverlay(bet); 
+                    return;
+                }
+                currentBetAmountSoccer = bet;
+                placeSoccerBetButton.disabled = true;
+                soccerBetAmountInput.disabled = true;
+                betOptionButtons.forEach(btn => btn.disabled = false); // Enable bet outcome buttons
+                setSoccerGameMessage(`Bet of ₦${currentBetAmountSoccer.toLocaleString()} placed! Now select your outcome.`);
+                if (selectedSoccerOutcome) { 
+                    simulateMatchButton.disabled = false;
+                }
+            });
+
+            simulateMatchButton.addEventListener('click', startSoccerMatchSimulation);
+
+
+            // --- Initial Setup ---
+            renderGameCards(); 
+            drawWheel(wheelRotation); 
+            initPlayers(); // Initialize players on initial load
+            drawSoccerVisuals(0, 0, 0); // Initial draw of the soccer pitch
+            showDashboard(); 
         });
     </script>
 </body>
