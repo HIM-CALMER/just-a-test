@@ -23,7 +23,7 @@
             --shadow: rgba(0, 0, 0, 0.1);
             --glow-win: 0 0 15px 5px #4CAF50, 0 0 30px 10px #8bc34a;
             --glow-lose: 0 0 15px 5px #F44336, 0 0 30px 10px #FF5252;
-            --glow-draw: 0 0 15px 5px #FFC107, 0 0 30px 10px #FFD700; /* New: for draws */
+            --glow-draw: 0 0 15px 5px #FFC107, 0 0 30px 10px #FFD700;
         }
 
         body {
@@ -34,35 +34,121 @@
             flex-direction: column;
             margin: 0;
             padding: 0;
-            /* Key change: Prevent horizontal overflow */
-            overflow-x: hidden; 
-            box-sizing: border-box; /* Ensure body also respects padding/border in its width */
+            overflow-x: hidden;
+            box-sizing: border-box;
             color: var(--dark-text);
         }
 
         .header {
             background: linear-gradient(135deg, var(--accent-color), #a5ffd2);
             color: var(--dark-text);
-            padding: 2rem 1rem;
+            padding: 1.5rem 1rem;
             border-bottom-left-radius: 10px;
             border-bottom-right-radius: 10px;
             box-shadow: 0 4px 8px var(--shadow);
             text-align: center;
             margin-bottom: 20px;
-            /* Ensure header doesn't cause overflow */
             width: 100%;
             max-width: 100vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
         }
 
         .header h1 {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
         }
 
         .header p {
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: #555;
+        }
+
+        .header-actions {
+            margin-top: 1rem;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .header-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-btn.deposit {
+            background-color: var(--secondary-color);
+            color: var(--light-text);
+        }
+        .header-btn.deposit:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+
+        .header-btn.withdraw {
+            background-color: #dc3545;
+            color: var(--light-text);
+        }
+        .header-btn.withdraw:hover {
+            background-color: #c82333;
+            transform: translateY(-2px);
+        }
+
+        /* User Profile Info in Header */
+        .user-profile-info {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 5px 10px;
+            border-radius: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .user-profile-info:hover {
+            background-color: rgba(255, 255, 255, 1);
+        }
+
+        .user-profile-info .profile-photo {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            object-fit: cover;
+            overflow: hidden;
+        }
+        .user-profile-info .profile-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .user-profile-info .profile-name {
+            font-weight: 600;
+            color: var(--dark-text);
+            font-size: 0.95rem;
         }
 
         .container {
@@ -73,15 +159,96 @@
             display: flex;
             flex-direction: column;
             width: 100%; 
-            /* Ensure container doesn't cause overflow, especially with padding */
-            padding-left: 1rem; /* Adjust padding if needed, but 1rem seems fine */
+            padding-left: 1rem;
             padding-right: 1rem;
-            box-sizing: border-box; /* Critical for container with max-width and padding */
+            box-sizing: border-box;
         }
+
+        /* Common Page Styles (Profile Setup, Game Views, Withdrawal) */
+        .page-container {
+            display: none; /* Controlled by JS explicitly */
+            background-color: var(--card-background);
+            border-radius: 10px;
+            box-shadow: 0 2px 5px var(--shadow);
+            padding: 2rem;
+            text-align: center;
+            max-width: 650px; 
+            margin: 0 auto;
+            position: relative; 
+            overflow: hidden; 
+            width: calc(100% - 2rem); 
+            margin-left: auto;
+            margin-right: auto;
+            box-sizing: border-box;
+        }
+
+        .page-container h2 {
+            color: var(--dark-text);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Profile Setup View */
+        #profileSetupView {
+            /* This will be explicitly set to display:flex by JS if no profile */
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+            min-height: 500px;
+        }
+        #profileSetupView h2 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+        }
+        #profileSetupView .form-group {
+            margin-bottom: 1.5rem;
+            width: 80%;
+            max-width: 400px;
+            text-align: left;
+        }
+        #profileSetupView .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #555;
+        }
+        #profileSetupView .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        #profileSetupView .submit-button {
+            padding: 1rem 2rem;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            margin-top: 1rem;
+        }
+        #profileSetupView .submit-button:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+        #profileSetupMessage {
+            margin-top: 1rem;
+            font-weight: bold;
+            color: #555;
+            min-height: 20px;
+        }
+
 
         /* Dashboard specific styles */
         #dashboardView {
-            display: block;
+            /* This will be explicitly set to display:block by JS when loaded */
             width: 100%;
         }
 
@@ -90,9 +257,8 @@
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
             gap: 1.5rem;
             justify-content: center; 
-            /* Ensure grid items don't overflow their parent */
             width: 100%;
-            max-width: 100%; /* Explicitly setting max-width to 100% */
+            max-width: 100%;
         }
 
         .game-card {
@@ -105,7 +271,6 @@
             align-items: center;
             text-align: center;
             transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-            /* Ensure card itself doesn't overflow its grid cell */
             width: 100%; 
             max-width: 100%;
         }
@@ -176,23 +341,11 @@
             background-color: #0056b3;
         }
 
-        /* Common Game styles */
-        .game-container {
-            display: none; /* Controlled by JS */
-            background-color: var(--card-background);
-            border-radius: 10px;
-            box-shadow: 0 2px 5px var(--shadow);
-            padding: 2rem;
-            text-align: center;
-            max-width: 650px; 
-            margin: 0 auto;
-            position: relative; 
-            overflow: hidden; 
-            width: calc(100% - 2rem); 
-            margin-left: auto;
-            margin-right: auto;
+        /* Game specific styles (already existing, but grouped for clarity) */
+        #spinTheWheelGame, #visualSoccerGame, #soccerMatchListView {
+            /* Inherit from .page-container for common properties and default display:none */
         }
-
+        
         .game-container.win-glow {
             box-shadow: var(--glow-win);
         }
@@ -202,12 +355,6 @@
         }
         .game-container.draw-glow { 
             box-shadow: var(--glow-draw);
-        }
-
-        .game-container h2 {
-            color: var(--dark-text);
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
         }
 
         .game-balance-info {
@@ -278,11 +425,7 @@
             min-height: 25px;
         }
         
-        /* NEW: Visual Soccer Match List View */
-        #soccerMatchListView {
-            display: none; /* Controlled by JS */
-            padding: 1rem;
-        }
+        /* Soccer Match List View */
         .match-list {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -295,7 +438,7 @@
             padding: 1.5rem;
             text-align: center;
             transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-            cursor: pointer; /* Indicate clickable */
+            cursor: pointer;
         }
         .match-card:hover {
             transform: translateY(-3px);
@@ -313,7 +456,9 @@
         }
         .match-card .odds-display {
             display: flex;
-            justify-content: space-around;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
             margin-bottom: 1rem;
             font-size: 0.95rem;
             font-weight: 600;
@@ -322,18 +467,11 @@
             padding: 5px 10px;
             border-radius: 5px;
             background-color: #e9ecef;
-        }
-        .match-card .bet-now-button {
-            display: none; /* Removed, card itself is clickable */
+            white-space: nowrap;
         }
 
 
-        /* Specific Visual Soccer Game Details View */
-        #visualSoccerGame {
-            display: none; /* Hidden by default, shown via JS */
-            padding-bottom: 2rem; /* Give space below buttons */
-        }
-
+        /* Visual Soccer Game Details View */
         .visual-soccer-match-details {
             margin-top: 2rem;
             margin-bottom: 2rem;
@@ -377,7 +515,7 @@
             font-weight: 900;
             color: #333;
             margin-top: 1rem;
-            min-height: 40px; /* Prevent layout shift */
+            min-height: 40px;
         }
         .bet-options {
             display: flex;
@@ -395,9 +533,10 @@
             font-weight: 600;
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.1s ease;
-            flex: 1; /* Allow buttons to grow */
-            min-width: 120px; /* Minimum width for buttons */
-            max-width: 180px; /* Max width to prevent overly wide buttons on larger screens */
+            flex: 1 1 calc(33% - 10px);
+            min-width: 120px;
+            max-width: 180px;
+            box-sizing: border-box;
         }
         .bet-option-btn:hover:not(:disabled) {
             background-color: #0056b3;
@@ -433,10 +572,77 @@
             cursor: not-allowed;
         }
 
-        /* NEW: Visual Match Simulation Canvas */
+        /* LLM Commentary section */
+        #llmCommentarySection {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background-color: #f0f8ff;
+            border-radius: 10px;
+            border: 1px solid var(--accent-color);
+            box-shadow: 0 2px 8px rgba(0, 123, 255, 0.1);
+        }
+        #llmCommentarySection h4 {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        #getCommentaryBtn {
+            padding: 0.8rem 1.8rem;
+            background-color: #6f42c1; /* Purple */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 1rem;
+        }
+        #getCommentaryBtn:hover:not(:disabled) {
+            background-color: #563d7c;
+            transform: translateY(-2px);
+        }
+        #getCommentaryBtn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        #llmCommentaryDisplay {
+            font-size: 1rem;
+            color: #444;
+            line-height: 1.6;
+            min-height: 50px;
+            text-align: left;
+            margin-top: 1rem;
+        }
+        #placeNewBetBtn { /* Style for new bet button */
+            padding: 0.8rem 1.8rem;
+            background-color: #17a2b8; /* Info blue */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 1rem;
+        }
+        #placeNewBetBtn:hover:not(:disabled) {
+            background-color: #138496;
+            transform: translateY(-2px);
+        }
+        #placeNewBetBtn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Visual Match Simulation Canvas */
         #soccerVisualCanvas {
             border: 1px solid #ccc;
-            background-color: #4CAF50; /* Green grass */
+            background-color: #4CAF50;
             margin: 1.5rem auto;
             display: block;
             border-radius: 5px;
@@ -444,8 +650,8 @@
         }
 
 
-        /* Payment Overlay */
-        #paymentOverlay {
+        /* Payment Overlay and Withdrawal Overlay (common styling) */
+        #paymentOverlay, #withdrawalOverlay, #editProfileOverlay {
             display: none;
             position: fixed;
             top: 0;
@@ -456,30 +662,28 @@
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            /* Ensure overlay itself doesn't cause overflow */
-            overflow: auto; /* Allow scrolling inside the overlay if content is too tall */
+            overflow: auto;
         }
 
-        .payment-box {
+        .payment-box, .withdrawal-box, .edit-profile-box {
             background-color: var(--card-background);
             padding: 30px;
             border-radius: 10px;
             text-align: center;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            max-width: 400px;
-            width: 90%; /* Use percentage width for responsiveness */
+            max-width: 450px;
+            width: 90%;
             color: var(--dark-text);
-            box-sizing: border-box; /* Include padding in width calculation */
-            margin: 20px auto; /* Add margin for vertical spacing if content is long */
+            box-sizing: border-box;
+            margin: 20px auto;
         }
 
-        .payment-box h3 {
+        .payment-box h3, .withdrawal-box h3, .edit-profile-box h3 {
             color: var(--primary-color);
             margin-bottom: 15px;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
         }
-
-        .payment-box p {
+        .payment-box p, .withdrawal-box p, .edit-profile-box p {
             font-size: 1rem;
             margin-bottom: 10px;
         }
@@ -489,9 +693,10 @@
             padding: 15px;
             border-radius: 8px;
             margin-top: 20px;
+            margin-bottom: 20px;
             font-family: 'monospace', sans-serif;
             text-align: left;
-            word-break: break-all; /* Ensure long numbers wrap */
+            word-break: break-all;
         }
 
         .payment-box .account-details strong {
@@ -499,23 +704,179 @@
             margin-bottom: 5px;
             color: #555;
         }
+        .payment-box .form-group input { /* Style for depositAmountInput */
+            padding: 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            width: 180px; /* Specific width */
+            text-align: center; /* Center text */
+            display: block; /* Make it a block element */
+            margin: 0 auto; /* Center the input itself */
+        }
 
-        .go-back-button {
+        /* NEW: Quick Deposit Buttons Styling */
+        .quick-deposit-options {
+            margin-top: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .quick-deposit-btn {
+            padding: 0.7rem 1.2rem;
+            background-color: #e0e0e0;
+            color: #333;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            flex: 1 1 auto; /* Allow buttons to grow and shrink */
+            min-width: 80px; /* Ensure a minimum width */
+            max-width: 120px; /* Limit max width */
+        }
+
+        .quick-deposit-btn:hover {
+            background-color: #d0d0d0;
+            transform: translateY(-1px);
+        }
+
+
+        /* Withdrawal Form styling */
+        .withdrawal-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            margin-top: 1.5rem;
+        }
+        .withdrawal-form .form-group {
+            background-color: #f8f8f8; /* Lighter background for form groups */
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            text-align: left;
+        }
+        .withdrawal-form .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: var(--dark-text);
+        }
+        .withdrawal-form .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+        .edit-profile-box .form-group { /* Styling for edit profile form groups */
+            background-color: #f8f8f8;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            text-align: left;
+            margin-bottom: 1.2rem;
+        }
+        .edit-profile-box .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: var(--dark-text);
+        }
+        .edit-profile-box .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+
+
+        .payment-buttons, .withdrawal-buttons, .edit-profile-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
             margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .payment-button, .withdrawal-button, .edit-profile-button {
             padding: 0.75rem 1.5rem;
-            background-color: #f44336;
-            color: var(--light-text);
             border: none;
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
             transition: background-color 0.3s ease;
-            display: inline-flex; 
+            display: inline-flex;
             align-items: center;
             gap: 8px;
+            justify-content: center;
+            flex-grow: 1;
+            min-width: 150px;
         }
-        .go-back-button:hover {
+
+        .payment-button.confirm, .withdrawal-button.confirm, .edit-profile-button.save {
+            background-color: var(--secondary-color);
+            color: var(--light-text);
+        }
+        .payment-button.confirm:hover, .withdrawal-button.confirm:hover, .edit-profile-button.save:hover:not(:disabled) {
+            background-color: #218838;
+        }
+
+        .payment-button.cancel, .withdrawal-button.cancel, .edit-profile-button.cancel {
+            background-color: #f44336;
+            color: var(--light-text);
+        }
+        .payment-button.cancel:hover, .withdrawal-button.cancel:hover, .edit-profile-button.cancel:hover {
             background-color: #da190b;
+        }
+        .payment-button.simulate-success {
+            background-color: #007bff; /* Blue */
+            color: white;
+        }
+        .payment-button.simulate-success:hover {
+            background-color: #0056b3;
+        }
+        .payment-button.simulate-fail {
+            background-color: #ffc107; /* Orange */
+            color: #333;
+        }
+        .payment-button.simulate-fail:hover {
+            background-color: #e0a800;
+        }
+
+
+        .edit-profile-button.save:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            background-color: #6c757d;
+        }
+
+        #paymentStatusMessage, #withdrawalStatusMessage, #editProfileStatusMessage {
+            margin-top: 15px;
+            font-weight: bold;
+            min-height: 20px;
+        }
+        
+        .withdrawal-policy-message, .edit-policy-message {
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: #666;
+            font-style: italic;
+            border: 1px dashed #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #fefefe;
+        }
+        .withdrawal-policy-message strong, .edit-policy-message strong {
+            color: var(--primary-color);
         }
 
         .footer {
@@ -527,7 +888,6 @@
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;
             box-shadow: 0 -2px 5px var(--shadow);
-            /* Ensure footer doesn't cause overflow */
             width: 100%;
             max-width: 100vw;
         }
@@ -545,6 +905,28 @@
             .header p {
                 font-size: 1rem;
             }
+            .header-actions {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+            .header-btn {
+                width: 80%;
+                max-width: 250px;
+            }
+            .user-profile-info {
+                top: 5px;
+                left: 5px;
+                padding: 3px 8px;
+                gap: 5px;
+            }
+            .user-profile-info .profile-photo {
+                width: 30px;
+                height: 30px;
+                font-size: 0.9rem;
+            }
+            .user-profile-info .profile-name {
+                font-size: 0.8rem;
+            }
             .game-grid {
                 grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             }
@@ -557,14 +939,22 @@
             .game-card p {
                 font-size: 0.85rem;
             }
-            .bet-section input[type="number"] {
-                width: 100px; 
+            .bet-section input[type="number"],
+            .bet-section input[type="text"] {
+                width: 100%;
+                max-width: 180px;
             }
             .bet-section button {
                 padding: 0.75rem 1rem;
             }
-            .game-container {
+            .page-container {
                 padding: 1.5rem;
+            }
+            #profileSetupView {
+                padding: 2rem;
+            }
+            #profileSetupView h2 {
+                font-size: 2rem;
             }
             .visual-soccer-match-details h3 {
                 font-size: 1.5rem;
@@ -579,9 +969,9 @@
                 font-size: 2rem;
             }
             .bet-option-btn {
-                min-width: unset; /* Allow smaller buttons */
+                min-width: unset;
                 max-width: unset;
-                flex: 1 1 30%; /* Adjust for 3 columns on small screens if space allows */
+                flex: 1 1 45%;
             }
             .match-card .teams {
                 font-size: 1.3rem;
@@ -596,6 +986,15 @@
                 width: 250px;
                 height: 150px;
             }
+            .payment-buttons, .withdrawal-buttons, .edit-profile-buttons {
+                flex-direction: column;
+            }
+            .payment-button, .withdrawal-button, .edit-profile-button {
+                min-width: 100%;
+            }
+            .quick-deposit-btn {
+                flex: 1 1 45%; /* More balanced on smaller screens */
+            }
         }
 
         @media (max-width: 480px) {
@@ -608,30 +1007,39 @@
             .header p {
                 font-size: 0.9rem;
             }
+            .user-profile-info {
+                position: static;
+                margin-bottom: 0.5rem;
+                justify-content: center;
+                width: 100%;
+                background-color: transparent;
+                box-shadow: none;
+            }
             .container {
-                padding: 0.5rem; /* Reduced padding on very small screens */
+                padding: 0.5rem;
             }
             .game-grid {
-                grid-template-columns: 1fr; /* Single column on very small screens */
+                grid-template-columns: 1fr;
                 gap: 1rem;
             }
             .bet-section {
-                flex-direction: column; /* Stack bet elements */
+                flex-direction: column;
                 gap: 10px;
             }
             .bet-section label {
-                margin-bottom: 0; /* Adjust margin when stacked */
+                margin-bottom: 0;
             }
             .bet-section input[type="number"],
+            .bet-section input[type="text"],
             .bet-section button {
-                width: calc(100% - 10px); /* Adjust width for stacked elements, considering potential gap */
-                margin: 0 auto; /* Center them */
+                width: calc(100% - 10px);
+                margin: 0 auto;
             }
             #spinButton, #simulateMatchButton {
                 padding: 0.8rem 1.5rem;
                 font-size: 1.1rem;
             }
-            .payment-box {
+            .payment-box, .withdrawal-box, .edit-profile-box {
                 padding: 20px;
             }
             .bet-options {
@@ -639,7 +1047,7 @@
             }
             .bet-option-btn {
                 width: 100%;
-                max-width: unset; /* Remove max-width when stacked */
+                max-width: unset;
             }
             #soccerVisualCanvas {
                 width: 200px;
@@ -648,24 +1056,54 @@
             .match-list {
                 grid-template-columns: 1fr;
             }
+            #profileSetupView .form-group {
+                width: 100%;
+            }
+            .quick-deposit-btn {
+                flex: 1 1 45%; 
+            }
         }
     </style>
 </head>
 <body class="font-inter">
 
     <header class="header">
+        <div class="user-profile-info" id="userProfileInfo">
+            <div class="profile-photo" id="userPhotoDisplay"></div>
+            <span class="profile-name" id="userNameDisplay">Guest User</span>
+        </div>
         <h1>COREVEST Games</h1>
-        <p>Discover a world of fun and opportunities!</p>
+        <p>Your ultimate destination for exciting games!</p>
+        <div class="header-actions">
+            <button class="header-btn deposit" id="depositFundsBtn"><i class="fas fa-wallet"></i> Deposit Funds</button>
+            <button class="header-btn withdraw" id="withdrawFundsBtn"><i class="fas fa-money-bill-wave"></i> Withdraw Funds</button>
+        </div>
     </header>
 
     <main class="container">
-        <div id="dashboardView">
+        <!-- Profile Setup View (Shown initially if no profile) -->
+        <div id="profileSetupView" class="page-container">
+            <h2>Welcome to COREVEST Games!</h2>
+            <p>Please set up your profile to get started.</p>
+            <div class="form-group">
+                <label for="profileNameInput">Your Name:</label>
+                <input type="text" id="profileNameInput" placeholder="e.g., John Doe" required>
+            </div>
+            <div class="form-group">
+                <label for="profilePhotoUrlInput">Profile Photo URL (Optional):</label>
+                <input type="text" id="profilePhotoUrlInput" placeholder="e.g., https://example.com/your-pic.jpg">
+            </div>
+            <button id="saveProfileBtn" class="submit-button"><i class="fas fa-user-plus"></i> Save Profile</button>
+            <div id="profileSetupMessage"></div>
+        </div>
+
+        <div id="dashboardView" class="page-container">
             <div class="game-grid" id="gameList">
             </div>
         </div>
 
-        <!-- NEW: Visual Soccer Match List View -->
-        <div id="soccerMatchListView">
+        <!-- Visual Soccer Match List View -->
+        <div id="soccerMatchListView" class="page-container">
             <button class="go-back-button" id="backToDashboardBtnSoccerList"><i class="fas fa-arrow-left"></i> Back to Dashboard</button>
             <h2>Available Soccer Matches</h2>
             <div class="game-balance-info">
@@ -677,7 +1115,7 @@
         </div>
 
         <!-- Spin the Wheel Game Section -->
-        <div id="spinTheWheelGame" class="game-container">
+        <div id="spinTheWheelGame" class="page-container">
             <button class="go-back-button" id="backToDashboardBtn"><i class="fas fa-arrow-left"></i> Back to Dashboard</button>
             <h2>Spin the Wheel</h2>
             <div class="game-balance-info">
@@ -697,7 +1135,7 @@
         </div>
 
         <!-- Visual Soccer Game Details View -->
-        <div id="visualSoccerGame" class="game-container">
+        <div id="visualSoccerGame" class="page-container">
             <button class="go-back-button" id="backToSoccerListBtn"><i class="fas fa-arrow-left"></i> Back to Matches</button>
             <h2>Match Details & Bet</h2>
             <div class="game-balance-info">
@@ -723,12 +1161,58 @@
                     <button class="bet-option-btn" data-outcome="home" id="betHomeButton">Home Win (x<span id="oddHome">1.8</span>)</button>
                     <button class="bet-option-btn" data-outcome="draw" id="betDrawButton">Draw (x<span id="oddDraw">3.5</span>)</button>
                     <button class="bet-option-btn" data-outcome="away" id="betAwayButton">Away Win (x<span id="oddAway">2.5</span>)</button>
+                    <button class="bet-option-btn" data-outcome="over1_5" id="betOver1_5Button">Over 1.5 Goals (x<span id="oddOver1_5">1.5</span>)</button>
+                    <button class="bet-option-btn" data-outcome="under1_5" id="betUnder1_5Button">Under 1.5 Goals (x<span id="oddUnder1_5">2.2</span>)</button>
+                    <button class="bet-option-btn" data-outcome="btts_yes" id="betBttsYesButton">BTTS Yes (x<span id="oddBttsYes">1.7</span>)</button>
+                    <button class="bet-option-btn" data-outcome="btts_no" id="betBttsNoButton">BTTS No (x<span id="oddBttsNo">2.0</span>)</button>
                 </div>
             </div>
 
             <button id="simulateMatchButton" disabled>Simulate Match</button>
             <div id="soccerGameMessage" class="game-message">Place your bet and select an outcome.</div>
+
+            <!-- LLM Commentary Section -->
+            <div id="llmCommentarySection" style="display:none;">
+                <h4>✨ Match Highlights & Commentary ✨</h4>
+                <div id="llmCommentaryDisplay"></div>
+                <button id="getCommentaryBtn" disabled><i class="fas fa-robot"></i> Get Match Commentary</button>
+                <button id="placeNewBetBtn" style="display: none;"><i class="fas fa-redo"></i> Place New Bet</button> <!-- NEW BUTTON -->
+            </div>
         </div>
+
+        <!-- Withdrawal Section -->
+        <div id="withdrawalView" class="page-container">
+            <button class="go-back-button" id="backToDashboardBtnWithdrawal"><i class="fas fa-arrow-left"></i> Back to Dashboard</button>
+            <h2>Withdraw Funds</h2>
+            <div class="game-balance-info">
+                <div>Current Balance: <span id="withdrawalBalanceDisplay">₦0.00</span></div>
+            </div>
+
+            <div class="withdrawal-form">
+                <div class="form-group">
+                    <label for="withdrawalAmount">Amount (₦):</label>
+                    <input type="number" id="withdrawalAmount" min="1000" step="1000" placeholder="e.g., 5000">
+                </div>
+                <div class="form-group">
+                    <label for="bankName">Bank Name:</label>
+                    <input type="text" id="bankName" placeholder="e.g., COREVEST Bank">
+                </div>
+                <div class="form-group">
+                    <label for="accountNumber">Account Number:</label>
+                    <input type="text" id="accountNumber" pattern="\d{10}" title="Account number must be 10 digits" placeholder="e.g., 0123456789">
+                </div>
+                <div class="form-group">
+                    <label for="accountName">Account Name:</label>
+                    <input type="text" id="accountName" placeholder="e.g., John Doe">
+                </div>
+                <div class="withdrawal-policy-message">
+                    <strong>Important:</strong> Your Account Name (e.g., John Doe) must exactly match the Name on your COREVEST Account for successful withdrawal. Funds will be processed within 24 hours.
+                </div>
+                <button class="withdrawal-button confirm" id="initiateWithdrawalButton"><i class="fas fa-paper-plane"></i> Initiate Withdrawal</button>
+            </div>
+            <div id="withdrawalStatusMessage" class="game-message"></div>
+        </div>
+
     </main>
 
     <footer class="footer">
@@ -745,26 +1229,111 @@
                 <strong>Account Number:</strong> 0123456789<br>
                 <strong>Amount:</strong> <span id="paymentAmountDisplay">₦0.00</span>
             </div>
-            <p id="paymentWarningMessage" style="color: red; font-weight: bold; margin-top: 15px;"></p>
-            <p style="margin-top: 20px; font-style: italic;">(Simulating payment authentication... please wait)</p>
+            <div class="form-group" style="margin-top: 15px;">
+                <label for="depositAmountInput" style="text-align: center;">Enter Amount to Deposit:</label>
+                <input type="number" id="depositAmountInput" value="5000" min="1000" max="1000000" step="1000" placeholder="₦1,000 - ₦1,000,000">
+            </div>
+            <!-- NEW: Quick Deposit Amounts -->
+            <div class="quick-deposit-options">
+                <button class="quick-deposit-btn" data-amount="1000">₦1,000</button>
+                <button class="quick-deposit-btn" data-amount="5000">₦5,000</button>
+                <button class="quick-deposit-btn" data-amount="10000">₦10,000</button>
+                <button class="quick-deposit-btn" data-amount="20000">₦20,000</button>
+                <button class="quick-deposit-btn" data-amount="50000">₦50,000</button>
+            </div>
+            <p id="paymentStatusMessage" style="color: grey;">Waiting for payment confirmation...</p>
+            <div class="payment-buttons">
+                <button class="payment-button confirm" id="confirmPaymentButton"><i class="fas fa-check-circle"></i> Auto-Authenticate Payment</button>
+                <button class="payment-button simulate-success" id="simulateSuccessBtn"><i class="fas fa-money-check-alt"></i> Simulate Successful Deposit</button>
+                <button class="payment-button simulate-fail" id="simulateFailBtn"><i class="fas fa-exclamation-triangle"></i> Simulate Failed Deposit</button>
+                <button class="payment-button cancel" id="cancelPaymentButton"><i class="fas fa-times-circle"></i> Cancel Payment</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Profile Overlay -->
+    <div id="editProfileOverlay">
+        <div class="edit-profile-box">
+            <h3>Edit Your Profile</h3>
+            <p id="editProfileMessage">Update your name and profile photo.</p>
+            <div class="form-group">
+                <label for="editProfileNameInput">Your Name:</label>
+                <input type="text" id="editProfileNameInput" placeholder="e.g., John Doe" required>
+            </div>
+            <div class="form-group">
+                <label for="editProfilePhotoUrlInput">Profile Photo URL (Optional):</label>
+                <input type="text" id="editProfilePhotoUrlInput" placeholder="e.g., https://example.com/your-pic.jpg">
+            </div>
+            <div class="edit-policy-message">
+                <strong>Note:</strong> Profile changes can only be made every 7 days. Next edit available: <span id="nextEditDateDisplay">Loading...</span>
+            </div>
+            <div class="edit-profile-buttons">
+                <button class="edit-profile-button save" id="saveEditedProfileBtn"><i class="fas fa-save"></i> Save Changes</button>
+                <button class="edit-profile-button cancel" id="cancelEditProfileBtn"><i class="fas fa-times-circle"></i> Cancel</button>
+            </div>
+            <div id="editProfileStatusMessage" class="game-message"></div>
         </div>
     </div>
 
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Main Views
+            const profileSetupView = document.getElementById('profileSetupView');
             const dashboardView = document.getElementById('dashboardView');
             const spinTheWheelGame = document.getElementById('spinTheWheelGame');
             const visualSoccerGame = document.getElementById('visualSoccerGame');
             const soccerMatchListView = document.getElementById('soccerMatchListView'); 
-            const soccerMatchListContainer = document.getElementById('soccerMatchListContainer'); 
             const gameListContainer = document.getElementById('gameList');
+            const withdrawalView = document.getElementById('withdrawalView');
+
+            // Header Elements
+            const userProfileInfo = document.getElementById('userProfileInfo');
+            const userNameDisplay = document.getElementById('userNameDisplay');
+            const userPhotoDisplay = document.getElementById('userPhotoDisplay');
+            const depositFundsBtn = document.getElementById('depositFundsBtn');
+            const withdrawFundsBtn = document.getElementById('withdrawFundsBtn');
+
+            // Back Buttons
             const backToDashboardBtn = document.getElementById('backToDashboardBtn');
             const backToDashboardBtnSoccerList = document.getElementById('backToDashboardBtnSoccerList'); 
             const backToSoccerListBtn = document.getElementById('backToSoccerListBtn'); 
+            const backToDashboardBtnWithdrawal = document.getElementById('backToDashboardBtnWithdrawal'); 
+
+            // Payment Overlay Elements
             const paymentOverlay = document.getElementById('paymentOverlay');
             const paymentAmountDisplay = document.getElementById('paymentAmountDisplay');
-            const paymentWarningMessage = document.getElementById('paymentWarningMessage');
+            const depositAmountInput = document.getElementById('depositAmountInput'); 
+            const paymentStatusMessage = document.getElementById('paymentStatusMessage'); 
+            const confirmPaymentButton = document.getElementById('confirmPaymentButton'); 
+            const cancelPaymentButton = document.getElementById('cancelPaymentButton'); 
+            const simulateSuccessBtn = document.getElementById('simulateSuccessBtn'); 
+            const simulateFailBtn = document.getElementById('simulateFailBtn');     
+            const quickDepositButtons = document.querySelectorAll('.quick-deposit-btn'); // NEW
+
+            // Withdrawal Section Elements
+            const withdrawalBalanceDisplay = document.getElementById('withdrawalBalanceDisplay');
+            const withdrawalAmountInput = document.getElementById('withdrawalAmount');
+            const bankNameInput = document.getElementById('bankName');
+            const accountNumberInput = document.getElementById('accountNumber');
+            const accountNameInput = document.getElementById('accountName');
+            const initiateWithdrawalButton = document.getElementById('initiateWithdrawalButton');
+            const withdrawalStatusMessage = document.getElementById('withdrawalStatusMessage');
+
+            // Profile Setup & Edit Elements
+            const profileNameInput = document.getElementById('profileNameInput');
+            const profilePhotoUrlInput = document.getElementById('profilePhotoUrlInput');
+            const saveProfileBtn = document.getElementById('saveProfileBtn');
+            const profileSetupMessage = document.getElementById('profileSetupMessage');
+            const editProfileOverlay = document.getElementById('editProfileOverlay'); 
+            const editProfileMessage = document.getElementById('editProfileMessage'); 
+            const editProfileNameInput = document.getElementById('editProfileNameInput'); 
+            const editProfilePhotoUrlInput = document.getElementById('editProfilePhotoUrlInput'); 
+            const saveEditedProfileBtn = document.getElementById('saveEditedProfileBtn'); 
+            const cancelEditProfileBtn = document.getElementById('cancelEditProfileBtn'); 
+            const editProfileStatusMessage = document.getElementById('editProfileStatusMessage'); 
+            const nextEditDateDisplay = document.getElementById('nextEditDateDisplay'); 
+
 
             // Spin the Wheel elements
             const wheelCanvas = document.getElementById('wheelCanvas');
@@ -788,59 +1357,232 @@
             const oddHome = document.getElementById('oddHome'); 
             const oddDraw = document.getElementById('oddDraw'); 
             const oddAway = document.getElementById('oddAway'); 
+            const oddOver1_5 = document.getElementById('oddOver1_5'); 
+            const oddUnder1_5 = document.getElementById('oddUnder1_5'); 
+            const oddBttsYes = document.getElementById('oddBttsYes'); 
+            const oddBttsNo = document.getElementById('oddBttsNo'); 
             const simulateMatchButton = document.getElementById('simulateMatchButton');
             const soccerGameMessage = document.getElementById('soccerGameMessage');
             const soccerVisualCanvas = document.getElementById('soccerVisualCanvas'); 
             const soccerVisualCtx = soccerVisualCanvas.getContext('2d'); 
             const visualMatchMessage = document.getElementById('visualMatchMessage'); 
+            const llmCommentarySection = document.getElementById('llmCommentarySection'); 
+            const llmCommentaryDisplay = document.getElementById('llmCommentaryDisplay'); 
+            const getCommentaryBtn = document.getElementById('getCommentaryBtn'); 
+            const placeNewBetBtn = document.getElementById('placeNewBetBtn'); 
 
-            let currentBalance = 0.00;
+            // Global State Variables
+            let currentBalance = 0.00; 
             let currentBetAmountSpinWheel = 0;
             let currentBetAmountSoccer = 0;
             let selectedSoccerOutcome = null;
             let currentSelectedSoccerMatch = null; 
+            let lastRequestedPaymentAmount = 0; 
+            let userName = "Guest";
+            let profilePhotoUrl = "";
+            let profileSetupDate = 0; // Timestamp when profile was last saved/edited
 
-            let isSpinning = false;
-            let wheelRotation = 0; 
-            let targetSegmentIndex = -1;
-            let animationFrameId; // For Spin the Wheel
-            let targetFinalRotation = 0; 
-            let initialWheelRotationAtSpinStart = 0;
-            let wheelSpinStartTime; 
+            // Variables to store last match result for commentary
+            let lastMatchResult = {
+                homeTeam: "", awayTeam: "", homeScore: 0, awayScore: 0,
+                selectedOutcome: "", betWon: false, betAmount: 0
+            };
 
-            // --- Visual Soccer Animation Globals ---
-            let soccerAnimationId; // For Visual Soccer
-            let soccerMatchStartTime;
-            const SOCCER_MATCH_DURATION_SECONDS = 90; // Simulate a 90-minute match
-            const SOCCER_ANIMATION_DURATION_MS = 10000; // 10 seconds of animation time
-            let ballPos = { x: soccerVisualCanvas.width / 2, y: soccerVisualCanvas.height / 2 };
-            let ballTarget = { x: soccerVisualCanvas.width / 2, y: soccerVisualCanvas.height / 2 };
-            const ballSpeed = 3; // pixels per frame, faster movement
-            const PLAYER_RADIUS = 6;
-            const PLAYER_COUNT_PER_TEAM = 5; // Reduced for simpler visual representation
-            let homePlayers = [];
-            let awayPlayers = [];
-            let homeScore = 0;
-            let awayScore = 0;
-            let matchVisualState = 'pre_kickoff'; // 'pre_kickoff', 'playing', 'goal', 'halftime', 'fulltime'
-            let goalEvents = []; // To store simulated goal times and scorers
+            // Flag to remember which game's bet initiated the payment request
+            let gameBetPendingPayment = null; 
 
-            // --- Wheel Configuration ---
-            const segments = [
-                { text: "₦1000", color: "#FFEB3B", value: 1000, type: 'win' },
-                { text: "₦5000", color: "#4CAF50", value: 5000, type: 'win' },
-                { text: "Nothing", color: "#F44336", value: 0, type: 'lose' },
-                { text: "₦10000", color: "#2196F3", value: 10000, type: 'win' },
-                { text: "₦2000", color: "#FF9800", value: 2000, type: 'win' },
-                { text: "₦0", color: "#E91E63", value: 0, type: 'lose' },
-                { text: "₦7000", color: "#9C27B0", value: 7000, type: 'win' },
-                { text: "₦500", color: "#00BCD4", value: 500, type: 'lose' } // Less than bet, example
-            ];
-            const numSegments = segments.length;
-            const arc = (2 * Math.PI) / numSegments; // Angle of each segment in radians
-            const wheelRadius = wheelCanvas.width / 2 - 10; // Radius of the wheel
+            const SEVEN_DAYS_IN_MS = 7 * 24 * 60 * 60 * 1000;
 
-            // --- Game Data (Dashboard) ---
+            // --- UI Update Functions ---
+            function updateBalanceDisplay() {
+                const formattedBalance = `₦${currentBalance.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                gameBalanceDisplay.textContent = formattedBalance;
+                soccerGameBalanceDisplay.textContent = formattedBalance;
+                soccerListBalanceDisplay.textContent = formattedBalance; 
+                withdrawalBalanceDisplay.textContent = formattedBalance; 
+            }
+
+            function setGameMessage(message, color = '#555') {
+                gameMessage.textContent = message;
+                gameMessage.style.color = color;
+            }
+
+            function setSoccerGameMessage(message, color = '#555') {
+                soccerGameMessage.textContent = message;
+                soccerGameMessage.style.color = color;
+            }
+
+            function setVisualMatchMessage(message, color = '#333') { 
+                visualMatchMessage.textContent = message;
+                visualMatchMessage.style.color = color;
+            }
+
+            function setWithdrawalMessage(message, color = '#555') { 
+                withdrawalStatusMessage.textContent = message;
+                withdrawalStatusMessage.style.color = color;
+            }
+
+            function setProfileSetupMessage(message, color = '#555') {
+                profileSetupMessage.textContent = message;
+                profileSetupMessage.style.color = color;
+            }
+
+            function setEditProfileStatusMessage(message, color = '#555') {
+                editProfileStatusMessage.textContent = message;
+                editProfileStatusMessage.style.color = color;
+            }
+
+            // Centralized function to hide all major views
+            function hideAllViews() { 
+                const allViews = [profileSetupView, dashboardView, spinTheWheelGame, visualSoccerGame, soccerMatchListView, withdrawalView, paymentOverlay, editProfileOverlay];
+                allViews.forEach(view => {
+                    if (view) view.style.display = 'none'; 
+                });
+                // Clear all glows
+                spinTheWheelGame.classList.remove('win-glow', 'lose-glow');
+                visualSoccerGame.classList.remove('win-glow', 'lose-glow', 'draw-glow');
+            }
+
+            function showDashboard() {
+                hideAllViews();
+                dashboardView.style.display = 'block';
+                renderGameCards(); 
+                updateProfileDisplayInHeader(); 
+                updateBalanceDisplay(); 
+            }
+
+            function showSpinTheWheel() {
+                hideAllViews();
+                spinTheWheelGame.style.display = 'block';
+                updateBalanceDisplay();
+                setGameMessage("Place your bet to activate the wheel!");
+                spinButton.disabled = true;
+                placeBetButton.disabled = false; 
+                betAmountInput.disabled = false; 
+                betAmountInput.value = 700; 
+                drawWheel(wheelRotation);
+                checkAndDisableBettingControls(betAmountInput.value, 'spinTheWheel');
+            }
+
+            function showSoccerMatchList() { 
+                hideAllViews();
+                soccerMatchListView.style.display = 'block';
+                updateBalanceDisplay(); 
+                availableSoccerMatches = generateSoccerMatches(); 
+                renderSoccerMatches();
+            }
+
+            function showVisualSoccer(match) { 
+                hideAllViews();
+                visualSoccerGame.style.display = 'block';
+                currentSelectedSoccerMatch = match; 
+                updateBalanceDisplay();
+                setSoccerGameMessage("Place your bet and select an outcome.");
+                
+                // Reset soccer game specific controls to initial state
+                simulateMatchButton.disabled = true;
+                placeSoccerBetButton.disabled = false; 
+                soccerBetAmountInput.disabled = false; 
+                soccerBetAmountInput.value = 1000; 
+                currentBetAmountSoccer = 0; 
+                betOptionButtons.forEach(btn => {
+                    btn.classList.remove('selected');
+                    btn.disabled = true; 
+                });
+                selectedSoccerOutcome = null;
+
+                // Update match details in the view
+                currentMatchTeams.textContent = `${match.homeTeam} vs ${match.awayTeam}`;
+                currentMatchLeague.textContent = `League: ${match.league}`;
+                currentMatchTime.textContent = `Today ${match.time}`;
+                oddHome.textContent = match.odds.home.toFixed(2);
+                oddDraw.textContent = match.odds.draw.toFixed(2);
+                oddAway.textContent = match.odds.away.toFixed(2);
+                oddOver1_5.textContent = match.odds.over1_5.toFixed(2); 
+                oddUnder1_5.textContent = match.odds.under1_5.toFixed(2); 
+                oddBttsYes.textContent = match.odds.btts_yes.toFixed(2); 
+                oddBttsNo.textContent = match.odds.btts_no.toFixed(2); 
+
+                // Reset visual match display
+                homeScore = 0;
+                awayScore = 0;
+                matchScoreDisplay.textContent = '0 - 0';
+                setVisualMatchMessage('Match ready! Place your bet.');
+                drawSoccerVisuals(0, homeScore, awayScore); 
+                cancelAnimationFrame(soccerAnimationId); 
+                initPlayers(); 
+                checkAndDisableBettingControls(soccerBetAmountInput.value, 'visualSoccer');
+                
+                // Hide commentary section on new match load
+                llmCommentarySection.style.display = 'none';
+                llmCommentaryDisplay.textContent = '';
+                getCommentaryBtn.disabled = true;
+                placeNewBetBtn.style.display = 'none'; 
+            }
+
+            function showWithdrawalView() { 
+                hideAllViews();
+                withdrawalView.style.display = 'block';
+                updateBalanceDisplay();
+                setWithdrawalMessage("Enter details to withdraw funds.");
+                withdrawalAmountInput.value = '';
+                bankNameInput.value = '';
+                accountNumberInput.value = '';
+                accountNameInput.value = '';
+                initiateWithdrawalButton.disabled = false;
+
+                if (currentBalance < parseFloat(withdrawalAmountInput.min)) {
+                    initiateWithdrawalButton.disabled = true;
+                    setWithdrawalMessage("Minimum withdrawal is ₦1,000. Insufficient balance.", 'red');
+                }
+            }
+
+            function showEditProfileOverlay() { 
+                editProfileOverlay.style.display = 'flex';
+                editProfileNameInput.value = userName;
+                editProfilePhotoUrlInput.value = profilePhotoUrl;
+                setEditProfileStatusMessage("Update your name and profile photo.");
+
+                const now = Date.now();
+                const nextEditTime = profileSetupDate + SEVEN_DAYS_IN_MS;
+                
+                if (now < nextEditTime) {
+                    const remainingMs = nextEditTime - now;
+                    const remainingDays = Math.ceil(remainingMs / (1000 * 60 * 60 * 24));
+                    const nextEditDate = new Date(nextEditTime).toLocaleDateString();
+                    editProfileMessage.innerHTML = `<strong>Note:</strong> Profile changes can only be made every 7 days. Next edit available: <strong>${nextEditDate}</strong> (in ${remainingDays} days).`;
+                    editProfileNameInput.disabled = true;
+                    editProfilePhotoUrlInput.disabled = true;
+                    saveEditedProfileBtn.disabled = true;
+                } else {
+                    editProfileMessage.innerHTML = `<strong>Note:</strong> Profile changes can only be made every 7 days. Next edit available: <strong>Now!</strong>`;
+                    editProfileNameInput.disabled = false;
+                    editProfilePhotoUrlInput.disabled = false;
+                    saveEditedProfileBtn.disabled = false;
+                }
+                setAllGameControlsEnabled(false); 
+            }
+
+            function updateProfileDisplayInHeader() {
+                userNameDisplay.textContent = userName;
+                userPhotoDisplay.innerHTML = ''; 
+
+                if (profilePhotoUrl && profilePhotoUrl.startsWith('http')) {
+                    const img = document.createElement('img');
+                    img.src = profilePhotoUrl;
+                    img.alt = userName.charAt(0).toUpperCase();
+                    img.onerror = function() {
+                        this.outerHTML = `<i class="fas fa-user-circle"></i>`; 
+                    };
+                    userPhotoDisplay.appendChild(img);
+                } else if (userName) {
+                    userPhotoDisplay.textContent = userName.charAt(0).toUpperCase();
+                } else {
+                    userPhotoDisplay.innerHTML = `<i class="fas fa-user-circle"></i>`; 
+                }
+            }
+
+            // --- Game Card Rendering (Dashboard) ---
             const games = [
                 {
                     id: "spin-the-wheel",
@@ -948,100 +1690,6 @@
                 }
             ];
 
-            // --- UI Update Functions ---
-            function updateBalanceDisplay() {
-                gameBalanceDisplay.textContent = `₦${currentBalance.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-                soccerGameBalanceDisplay.textContent = `₦${currentBalance.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-                soccerListBalanceDisplay.textContent = `₦${currentBalance.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`; 
-            }
-
-            function setGameMessage(message, color = '#555') {
-                gameMessage.textContent = message;
-                gameMessage.style.color = color;
-            }
-
-            function setSoccerGameMessage(message, color = '#555') {
-                soccerGameMessage.textContent = message;
-                soccerGameMessage.style.color = color;
-            }
-
-            function setVisualMatchMessage(message, color = '#333') { 
-                visualMatchMessage.textContent = message;
-                visualMatchMessage.style.color = color;
-            }
-
-            function hideAllGameViews() { 
-                dashboardView.style.display = 'none';
-                spinTheWheelGame.style.display = 'none';
-                visualSoccerGame.style.display = 'none';
-                soccerMatchListView.style.display = 'none';
-                // Clear all glows
-                spinTheWheelGame.classList.remove('win-glow', 'lose-glow');
-                visualSoccerGame.classList.remove('win-glow', 'lose-glow', 'draw-glow');
-            }
-
-            function showDashboard() {
-                hideAllGameViews();
-                dashboardView.style.display = 'block';
-                renderGameCards(); 
-            }
-
-            function showSpinTheWheel() {
-                hideAllGameViews();
-                spinTheWheelGame.style.display = 'block';
-                updateBalanceDisplay();
-                setGameMessage("Place your bet to activate the wheel!");
-                spinButton.disabled = true;
-                placeBetButton.disabled = false;
-                betAmountInput.disabled = false;
-                betAmountInput.value = 700;
-                drawWheel(wheelRotation);
-            }
-
-            function showSoccerMatchList() { 
-                hideAllGameViews();
-                soccerMatchListView.style.display = 'block';
-                updateBalanceDisplay(); 
-                // Regenerate matches each time list is shown for freshness
-                availableSoccerMatches = generateSoccerMatches(); 
-                renderSoccerMatches();
-            }
-
-            function showVisualSoccer(match) { 
-                hideAllGameViews();
-                visualSoccerGame.style.display = 'block';
-                currentSelectedSoccerMatch = match; 
-                updateBalanceDisplay();
-                setSoccerGameMessage("Place your bet and select an outcome.");
-                simulateMatchButton.disabled = true;
-                placeSoccerBetButton.disabled = false;
-                soccerBetAmountInput.disabled = false;
-                soccerBetAmountInput.value = 1000;
-                betOptionButtons.forEach(btn => {
-                    btn.classList.remove('selected');
-                    btn.disabled = true; 
-                });
-                selectedSoccerOutcome = null;
-
-                // Update match details in the view
-                currentMatchTeams.textContent = `${match.homeTeam} vs ${match.awayTeam}`;
-                currentMatchLeague.textContent = `League: ${match.league}`;
-                currentMatchTime.textContent = `Today ${match.time}`;
-                oddHome.textContent = match.odds.home.toFixed(2);
-                oddDraw.textContent = match.odds.draw.toFixed(2);
-                oddAway.textContent = match.odds.away.toFixed(2);
-
-                // Reset visual match display
-                homeScore = 0;
-                awayScore = 0;
-                matchScoreDisplay.textContent = '0 - 0';
-                setVisualMatchMessage('Match ready! Place your bet.');
-                drawSoccerVisuals(0, homeScore, awayScore); // Draw initial pitch
-                cancelAnimationFrame(soccerAnimationId); // Stop any lingering animation
-                initPlayers(); // Initialize player positions
-            }
-
-            // --- Game Card Rendering (Dashboard) ---
             function renderGameCards() {
                 gameListContainer.innerHTML = '';
                 games.forEach(game => {
@@ -1078,6 +1726,30 @@
             }
 
             // --- Spin the Wheel Game Logic ---
+            // Spin the Wheel Globals
+            let isSpinning = false;
+            let wheelRotation = 0; 
+            let targetSegmentIndex = -1;
+            let animationFrameId; 
+            let targetFinalRotation = 0; 
+            let initialWheelRotationAtSpinStart = 0;
+            let wheelSpinStartTime; 
+
+            // Wheel Configuration
+            const segments = [
+                { text: "₦1000", color: "#FFEB3B", value: 1000, type: 'win' },
+                { text: "₦5000", color: "#4CAF50", value: 5000, type: 'win' },
+                { text: "Nothing", color: "#F44336", value: 0, type: 'lose' },
+                { text: "₦10000", color: "#2196F3", value: 10000, type: 'win' },
+                { text: "₦2000", color: "#FF9800", value: 2000, type: 'win' },
+                { text: "₦0", color: "#E91E63", value: 0, type: 'lose' },
+                { text: "₦7000", color: "#9C27B0", value: 7000, type: 'win' },
+                { text: "₦500", color: "#00BCD4", value: 500, type: 'lose' } 
+            ];
+            const numSegments = segments.length;
+            const arc = (2 * Math.PI) / numSegments; 
+            const wheelRadius = wheelCanvas.width / 2 - 10; 
+
             function drawWheel(currentRotation = 0) {
                 const centerX = wheelCanvas.width / 2;
                 const centerY = wheelCanvas.height / 2;
@@ -1150,7 +1822,7 @@
                 if (isSpinning || currentBetAmountSpinWheel === 0) return;
 
                 if (currentBalance < currentBetAmountSpinWheel) {
-                    showPaymentOverlay(currentBetAmountSpinWheel);
+                    showPaymentOverlay(currentBetAmountSpinWheel, 'spinTheWheel'); 
                     return;
                 }
                 currentBalance -= currentBetAmountSpinWheel;
@@ -1183,7 +1855,7 @@
                     setGameMessage(`You won ${segment.text}! Your balance is now ₦${currentBalance.toLocaleString()}.`, 'green');
                     spinTheWheelGame.classList.add('win-glow');
                 } else {
-                    setGameMessage(`You landed on ${segment.text}. Better luck next time! Your balance is ₦${currentBalance.toLocaleString()}.`, 'red');
+                    setGameMessage(`You landed on ${segment.text}. Your bet of ₦${currentBetAmountSpinWheel.toLocaleString()} was deducted. Current balance: ₦${currentBalance.toLocaleString()}.`, 'red'); 
                     spinTheWheelGame.classList.add('lose-glow');
                 }
                 updateBalanceDisplay();
@@ -1193,7 +1865,7 @@
                 betAmountInput.disabled = false;
             }
 
-            // --- Visual Soccer Game Logic (NEW & Enhanced) ---
+            // --- Visual Soccer Game Logic ---
             const SOCCER_TEAMS = [
                 "Real Madrid", "FC Barcelona", "Manchester United", "Liverpool FC",
                 "Bayern Munich", "Paris SG", "Juventus", "Inter Milan",
@@ -1205,16 +1877,34 @@
             ];
             const SOCCER_LEAGUES = [
                 "Premier League", "La Liga", "Serie A", "Bundesliga", "Ligue 1", 
-                "Champions League", "Europa League", "FA Cup" // Added more leagues
+                "Champions League", "Europa League", "FA Cup" 
             ];
+            // Modified SOCCER_ODDS_POOL to provide slightly lower winning payouts
             const SOCCER_ODDS_POOL = [ 
-                { home: 1.7, draw: 3.8, away: 4.2 },
-                { home: 2.1, draw: 3.3, away: 3.0 },
-                { home: 1.5, draw: 4.0, away: 5.5 },
-                { home: 2.5, draw: 3.2, away: 2.8 },
-                { home: 1.9, draw: 3.5, away: 3.6 },
-                { home: 2.2, draw: 3.0, away: 3.1 }
+                { home: 1.55, draw: 3.40, away: 4.20, over1_5: 1.40, under1_5: 2.40, btts_yes: 1.50, btts_no: 2.00 },
+                { home: 1.90, draw: 3.15, away: 2.90, over1_5: 1.45, under1_5: 2.10, btts_yes: 1.60, btts_no: 1.85 },
+                { home: 1.35, draw: 3.90, away: 5.50, over1_5: 1.30, under1_5: 2.70, btts_yes: 1.40, btts_no: 2.20 },
+                { home: 2.30, draw: 3.05, away: 2.70, over1_5: 1.55, under1_5: 1.90, btts_yes: 1.70, btts_no: 1.75 },
+                { home: 1.70, draw: 3.30, away: 3.60, over1_5: 1.40, under1_5: 2.25, btts_yes: 1.55, btts_no: 1.95 },
+                { home: 2.00, draw: 2.80, away: 3.00, over1_5: 1.60, under1_5: 1.80, btts_yes: 1.75, btts_no: 1.65 }
             ];
+            // Soccer Animation Globals
+            let soccerAnimationId; 
+            let soccerMatchStartTime;
+            const SOCCER_MATCH_DURATION_SECONDS = 90; 
+            const SOCCER_ANIMATION_DURATION_MS = 10000; 
+            let ballPos = { x: 0, y: 0 }; 
+            let ballTarget = { x: 0, y: 0 }; 
+            const ballSpeed = 3; 
+            const PLAYER_RADIUS = 6;
+            const PLAYER_COUNT_PER_TEAM = 5; 
+            let homePlayers = [];
+            let awayPlayers = [];
+            let homeScore = 0;
+            let awayScore = 0;
+            let matchVisualState = 'pre_kickoff'; 
+            let goalEvents = []; 
+
 
             function generateSoccerMatches(count = 7) { 
                 const matches = [];
@@ -1266,12 +1956,15 @@
                             <span class="odd-item">H: ${match.odds.home.toFixed(2)}</span>
                             <span class="odd-item">D: ${match.odds.draw.toFixed(2)}</span>
                             <span class="odd-item">A: ${match.odds.away.toFixed(2)}</span>
+                            <span class="odd-item">O1.5: ${match.odds.over1_5.toFixed(2)}</span>
+                            <span class="odd-item">U1.5: ${match.odds.under1_5.toFixed(2)}</span>
+                            <span class="odd-item">BTTS Y: ${match.odds.btts_yes.toFixed(2)}</span>
+                            <span class="odd-item">BTTS N: ${match.odds.btts_no.toFixed(2)}</span>
                         </div>
                     `;
                     soccerMatchListContainer.appendChild(matchCard);
                 });
 
-                // Add event listeners for "Bet Now" buttons (now the whole card)
                 soccerMatchListContainer.querySelectorAll('.match-card').forEach(card => {
                     card.addEventListener('click', (event) => {
                         const matchId = event.currentTarget.dataset.matchId;
@@ -1296,7 +1989,6 @@
                 setSoccerGameMessage("Place your bet and select an outcome.");
                 setVisualMatchMessage('Match ready! Place your bet.');
                 
-                // Clear any running visual animation
                 cancelAnimationFrame(soccerAnimationId);
                 homeScore = 0;
                 awayScore = 0;
@@ -1305,9 +1997,17 @@
                 initPlayers(); 
                 goalEvents = []; 
                 currentBetAmountSoccer = 0; 
+
+                // Reset LLM commentary section
+                llmCommentarySection.style.display = 'none';
+                llmCommentaryDisplay.textContent = '';
+                getCommentaryBtn.disabled = true;
+                placeNewBetBtn.style.display = 'none'; 
+                lastMatchResult = {homeTeam: "", awayTeam: "", homeScore: 0, awayScore: 0, selectedOutcome: "", betWon: false, betAmount: 0}; // Clear last match result
+
+                checkAndDisableBettingControls(parseFloat(soccerBetAmountInput.min), 'visualSoccer');
             }
 
-            // Initialize player positions
             function initPlayers() {
                 homePlayers = [];
                 awayPlayers = [];
@@ -1315,25 +2015,26 @@
                 const fieldWidth = canvas.width;
                 const fieldHeight = canvas.height;
 
-                // Home players (left half)
+                ballPos = { x: fieldWidth / 2, y: fieldHeight / 2 }; 
+                ballTarget = { x: fieldWidth / 2, y: fieldHeight / 2 };
+
                 for (let i = 0; i < PLAYER_COUNT_PER_TEAM; i++) {
                     homePlayers.push({
                         x: Math.random() * (fieldWidth / 2 - 20) + 10,
                         y: Math.random() * (fieldHeight - 20) + 10,
-                        targetX: 0, targetY: 0, // Will be set by setNewPlayerTargets
-                        color: '#0000FF' // Blue
+                        targetX: 0, targetY: 0, 
+                        color: '#0000FF' 
                     });
                 }
-                // Away players (right half)
                 for (let i = 0; i < PLAYER_COUNT_PER_TEAM; i++) {
                     awayPlayers.push({
                         x: Math.random() * (fieldWidth / 2 - 20) + fieldWidth / 2 + 10,
                         y: Math.random() * (fieldHeight - 20) + 10,
-                        targetX: 0, targetY: 0, // Will be set by setNewPlayerTargets
-                        color: '#FF0000' // Red
+                        targetX: 0, targetY: 0, 
+                        color: '#FF0000' 
                     });
                 }
-                setNewPlayerTargets(); // Set initial random targets for players
+                setNewPlayerTargets(); 
             }
 
             function setNewPlayerTargets() {
@@ -1348,7 +2049,6 @@
                 });
             }
 
-            // Soccer Visuals Canvas Drawing
             function drawSoccerVisuals(timeElapsedPercent, currentHomeScore, currentAwayScore) {
                 const canvas = soccerVisualCanvas;
                 const ctx = soccerVisualCtx;
@@ -1357,54 +2057,44 @@
 
                 ctx.clearRect(0, 0, width, height);
 
-                // Draw pitch
-                ctx.fillStyle = '#4CAF50'; // Green grass
+                ctx.fillStyle = '#4CAF50'; 
                 ctx.fillRect(0, 0, width, height);
 
-                // Draw lines (white)
                 ctx.strokeStyle = '#FFFFFF';
                 ctx.lineWidth = 2;
 
-                // Outer boundary (already by fillRect, but emphasizing)
                 ctx.strokeRect(0, 0, width, height);
 
-                // Halfway line
                 ctx.beginPath();
                 ctx.moveTo(width / 2, 0);
                 ctx.lineTo(width / 2, height);
                 ctx.stroke();
 
-                // Center circle
                 ctx.beginPath();
                 ctx.arc(width / 2, height / 2, Math.min(width, height) * 0.15, 0, 2 * Math.PI);
                 ctx.stroke();
 
-                // Center spot
                 ctx.beginPath();
                 ctx.arc(width / 2, height / 2, 2, 0, 2 * Math.PI);
                 ctx.fillStyle = '#FFFFFF';
                 ctx.fill();
 
-                // Penalty boxes
                 const penaltyBoxWidth = width * 0.25;
                 const penaltyBoxHeight = height * 0.5;
-                ctx.strokeRect(0, (height - penaltyBoxHeight) / 2, penaltyBoxWidth, penaltyBoxHeight); // Left
-                ctx.strokeRect(width - penaltyBoxWidth, (height - penaltyBoxHeight) / 2, penaltyBoxWidth, penaltyBoxHeight); // Right
+                ctx.strokeRect(0, (height - penaltyBoxHeight) / 2, penaltyBoxWidth, penaltyBoxHeight); 
+                ctx.strokeRect(width - penaltyBoxWidth, (height - penaltyBoxHeight) / 2, penaltyBoxWidth, penaltyBoxHeight); 
 
-                // Goal areas (smaller boxes inside penalty box)
                 const goalAreaWidth = width * 0.1;
                 const goalAreaHeight = height * 0.25;
-                ctx.strokeRect(0, (height - goalAreaHeight) / 2, goalAreaWidth, goalAreaHeight); // Left
-                ctx.strokeRect(width - goalAreaWidth, (height - goalAreaHeight) / 2, goalAreaWidth, goalAreaHeight); // Right
+                ctx.strokeRect(0, (height - goalAreaHeight) / 2, goalAreaWidth, goalAreaHeight); 
+                ctx.strokeRect(width - goalAreaWidth, (height - goalAreaHeight) / 2, goalAreaWidth, goalAreaHeight); 
 
-                // Goals (very small rectangles at the edges)
                 const goalWidth = 5;
                 const goalHeight = height * 0.15;
                 ctx.fillStyle = '#AAAAAA';
-                ctx.fillRect(0, (height - goalHeight) / 2, goalWidth, goalHeight); // Left Goal
-                ctx.fillRect(width - goalWidth, (height - goalHeight) / 2, goalWidth, goalHeight); // Right Goal
+                ctx.fillRect(0, (height - goalHeight) / 2, goalWidth, goalHeight); 
+                ctx.fillRect(width - goalWidth, (height - goalHeight) / 2, goalWidth, goalHeight); 
 
-                // Draw Players (tiny images)
                 homePlayers.forEach(p => {
                     ctx.beginPath();
                     ctx.arc(p.x, p.y, PLAYER_RADIUS, 0, 2 * Math.PI);
@@ -1424,16 +2114,14 @@
                     ctx.stroke();
                 });
 
-                // Draw the ball
                 ctx.beginPath();
-                ctx.arc(ballPos.x, ballPos.y, 5, 0, 2 * Math.PI); // Small white circle for ball
+                ctx.arc(ballPos.x, ballPos.y, 5, 0, 2 * Math.PI); 
                 ctx.fillStyle = '#FFFFFF';
                 ctx.fill();
                 ctx.strokeStyle = '#333';
                 ctx.lineWidth = 1;
                 ctx.stroke();
 
-                // Display simulated match time
                 const simulatedMatchTime = Math.min(SOCCER_MATCH_DURATION_SECONDS, Math.floor(timeElapsedPercent * SOCCER_MATCH_DURATION_SECONDS)); 
                 ctx.fillStyle = '#333';
                 ctx.font = 'bold 14px Inter';
@@ -1447,7 +2135,6 @@
                 const width = canvas.width;
                 const height = canvas.height;
 
-                // Move ball towards target
                 const dx_ball = ballTarget.x - ballPos.x;
                 const dy_ball = ballTarget.y - ballPos.y;
                 const distance_ball = Math.sqrt(dx_ball * dx_ball + dy_ball * dy_ball);
@@ -1458,19 +2145,16 @@
                 } else {
                     ballPos.x = ballTarget.x;
                     ballPos.y = ballTarget.y;
-                    // Set a new random target for the ball across the field
                     ballTarget = {
                         x: Math.random() * width,
                         y: Math.random() * height
                     };
                 }
 
-                // Move players towards their targets, and occasionally towards the ball
                 const playerSpeed = 1.5;
                 homePlayers.forEach(p => {
                     let target = {x: p.targetX, y: p.targetY};
-                    // Have players sometimes gravitate towards the ball
-                    if (Math.random() < 0.1) { // 10% chance to track ball
+                    if (Math.random() < 0.1) { 
                         target = {x: ballPos.x + (Math.random() * 20 - 10), y: ballPos.y + (Math.random() * 20 - 10)};
                     }
                     const dx = target.x - p.x;
@@ -1480,7 +2164,6 @@
                         p.x += (dx / dist) * playerSpeed;
                         p.y += (dy / dist) * playerSpeed;
                     } else {
-                        // If arrived at target, set a new random target within their half
                         p.targetX = Math.random() * (width / 2 - 20) + 10;
                         p.targetY = Math.random() * (height - 20) + 10;
                     }
@@ -1509,7 +2192,7 @@
                 const elapsedTime = currentTime - soccerMatchStartTime;
                 const timeElapsedPercent = Math.min(1, elapsedTime / SOCCER_ANIMATION_DURATION_MS);
 
-                if (timeElapsedPercent >= 1) { // Match over
+                if (timeElapsedPercent >= 1) { 
                     cancelAnimationFrame(soccerAnimationId);
                     matchVisualState = 'fulltime';
                     setVisualMatchMessage('Full-time!', 'darkblue');
@@ -1518,12 +2201,11 @@
                     return;
                 }
 
-                updateBallAndPlayersPositions(); // Move the ball and players
+                updateBallAndPlayersPositions(); 
                 drawSoccerVisuals(timeElapsedPercent, homeScore, awayScore);
 
-                // Check for goal events
                 if (goalEvents.length > 0 && goalEvents[0].time <= elapsedTime) {
-                    const goal = goalEvents.shift(); // Get the next goal event
+                    const goal = goalEvents.shift(); 
                     if (goal.team === 'home') {
                         homeScore++;
                     } else {
@@ -1531,37 +2213,30 @@
                     }
                     matchScoreDisplay.textContent = `${homeScore} - ${awayScore}`;
                     setVisualMatchMessage(`GOAL! ${goal.team === 'home' ? currentSelectedSoccerMatch.homeTeam : currentSelectedSoccerMatch.awayTeam} scores!`, 'darkgreen');
-                    // Briefly move ball to the scored goal area
                     ballTarget = {
                         x: goal.team === 'home' ? soccerVisualCanvas.width * 0.9 : soccerVisualCanvas.width * 0.1,
                         y: soccerVisualCanvas.height / 2
                     };
-                    setTimeout(() => { // Clear goal message after a short while
+                    setTimeout(() => { 
                         setVisualMatchMessage('Match in progress...', '#333');
-                        ballTarget = { x: soccerVisualCanvas.width / 2, y: soccerVisualCanvas.height / 2 }; // Return to center
+                        ballTarget = { x: soccerVisualCanvas.width / 2, y: soccerVisualCanvas.height / 2 }; 
                     }, 1500); 
                 }
 
-                // Update general match messages based on time
-                if (timeElapsedPercent > 0.49 && timeElapsedPercent < 0.51 && matchVisualState !== 'halftime') { // Around 45 minutes mark
+                if (timeElapsedPercent > 0.49 && timeElapsedPercent < 0.51 && matchVisualState !== 'halftime') { 
                     setVisualMatchMessage('Half-time! Teams are resting.', 'gray');
                     matchVisualState = 'halftime';
-                    // Briefly pause ball movement during half time
-                    const tempBallSpeed = ballSpeed; // Store current ball speed
-                    ballTarget = { x: soccerVisualCanvas.width / 2, y: soccerVisualCanvas.height / 2 }; // Move ball to center
-                    // No need to set ballSpeed to 0 here if it's already slowing towards center
+                    const tempBallSpeed = ballSpeed; 
+                    ballTarget = { x: soccerVisualCanvas.width / 2, y: soccerVisualCanvas.height / 2 }; 
                     setTimeout(() => {
-                        // ballSpeed = tempBallSpeed; // Restore ball speed
                         setVisualMatchMessage('Second half begins!', '#333');
                         matchVisualState = 'playing';
-                    }, 2000); // Pause for 2 seconds
+                    }, 2000); 
                 } else if (timeElapsedPercent < 0.05 && matchVisualState === 'pre_kickoff') {
                     setVisualMatchMessage('Kick-off!', '#333');
                     matchVisualState = 'playing';
                 }
-                // Ensure message returns to normal if it was a goal message
                 if (matchVisualState === 'playing' && visualMatchMessage.textContent.includes("GOAL!")) {
-                     // Do nothing, let the timeout clear it.
                 } else if (matchVisualState === 'playing' && !visualMatchMessage.textContent.includes("Match in progress") && !visualMatchMessage.textContent.includes("Half-time!")) {
                     setVisualMatchMessage('Match in progress...', '#333');
                 }
@@ -1576,158 +2251,601 @@
                     return;
                 }
                 if (!selectedSoccerOutcome) {
-                    setSoccerGameMessage("Please select an outcome (Home Win, Draw, Away Win).", 'red');
+                    setSoccerGameMessage("Please select an outcome (Home Win, Draw, Away Win, Over/Under, BTTS).", 'red');
                     return;
                 }
 
                 simulateMatchButton.disabled = true;
                 placeSoccerBetButton.disabled = true;
                 soccerBetAmountInput.disabled = true;
-                betOptionButtons.forEach(btn => btn.disabled = true); // Disable options during simulation
+                betOptionButtons.forEach(btn => btn.disabled = true); 
                 setSoccerGameMessage("Simulating match... please wait.", 'blue');
                 visualSoccerGame.classList.remove('win-glow', 'lose-glow', 'draw-glow');
 
-                homeScore = 0; // Reset scores for simulation
+                homeScore = 0; 
                 awayScore = 0;
-                matchScoreDisplay.textContent = '0 - 0'; // Update score display
+                matchScoreDisplay.textContent = '0 - 0'; 
 
-                // Determine final outcome based on odds (weighted random)
                 const finalOutcome = determineMatchOutcome();
                 let actualHomeGoals = 0;
                 let actualAwayGoals = 0;
 
-                // Simulate final scores (random but consistent with outcome)
-                if (finalOutcome === 'home') {
-                    actualHomeGoals = Math.floor(Math.random() * 3) + 1; 
-                    actualAwayGoals = Math.floor(Math.random() * actualHomeGoals); 
-                } else if (finalOutcome === 'away') {
-                    actualAwayGoals = Math.floor(Math.random() * 3) + 1;
-                    actualHomeGoals = Math.floor(Math.random() * actualAwayGoals);
-                } else { // draw
-                    actualHomeGoals = Math.floor(Math.random() * 2); 
-                    actualAwayGoals = actualHomeGoals;
+                switch (finalOutcome) {
+                    case 'home':
+                        actualHomeGoals = Math.floor(Math.random() * 3) + 1; 
+                        actualAwayGoals = Math.max(0, Math.floor(Math.random() * actualHomeGoals)); 
+                        break;
+                    case 'away':
+                        actualAwayGoals = Math.floor(Math.random() * 3) + 1;
+                        actualHomeGoals = Math.max(0, Math.floor(Math.random() * actualAwayGoals));
+                        break;
+                    case 'draw':
+                        actualHomeGoals = Math.floor(Math.random() * 2); 
+                        actualAwayGoals = actualHomeGoals;
+                        if (actualHomeGoals === 0 && Math.random() < 0.5) { 
+                            actualHomeGoals = 1;
+                            actualAwayGoals = 1;
+                        }
+                        break;
+                    case 'over1_5':
+                        let totalGoalsOver = Math.floor(Math.random() * 3) + 2; 
+                        actualHomeGoals = Math.floor(Math.random() * totalGoalsOver);
+                        actualAwayGoals = totalGoalsOver - actualHomeGoals;
+                        if ((actualHomeGoals === 0 && actualAwayGoals === 0) || (actualHomeGoals === 1 && actualAwayGoals === 0) || (actualHomeGoals === 0 && actualAwayGoals === 1)) {
+                            actualHomeGoals = Math.floor(Math.random() * totalGoalsOver) + 1; 
+                            actualAwayGoals = totalGoalsOver - actualHomeGoals;
+                            if (actualAwayGoals < 0) actualAwayGoals = 0;
+                        }
+                        break;
+                    case 'under1_5':
+                        if (Math.random() < 0.6) { 
+                            actualHomeGoals = 0;
+                            actualAwayGoals = 0;
+                        } else { 
+                            actualHomeGoals = Math.random() < 0.5 ? 1 : 0;
+                            actualAwayGoals = 1 - actualHomeGoals;
+                        }
+                        break;
+                    case 'btts_yes':
+                        actualHomeGoals = Math.floor(Math.random() * 2) + 1; 
+                        actualAwayGoals = Math.floor(Math.random() * 2) + 1; 
+                        break;
+                    case 'btts_no':
+                        if (Math.random() < 0.5) { 
+                            actualHomeGoals = Math.floor(Math.random() * 3) + 1;
+                            actualAwayGoals = 0;
+                        } else {
+                            actualHomeGoals = 0;
+                            actualAwayGoals = Math.floor(Math.random() * 3) + 1;
+                        }
+                        if (Math.random() < 0.2 && actualHomeGoals === 0 && actualAwayGoals === 0) { 
+                        }
+                        break;
                 }
 
-                // Generate realistic goal timings
                 goalEvents = [];
                 const totalGoals = actualHomeGoals + actualAwayGoals;
                 for (let i = 0; i < totalGoals; i++) {
-                    // Spread goals across match duration
-                    const goalTimeMs = Math.random() * SOCCER_ANIMATION_DURATION_MS * (Math.random() < 0.5 ? 0.45 : 1); // More goals in first half/late game
+                    const goalTimeMs = Math.random() * SOCCER_ANIMATION_DURATION_MS * (Math.random() < 0.5 ? 0.45 : 1); 
                     let scorer;
-                    // Simple logic to assign scorer, try to match overall outcome
-                    if (actualHomeGoals > actualAwayGoals) { // Home likely to score more
+                    if (actualHomeGoals > actualAwayGoals) { 
                         scorer = Math.random() < 0.6 ? 'home' : 'away';
-                    } else if (actualAwayGoals > actualHomeGoals) { // Away likely to score more
+                    } else if (actualAwayGoals > actualHomeGoals) { 
                         scorer = Math.random() < 0.6 ? 'away' : 'home';
-                    } else { // Draw, equal chance
+                    } else { 
                         scorer = Math.random() < 0.5 ? 'home' : 'away';
                     }
                     goalEvents.push({ time: goalTimeMs, team: scorer });
                 }
-                goalEvents.sort((a, b) => a.time - b.time); // Sort goals by time
+                goalEvents.sort((a, b) => a.time - b.time); 
 
-                soccerMatchStartTime = null; // Reset start time for animation
-                matchVisualState = 'pre_kickoff'; // Set initial state
+                soccerMatchStartTime = null; 
+                matchVisualState = 'pre_kickoff'; 
                 requestAnimationFrame(animateSoccerMatch);
             }
 
             function determineMatchOutcome() {
-                const homeWinProb = 1 / currentSelectedSoccerMatch.odds.home;
-                const drawProb = 1 / currentSelectedSoccerMatch.odds.draw;
-                const awayWinProb = 1 / currentSelectedSoccerMatch.odds.away;
+                const odds = currentSelectedSoccerMatch.odds;
+                
+                let outcomeProbs = {
+                    home: 1 / odds.home,
+                    draw: 1 / odds.draw,
+                    away: 1 / odds.away,
+                    over1_5: 1 / odds.over1_5,
+                    under1_5: 1 / odds.under1_5,
+                    btts_yes: 1 / odds.btts_yes,
+                    btts_no: 1 / odds.btts_no
+                };
 
-                const totalProb = homeWinProb + drawProb + awayWinProb;
-                const normalizedHomeWin = homeWinProb / totalProb;
-                const normalizedDraw = drawProb / totalProb;
-                const normalizedAwayWin = awayWinProb / totalProb;
+                const primaryOutcomes = ['home', 'draw', 'away'];
+                const secondaryOutcomes = ['over1_5', 'under1_5', 'btts_yes', 'btts_no'];
 
-                const random = Math.random();
+                let candidates = {};
 
-                if (random < normalizedHomeWin) {
-                    return 'home';
-                } else if (random < normalizedHomeWin + normalizedDraw) {
-                    return 'draw';
+                if (selectedSoccerOutcome && primaryOutcomes.includes(selectedSoccerOutcome)) {
+                    candidates = { [selectedSoccerOutcome]: outcomeProbs[selectedSoccerOutcome] };
+                } else if (selectedSoccerOutcome && secondaryOutcomes.includes(selectedSoccerOutcome)) {
+                    candidates = { [selectedSoccerOutcome]: outcomeProbs[selectedSoccerOutcome] };
+                    primaryOutcomes.forEach(p => {
+                        candidates[p] = (candidates[p] || 0) + outcomeProbs[p] * 0.5; 
+                    });
                 } else {
-                    return 'away';
+                    candidates = outcomeProbs;
                 }
+
+                const totalWeight = Object.values(candidates).reduce((sum, weight) => sum + weight, 0);
+                let random = Math.random() * totalWeight;
+
+                for (const outcome in candidates) {
+                    random -= candidates[outcome];
+                    if (random <= 0) {
+                        return outcome;
+                    }
+                }
+
+                return 'draw'; 
             }
 
 
             function handleSoccerMatchResult(finalHomeScore, finalAwayScore) {
                 matchScoreDisplay.textContent = `${finalHomeScore} - ${finalAwayScore}`; 
 
-                let actualOutcome;
+                let predictionCorrect = false;
+                let oddsMultiplier = 0;
+
+                let actualOutcomePrimary;
                 if (finalHomeScore > finalAwayScore) {
-                    actualOutcome = 'home';
+                    actualOutcomePrimary = 'home';
                 } else if (finalHomeScore < finalAwayScore) {
-                    actualOutcome = 'away';
+                    actualOutcomePrimary = 'away';
                 } else {
-                    actualOutcome = 'draw';
+                    actualOutcomePrimary = 'draw';
                 }
 
-                if (selectedSoccerOutcome === actualOutcome) {
-                    const winnings = currentBetAmountSoccer * currentSelectedSoccerMatch.odds[actualOutcome];
-                    currentBalance += winnings;
-                    setSoccerGameMessage(`CONGRATULATIONS! Your bet on ${selectedSoccerOutcome.toUpperCase()} was correct! You won ₦${winnings.toLocaleString()}!`, 'green');
-                    visualSoccerGame.classList.add('win-glow');
+                let actualOutcomeOverUnder;
+                const totalGoals = finalHomeScore + finalAwayScore;
+                if (totalGoals > 1.5) {
+                    actualOutcomeOverUnder = 'over1_5';
                 } else {
-                    setSoccerGameMessage(`BET LOST! The match was a ${actualOutcome.toUpperCase()} (${finalHomeScore} - ${finalAwayScore}). Your balance is ₦${currentBalance.toLocaleString()}.`, 'red');
-                    visualSoccerGame.classList.add('lose-glow');
-                    if (actualOutcome === 'draw') { 
-                        visualSoccerGame.classList.add('draw-glow');
+                    actualOutcomeOverUnder = 'under1_5';
+                }
+
+                let actualOutcomeBtts;
+                if (finalHomeScore > 0 && finalAwayScore > 0) {
+                    actualOutcomeBtts = 'btts_yes';
+                } else {
+                    actualOutcomeBtts = 'btts_no';
+                }
+
+                if (['home', 'draw', 'away'].includes(selectedSoccerOutcome)) {
+                    if (selectedSoccerOutcome === actualOutcomePrimary) {
+                        predictionCorrect = true;
+                        oddsMultiplier = currentSelectedSoccerMatch.odds[selectedSoccerOutcome];
+                    }
+                } else if (['over1_5', 'under1_5'].includes(selectedSoccerOutcome)) {
+                    if (selectedSoccerOutcome === actualOutcomeOverUnder) {
+                        predictionCorrect = true;
+                        oddsMultiplier = currentSelectedSoccerMatch.odds[selectedSoccerOutcome];
+                    }
+                } else if (['btts_yes', 'btts_no'].includes(selectedSoccerOutcome)) {
+                    if (selectedSoccerOutcome === actualOutcomeBtts) {
+                        predictionCorrect = true;
+                        oddsMultiplier = currentSelectedSoccerMatch.odds[selectedSoccerOutcome];
                     }
                 }
-                updateBalanceDisplay();
 
-                setTimeout(() => {
-                    resetSoccerGameControls(); 
-                }, 2000); 
+                if (predictionCorrect) {
+                    const winnings = currentBetAmountSoccer * oddsMultiplier;
+                    currentBalance += winnings; 
+                    setSoccerGameMessage(`CONGRATULATIONS! Your bet on ${selectedSoccerOutcome.toUpperCase()} was correct! You won ₦${winnings.toLocaleString()}!`, 'green');
+                    visualSoccerGame.classList.add('win-glow');
+                    lastMatchResult.betWon = true; 
+                } else {
+                    setSoccerGameMessage(`BET LOST! The match result was ${finalHomeScore} - ${finalAwayScore}. Your bet of ₦${currentBetAmountSoccer.toLocaleString()} was deducted. Current balance: ₦${currentBalance.toLocaleString()}.`, 'red'); 
+                    visualSoccerGame.classList.add('lose-glow');
+                    if (actualOutcomePrimary === 'draw') { 
+                        visualSoccerGame.classList.add('draw-glow');
+                    }
+                    lastMatchResult.betWon = false; 
+                }
+                updateBalanceDisplay(); 
+
+                // Store full match result for LLM commentary
+                lastMatchResult = {
+                    homeTeam: currentSelectedSoccerMatch.homeTeam,
+                    awayTeam: currentSelectedSoccerMatch.awayTeam,
+                    homeScore: finalHomeScore,
+                    awayScore: finalAwayScore,
+                    selectedOutcome: selectedSoccerOutcome,
+                    betWon: predictionCorrect,
+                    betAmount: currentBetAmountSoccer
+                };
+                llmCommentarySection.style.display = 'block'; 
+                getCommentaryBtn.disabled = false; 
+                placeNewBetBtn.style.display = 'inline-flex'; 
             }
 
 
-            // --- Common Payment Overlay ---
-            function showPaymentOverlay(amountNeeded) {
-                paymentAmountDisplay.textContent = `₦${amountNeeded.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+            // --- Payment Overlay ---
+            function showPaymentOverlay(suggestedAmount = 5000, gameId = null) {
+                lastRequestedPaymentAmount = suggestedAmount; 
+                gameBetPendingPayment = gameId; 
+                
+                depositAmountInput.value = Math.max(1000, Math.min(1000000, suggestedAmount)); 
+                const event = new Event('input', { bubbles: true });
+                depositAmountInput.dispatchEvent(event);
+
                 paymentOverlay.style.display = 'flex';
-                paymentWarningMessage.textContent = "Do not close this page until payment is confirmed!";
+                paymentStatusMessage.textContent = "Enter amount and confirm payment.";
+                paymentStatusMessage.style.color = "grey";
+                
+                setAllGameControlsEnabled(false); 
+
+                // Ensure buttons are reset to original state when opening overlay
+                confirmPaymentButton.innerHTML = `<i class="fas fa-check-circle"></i> Auto-Authenticate Payment`; 
+                simulateSuccessBtn.innerHTML = `<i class="fas fa-money-check-alt"></i> Simulate Successful Deposit`;
+                simulateFailBtn.innerHTML = `<i class="fas fa-exclamation-triangle"></i> Simulate Failed Deposit`;
+                confirmPaymentButton.disabled = false; 
+                simulateSuccessBtn.disabled = false;
+                simulateFailBtn.disabled = false;
+                cancelPaymentButton.disabled = false;
+            }
+            
+            let originalConfirmBtnHtml = '';
+            let originalSimulateSuccessBtnHtml = '';
+            let originalSimulateFailBtnHtml = '';
+
+            function simulatePaymentAuthentication(forcedOutcome = null, clickedButton = null) {
+                const amountToDeposit = parseFloat(depositAmountInput.value);
+
+                if (isNaN(amountToDeposit) || amountToDeposit < 1000 || amountToDeposit > 1000000) {
+                    paymentStatusMessage.textContent = "Please enter a valid deposit amount (₦1,000 - ₦1,000,000).";
+                    paymentStatusMessage.style.color = "red";
+                    // Only re-enable buttons if input is bad, user needs to fix it
+                    confirmPaymentButton.disabled = false;
+                    simulateSuccessBtn.disabled = false;
+                    simulateFailBtn.disabled = false;
+                    cancelPaymentButton.disabled = false; 
+                    return;
+                }
+
+                // Store original button HTML before changing
+                originalConfirmBtnHtml = confirmPaymentButton.innerHTML;
+                originalSimulateSuccessBtnHtml = simulateSuccessBtn.innerHTML;
+                originalSimulateFailBtnHtml = simulateFailBtn.innerHTML;
+
+                // Disable all payment buttons during authentication
+                confirmPaymentButton.disabled = true;
+                simulateSuccessBtn.disabled = true;
+                simulateFailBtn.disabled = true;
+                cancelPaymentButton.disabled = true;
+
+                paymentStatusMessage.textContent = "Authenticating payment... Please wait <i class='fas fa-spinner fa-spin'></i>";
+                paymentStatusMessage.style.color = "blue";
+                
+                // Show spinner only on the button that was actually clicked
+                if (clickedButton) {
+                    clickedButton.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Authenticating...`;
+                }
 
                 setTimeout(() => {
-                    const transferSuccessful = Math.random() < 0.8;
+                    let transferSuccessful;
+                    if (forcedOutcome === 'success') {
+                        transferSuccessful = true;
+                    } else if (forcedOutcome === 'failure') {
+                        transferSuccessful = false;
+                    } else { 
+                        transferSuccessful = Math.random() < 0.7; 
+                    }
+
+                    // Restore button texts and re-enable them BEFORE hiding the overlay
+                    confirmPaymentButton.innerHTML = originalConfirmBtnHtml;
+                    simulateSuccessBtn.innerHTML = originalSimulateSuccessBtnHtml;
+                    simulateFailBtn.innerHTML = originalSimulateFailBtnHtml;
+                    confirmPaymentButton.disabled = false; 
+                    simulateSuccessBtn.disabled = false;
+                    simulateFailBtn.disabled = false;
+                    cancelPaymentButton.disabled = false; 
+
                     if (transferSuccessful) {
-                        currentBalance += amountNeeded;
+                        currentBalance += amountToDeposit; 
                         updateBalanceDisplay();
                         setGameMessage("Payment successful! Balance updated. You can now place your bet.", 'green');
                         setSoccerGameMessage("Payment successful! Balance updated. You can now place your bet.", 'green');
                         setVisualMatchMessage("Payment successful! Balance updated.", 'green'); 
-                        paymentWarningMessage.textContent = "";
+                        paymentStatusMessage.textContent = `Payment successful! ₦${amountToDeposit.toLocaleString()} added. Balance updated.`;
+                        paymentStatusMessage.style.color = "green";
+
+                        if (gameBetPendingPayment === 'visualSoccer') {
+                            const betToPlace = lastRequestedPaymentAmount;
+                            if (currentBalance >= betToPlace) { 
+                                currentBalance -= betToPlace;
+                                updateBalanceDisplay();
+                                currentBetAmountSoccer = betToPlace;
+                                placeSoccerBetButton.disabled = true;
+                                soccerBetAmountInput.disabled = true;
+                                betOptionButtons.forEach(btn => btn.disabled = false); 
+                                setSoccerGameMessage(`Bet of ₦${currentBetAmountSoccer.toLocaleString()} placed! Now select your outcome.`);
+                                if (selectedSoccerOutcome) {
+                                    simulateMatchButton.disabled = false;
+                                }
+                            } else {
+                                setSoccerGameMessage("Funds added, but still not enough for your last intended bet. Please try again.", 'red');
+                            }
+                        } else if (gameBetPendingPayment === 'spinTheWheel') {
+                            const betToPlace = lastRequestedPaymentAmount;
+                             if (currentBalance >= betToPlace) { 
+                                currentBalance -= betToPlace;
+                                updateBalanceDisplay();
+                                currentBetAmountSpinWheel = betToPlace;
+                                spinButton.disabled = false; 
+                                placeBetButton.disabled = true;
+                                betAmountInput.disabled = true;
+                                setGameMessage(`Bet of ₦${currentBetAmountSpinWheel.toLocaleString()} placed! Click SPIN.`);
+                             } else {
+                                setGameMessage("Funds added, but still not enough for your last intended bet. Please try again.", 'red');
+                             }
+                        }
+                        // Only hide overlay if successful
+                        paymentOverlay.style.display = 'none'; 
                     } else {
                         setGameMessage("Payment authentication failed. Please try again or contact support.", 'red');
                         setSoccerGameMessage("Payment authentication failed. Please try again or contact support.", 'red');
                         setVisualMatchMessage("Payment authentication failed.", 'red'); 
-                        paymentWarningMessage.textContent = "Payment failed. Please re-check details and try again.";
+                        paymentStatusMessage.textContent = "Payment failed. Please re-check details and try again.";
+                        paymentStatusMessage.style.color = "red";
+                        // If failed, do NOT hide the overlay. Keep it open for user to retry or cancel.
                     }
-                    setTimeout(() => {
-                        paymentOverlay.style.display = 'none';
-                        if (transferSuccessful) {
+                    
+                    gameBetPendingPayment = null; 
+
+                    setAllGameControlsEnabled(true); 
+                    refreshCurrentGameControlsState(); 
+                }, 3000); 
+            }
+
+            // Function to enable/disable controls for all games and header actions
+            function setAllGameControlsEnabled(enabled) {
+                getCommentaryBtn.disabled = !enabled; 
+                placeNewBetBtn.disabled = !enabled; 
+
+                depositAmountInput.disabled = !enabled;
+                withdrawalAmountInput.disabled = !enabled;
+                bankNameInput.disabled = !enabled;
+                accountNumberInput.disabled = !enabled;
+                accountNameInput.disabled = !enabled;
+                initiateWithdrawalButton.disabled = !enabled;
+
+                depositFundsBtn.disabled = !enabled;
+                withdrawFundsBtn.disabled = !enabled;
+
+                userProfileInfo.style.pointerEvents = enabled ? 'auto' : 'none';
+
+                // Also disable quick deposit buttons
+                quickDepositButtons.forEach(btn => btn.disabled = !enabled);
+            }
+
+            // Function to specifically check if current game's betting controls should be disabled due to insufficient balance
+            function checkAndDisableBettingControls(minBet, gameId) {
+                if (currentBalance < minBet) {
+                    if (gameId === 'spinTheWheel') {
+                        placeBetButton.disabled = true;
+                        betAmountInput.disabled = true;
+                        spinButton.disabled = true;
+                        setGameMessage("Insufficient balance. Please deposit funds.", 'red');
+                    } else if (gameId === 'visualSoccer') {
+                        placeSoccerBetButton.disabled = true;
+                        soccerBetAmountInput.disabled = true;
+                        simulateMatchButton.disabled = true;
+                        betOptionButtons.forEach(btn => btn.disabled = true);
+                        setSoccerGameMessage("Insufficient balance. Please deposit funds.", 'red');
+                    }
+                } else {
+                     if (gameId === 'spinTheWheel') {
+                        if (currentBetAmountSpinWheel === 0) {
                             placeBetButton.disabled = false;
                             betAmountInput.disabled = false;
+                            spinButton.disabled = true; 
+                        } else {
+                            placeBetButton.disabled = true;
+                            betAmountInput.disabled = true;
+                            spinButton.disabled = isSpinning;
+                        }
+                    } else if (gameId === 'visualSoccer') {
+                        if (currentBetAmountSoccer === 0) {
                             placeSoccerBetButton.disabled = false;
                             soccerBetAmountInput.disabled = false;
-                            if (visualSoccerGame.style.display === 'block' && currentSelectedSoccerMatch) {
-                                // If already on a soccer match details page, re-enable bet options
-                                betOptionButtons.forEach(btn => btn.disabled = false);
-                                if (selectedSoccerOutcome) { 
-                                    simulateMatchButton.disabled = false;
-                                }
-                            }
+                            betOptionButtons.forEach(btn => btn.disabled = true);
+                            simulateMatchButton.disabled = true;
+                        } else {
+                            placeSoccerBetButton.disabled = true;
+                            soccerBetAmountInput.disabled = true;
+                            betOptionButtons.forEach(btn => btn.disabled = false);
+                            simulateMatchButton.disabled = !selectedSoccerOutcome;
                         }
-                    }, 3000);
-                }, 5000);
+                    }
+                }
             }
-            
+
+            // Function to refresh the state of current game controls
+            function refreshCurrentGameControlsState() {
+                if (spinTheWheelGame.style.display === 'block') {
+                    checkAndDisableBettingControls(parseFloat(betAmountInput.min), 'spinTheWheel');
+                } else if (visualSoccerGame.style.display === 'block') {
+                    checkAndDisableBettingControls(parseFloat(soccerBetAmountInput.min), 'visualSoccer');
+                    if (lastMatchResult.homeTeam) { 
+                        llmCommentarySection.style.display = 'block';
+                        getCommentaryBtn.disabled = false;
+                        placeNewBetBtn.style.display = 'inline-flex';
+                    } else {
+                        llmCommentarySection.style.display = 'none';
+                        llmCommentaryDisplay.textContent = '';
+                        getCommentaryBtn.disabled = true;
+                        placeNewBetBtn.style.display = 'none';
+                    }
+                }
+            }
+
+
+            // --- Withdrawal Logic ---
+            function initiateWithdrawal() {
+                const amount = parseFloat(withdrawalAmountInput.value);
+                const bankName = bankNameInput.value.trim();
+                const accountNumber = accountNumberInput.value.trim();
+                const accountName = accountNameInput.value.trim();
+
+                if (isNaN(amount) || amount <= 0) {
+                    setWithdrawalMessage("Please enter a valid withdrawal amount.", 'red');
+                    return;
+                }
+                if (amount < 1000) {
+                    setWithdrawalMessage("Minimum withdrawal amount is ₦1,000.", 'red');
+                    return;
+                }
+                if (amount > currentBalance) {
+                    setWithdrawalMessage(`Insufficient balance. Your current balance is ₦${currentBalance.toLocaleString()}.`, 'red');
+                    return;
+                }
+                if (!bankName || !accountNumber || !accountName) {
+                    setWithdrawalMessage("All bank details fields are required.", 'red');
+                    return;
+                }
+                if (accountNumber.length !== 10 || !/^\d+$/.test(accountNumber)) {
+                    setWithdrawalMessage("Account number must be 10 digits.", 'red');
+                    return;
+                }
+                const registeredAccountName = userName; 
+                if (accountName.toUpperCase() !== registeredAccountName.toUpperCase()) {
+                    setWithdrawalMessage(`Account Name must match your COREVEST Account Name (${registeredAccountName}).`, 'red');
+                    return;
+                }
+
+                initiateWithdrawalButton.disabled = true;
+                setWithdrawalMessage("Processing withdrawal... Please wait <i class='fas fa-spinner fa-spin'></i>", 'blue');
+
+                setTimeout(() => {
+                    const withdrawalSuccessful = Math.random() < 0.8; 
+                    if (withdrawalSuccessful) {
+                        currentBalance -= amount;
+                        updateBalanceDisplay();
+                        setWithdrawalMessage(`Withdrawal of ₦${amount.toLocaleString()} successful! Funds will be credited within 24 hours.`, 'green');
+                    } else {
+                        setWithdrawalMessage("Withdrawal failed. Please try again or contact support.", 'red');
+                    }
+                    initiateWithdrawalButton.disabled = false; 
+                }, 3000); 
+            }
+
+            // --- LLM Integration ---
+            async function getLlmMatchCommentary() {
+                getCommentaryBtn.disabled = true;
+                llmCommentaryDisplay.innerHTML = "Generating commentary... <i class='fas fa-spinner fa-spin'></i>";
+
+                const prompt = `Generate a concise, enthusiastic sports commentary for a simulated soccer match. 
+                                The match was between ${lastMatchResult.homeTeam} and ${lastMatchResult.awayTeam}. 
+                                The final score was ${lastMatchResult.homeScore} - ${lastMatchResult.awayScore}. 
+                                The user bet on ${lastMatchResult.selectedOutcome.replace('_', ' ').toUpperCase()} 
+                                and ${lastMatchResult.betWon ? 'WON' : 'LOST'} their bet. 
+                                Focus on the result and the user's betting outcome, keep it brief and exciting. 
+                                Do not mention yourself as an AI.`;
+                
+                try {
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                    const payload = { contents: chatHistory };
+                    const apiKey = ""; 
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                    
+                    const response = await fetch(apiUrl, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify(payload)
+                            });
+                    
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        llmCommentaryDisplay.textContent = text;
+                    } else {
+                        llmCommentaryDisplay.textContent = "Could not generate commentary. Please try again.";
+                        console.error("Gemini API response structure unexpected:", result);
+                    }
+                } catch (error) {
+                    llmCommentaryDisplay.textContent = "Failed to fetch commentary. Please check your network connection or try again later.";
+                    console.error("Error calling Gemini API:", error);
+                } finally {
+                    getCommentaryBtn.disabled = false;
+                }
+            }
+
+
             // --- Event Listeners ---
-            // Spin the Wheel
+            // Header Action Buttons
+            depositFundsBtn.addEventListener('click', () => {
+                showPaymentOverlay(5000, null); 
+            });
+            withdrawFundsBtn.addEventListener('click', showWithdrawalView);
+            userProfileInfo.addEventListener('click', showEditProfileOverlay); 
+
+            // Profile Setup Page
+            profileNameInput.addEventListener('input', () => setProfileSetupMessage("")); 
+            profilePhotoUrlInput.addEventListener('input', () => setProfileSetupMessage("")); 
+
+            saveProfileBtn.addEventListener('click', () => {
+                const name = profileNameInput.value.trim();
+                const photoUrl = profilePhotoUrlInput.value.trim();
+
+                if (!name) {
+                    setProfileSetupMessage("Please enter your name.", 'red');
+                    return;
+                }
+
+                userName = name;
+                profilePhotoUrl = photoUrl;
+                profileSetupDate = Date.now(); 
+                localStorage.setItem('userName', userName);
+                localStorage.setItem('profilePhotoUrl', profilePhotoUrl);
+                localStorage.setItem('profileSetupDate', profileSetupDate);
+                updateProfileDisplayInHeader();
+                showDashboard();
+            });
+
+            // Edit Profile Overlay
+            editProfileNameInput.addEventListener('input', () => setEditProfileStatusMessage(""));
+            editProfilePhotoUrlInput.addEventListener('input', () => setEditProfileStatusMessage(""));
+
+            saveEditedProfileBtn.addEventListener('click', () => {
+                const name = editProfileNameInput.value.trim();
+                const photoUrl = editProfilePhotoUrlInput.value.trim();
+
+                if (!name) {
+                    setEditProfileStatusMessage("Please enter your name.", 'red');
+                    return;
+                }
+
+                userName = name;
+                profilePhotoUrl = photoUrl;
+                profileSetupDate = Date.now(); 
+                localStorage.setItem('userName', userName);
+                localStorage.setItem('profilePhotoUrl', profilePhotoUrl);
+                localStorage.setItem('profileSetupDate', profileSetupDate);
+                updateProfileDisplayInHeader();
+                editProfileOverlay.style.display = 'none';
+                setAllGameControlsEnabled(true); 
+                refreshCurrentGameControlsState(); 
+            });
+
+            cancelEditProfileBtn.addEventListener('click', () => {
+                editProfileOverlay.style.display = 'none';
+                setAllGameControlsEnabled(true); 
+                refreshCurrentGameControlsState(); 
+            });
+
+
+            // Spin the Wheel Game
             spinButton.addEventListener('click', startSpin);
             placeBetButton.addEventListener('click', () => {
                 let bet = parseFloat(betAmountInput.value);
@@ -1738,10 +2856,12 @@
                 }
                 if (bet > currentBalance) {
                     setGameMessage("Insufficient balance. Please make a deposit.", 'red');
-                    spinButton.disabled = true;
-                    showPaymentOverlay(bet); 
+                    showPaymentOverlay(bet, 'spinTheWheel'); 
                     return;
                 }
+                currentBalance -= bet; 
+                updateBalanceDisplay(); 
+
                 currentBetAmountSpinWheel = bet; 
                 setGameMessage(`Bet of ₦${currentBetAmountSpinWheel.toLocaleString()} placed! Click SPIN.`);
                 spinButton.disabled = false;
@@ -1752,42 +2872,44 @@
 
             // Visual Soccer List & Detail View
             backToDashboardBtnSoccerList.addEventListener('click', showDashboard); 
-            backToSoccerListBtn.addEventListener('click', showSoccerMatchList); 
+            backToSoccerListBtn.addEventListener('click', () => {
+                resetSoccerGameControls(); 
+                showSoccerMatchList();
+            });
             
-            // Handle clicking on bet outcome buttons
+            // Handle clicking on bet outcome buttons (Home/Draw/Away, Over/Under, BTTS)
             betOptionButtons.forEach(button => {
                 button.addEventListener('click', (event) => {
-                    // Corrected logic: Allow selection IF bet has been placed (placeSoccerBetButton is disabled)
-                    if (placeSoccerBetButton.disabled && currentBetAmountSoccer > 0) { 
+                    if (currentBetAmountSoccer > 0 && !button.disabled) { 
                         betOptionButtons.forEach(btn => btn.classList.remove('selected'));
                         button.classList.add('selected');
                         selectedSoccerOutcome = button.dataset.outcome;
                         setSoccerGameMessage(`You selected ${button.textContent}. Click 'Simulate Match' to proceed.`);
-                        simulateMatchButton.disabled = false; // Enable simulate button after outcome selection
+                        simulateMatchButton.disabled = false; 
                     } else if (currentBetAmountSoccer === 0) {
                         setSoccerGameMessage("Please place your bet amount first.", 'orange');
                     }
                 });
             });
 
-
             placeSoccerBetButton.addEventListener('click', () => {
                 let bet = parseFloat(soccerBetAmountInput.value);
                 if (isNaN(bet) || bet < 1000) {
                     setSoccerGameMessage("Minimum bet is ₦1,000.", 'red');
-                    simulateMatchButton.disabled = true;
                     return;
                 }
                 if (bet > currentBalance) {
                     setSoccerGameMessage("Insufficient balance. Please make a deposit.", 'red');
-                    simulateMatchButton.disabled = true;
-                    showPaymentOverlay(bet); 
+                    showPaymentOverlay(bet, 'visualSoccer'); 
                     return;
                 }
+                currentBalance -= bet; 
+                updateBalanceDisplay(); 
+
                 currentBetAmountSoccer = bet;
                 placeSoccerBetButton.disabled = true;
                 soccerBetAmountInput.disabled = true;
-                betOptionButtons.forEach(btn => btn.disabled = false); // Enable bet outcome buttons
+                betOptionButtons.forEach(btn => btn.disabled = false); 
                 setSoccerGameMessage(`Bet of ₦${currentBetAmountSoccer.toLocaleString()} placed! Now select your outcome.`);
                 if (selectedSoccerOutcome) { 
                     simulateMatchButton.disabled = false;
@@ -1795,14 +2917,87 @@
             });
 
             simulateMatchButton.addEventListener('click', startSoccerMatchSimulation);
+            getCommentaryBtn.addEventListener('click', getLlmMatchCommentary); 
+            placeNewBetBtn.addEventListener('click', resetSoccerGameControls); 
+
+            // Payment Overlay Buttons
+            confirmPaymentButton.addEventListener('click', (event) => simulatePaymentAuthentication(null, event.currentTarget)); 
+            simulateSuccessBtn.addEventListener('click', (event) => simulatePaymentAuthentication('success', event.currentTarget)); 
+            simulateFailBtn.addEventListener('click', (event) => simulatePaymentAuthentication('failure', event.currentTarget)); 
+
+            // NEW: Event listener for quick deposit buttons
+            quickDepositButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const amount = parseFloat(button.dataset.amount);
+                    depositAmountInput.value = amount;
+                    // Manually trigger the input event to update display and re-evaluate button states
+                    const event = new Event('input', { bubbles: true });
+                    depositAmountInput.dispatchEvent(event);
+                });
+            });
 
 
-            // --- Initial Setup ---
-            renderGameCards(); 
+            depositAmountInput.addEventListener('input', () => {
+                let amount = parseFloat(depositAmountInput.value);
+                const min = parseFloat(depositAmountInput.min);
+                const max = parseFloat(depositAmountInput.max);
+
+                if (isNaN(amount) || amount < min || amount > max) {
+                    paymentAmountDisplay.textContent = "Invalid Amount";
+                    confirmPaymentButton.disabled = true;
+                    simulateSuccessBtn.disabled = true;
+                    simulateFailBtn.disabled = true;
+                    paymentStatusMessage.textContent = `Amount must be between ₦${min.toLocaleString()} and ₦${max.toLocaleString()}.`;
+                    paymentStatusMessage.style.color = 'red';
+                } else {
+                    paymentAmountDisplay.textContent = `₦${amount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                    confirmPaymentButton.disabled = false;
+                    simulateSuccessBtn.disabled = false;
+                    simulateFailBtn.disabled = false;
+                    paymentStatusMessage.textContent = "Confirm payment details above.";
+                    paymentStatusMessage.style.color = 'grey';
+                }
+            });
+            cancelPaymentButton.addEventListener('click', () => {
+                paymentOverlay.style.display = 'none';
+                paymentStatusMessage.textContent = ""; 
+                confirmPaymentButton.innerHTML = `<i class="fas fa-check-circle"></i> Auto-Authenticate Payment`; 
+                simulateSuccessBtn.innerHTML = `<i class="fas fa-money-check-alt"></i> Simulate Successful Deposit`; 
+                simulateFailBtn.innerHTML = `<i class="fas fa-exclamation-triangle"></i> Simulate Failed Deposit`;   
+                
+                gameBetPendingPayment = null; 
+                setAllGameControlsEnabled(true); 
+                refreshCurrentGameControlsState(); 
+            });
+
+            // Withdrawal Section Buttons
+            backToDashboardBtnWithdrawal.addEventListener('click', showDashboard); 
+            initiateWithdrawalButton.addEventListener('click', initiateWithdrawal); 
+
+
+            // --- Initial Setup and Load Profile ---
+            function loadProfile() {
+                const savedName = localStorage.getItem('userName');
+                const savedPhotoUrl = localStorage.getItem('profilePhotoUrl');
+                const savedSetupDate = localStorage.getItem('profileSetupDate');
+
+                if (savedName) {
+                    userName = savedName;
+                    profilePhotoUrl = savedPhotoUrl || "";
+                    profileSetupDate = parseInt(savedSetupDate) || 0;
+                    updateProfileDisplayInHeader();
+                    showDashboard(); 
+                } else {
+                    hideAllViews(); 
+                    profileSetupView.style.display = 'flex'; 
+                }
+            }
+            
+            // Initial calls
+            loadProfile(); 
             drawWheel(wheelRotation); 
-            initPlayers(); // Initialize players on initial load
-            drawSoccerVisuals(0, 0, 0); // Initial draw of the soccer pitch
-            showDashboard(); 
+            initPlayers(); 
+            drawSoccerVisuals(0, 0, 0); 
         });
     </script>
 </body>
