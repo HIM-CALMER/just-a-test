@@ -4,10 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to COREVEST!</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Existing CSS styles remain the same */
+        /* Global CSS Variables - Refined Palette */
+        :root {
+            --primary-green: #388E3C; /* Darker, richer green */
+            --light-green: #66BB6A;   /* Medium green */
+            --accent-blue: #2196F3;   /* Vibrant blue */
+            --dark-blue: #1976D2;     /* Deeper blue */
+            --text-dark: #333333;     /* Dark charcoal for main text */
+            --text-medium: #555555;   /* Medium gray for secondary text */
+            --text-light: #f8f8f8;    /* Near white for contrasting text */
+            --bg-light: #F8F9FA;      /* Very light gray background */
+            --card-bg: #FFFFFF;       /* Pure white for cards */
+            --shadow-light: rgba(0, 0, 0, 0.08); /* Lighter, subtle shadow */
+            --shadow-medium: rgba(0, 0, 0, 0.15); /* Medium shadow for depth */
+            --border-color: #E0E0E0;  /* Light gray border */
+        }
+
+        /* Base Styles */
         * {
             margin: 0;
             padding: 0;
@@ -15,52 +31,68 @@
         }
 
         body {
-            line-height: 1.6;
-            background-color: #f4f4f4;
+            line-height: 1.7; /* Increased line-height for better readability */
+            background: linear-gradient(to bottom right, var(--bg-light), #F0F2F5); /* Subtle gradient background */
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             font-family: 'Inter', sans-serif;
+            color: var(--text-dark);
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased; /* Smoother fonts */
+            -moz-osx-font-smoothing: grayscale;
         }
 
         .container {
-            max-width: 960px;
+            max-width: 1000px; /* Slightly wider container */
             margin: 0 auto;
-            padding: 20px;
-            flex-grow: 1; /* Allows container to take available space */
+            padding: 25px; /* Increased padding */
+            flex-grow: 1;
+            width: 100%;
         }
 
+        /* Header */
         .header {
             text-align: center;
-            padding: 20px;
-            background-color: #4CAF50;
-            color: white;
-            border-radius: 0 0 8px 8px;
-            margin-bottom: 20px;
+            padding: 30px 20px; /* More padding */
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green)); /* Green gradient */
+            color: var(--text-light);
+            border-bottom-left-radius: 15px; /* More rounded corners */
+            border-bottom-right-radius: 15px;
+            box-shadow: 0 8px 20px var(--shadow-medium); /* Deeper shadow */
+            margin-bottom: 30px; /* More space below header */
+            position: relative; /* For potential future elements */
         }
 
         .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+            font-size: 3rem; /* Larger heading */
+            margin-bottom: 15px;
+            font-weight: 800; /* Extra bold */
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2); /* Subtle text shadow */
         }
 
         .header p {
-            font-size: 1rem;
-            margin-bottom: 10px;
+            font-size: 1.1rem; /* Slightly larger paragraph */
+            margin-bottom: 15px;
+            color: rgba(255, 255, 255, 0.9); /* Lighter text for contrast */
+            max-width: 700px; /* Constrain width for readability */
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .header mark {
-            background-color: #fff;
-            color: #4CAF50;
-            padding: 5px;
-            border-radius: 5px;
-            font-weight: bold;
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
+            color: var(--primary-green);
+            padding: 6px 12px; /* Increased padding */
+            border-radius: 8px; /* More rounded */
+            font-weight: 700;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
+        /* Navigation */
         .nav {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px; /* More space */
         }
 
         .nav ul {
@@ -68,277 +100,260 @@
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 15px;
+            gap: 20px; /* Increased gap */
         }
 
         .nav ul li a {
-            color: #4CAF50;
+            color: var(--primary-green);
             text-decoration: none;
-            font-size: 1.1rem;
+            font-size: 1.15rem; /* Slightly larger */
             font-weight: 600;
-            transition: color 0.3s ease;
-            padding: 8px 15px;
-            border-radius: 5px;
-            background-color: #e8f5e9; /* Light green background for navigation buttons */
+            transition: all 0.3s ease; /* Smoother transitions */
+            padding: 10px 20px; /* Increased padding */
+            border-radius: 8px; /* More rounded */
+            background-color: var(--card-bg);
+            box-shadow: 0 4px 8px var(--shadow-light); /* Added shadow */
+            border: 1px solid var(--border-color); /* Subtle border */
         }
 
         .nav ul li a:hover {
-            color: #fff;
-            background-color: #45a049;
+            color: var(--text-light);
+            background-color: var(--primary-green);
+            box-shadow: 0 6px 12px var(--shadow-medium);
+            transform: translateY(-3px); /* Subtle lift effect */
         }
 
-        .about-section, .faq-section, .customer-care-section, .hiring-section, .partnership-section, .game-explanation-section { /* Added new sections */
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
+        /* Section Base Styles */
+        .about-section, .faq-section, .customer-care-section, .hiring-section, .partnership-section, .game-explanation-section {
+            background-color: var(--card-bg);
+            padding: 35px; /* More padding */
+            border-radius: 12px; /* More rounded */
+            box-shadow: 0 6px 15px var(--shadow-medium); /* Consistent shadow */
+            margin-bottom: 35px; /* Consistent margin */
+            border: 1px solid var(--border-color);
         }
 
-        .about-section h2, .faq-section h2, .customer-care-section h2, .hiring-section h2, .partnership-section h2, .game-explanation-section h2 { /* Added new sections h2 */
-            font-size: 2rem;
-            color: #333;
-            margin-bottom: 20px;
+        .about-section h2, .faq-section h2, .customer-care-section h2, .hiring-section h2, .partnership-section h2, .game-explanation-section h2 {
+            font-size: 2.4rem; /* Larger headings */
+            color: var(--dark-blue); /* Stronger heading color */
+            margin-bottom: 25px; /* More space */
             text-align: center;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
+            border-bottom: 3px solid var(--light-green); /* Thicker, green border */
+            padding-bottom: 15px;
+            font-weight: 700;
         }
 
-        .about-section p, .hiring-section p, .partnership-section p, .game-explanation-section p { /* Added new sections p */
-            font-size: 1rem;
-            color: #555;
-            margin-bottom: 15px;
+        .about-section p, .hiring-section p, .partnership-section p, .game-explanation-section p {
+            font-size: 1.05rem; /* Slightly larger body text */
+            color: var(--text-medium);
+            margin-bottom: 18px; /* More space */
             line-height: 1.8;
         }
 
         .about-section ul {
-            list-style: disc;
-            margin-left: 20px;
-            margin-bottom: 15px;
-            color: #555;
+            list-style: none; /* Removed default bullets */
+            margin-left: 0;
+            padding-left: 0;
+            margin-bottom: 20px;
+            color: var(--text-medium);
         }
 
         .about-section ul li {
-            margin-bottom: 8px;
+            margin-bottom: 10px; /* More space between list items */
+            position: relative;
+            padding-left: 25px; /* Space for custom bullet */
         }
 
+        .about-section ul li b {
+            color: var(--text-dark); /* Highlight bold text */
+        }
+
+        .about-section ul li::before {
+            content: '•'; /* Custom bullet */
+            color: var(--light-green); /* Green bullet */
+            font-size: 1.2em;
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-weight: bold;
+        }
+
+        /* CTA Button */
         .cta-button {
-            display: block;
+            display: inline-block; /* Changed to inline-block for better centering with text-align */
             width: fit-content;
-            margin: 20px auto 0;
-            padding: 12px 25px;
-            background-color: #2196F3;
-            color: white;
+            margin: 30px auto; /* Centered with more vertical margin */
+            padding: 15px 30px; /* Larger padding */
+            background-color: var(--accent-blue);
+            color: var(--text-light);
             text-decoration: none;
-            border-radius: 5px;
-            font-weight: 600;
-            transition: background-color 0.3s ease;
+            border-radius: 10px; /* More rounded */
+            font-weight: 700;
+            font-size: 1.15rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 12px rgba(33, 150, 243, 0.3); /* Blue shadow for CTA */
         }
 
         .cta-button:hover {
-            background-color: #1a78c2;
+            background-color: var(--dark-blue);
+            transform: translateY(-4px); /* More pronounced lift */
+            box-shadow: 0 10px 20px rgba(33, 150, 243, 0.4);
         }
 
+        /* Footer */
         .footer {
-            margin-top: 40px;
-            padding: 20px;
-            background-color: #333;
-            color: #f0f0f0;
+            margin-top: 50px; /* More space above footer */
+            padding: 25px 20px; /* More padding */
+            background-color: var(--text-dark);
+            color: var(--text-light);
             text-align: center;
-            font-size: 0.9rem;
-            border-top: 5px solid #4CAF50;
+            font-size: 0.95rem;
+            border-top: 5px solid var(--primary-green);
+            border-top-left-radius: 15px; /* Rounded top corners */
+            border-top-right-radius: 15px;
+            box-shadow: 0 -4px 10px var(--shadow-medium);
         }
 
         .footer p {
-            margin: 0;
+            margin: 0 0 10px 0; /* Add margin to paragraphs in footer */
+            line-height: 1.5;
         }
 
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2rem;
-            }
-
-            .nav ul {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .nav ul li {
-                margin: 5px 0;
-            }
-
-            .about-section, .faq-section, .customer-care-section, .hiring-section, .partnership-section, .game-explanation-section { /* Added new sections */
-                padding: 20px;
-            }
-
-            .about-section h2, .faq-section h2, .customer-care-section h2, .hiring-section h2, .partnership-section h2, .game-explanation-section h2 { /* Added new sections h2 */
-                font-size: 1.7rem;
-            }
-
-            /* Responsive styling for the game link */
-            .game-link-container {
-                width: 150px;
-                height: 150px;
-                margin: 30px auto;
-            }
-            .game-link-content .icon {
-                font-size: 3rem; /* Adjust icon size for smaller screens */
-            }
-            .game-link-content .text {
-                font-size: 0.9rem; /* Adjust text size for smaller screens */
-            }
+        .footer a {
+            color: var(--light-green); /* Link color in footer */
+            text-decoration: none;
+            transition: color 0.3s ease;
         }
 
-        @media (max-width: 480px) {
-            .header h1 {
-                font-size: 1.8rem;
-            }
-
-            .header p {
-                font-size: 0.9rem;
-            }
-
-            .nav ul li a {
-                font-size: 1rem;
-                padding: 10px;
-            }
-
-            .about-section h2, .faq-section h2, .customer-care-section h2, .hiring-section h2, .partnership-section h2, .game-explanation-section h2 { /* Added new sections h2 */
-                font-size: 1.5rem;
-            }
-
-            .about-section p, .about-section ul li, .hiring-section p, .hiring-section ul li, .partnership-section p, .game-explanation-section p { /* Added new sections p, li */
-                font-size: 0.9rem;
-            }
-
-            /* More compact responsive styling for the game link */
-            .game-link-container {
-                width: 120px;
-                height: 120px;
-                margin: 20px auto;
-            }
-            .game-link-content .icon {
-                font-size: 2.5rem; /* Adjust icon size for smaller screens */
-            }
-            .game-link-content .text {
-                font-size: 0.8rem; /* Adjust text size for smaller screens */
-            }
+        .footer a:hover {
+            color: #fff; /* White on hover */
         }
 
-        /* --- NEW FAQ STYLES (for the section itself) --- */
-        .faq-section {
-            /* styles defined above in combined selector */
+        .footer-social-links {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
         }
 
-        .faq-section h2 {
-            /* styles defined above in combined selector */
+        .footer-social-links a {
+            font-size: 1.8rem; /* Larger social icons */
+            color: rgba(255, 255, 255, 0.7); /* Slightly transparent white */
+            transition: color 0.3s ease, transform 0.2s ease;
         }
 
+        .footer-social-links a:hover {
+            color: var(--light-green); /* Green on hover */
+            transform: translateY(-3px);
+        }
+
+        /* FAQ Section */
         .faq-search {
-            margin-bottom: 20px;
-            text-align: center;
+            margin-bottom: 25px;
         }
 
         .faq-search input {
             width: 100%;
-            max-width: 500px;
-            padding: 12px 15px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            font-size: 1rem;
+            max-width: 600px;
+            padding: 14px 20px; /* Larger input */
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 1.05rem;
             outline: none;
-            transition: border-color 0.3s ease;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
         }
 
         .faq-search input:focus {
-            border-color: #4CAF50;
+            border-color: var(--light-green);
+            box-shadow: 0 0 0 4px rgba(102, 187, 106, 0.2); /* Green focus glow */
         }
 
         .faq-item {
-            margin-bottom: 15px;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
+            margin-bottom: 18px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
             overflow: hidden;
-            background-color: #f9f9f9;
+            background-color: #fcfcfc; /* Slightly off-white */
+            box-shadow: 0 2px 8px var(--shadow-light);
         }
 
         .faq-item summary {
-            background-color: #e8f5e9; /* Light green */
-            color: #333;
-            padding: 15px 20px;
+            background-color: #E8F5E9; /* Light green */
+            color: var(--text-dark);
+            padding: 18px 25px; /* More padding */
             font-weight: 600;
             cursor: pointer;
             outline: none;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
         }
 
         .faq-item summary:hover {
-            background-color: #dcedc8; /* Slightly darker green on hover */
+            background-color: #DCE7D8; /* Slightly darker green on hover */
         }
 
-        .faq-item summary::marker, /* Standard way to hide default marker */
-        .faq-item summary::-webkit-details-marker /* For WebKit browsers */ {
+        .faq-item summary::marker,
+        .faq-item summary::-webkit-details-marker {
             display: none;
         }
 
         .faq-item summary::after {
-            content: '▼'; /* Custom down arrow */
-            font-size: 0.8em;
+            content: '▼';
+            font-size: 0.9em;
             transition: transform 0.2s;
+            color: var(--primary-green); /* Green arrow */
         }
 
         .faq-item[open] summary::after {
-            content: '▲'; /* Custom up arrow when open */
-            /* Removed transform: rotate(0deg) as it's redundant when content changes */
+            content: '▲';
         }
 
         .faq-item .faq-answer {
-            padding: 15px 20px;
-            background-color: #fff;
-            border-top: 1px solid #f0f0f0;
-            color: #555;
+            padding: 18px 25px;
+            background-color: var(--card-bg);
+            border-top: 1px solid #F5F5F5;
+            color: var(--text-medium);
+            font-size: 1rem;
+            line-height: 1.7;
         }
 
-        /* --- CUSTOMER CARE STYLES --- */
+        /* Customer Care Section */
         .customer-care-section {
-            /* styles defined above in combined selector */
             text-align: center;
-        }
-
-        .customer-care-section h2 {
-            /* styles defined above in combined selector */
         }
 
         .customer-care-section p {
             font-size: 1.1rem;
-            color: #555;
-            margin-bottom: 25px;
+            color: var(--text-medium);
+            margin-bottom: 30px;
         }
 
         .contact-buttons {
             display: flex;
             justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap; /* Allows buttons to wrap on smaller screens */
+            gap: 25px; /* More space */
+            flex-wrap: wrap;
         }
 
         .contact-buttons a {
             display: inline-flex;
             align-items: center;
-            padding: 12px 25px;
-            border-radius: 5px;
+            padding: 14px 28px; /* Larger buttons */
+            border-radius: 8px;
             text-decoration: none;
             font-weight: 600;
-            font-size: 1rem;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
 
         .contact-buttons a i {
-            margin-right: 10px;
+            margin-right: 12px;
         }
 
         .whatsapp-button {
@@ -348,154 +363,165 @@
 
         .whatsapp-button:hover {
             background-color: #1DA851;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(37, 211, 102, 0.4);
         }
 
         .call-button {
-            background-color: #007bff; /* Blue for call */
+            background-color: var(--accent-blue);
             color: white;
         }
 
         .call-button:hover {
-            background-color: #0056b3;
-            transform: translateY(-2px);
+            background-color: var(--dark-blue);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(33, 150, 243, 0.4);
         }
 
-        /* --- NEW HIRING SECTION STYLES --- */
+        /* Hiring Section */
         .hiring-section {
-            /* styles defined above in combined selector */
-            text-align: center; /* Center main heading and overall message */
+            text-align: center;
         }
 
         .hiring-section .job-roles {
             display: flex;
             flex-wrap: wrap;
-            gap: 25px;
+            gap: 30px; /* More space */
             justify-content: center;
-            margin-top: 25px;
+            margin-top: 30px;
         }
 
         .hiring-section .job-role-card {
-            background-color: #f9f9f9;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 25px;
-            flex: 1 1 calc(50% - 25px); /* Two columns, responsive */
-            max-width: 450px; /* Limit card width */
+            background-color: #fcfcfc;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 30px; /* More padding */
+            flex: 1 1 calc(50% - 30px);
+            max-width: 480px; /* Wider cards */
             text-align: left;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            box-shadow: 0 3px 10px var(--shadow-light);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .hiring-section .job-role-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transform: translateY(-8px); /* More pronounced lift */
+            box-shadow: 0 8px 20px var(--shadow-medium);
         }
 
         .hiring-section h3 {
-            color: #4CAF50;
-            font-size: 1.5rem;
-            margin-bottom: 10px;
+            color: var(--primary-green);
+            font-size: 1.8rem; /* Larger job title */
+            margin-bottom: 15px;
             text-align: center;
+            font-weight: 700;
         }
 
         .hiring-section .job-role-card p {
-            font-size: 0.95rem;
-            color: #666;
-            margin-bottom: 15px;
-            line-height: 1.6;
+            font-size: 1rem;
+            color: var(--text-medium);
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .hiring-section .job-role-card h4 {
+            color: var(--dark-blue);
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            font-weight: 600;
         }
 
         .hiring-section .job-role-card ul {
-            list-style: none; /* No bullets by default */
+            list-style: none;
             margin-left: 0;
             padding-left: 0;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .hiring-section .job-role-card ul li {
-            font-size: 0.9rem;
-            color: #555;
+            font-size: 0.95rem;
+            color: var(--text-medium);
             margin-bottom: 8px;
             position: relative;
-            padding-left: 20px; /* Space for custom icon */
+            padding-left: 25px;
+            line-height: 1.6;
         }
 
         .hiring-section .job-role-card ul li:before {
-            content: '✓'; /* Custom checkmark */
-            color: #4CAF50;
+            content: '✓';
+            color: var(--light-green);
             position: absolute;
             left: 0;
             top: 0;
             font-weight: bold;
+            font-size: 1.1em;
         }
 
         .hiring-section .application-instructions {
-            margin-top: 30px;
-            border-top: 1px solid #eee;
-            padding-top: 20px;
+            margin-top: 40px;
+            border-top: 2px solid var(--border-color);
+            padding-top: 25px;
+            background-color: #fefefe; /* Lighter background */
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.05); /* Inner shadow */
         }
 
         .hiring-section .application-instructions p {
-            font-size: 1.05rem;
-            color: #444;
+            font-size: 1.1rem;
+            color: var(--text-dark);
             margin-bottom: 15px;
         }
 
         .hiring-section .application-instructions strong {
-            color: #333;
+            color: var(--primary-green);
         }
 
         .hiring-section .application-email {
             display: inline-block;
-            background-color: #4CAF50;
+            background-color: var(--primary-green);
             color: white;
-            padding: 12px 25px;
-            border-radius: 5px;
+            padding: 14px 30px;
+            border-radius: 8px;
             text-decoration: none;
             font-weight: 600;
-            font-size: 1.1rem;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            margin-top: 10px;
+            font-size: 1.15rem;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
         }
 
         .hiring-section .application-email:hover {
-            background-color: #45a049;
-            transform: translateY(-2px);
+            background-color: #337a37; /* Slightly darker green */
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(76, 175, 80, 0.4);
         }
 
-        @media (max-width: 768px) {
-            .hiring-section .job-role-card {
-                flex: 1 1 100%; /* Stack cards on smaller screens */
-                max-width: 100%;
-            }
-        }
-
-        /* --- NEW GAME LINK STYLES (ENHANCED) --- */
+        /* Game Link Circle - Super Enhanced */
         .game-link-container {
-            width: 200px;
-            height: 200px;
-            background: radial-gradient(circle at center, #f0fff0 0%, #e8f5e9 100%); /* Soft radial gradient */
+            width: 240px; /* Larger circle */
+            height: 240px;
+            background: radial-gradient(circle at center, #E8F5E9 0%, #DCE7D8 100%); /* Softer, more textured radial gradient */
             border-radius: 50%;
             display: flex;
-            flex-direction: column; /* Stack icon and text vertically */
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            margin: 40px auto; /* Centers the circle and adds vertical spacing */
-            border: 4px solid #4CAF50; /* Thicker green border */
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* More prominent initial shadow */
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-            cursor: pointer; /* Indicates it's clickable */
-            text-decoration: none; /* Remove underline from the container if it becomes a link */
-            color: inherit; /* Ensure text color is inherited */
-            position: relative; /* For pulse animation */
-            overflow: hidden; /* Hide overflow of pulse */
-            z-index: 1; /* Ensure it's above other content if anything overlaps */
+            margin: 50px auto; /* More vertical margin */
+            border: 6px solid var(--light-green); /* Thicker, slightly lighter green border */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); /* More prominent initial shadow */
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease; /* Smoother, more defined transition */
+            cursor: pointer;
+            text-decoration: none;
+            color: var(--text-dark);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
         }
 
         .game-link-container:hover {
-            transform: scale(1.08); /* Slightly enlarges more on hover */
-            box-shadow: 0 8px 20px rgba(76, 175, 80, 0.4); /* Deeper, green-tinted shadow on hover */
+            transform: scale(1.15); /* More pronounced enlargement on hover */
+            box-shadow: 0 15px 40px rgba(76, 175, 80, 0.6); /* Larger, more vibrant green shadow */
+            border-color: var(--primary-green); /* Darken border on hover */
         }
 
         /* Pulse animation for the game link */
@@ -506,21 +532,21 @@
             left: 50%;
             width: 100%;
             height: 100%;
-            background-color: rgba(76, 175, 80, 0.2); /* Lighter green pulse */
+            background-color: rgba(76, 175, 80, 0.35); /* Slightly more opaque pulse */
             border-radius: 50%;
             transform: translate(-50%, -50%) scale(0);
             opacity: 0;
-            animation: pulse 2.5s infinite ease-out; /* Slower, more subtle pulse */
-            z-index: 0; /* Behind content */
+            animation: pulse 3s infinite ease-out; /* Slower, more subtle pulse */
+            z-index: 0;
         }
 
         @keyframes pulse {
             0% {
                 transform: translate(-50%, -50%) scale(0.7);
-                opacity: 0.8;
+                opacity: 0.7;
             }
             100% {
-                transform: translate(-50%, -50%) scale(1.2);
+                transform: translate(-50%, -50%) scale(1.3); /* Larger pulse */
                 opacity: 0;
             }
         }
@@ -530,64 +556,287 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
-            color: #333; /* Dark gray text */
+            color: var(--text-dark);
             transition: color 0.3s ease-in-out;
-            position: relative; /* Ensure content is above pulse */
+            position: relative;
             z-index: 1;
         }
 
         .game-link-container:hover .game-link-content {
-            color: #4CAF50; /* Green text on hover */
+            color: var(--primary-green); /* Green text on hover */
         }
 
         .game-link-content .icon {
-            font-size: 4rem; /* Larger icon size */
-            margin-bottom: 8px; /* More space between icon and text */
-            transition: transform 0.3s ease; /* For potential icon animation */
+            font-size: 5rem; /* Even larger icon */
+            margin-bottom: 10px; /* More space */
+            transition: transform 0.3s ease;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1); /* Subtle shadow for icon */
         }
         .game-link-container:hover .game-link-content .icon {
-            transform: translateY(-3px); /* Slight lift on icon on hover */
+            transform: translateY(-5px) rotate(5deg); /* More dynamic lift and slight rotation */
+            color: var(--primary-green); /* Ensure icon color change */
         }
 
         .game-link-content .text {
-            font-size: 1.1rem; /* Slightly larger text */
-            font-weight: bold;
+            font-size: 1.4rem; /* Larger main text */
+            font-weight: 800; /* Extra bold */
             line-height: 1.2;
-            text-transform: uppercase; /* Make text uppercase for emphasis */
-            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            letter-spacing: 1px; /* More spacing */
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
 
         .game-link-content .sub-text {
-            font-size: 0.85rem; /* Slightly larger sub-text */
-            margin-top: 4px; /* More space */
-            color: #666; /* Slightly lighter color for sub-text */
-            font-style: italic; /* Italic for a more inviting feel */
+            font-size: 1rem; /* Larger sub-text */
+            margin-top: 5px;
+            color: var(--text-medium); /* Use medium text color */
+            font-style: italic;
+            opacity: 0.9;
         }
 
-        /* --- NEW PARTNERSHIP SECTION STYLES --- */
+        /* Partnership Section */
         .partnership-section {
-            background: linear-gradient(to right, #e8f5e9, #dcedc8); /* Soft green gradient */
-            border: 1px solid #4CAF50;
-            box-shadow: 0 4px 10px rgba(76, 175, 80, 0.2);
+            background: linear-gradient(160deg, #EFEBE9, #F5F5F5); /* Warm, subtle gradient */
+            border: 1px solid #D7CCC8; /* Soft brown border */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Lighter shadow for this section */
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .partnership-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://placehold.co/100x100/eeeeee/cccccc?text=P') no-repeat center center; /* Placeholder for subtle pattern */
+            background-size: cover;
+            opacity: 0.05; /* Very subtle pattern */
+            z-index: 0;
         }
 
         .partnership-section h2 {
-            color: #2e7d32; /* Darker green for heading */
-            border-bottom-color: #a5d6a7; /* Lighter border */
+            color: var(--primary-green); /* Use primary green for partnership heading */
+            border-bottom-color: var(--light-green);
+            position: relative;
+            z-index: 1;
         }
 
         .partnership-section p {
-            color: #4CAF50;
-            font-weight: 500;
+            color: var(--text-medium);
+            font-weight: 400;
+            position: relative;
+            z-index: 1;
         }
 
         .partnership-section .cta-button {
-            background-color: #4CAF50; /* Green CTA */
-            margin-top: 20px;
+            background-color: var(--primary-green);
+            margin-top: 25px;
+            box-shadow: 0 6px 12px rgba(76, 175, 80, 0.4);
+            position: relative;
+            z-index: 1;
         }
         .partnership-section .cta-button:hover {
-            background-color: #388e3c;
+            background-color: #337a37;
+            box-shadow: 0 8px 18px rgba(76, 175, 80, 0.5);
+        }
+
+        /* Game Explanation Section */
+        .game-explanation-section {
+            background: linear-gradient(160deg, #E3F2FD, #E1F5FE); /* Light blue gradient */
+            border: 1px solid #90CAF9; /* Soft blue border */
+            box-shadow: 0 8px 20px rgba(33, 150, 243, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .game-explanation-section::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            background: url('https://placehold.co/150x150/d1e2f7/adc9ea?text=🎮') no-repeat center center; /* Game controller icon */
+            background-size: contain;
+            opacity: 0.1;
+            z-index: 0;
+            transform: rotate(-20deg);
+        }
+
+        .game-explanation-section h2 {
+            color: var(--accent-blue); /* Blue for game section heading */
+            border-bottom-color: #A7D9FD; /* Lighter blue border */
+            position: relative;
+            z-index: 1;
+        }
+
+        .game-explanation-section h3 {
+            font-size: 1.6rem;
+            color: var(--dark-blue);
+            margin-top: 25px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            position: relative;
+            z-index: 1;
+        }
+
+        .game-explanation-section ul {
+            list-style: none; /* Remove default bullets */
+            margin-left: 0;
+            padding-left: 0;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .game-explanation-section ul li {
+            font-size: 1rem;
+            color: var(--text-medium);
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 25px;
+            line-height: 1.6;
+        }
+
+        .game-explanation-section ul li b {
+            color: var(--text-dark);
+        }
+
+        .game-explanation-section ul li::before {
+            content: '•';
+            color: var(--accent-blue); /* Blue bullet */
+            font-size: 1.2em;
+            position: absolute;
+            left: 0;
+            top: 0;
+            font-weight: bold;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            .header p {
+                font-size: 1rem;
+            }
+            .nav ul {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .nav ul li a {
+                width: 80%;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+            .about-section, .faq-section, .customer-care-section, .hiring-section, .partnership-section, .game-explanation-section {
+                padding: 25px;
+            }
+            .about-section h2, .faq-section h2, .customer-care-section h2, .hiring-section h2, .partnership-section h2, .game-explanation-section h2 {
+                font-size: 2rem;
+            }
+            .hiring-section .job-role-card {
+                flex: 1 1 100%;
+                max-width: 100%;
+            }
+            .game-link-container {
+                width: 200px;
+                height: 200px;
+                border: 4px solid var(--light-green);
+            }
+            .game-link-content .icon {
+                font-size: 4rem;
+            }
+            .game-link-content .text {
+                font-size: 1.2rem;
+            }
+            .game-link-content .sub-text {
+                font-size: 0.9rem;
+            }
+            .cta-button {
+                padding: 12px 25px;
+                font-size: 1rem;
+            }
+            .footer p {
+                font-size: 0.9rem;
+                margin-bottom: 8px; /* Adjust spacing for mobile */
+            }
+            .footer-social-links {
+                gap: 15px; /* Adjust spacing for mobile */
+            }
+            .footer-social-links a {
+                font-size: 1.6rem; /* Adjust icon size for mobile */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            .header p {
+                font-size: 0.9rem;
+            }
+            .container {
+                padding: 15px;
+            }
+            .nav ul li a {
+                font-size: 1rem;
+                padding: 10px 15px;
+            }
+            .about-section h2, .faq-section h2, .customer-care-section h2, .hiring-section h2, .partnership-section h2, .game-explanation-section h2 {
+                font-size: 1.8rem;
+            }
+            .about-section p, .about-section ul li, .hiring-section p, .hiring-section ul li, .partnership-section p, .game-explanation-section p {
+                font-size: 0.95rem;
+            }
+            .game-link-container {
+                width: 160px;
+                height: 160px;
+                border: 3px solid var(--light-green);
+                margin: 30px auto;
+            }
+            .game-link-content .icon {
+                font-size: 3rem;
+                margin-bottom: 5px;
+            }
+            .game-link-content .text {
+                font-size: 1rem;
+            }
+            .game-link-content .sub-text {
+                font-size: 0.8rem;
+            }
+            .faq-item summary {
+                padding: 15px 20px;
+                font-size: 1rem;
+            }
+            .faq-item .faq-answer {
+                padding: 15px 20px;
+            }
+            .contact-buttons {
+                gap: 15px;
+            }
+            .contact-buttons a {
+                padding: 10px 20px;
+                font-size: 0.95rem;
+            }
+            .hiring-section .job-role-card {
+                padding: 20px;
+            }
+            .hiring-section h3 {
+                font-size: 1.5rem;
+            }
+            .footer p {
+                font-size: 0.85rem;
+                margin-bottom: 6px; /* Further adjust spacing for very small mobile */
+            }
+            .footer-social-links {
+                gap: 10px;
+            }
+            .footer-social-links a {
+                font-size: 1.4rem;
+            }
         }
     </style>
 </head>
@@ -604,7 +853,7 @@
             <ul>
                 <li><a href="create.html">CREATE ACCOUNT and LOGIN</a></li>
                 <li><a href="cupon.html">PURCHASE COUPON</a></li>
-                <li><li><a href="#about-section">ABOUT US</a></li></li>
+                <li><a href="#about-section">ABOUT US</a></li>
             </ul>
         </nav>
 
@@ -777,6 +1026,14 @@
 
     <footer class="footer">
         <p>&copy; 2025 COREVEST. All rights reserved.</p>
+        <p>Email: <a href="mailto:support@corevest.com">support@corevest.com</a></p>
+        <p>Phone: <a href="tel:+2348123456789">+234 812 345 6789</a></p>
+        <div class="footer-social-links">
+            <a href="https://facebook.com/corevest" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://twitter.com/corevest" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="https://instagram.com/corevest" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://linkedin.com/company/corevest" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        </div>
     </footer>
 
     <script>
