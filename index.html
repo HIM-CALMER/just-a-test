@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to COREVEST!</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         /* Existing CSS styles remain the same */
@@ -87,7 +87,7 @@
             background-color: #45a049;
         }
 
-        .about-section, .faq-section, .customer-care-section, .hiring-section { /* Added .hiring-section */
+        .about-section, .faq-section, .customer-care-section, .hiring-section, .partnership-section, .game-explanation-section { /* Added new sections */
             background-color: white;
             padding: 30px;
             border-radius: 8px;
@@ -95,7 +95,7 @@
             margin-bottom: 30px;
         }
 
-        .about-section h2, .faq-section h2, .customer-care-section h2, .hiring-section h2 { /* Added .hiring-section h2 */
+        .about-section h2, .faq-section h2, .customer-care-section h2, .hiring-section h2, .partnership-section h2, .game-explanation-section h2 { /* Added new sections h2 */
             font-size: 2rem;
             color: #333;
             margin-bottom: 20px;
@@ -104,7 +104,7 @@
             padding-bottom: 10px;
         }
 
-        .about-section p, .hiring-section p { /* Added .hiring-section p */
+        .about-section p, .hiring-section p, .partnership-section p, .game-explanation-section p { /* Added new sections p */
             font-size: 1rem;
             color: #555;
             margin-bottom: 15px;
@@ -167,11 +167,11 @@
                 margin: 5px 0;
             }
 
-            .about-section, .faq-section, .customer-care-section, .hiring-section { /* Added .hiring-section */
+            .about-section, .faq-section, .customer-care-section, .hiring-section, .partnership-section, .game-explanation-section { /* Added new sections */
                 padding: 20px;
             }
 
-            .about-section h2, .faq-section h2, .customer-care-section h2, .hiring-section h2 { /* Added .hiring-section h2 */
+            .about-section h2, .faq-section h2, .customer-care-section h2, .hiring-section h2, .partnership-section h2, .game-explanation-section h2 { /* Added new sections h2 */
                 font-size: 1.7rem;
             }
 
@@ -203,11 +203,11 @@
                 padding: 10px;
             }
 
-            .about-section h2, .faq-section h2, .customer-care-section h2, .hiring-section h2 { /* Added .hiring-section h2 */
+            .about-section h2, .faq-section h2, .customer-care-section h2, .hiring-section h2, .partnership-section h2, .game-explanation-section h2 { /* Added new sections h2 */
                 font-size: 1.5rem;
             }
 
-            .about-section p, .about-section ul li, .hiring-section p, .hiring-section ul li { /* Added .hiring-section p, li */
+            .about-section p, .about-section ul li, .hiring-section p, .hiring-section ul li, .partnership-section p, .game-explanation-section p { /* Added new sections p, li */
                 font-size: 0.9rem;
             }
 
@@ -293,7 +293,7 @@
 
         .faq-item[open] summary::after {
             content: '▲'; /* Custom up arrow when open */
-            transform: rotate(0deg); /* No rotation needed, just change icon */
+            /* Removed transform: rotate(0deg) as it's redundant when content changes */
         }
 
         .faq-item .faq-answer {
@@ -471,28 +471,58 @@
             }
         }
 
-        /* --- NEW GAME LINK STYLES --- */
+        /* --- NEW GAME LINK STYLES (ENHANCED) --- */
         .game-link-container {
             width: 200px;
             height: 200px;
-            background-color: #f9f9f9;
+            background: radial-gradient(circle at center, #f0fff0 0%, #e8f5e9 100%); /* Soft radial gradient */
             border-radius: 50%;
             display: flex;
             flex-direction: column; /* Stack icon and text vertically */
             justify-content: center;
             align-items: center;
             margin: 40px auto; /* Centers the circle and adds vertical spacing */
-            border: 3px solid #4CAF50; /* Green border */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Soft shadow */
+            border: 4px solid #4CAF50; /* Thicker green border */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* More prominent initial shadow */
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
             cursor: pointer; /* Indicates it's clickable */
             text-decoration: none; /* Remove underline from the container if it becomes a link */
             color: inherit; /* Ensure text color is inherited */
+            position: relative; /* For pulse animation */
+            overflow: hidden; /* Hide overflow of pulse */
+            z-index: 1; /* Ensure it's above other content if anything overlaps */
         }
 
         .game-link-container:hover {
-            transform: scale(1.05); /* Slightly enlarges on hover */
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Deeper shadow on hover */
+            transform: scale(1.08); /* Slightly enlarges more on hover */
+            box-shadow: 0 8px 20px rgba(76, 175, 80, 0.4); /* Deeper, green-tinted shadow on hover */
+        }
+
+        /* Pulse animation for the game link */
+        .game-link-container::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(76, 175, 80, 0.2); /* Lighter green pulse */
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            animation: pulse 2.5s infinite ease-out; /* Slower, more subtle pulse */
+            z-index: 0; /* Behind content */
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: translate(-50%, -50%) scale(0.7);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 0;
+            }
         }
 
         .game-link-content {
@@ -502,6 +532,8 @@
             text-align: center;
             color: #333; /* Dark gray text */
             transition: color 0.3s ease-in-out;
+            position: relative; /* Ensure content is above pulse */
+            z-index: 1;
         }
 
         .game-link-container:hover .game-link-content {
@@ -509,20 +541,53 @@
         }
 
         .game-link-content .icon {
-            font-size: 3.5rem; /* Large icon size */
-            margin-bottom: 5px; /* Space between icon and text */
+            font-size: 4rem; /* Larger icon size */
+            margin-bottom: 8px; /* More space between icon and text */
+            transition: transform 0.3s ease; /* For potential icon animation */
+        }
+        .game-link-container:hover .game-link-content .icon {
+            transform: translateY(-3px); /* Slight lift on icon on hover */
         }
 
         .game-link-content .text {
-            font-size: 1rem;
+            font-size: 1.1rem; /* Slightly larger text */
             font-weight: bold;
             line-height: 1.2;
+            text-transform: uppercase; /* Make text uppercase for emphasis */
+            letter-spacing: 0.5px;
         }
 
         .game-link-content .sub-text {
-            font-size: 0.8rem;
-            margin-top: 2px;
+            font-size: 0.85rem; /* Slightly larger sub-text */
+            margin-top: 4px; /* More space */
             color: #666; /* Slightly lighter color for sub-text */
+            font-style: italic; /* Italic for a more inviting feel */
+        }
+
+        /* --- NEW PARTNERSHIP SECTION STYLES --- */
+        .partnership-section {
+            background: linear-gradient(to right, #e8f5e9, #dcedc8); /* Soft green gradient */
+            border: 1px solid #4CAF50;
+            box-shadow: 0 4px 10px rgba(76, 175, 80, 0.2);
+            text-align: center;
+        }
+
+        .partnership-section h2 {
+            color: #2e7d32; /* Darker green for heading */
+            border-bottom-color: #a5d6a7; /* Lighter border */
+        }
+
+        .partnership-section p {
+            color: #4CAF50;
+            font-weight: 500;
+        }
+
+        .partnership-section .cta-button {
+            background-color: #4CAF50; /* Green CTA */
+            margin-top: 20px;
+        }
+        .partnership-section .cta-button:hover {
+            background-color: #388e3c;
         }
     </style>
 </head>
@@ -539,7 +604,7 @@
             <ul>
                 <li><a href="create.html">CREATE ACCOUNT and LOGIN</a></li>
                 <li><a href="cupon.html">PURCHASE COUPON</a></li>
-                <li><a href="about.html">ABOUT US</a></li>
+                <li><li><a href="#about-section">ABOUT US</a></li></li>
             </ul>
         </nav>
 
@@ -549,7 +614,16 @@
                 <span class="sub-text">Tap to Play Now!</span>
             </div>
         </a>
-        <section class="about-section">
+
+        <section class="partnership-section">
+            <h2>Exciting News: COREVEST Acquires New Game Partnership!</h2>
+            <p>We're thrilled to announce a significant expansion to our entertainment offerings! COREVEST has officially acquired a new game partnership, bringing even more diverse and exciting gaming experiences directly to you.</p>
+            <p>This strategic move enhances our commitment to providing multifaceted earning opportunities and top-tier entertainment. Expect new games and features to roll out soon, enriching your COREVEST journey!</p>
+            <p>Interested in partnering with COREVEST to showcase your games or services? We're always looking for new collaborations that benefit our community. Reach out to us for partnership inquiries!</p>
+            <a href="mailto:partnerships@corevest.com?subject=Partnership Inquiry" class="cta-button">Inquire About Partnerships</a>
+        </section>
+
+        <section class="about-section" id="about-section">
             <h2>Our Mission</h2>
             <p>At COREVEST, our mission is to provide a legitimate and user-friendly platform where individuals can earn income by engaging in straightforward online activities, primarily watching videos. We are dedicated to creating a transparent and rewarding experience for all our users, helping them to supplement their income with minimal effort and no prior experience.</p>
         </section>
@@ -601,6 +675,29 @@
         <section class="about-section">
             <h2>Our Commitment</h2>
             <p>We are committed to maintaining a trustworthy and supportive environment for our users. We continuously work to improve our platform, enhance security measures, and provide timely support to ensure a smooth and enjoyable earning experience. Your success is our priority.</p>
+        </section>
+
+        <section class="game-explanation-section">
+            <h2>COREVEST Games: How It Works & Future Updates</h2>
+            <p>Dive into the thrilling world of COREVEST Games, where entertainment meets earning potential! Our diverse range of games offers unique ways to test your luck and skills, providing a fun break from daily tasks while potentially boosting your earnings.</p>
+            <h3>How Our Games Work:</h3>
+            <p>Each game within COREVEST Games operates on a simple, engaging premise:</p>
+            <ul>
+                <li><b>Place Your Bet:</b> Start by selecting your desired bet amount for the game you wish to play.</li>
+                <li><b>Engage & Play:</b> Follow the game's rules – whether it's spinning a wheel, flipping a coin, racing a car, or playing slots. Interact with the game to determine the outcome.</li>
+                <li><b>Win or Lose:</b> Based on your performance or luck, you'll either multiply your bet and increase your balance, or your bet will be deducted. Outcomes are fair and simulated to be exciting!</li>
+                <li><b>Instant Results:</b> See your results and updated balance immediately after each game round.</li>
+            </ul>
+            <h3>Future Updates & Exciting Features:</h3>
+            <p>We are constantly working to expand and enhance the COREVEST Games experience. Here's a glimpse of what's coming:</p>
+            <ul>
+                <li><b>More Diverse Games:</b> Expect a continuous rollout of new and exciting game titles, including arcade-style challenges, puzzle games, and more strategic betting options.</li>
+                <li><b>Leaderboards & Tournaments:</b> Compete against other COREVEST users for top spots on leaderboards and participate in thrilling tournaments with grand prizes.</li>
+                <li><b>Special Events & Bonuses:</b> Look out for limited-time game events, seasonal challenges, and exclusive bonuses to maximize your earnings.</li>
+                <li><b>Enhanced Graphics & Sound:</b> We're committed to improving the visual and auditory experience of all our games for deeper immersion.</li>
+                <li><b>Interactive Features:</b> New ways to interact with games and other players will be introduced to build a vibrant gaming community.</li>
+            </ul>
+            <p>Stay tuned for these exciting updates and prepare to elevate your gaming and earning experience with COREVEST!</p>
         </section>
 
         <section class="hiring-section">
@@ -679,7 +776,7 @@
     </div>
 
     <footer class="footer">
-        <p>© 2025 COREVEST. All rights reserved.</p>
+        <p>&copy; 2025 COREVEST. All rights reserved.</p>
     </footer>
 
     <script>
@@ -737,6 +834,10 @@
                 {
                     question: "What if I have a problem or question not listed here?",
                     answer: "If you have further questions, please contact our support team through the contact us page (once available) or the provided customer service channels."
+                },
+                { /* NEW FAQ ENTRY */
+                    question: "How does the COREVEST Games Partnership work?",
+                    answer: "COREVEST has recently acquired new gaming partnerships to expand our game offerings. This means more diverse and exciting games for our users to enjoy! We are also actively seeking new game developers and companies interested in partnering with us to integrate their games onto the COREVEST platform. If you have a game you'd like to feature or explore a collaboration, please use the 'Inquire About Partnerships' button in our 'Exciting News' section."
                 }
             ];
 
@@ -789,9 +890,6 @@
 
             // JavaScript for the game link (optional, but adds a nice touch)
             gameLinkCircle.addEventListener('click', function(event) {
-                // You can add more interactive JavaScript here if needed,
-                // for example, an animation before redirecting, or a confirmation.
-                // For now, it will simply follow the href.
                 console.log("Game link clicked! Redirecting to game.html");
             });
         });
