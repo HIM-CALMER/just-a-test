@@ -4,171 +4,368 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Tasks - COREVEST</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* Global CSS Variables - Consistent with COREVEST theme */
+        :root {
+            --primary-green: #388E3C; /* Darker, richer green */
+            --light-green: #66BB6A;   /* Medium green */
+            --accent-blue: #2196F3;   /* Vibrant blue */
+            --dark-blue: #1976D2;     /* Deeper blue */
+            --text-dark: #2c3e50;     /* Soft dark text */
+            --text-medium: #7f8c8d;   /* Soft medium gray */
+            --text-light: #ecf0f1;    /* Lighter near white */
+            --bg-light: #ecf0f1;      /* Very light gray background */
+            --card-bg: #FFFFFF;       /* Pure white for cards */
+            --shadow-light: rgba(0, 0, 0, 0.08); /* Lighter, subtle shadow */
+            --shadow-medium: rgba(0, 0, 0, 0.2); /* Slightly more prominent shadow */
+            --border-color: #bdc3c7;  /* Softer light gray border */
+            --success-bg: #e8f5e9;    /* Light green for success */
+            --success-text: #2e7d32;  /* Dark green for success text */
+            --error-bg: #ffebee;      /* Light red for error */
+            --error-text: #d32f2f;    /* Dark red for error text */
+            --warning-bg: #fff3e0;    /* Light orange for warning */
+            --warning-text: #e65100;  /* Dark orange for warning text */
+            --danger-color: #ff5c5c; /* For close buttons, etc. */
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            color: #333;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--bg-light) 0%, #dde1e5 50%, #ccd1d7 100%); /* Enhanced gradient */
+            color: var(--text-dark);
             margin: 0;
             padding: 20px;
             display: flex;
             flex-direction: column;
             min-height: 100vh; /* Ensures footer sticks to bottom */
+            overflow-x: hidden; /* Prevent horizontal scroll */
         }
+
         .container {
-            max-width: 800px;
+            width: 100%;
+            max-width: 850px; /* Slightly wider container */
             margin: 0 auto;
             flex-grow: 1; /* Allows container to take available space */
+            padding: 0 15px; /* Add horizontal padding for smaller screens */
         }
+
         .header, .coupon-section, .task-card, .user-info-section, .withdrawal-info, .withdrawal-section {
-            background-color: #fff;
-            padding: 20px 25px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: var(--card-bg);
+            padding: 30px; /* Increased padding */
+            border-radius: 12px; /* More rounded corners */
+            box-shadow: 0 5px 15px var(--shadow-light); /* Softer shadow */
             margin-bottom: 25px;
+            border: 1px solid var(--border-color); /* Subtle border */
         }
+
         h1 {
             margin: 0;
-            color: #4CAF50;
-            font-size: 24px;
+            color: var(--primary-green);
+            font-size: 2.2rem; /* Larger heading */
             text-align: center;
+            font-weight: 800; /* Bolder */
+            margin-bottom: 10px;
         }
-        .user-info-section h2, .coupon-section h2, .withdrawal-section h2 {
+
+        h2 {
+            font-size: 1.8rem; /* Larger subheading */
             margin-top: 0;
             text-align: center;
-            color: #333;
+            color: var(--text-dark);
+            margin-bottom: 20px;
         }
+
+        h3 {
+            font-size: 1.3rem; /* Task card heading */
+            color: var(--text-dark);
+            margin-bottom: 5px;
+        }
+
         .user-name-display {
-            font-size: 18px;
+            font-size: 1.1rem;
             text-align: center;
             margin-bottom: 15px;
-            color: #555;
+            color: var(--text-medium);
         }
         .user-name-display span {
-            font-weight: bold;
-            color: #2196F3;
+            font-weight: 700;
+            color: var(--accent-blue);
         }
+        .last-activity-display {
+            font-size: 0.85rem;
+            text-align: center;
+            color: var(--text-medium);
+            margin-top: 10px;
+        }
+
         .earnings-display {
-            font-size: 18px;
+            font-size: 1.1rem;
             margin-top: 10px;
             text-align: center;
+            color: var(--text-dark);
         }
         .earnings-display span {
-            font-weight: bold;
-            color: #3e8e41;
-            font-size: 22px;
+            font-weight: 700;
+            color: var(--primary-green);
+            font-size: 1.5rem; /* Larger earnings amount */
         }
+
         .total-record {
-            font-size: 16px;
+            font-size: 1rem;
             text-align: center;
-            color: #666;
+            color: var(--text-medium);
             margin-top: 5px;
         }
+
         .coupon-input-group, .user-input-group {
             display: flex;
-            gap: 10px;
-            margin: 15px 0;
+            gap: 15px; /* More space between input and button */
+            margin: 20px 0;
+            flex-wrap: wrap; /* Allow wrapping on small screens */
+            justify-content: center;
+            align-items: center;
         }
+        .coupon-input-group input, .user-input-group input {
+            flex-grow: 1;
+            padding: 12px 15px; /* More padding */
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .coupon-input-group input:focus, .user-input-group input:focus {
+            border-color: var(--primary-green);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(56, 142, 60, 0.2);
+        }
+        .coupon-input-group button, .user-input-group button {
+            background-color: var(--primary-green);
+            color: var(--text-light);
+            border: none;
+            padding: 12px 25px; /* More padding */
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+        }
+        .coupon-input-group button:hover, .user-input-group button:hover,
+        #save-withdrawal-btn:hover, #request-withdrawal-btn:hover { 
+            background-color: #3e8e41;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(0,0,0,0.25);
+        }
+        .coupon-input-group button:active, .user-input-group button:active,
+        #save-withdrawal-btn:active, #request-withdrawal-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .coupon-input-group button:disabled, .user-input-group button:disabled, #save-withdrawal-btn:disabled, #request-withdrawal-btn:disabled {
+            background-color: #aaa;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: translateY(0);
+        }
+
         .withdrawal-input-group {
-            margin-bottom: 15px;
+            margin-bottom: 18px; /* Slightly more space */
+            text-align: left;
         }
         .withdrawal-input-group label {
             display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #555;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 0.95rem;
         }
         .withdrawal-input-group input[type="text"] {
-            width: calc(100% - 22px); /* Account for padding and border */
-            padding: 10px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .withdrawal-input-group input[type="text"]:focus {
+            border-color: var(--primary-green);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(56, 142, 60, 0.2);
         }
 
-        #coupon-input, #full-name-input {
-            flex-grow: 1;
-            padding: 10px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        #verify-coupon-btn, #save-name-btn, #save-withdrawal-btn, #request-withdrawal-btn {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            white-space: nowrap; /* Prevent text wrapping */
-        }
-        #verify-coupon-btn:hover, #save-name-btn:hover, #save-withdrawal-btn:hover, #request-withdrawal-btn:hover { background-color: #3e8e41; }
-        #verify-coupon-btn:disabled, #save-withdrawal-btn:disabled, #request-withdrawal-btn:disabled {
-            background-color: #aaa;
-            cursor: not-allowed;
-        }
         #coupon-status {
             text-align: center;
-            font-weight: bold;
-            height: 20px;
+            font-weight: 600;
+            min-height: 20px; /* Reserve space */
+            margin-top: 10px;
         }
+
         .task-list.disabled {
-            opacity: 0.5;
+            opacity: 0.6;
             pointer-events: none;
+            filter: grayscale(80%);
         }
         .task-card {
             display: flex;
+            flex-wrap: wrap; /* Allow wrapping of content */
             justify-content: space-between;
             align-items: center;
             transition: all 0.3s ease;
-            margin-bottom: 15px; /* Spacing between task cards */
+            margin-bottom: 15px;
+            padding: 20px;
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: 0 2px 8px var(--shadow-light);
+            border: 1px solid var(--border-color);
         }
         .task-card.completed {
-            border-color: #4CAF50;
-            background-color: #f1f8e9;
+            border-color: var(--primary-green);
+            background-color: var(--success-bg);
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.2);
         }
-        .task-info h3 { margin: 0 0 5px 0; }
-        .task-info p { margin: 0; font-size: 14px; color: #666; }
-        .task-reward { font-size: 16px; font-weight: bold; color: #4CAF50; }
-        .task-actions { display: flex; gap: 10px; align-items: center; }
+        .task-info {
+            flex-basis: 60%; /* Take more space on larger screens */
+            text-align: left;
+        }
+        .task-info h3 { margin: 0 0 5px 0; font-weight: 700; }
+        .task-info p { margin: 0; font-size: 0.9rem; color: var(--text-medium); }
+        .task-reward { 
+            font-size: 1.1rem; 
+            font-weight: 700; 
+            color: var(--primary-green); 
+            white-space: nowrap; /* Prevent breaking */
+        }
+        .task-actions { 
+            display: flex; 
+            gap: 10px; 
+            align-items: center; 
+            flex-basis: 35%; /* Adjust as needed */
+            justify-content: flex-end; /* Align buttons to the right */
+            margin-top: 0;
+        }
         .task-btn {
             color: white;
             border: none;
-            border-radius: 5px;
-            padding: 10px 15px;
-            font-size: 14px;
+            border-radius: 8px;
+            padding: 10px 18px; /* Slightly more padding */
+            font-size: 0.9rem; /* Smaller font for buttons on cards */
+            font-weight: 600;
             cursor: pointer;
-            min-width: 120px;
+            min-width: 100px; /* Ensure consistent width */
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
         }
-        .watch-btn { background-color: #2196F3; }
-        .watch-btn:hover { background-color: #1a78c2; }
-        .claim-btn { background-color: #4CAF50; }
-        .task-btn:disabled { background-color: #aaa; cursor: not-allowed; }
+        .watch-btn { background-color: var(--accent-blue); }
+        .watch-btn:hover { background-color: var(--dark-blue); transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.25); }
+        .watch-btn:active { transform: translateY(0); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .claim-btn { background-color: var(--primary-green); }
+        .claim-btn:hover { background-color: #3e8e41; transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.25); }
+        .claim-btn:active { transform: translateY(0); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .task-btn:disabled { 
+            background-color: #aaa; 
+            cursor: not-allowed; 
+            opacity: 0.7; 
+            box-shadow: none; 
+            transform: translateY(0);
+        }
 
         .withdrawal-info {
-            background-color: #ffe0b2; /* Light orange background */
-            color: #e65100; /* Dark orange text */
+            background-color: var(--warning-bg); /* Light orange background */
+            color: var(--warning-text); /* Dark orange text */
             text-align: center;
-            font-weight: bold;
+            font-weight: 600;
             padding: 15px;
             border-radius: 10px;
             border: 1px solid #ff9800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
+        .withdrawal-details-display {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #f8fcf8;
+            border-radius: 10px;
+            border: 1px dashed var(--light-green);
+            text-align: left;
+            color: var(--text-dark);
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.05);
+        }
         .withdrawal-details-display p {
-            margin: 5px 0;
-            font-size: 16px;
+            margin: 8px 0;
+            font-size: 1rem;
         }
         .withdrawal-details-display strong {
-            color: #2196F3;
+            color: var(--accent-blue);
         }
         .withdrawal-status {
-            font-weight: bold;
-            color: #ff9800; /* Orange for unpaid */
+            font-weight: 700;
+            color: var(--warning-text); /* Orange for unpaid */
         }
         .withdrawal-status.paid {
-            color: #4CAF50; /* Green for paid */
+            color: var(--primary-green); /* Green for paid */
+        }
+        .withdrawal-status-message {
+            font-size: 0.95rem;
+            color: var(--error-text);
+            margin-top: 10px;
+            font-weight: 600;
+        }
+        .withdrawal-status-message.success {
+            color: var(--primary-green);
+        }
+        .withdrawal-status-message.info {
+            color: var(--accent-blue);
+        }
+
+
+        #request-withdrawal-btn {
+            margin-top: 25px !important; /* Important to override margin-bottom from .header, etc. */
+            width: auto; /* Allow button to size itself */
+            min-width: 200px;
+            padding: 12px 30px;
+        }
+
+        #past-withdrawals-list {
+            margin-top: 15px;
+            text-align: left;
+        }
+        .withdrawal-item {
+            background-color: #f8f8f8;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            margin-bottom: 10px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+        }
+        .withdrawal-item p {
+            margin: 5px 0;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+        }
+        .withdrawal-item hr {
+            margin-top: 15px;
+            border: 0;
+            border-top: 1px solid #eee;
         }
 
         /* Video Modal Styles */
@@ -178,45 +375,275 @@
             z-index: 1000;
             left: 0; top: 0;
             width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.7);
+            background-color: rgba(0,0,0,0.8); /* Darker overlay */
             justify-content: center;
             align-items: center;
+            backdrop-filter: blur(5px); /* Blurred background */
         }
         .modal-content {
             position: relative;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px; /* More rounded */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5); /* Stronger shadow */
             width: 90%;
-            max-width: 560px;
+            max-width: 600px; /* Increased max width */
             text-align: center;
+            animation: fadeInScale 0.3s ease-out forwards;
+        }
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .modal-content h3 {
+            font-size: 1.5rem;
+            color: var(--primary-green);
+            margin-bottom: 15px;
+            font-weight: 700;
         }
         .modal-content iframe {
             width: 100%;
-            height: 315px;
+            aspect-ratio: 16 / 9; /* Maintain aspect ratio */
+            height: auto; /* Let aspect ratio control height */
             border: none;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
-        .modal-timer { font-size: 18px; font-weight: bold; margin-top: 15px; }
-        .close-btn { position: absolute; top: -10px; right: -10px; background: #ff5c5c; color: white; border-radius: 50%; width: 30px; height: 30px; border: none; font-size: 18px; cursor: pointer; }
-        
+        .modal-timer { 
+            font-size: 1.1rem; 
+            font-weight: 700; 
+            margin-top: 20px; 
+            color: var(--dark-blue);
+            padding: 10px;
+            background-color: #e3f2fd;
+            border-radius: 8px;
+        }
+        .close-btn { 
+            position: absolute; 
+            top: -15px; /* Move slightly outside */
+            right: -15px; /* Move slightly outside */
+            background: var(--danger-color); 
+            color: white; 
+            border-radius: 50%; 
+            width: 35px; /* Larger button */
+            height: 35px; 
+            border: 2px solid var(--card-bg); /* White border */
+            font-size: 1.2rem; 
+            cursor: pointer; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+        .close-btn:hover {
+            background-color: #e53935;
+            transform: scale(1.05);
+        }
+        .close-btn:active {
+            transform: scale(1);
+        }
+
+        /* Custom Message Modal */
+        #custom-message-modal {
+            display: none;
+            position: fixed;
+            z-index: 1001; /* Above video modal */
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(3px);
+        }
+        .custom-message-content {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            animation: fadeInScale 0.3s ease-out forwards;
+        }
+        .custom-message-content h3 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .custom-message-content p {
+            font-size: 1rem;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        .custom-message-content button {
+            background-color: var(--primary-green);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+        }
+        .custom-message-content button:hover {
+            background-color: #3e8e41;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(0,0,0,0.25);
+        }
+        .custom-message-content button:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .custom-message-content .success-icon { color: var(--primary-green); }
+        .custom-message-content .error-icon { color: var(--error-text); }
+        .custom-message-content .warning-icon { color: var(--warning-text); }
+
+        .name-edit-policy {
+            font-size: 0.85rem;
+            color: var(--text-medium);
+            margin-top: 10px;
+            padding: 8px;
+            background-color: #f0f4f7;
+            border-radius: 6px;
+            border: 1px dashed #c0c7cf;
+        }
+        .name-edit-policy.warning {
+            color: var(--warning-text);
+            background-color: var(--warning-bg);
+            border-color: #ff9800;
+        }
+        .name-edit-policy.info {
+            color: var(--accent-blue);
+            background-color: #e3f2fd;
+            border-color: #90caf9;
+        }
+        .name-edit-policy strong {
+            color: var(--text-dark);
+        }
+        .name-match-requirement {
+            font-size: 0.95rem;
+            color: var(--error-text);
+            background-color: var(--error-bg);
+            border: 1px solid #d32f2f;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .name-match-requirement i {
+            font-size: 1.2rem;
+        }
+
+
         /* Footer Styles */
         .footer {
             margin-top: 40px;
             padding: 20px;
             background-color: #333;
-            color: #f0f0f0;
+            color: var(--text-light);
             text-align: center;
-            font-size: 14px;
-            border-top: 5px solid #4CAF50;
+            font-size: 0.9rem;
+            border-top: 5px solid var(--primary-green);
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.1);
         }
         .footer p {
             margin: 0;
         }
 
-        @media (max-width: 600px) {
-            .task-card { flex-direction: column; align-items: flex-start; gap: 15px; }
-            .task-actions { width: 100%; flex-direction: column; }
-            .task-btn { width: 100%; }
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            .header, .coupon-section, .task-card, .user-info-section, .withdrawal-info, .withdrawal-section {
+                padding: 20px; /* Reduce padding on smaller screens */
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+            h3 {
+                font-size: 1.1rem;
+            }
+            .coupon-input-group, .user-input-group {
+                flex-direction: column; /* Stack input and button vertically */
+                align-items: stretch; /* Stretch to full width */
+                gap: 10px;
+            }
+            .coupon-input-group button, .user-input-group button {
+                width: 100%;
+            }
+            .task-card { 
+                flex-direction: column; 
+                align-items: flex-start; 
+                gap: 15px; 
+            }
+            .task-info {
+                flex-basis: 100%; /* Take full width */
+            }
+            .task-actions { 
+                width: 100%; 
+                flex-direction: column; 
+                align-items: stretch; /* Stretch buttons */
+                justify-content: center;
+            }
+            .task-btn { 
+                width: 100%; 
+                min-width: unset; /* Remove min-width for full flexibility */
+            }
+            .withdrawal-details-display, .withdrawal-item {
+                padding: 15px;
+            }
+            #request-withdrawal-btn {
+                width: 100%;
+                min-width: unset;
+            }
+            .modal-content {
+                padding: 20px;
+            }
+            .custom-message-content {
+                padding: 25px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 0 5px;
+            }
+            .header, .coupon-section, .task-card, .user-info-section, .withdrawal-info, .withdrawal-section {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
+            h2 {
+                font-size: 1.3rem;
+            }
+            .earnings-display span {
+                font-size: 1.3rem;
+            }
+            .task-btn {
+                padding: 8px 12px;
+                font-size: 0.85rem;
+            }
+            .footer {
+                padding: 15px;
+            }
         }
     </style>
 </head>
@@ -227,23 +654,29 @@
             <h2>Your COREVEST Profile</h2>
             <div class="user-input-group">
                 <input type="text" id="full-name-input" placeholder="Enter your User name">
-                <button id="save-name-btn">Save Name</button>
+                <button id="save-name-btn"><i class="fas fa-save"></i> Save Name</button>
             </div>
             <p class="user-name-display">Welcome, <span id="display-name">Guest</span>!</p>
+            <div id="name-edit-policy-message" class="name-edit-policy"></div>
+            <p id="last-activity-display" class="last-activity-display">Last Activity: Never</p>
+            <div class="name-match-requirement">
+                <i class="fas fa-exclamation-circle"></i>
+                For successful withdrawals, your User Name **MUST EXACTLY MATCH** your Real Bank Account Name.
+            </div>
         </div>
 
         <div class="coupon-section">
-            <h2>Verify Your Coupon to Start</h2>
+            <h2>Verify Your Coupon (Required for Tasks)</h2>
             <div class="coupon-input-group">
                 <input type="text" id="coupon-input" placeholder="Enter your coupon code">
-                <button id="verify-coupon-btn">Verify</button>
+                <button id="verify-coupon-btn"><i class="fas fa-check-circle"></i> Verify</button>
             </div>
             <p id="coupon-status"></p>
         </div>
 
         <div class="header">
             <h1>Daily Video Tasks</h1>
-            <p id="current-date" style="text-align: center; font-size: 14px; color: #777; margin-top: 5px;"></p>
+            <p id="current-date" style="text-align: center; font-size: 0.9rem; color: var(--text-medium); margin-top: 5px;"></p>
             <div class="earnings-display">
                 Total Earnings: <span id="total-earnings">₦0</span>
             </div>
@@ -253,11 +686,13 @@
         </div>
 
         <div class="withdrawal-info">
-            Please note: Withdrawals will be enabled after a minimum of three weeks from your initial sign-up date.
+            <i class="fas fa-exclamation-triangle"></i> Please note: Withdrawals will be enabled after a minimum of three weeks from your initial sign-up date.
         </div>
 
-        <div class="task-list disabled" id="task-list">
-            </div>
+        <div class="task-list" id="task-list">
+            <!-- Daily tasks will be dynamically loaded here -->
+            <p style="text-align: center; color: var(--text-medium);">Enter a valid coupon code above to see daily tasks!</p>
+        </div>
 
         <div class="withdrawal-section">
             <h2>Withdrawal Details</h2>
@@ -273,25 +708,37 @@
                 <label for="account-name-input">Account Name:</label>
                 <input type="text" id="account-name-input" placeholder="Enter your account name">
             </div>
-            <button id="save-withdrawal-btn">Save Withdrawal Details</button>
+            <button id="save-withdrawal-btn"><i class="fas fa-save"></i> Save Withdrawal Details</button>
             <div id="withdrawal-details-display" class="withdrawal-details-display" style="margin-top: 20px;">
+                <!-- Withdrawal details dynamically rendered here -->
             </div>
-            <button id="request-withdrawal-btn" style="margin-top: 20px;" disabled>Request Withdrawal</button>
+            <p id="withdrawal-eligibility-message" class="withdrawal-status-message"></p>
+            <button id="request-withdrawal-btn" style="margin-top: 20px;" disabled><i class="fas fa-hand-holding-dollar"></i> Request Withdrawal</button>
 
-            <hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;">
+            <hr style="margin: 30px 0; border: 0; border-top: 1px solid var(--border-color);">
             <h3>Past Withdrawals</h3>
             <div id="past-withdrawals-list" style="margin-top: 15px;">
-                <p>No past withdrawals yet.</p>
+                <p style="color: var(--text-medium);">No past withdrawals yet.</p>
             </div>
         </div>
     </div>
 
+    <!-- Video Modal -->
     <div id="video-modal" class="modal">
         <div class="modal-content">
             <button class="close-btn" id="close-modal-btn">×</button>
             <h3 id="modal-title"></h3>
             <iframe id="video-iframe" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
             <p class="modal-timer" id="modal-timer"></p>
+        </div>
+    </div>
+
+    <!-- Custom Message Modal (for replacing alerts) -->
+    <div id="custom-message-modal" class="modal">
+        <div class="custom-message-content">
+            <h3 id="custom-message-title"></h3>
+            <p id="custom-message-text"></p>
+            <button id="custom-message-ok-btn">OK</button>
         </div>
     </div>
 
@@ -305,6 +752,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const fullNameInput = document.getElementById('full-name-input');
     const saveNameBtn = document.getElementById('save-name-btn');
     const displayName = document.getElementById('display-name');
+    const nameEditPolicyMessage = document.getElementById('name-edit-policy-message');
+    const lastActivityDisplay = document.getElementById('last-activity-display'); // NEW
     const couponInput = document.getElementById('coupon-input');
     const verifyBtn = document.getElementById('verify-coupon-btn');
     const couponStatus = document.getElementById('coupon-status');
@@ -318,6 +767,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const videoIframe = document.getElementById('video-iframe');
     const closeModalBtn = document.getElementById('close-modal-btn');
 
+    // Custom Message Modal elements
+    const customMessageModal = document.getElementById('custom-message-modal');
+    const customMessageTitle = document.getElementById('custom-message-title');
+    const customMessageText = document.getElementById('custom-message-text');
+    const customMessageOkBtn = document.getElementById('custom-message-ok-btn');
+
     // Withdrawal elements
     const accountNumberInput = document.getElementById('account-number-input');
     const bankNameInput = document.getElementById('bank-name-input');
@@ -325,6 +780,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const saveWithdrawalBtn = document.getElementById('save-withdrawal-btn');
     const withdrawalDetailsDisplay = document.getElementById('withdrawal-details-display');
     const requestWithdrawalBtn = document.getElementById('request-withdrawal-btn');
+    const withdrawalEligibilityMessage = document.getElementById('withdrawal-eligibility-message'); // NEW
     const pastWithdrawalsList = document.getElementById('past-withdrawals-list');
 
     // --- STATE VARIABLES ---
@@ -332,13 +788,13 @@ document.addEventListener('DOMContentLoaded', function() {
         fullName: 'Guest',
         coupon: null,
         totalEarnings: 0,
-        // completedTasks will now be an object to store daily task completion
-        // e.g., { "2025-06-05": [101, 102], "2025-06-06": [201] }
         completedTasks: {}, 
         signUpDate: null, 
+        lastUsernameEditDate: null, 
+        lastActivityDate: null, // NEW
         withdrawalDetails: null, 
         pastWithdrawals: [],
-        lastTaskGenerationDate: null // To track when tasks were last generated
+        lastTaskGenerationDate: null 
     };
     
     // --- DATABASE (SIMULATED) ---
@@ -351,23 +807,24 @@ document.addEventListener('DOMContentLoaded', function() {
     const videoTitles = ["Tech Review", "Nature Exploration", "Art Timelapse", "Quick Recipe", "Workout Motivation", "Drone Shots", "Financial Tips", "DIY Project", "Product Unboxing", "Travel Highlights", "Science Explained", "Historical Facts", "Gaming Montage", "Coding Tutorial", "Book Summary", "Musical Performance", "Animal Facts", "Meditation Guide", "Comedy Sketch", "Gardening Tips"];
     for (let i = 0; i < 600; i++) {
         const titleIndex = i % videoTitles.length;
-        // Using a generic YouTube embed URL - you can replace with actual video IDs
-        // For example, "https://www.youtube.com/embed/dQw4w9WgXcQ" for Rick Astley
         allVideoTasks.push({ 
             id: i + 1, 
             title: `${videoTitles[titleIndex]} #${Math.floor(i / videoTitles.length) + 1}`, 
-            url: `https://www.youtube.com/embed/videoseries?list=PL${(i * 5) % 1000}` // Placeholder: a generic video series
+            url: `https://www.youtube.com/embed/videoseries?list=PL${(i * 5) % 1000}` 
         });
     }
     
     const TASKS_PER_DAY = 2; // Number of tasks to display daily
+    const ONE_WEEK_IN_MS = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
+    const WITHDRAWAL_PROCESSING_TIME_MS = 25 * 60 * 1000; // 25 minutes for simulation
+
+    let withdrawalCheckInterval = null; 
 
     // --- FUNCTIONS ---
     function loadState() {
         const savedState = JSON.parse(localStorage.getItem('corevestTaskState'));
         if (savedState) {
             state = savedState;
-            // Ensure completedTasks is an object
             if (typeof state.completedTasks !== 'object' || state.completedTasks === null) {
                 state.completedTasks = {};
             }
@@ -385,9 +842,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 accountNameInput.value = state.withdrawalDetails.accountName;
                 renderWithdrawalSection(); 
             }
+            updateUsernameEditabilityUI();
         }
         updateRecordDisplay();
-        renderPastWithdrawals();
+        renderPastWithdrawals(); 
+        startWithdrawalStatusChecker(); 
+        updateLastActivity(); // NEW: Update activity on load
     }
 
     function saveState() {
@@ -396,7 +856,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function getTodayDateString() {
         const today = new Date();
-        return today.toISOString().split('T')[0]; // Format YYYY-MM-DD
+        return today.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+    }
+
+    function formatDateTime(timestamp) { // NEW: Function to format timestamp
+        if (!timestamp) return 'Never';
+        const date = new Date(timestamp);
+        return date.toLocaleString('en-US', { 
+            year: 'numeric', 
+            month: 'short', 
+            day: 'numeric', 
+            hour: '2-digit', 
+            minute: '2-digit' 
+        });
+    }
+
+    function updateLastActivity() { // NEW: Function to update last activity
+        state.lastActivityDate = Date.now();
+        saveState();
+        lastActivityDisplay.textContent = `Last Activity: ${formatDateTime(state.lastActivityDate)}`;
     }
 
     function updateRecordDisplay() {
@@ -416,46 +894,124 @@ document.addEventListener('DOMContentLoaded', function() {
         return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
     }
 
+    function updateUsernameEditabilityUI() {
+        const now = Date.now();
+        if (state.lastUsernameEditDate) {
+            const nextEditableTime = state.lastUsernameEditDate + ONE_WEEK_IN_MS;
+            if (now < nextEditableTime) {
+                const remainingMs = nextEditableTime - now;
+                const remainingDays = Math.ceil(remainingMs / (1000 * 60 * 60 * 24));
+                const nextEditDate = new Date(nextEditableTime).toLocaleDateString();
+                nameEditPolicyMessage.innerHTML = `<i class="fas fa-lock"></i> Your username can be edited again on <strong>${nextEditDate}</strong> (in ${remainingDays} days).`;
+                nameEditPolicyMessage.classList.add('warning');
+                fullNameInput.disabled = true;
+                saveNameBtn.disabled = true;
+            } else {
+                nameEditPolicyMessage.innerHTML = `<i class="fas fa-unlock"></i> Your username is now editable.`;
+                nameEditPolicyMessage.classList.add('info');
+                nameEditPolicyMessage.classList.remove('warning');
+                fullNameInput.disabled = false;
+                saveNameBtn.disabled = false;
+            }
+        } else {
+            nameEditPolicyMessage.innerHTML = `<i class="fas fa-info-circle"></i> Save your name to set your profile. You can edit it again after 7 days.`;
+            nameEditPolicyMessage.classList.add('info');
+            nameEditPolicyMessage.classList.remove('warning');
+            fullNameInput.disabled = false;
+            saveNameBtn.disabled = false;
+        }
+    }
+
+    // NEW: Helper function for button loading state
+    function setButtonLoadingState(button, isLoading, originalText = null, originalIcon = null) {
+        if (isLoading) {
+            button.dataset.originalText = originalText || button.textContent;
+            button.dataset.originalIcon = originalIcon || button.querySelector('i')?.outerHTML || '';
+            button.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Loading...`;
+            button.disabled = true;
+        } else {
+            button.innerHTML = `${button.dataset.originalIcon} ${button.dataset.originalText}`;
+            button.disabled = false;
+            delete button.dataset.originalText;
+            delete button.dataset.originalIcon;
+        }
+    }
+
     function handleSaveName() {
         const name = fullNameInput.value.trim();
         if (name) {
-            state.fullName = name;
-            displayName.textContent = name;
-            saveState();
+            setButtonLoadingState(saveNameBtn, true); // Show loading
+            setTimeout(() => { // Simulate async operation
+                state.fullName = name;
+                displayName.textContent = name;
+                state.lastUsernameEditDate = Date.now(); 
+                if (!state.signUpDate) { 
+                    state.signUpDate = new Date().toISOString();
+                }
+                saveState();
+                showCustomMessage('Profile Saved', 'Your name has been saved!', 'success');
+                renderWithdrawalSection();
+                updateUsernameEditabilityUI(); 
+                updateLastActivity(); // NEW: Update activity
+                setButtonLoadingState(saveNameBtn, false); // Hide loading
+            }, 500);
         } else {
             displayName.textContent = 'Guest';
+            showCustomMessage('Input Required', 'Please enter your name.', 'error');
+            updateUsernameEditabilityUI();
         }
     }
 
     function handleCouponVerification(isReload = false) {
-        const code = couponInput.value.toUpperCase();
-        if (validCoupons[code]) {
-            state.coupon = { code: code, value: validCoupons[code] };
-            couponStatus.textContent = `Coupon Verified! Value: ₦${state.coupon.value.toLocaleString()}`;
-            couponStatus.style.color = 'green';
+        if (!isReload && state.coupon) { // NEW: Prevent re-verification if already set
+            couponStatus.textContent = `Coupon already verified: ${state.coupon.code}. Value: ₦${state.coupon.value.toLocaleString()}.`;
+            couponStatus.style.color = 'var(--primary-green)';
             couponInput.disabled = true;
             verifyBtn.disabled = true;
-            taskList.classList.remove('disabled');
-            
-            if (!isReload && !state.signUpDate) {
-                state.signUpDate = new Date().toISOString(); 
-            }
-            saveState(); 
-            displayDailyTasks(); // Call the new task display function
-            renderWithdrawalSection(); 
-        } else {
-            couponStatus.textContent = 'Invalid coupon code. Please try again.';
-            couponStatus.style.color = 'red';
-            state.coupon = null;
-            taskList.classList.add('disabled'); 
-            saveState(); 
-            renderWithdrawalSection(); 
+            return;
         }
+
+        const code = couponInput.value.toUpperCase();
+        setButtonLoadingState(verifyBtn, true); // Show loading
+
+        setTimeout(() => { // Simulate async operation
+            if (validCoupons[code]) {
+                state.coupon = { code: code, value: validCoupons[code] };
+                couponStatus.textContent = `Coupon Verified! Value: ₦${state.coupon.value.toLocaleString()}`;
+                couponStatus.style.color = 'var(--primary-green)';
+                couponInput.disabled = true;
+                verifyBtn.disabled = true;
+                taskList.classList.remove('disabled'); 
+                
+                if (!isReload && !state.signUpDate) { 
+                    state.signUpDate = new Date().toISOString(); 
+                }
+                saveState(); 
+                displayDailyTasks(); 
+                renderWithdrawalSection(); 
+                updateLastActivity(); // NEW: Update activity
+                if (!isReload) { 
+                    showCustomMessage('Coupon Verified!', 'Daily tasks are now available!', 'success');
+                }
+            } else {
+                couponStatus.textContent = 'Invalid coupon code. Please try again.';
+                couponStatus.style.color = 'var(--error-text)';
+                state.coupon = null;
+                taskList.classList.add('disabled'); 
+                taskList.innerHTML = '<p style="text-align: center; color: var(--text-medium);">Enter a valid coupon code above to see daily tasks!</p>';
+                saveState(); 
+                renderWithdrawalSection(); 
+                updateLastActivity(); // NEW: Update activity
+                if (!isReload) { 
+                    showCustomMessage('Invalid Coupon', 'The coupon code is incorrect. Please try again.', 'error');
+                }
+            }
+            setButtonLoadingState(verifyBtn, false); // Hide loading
+        }, 800);
     }
 
     function generateDailyTasks() {
         const todayDate = getTodayDateString();
-        // If tasks for today haven't been generated or it's a new day, generate new ones
         if (state.lastTaskGenerationDate !== todayDate) {
             const dailyTasks = [];
             const completedTaskIdsAllTime = new Set();
@@ -467,20 +1023,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (availableTasks.length < TASKS_PER_DAY) {
                 console.warn("Ran out of unique tasks! Consider adding more video tasks.");
-                // Fallback: If not enough unique tasks, reuse some (optional: based on your logic)
-                // For simplicity, we'll just take what's available
                 state.dailyTasks = availableTasks;
             } else {
-                // Randomly pick tasks
                 for (let i = 0; i < TASKS_PER_DAY; i++) {
                     const randomIndex = Math.floor(Math.random() * availableTasks.length);
                     dailyTasks.push(availableTasks[randomIndex]);
-                    availableTasks.splice(randomIndex, 1); // Remove picked task to avoid duplicates today
+                    availableTasks.splice(randomIndex, 1); 
                 }
-                state.dailyTasks = dailyTasks; // Store daily tasks in state
+                state.dailyTasks = dailyTasks; 
             }
             
-            state.lastTaskGenerationDate = todayDate; // Record the date of generation
+            state.lastTaskGenerationDate = todayDate; 
             saveState();
         }
         return state.dailyTasks;
@@ -488,26 +1041,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function displayDailyTasks() {
         taskList.innerHTML = '';
+        if (!state.coupon) {
+            taskList.innerHTML = '<p style="text-align: center; color: var(--text-medium);">Enter a valid coupon code above to see daily tasks!</p>';
+            return;
+        }
+
         const todayTasks = generateDailyTasks();
         const todayDate = getTodayDateString();
         const completedTodayIds = state.completedTasks[todayDate] || [];
 
-        currentDateEl.textContent = `Date: ${formatDate(new Date())}`; // Display current date
+        currentDateEl.textContent = `Date: ${formatDate(new Date())}`; 
         updateRecordDisplay();
 
-        if (!state.coupon) {
-            taskList.innerHTML = '<p style="text-align: center; color: #888;">Verify your coupon to see daily tasks.</p>';
-            return;
-        }
-
         if (todayTasks.length === 0) {
-            taskList.innerHTML = '<p style="text-align: center; color: #888;">No tasks available for today. Check back tomorrow!</p>';
+            taskList.innerHTML = '<p style="text-align: center; color: var(--text-medium);">No tasks available for today. Check back tomorrow!</p>';
             return;
         }
 
         todayTasks.forEach(task => {
             const isCompleted = completedTodayIds.includes(task.id);
-            const reward = calculateReward(task.id);
+            const reward = state.coupon ? calculateReward(task.id) : 100; 
             const taskCard = document.createElement('div');
             taskCard.className = `task-card ${isCompleted ? 'completed' : ''}`;
             taskCard.innerHTML = `
@@ -517,8 +1070,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
                 <div class="task-actions">
                     <span class="task-reward">Reward: ₦${reward.toLocaleString()}</span>
-                    <button class="task-btn watch-btn" data-task-id="${task.id}" ${isCompleted ? 'disabled' : ''}>Watch Video</button>
-                    <button class="task-btn claim-btn" data-task-id="${task.id}" ${isCompleted ? 'disabled' : 'disabled'}>Claim Reward</button>
+                    <button class="task-btn watch-btn" data-task-id="${task.id}" ${isCompleted ? 'disabled' : ''}><i class="fas fa-play-circle"></i> Watch Video</button>
+                    <button class="task-btn claim-btn" data-task-id="${task.id}" ${isCompleted ? 'disabled' : 'disabled'}><i class="fas fa-coins"></i> Claim Reward</button>
                 </div>
             `;
             taskList.appendChild(taskCard);
@@ -533,7 +1086,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function calculateReward(taskId) {
-        if (!state.coupon) return 0;
+        if (!state.coupon) return 100; 
         const baseReward = state.coupon.value * 0.005;
         const randomBonus = Math.floor(Math.random() * 20);
         const rawReward = baseReward + randomBonus + (taskId * 2); 
@@ -541,7 +1094,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function playVideo(taskId) {
-        // Find the task from the currently displayed daily tasks
         const task = state.dailyTasks.find(t => t.id === taskId);
         if (!task) {
             console.error('Task not found for playing:', taskId);
@@ -561,13 +1113,13 @@ document.addEventListener('DOMContentLoaded', function() {
             if (countdown <= 0) {
                 clearInterval(timerInterval);
                 modalTimer.textContent = 'Reward Unlocked! You can close this window.';
-                // Enable claim button for this specific task
                 document.querySelector(`.claim-btn[data-task-id='${taskId}']`).disabled = false;
                 document.querySelector(`.watch-btn[data-task-id='${taskId}']`).disabled = true; 
             }
         }, 1000);
 
         modal.dataset.timerId = timerInterval;
+        updateLastActivity(); // NEW: Update activity
     }
 
     function closeVideoModal() {
@@ -579,14 +1131,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function claimReward(taskId) {
         const todayDate = getTodayDateString();
-        // Initialize completedTasks for today if it doesn't exist
         if (!state.completedTasks[todayDate]) {
             state.completedTasks[todayDate] = [];
         }
 
-        // Prevent claiming if already completed today
         if (state.completedTasks[todayDate].includes(taskId)) {
-            alert('You have already claimed this task for today!');
+            showCustomMessage('Task Already Claimed', 'You have already claimed this task for today!', 'warning');
             return;
         }
 
@@ -595,24 +1145,24 @@ document.addEventListener('DOMContentLoaded', function() {
         const watchBtn = taskCard.querySelector('.watch-btn');
 
         if (claimBtn.disabled) {
-            alert('Please watch the video completely before claiming the reward.');
+            showCustomMessage('Watch Video First', 'Please watch the video completely before claiming the reward.', 'warning');
             return;
         }
 
-        const reward = calculateReward(taskId);
+        const reward = state.coupon ? calculateReward(taskId) : 100; 
         state.totalEarnings += reward;
 
-        state.completedTasks[todayDate].push(taskId); // Mark task as completed for today
+        state.completedTasks[todayDate].push(taskId); 
         saveState();
         updateRecordDisplay();
 
-        // Disable buttons and mark card as completed
         claimBtn.disabled = true;
         watchBtn.disabled = true;
         taskCard.classList.add('completed');
         
-        alert(`Successfully claimed ₦${reward.toLocaleString()} for Task ID ${taskId}!`);
-        closeVideoModal(); // Close modal after claiming
+        showCustomMessage('Reward Claimed!', `Successfully claimed ₦${reward.toLocaleString()} for Task ID ${taskId}!`, 'success');
+        closeVideoModal(); 
+        updateLastActivity(); // NEW: Update activity
     }
 
     function handleSaveWithdrawalDetails() {
@@ -621,90 +1171,183 @@ document.addEventListener('DOMContentLoaded', function() {
         const accountName = accountNameInput.value.trim();
 
         if (accountNumber && bankName && accountName) {
-            state.withdrawalDetails = { accountNumber, bankName, accountName };
-            saveState();
-            renderWithdrawalSection();
-            alert('Withdrawal details saved successfully!');
+            setButtonLoadingState(saveWithdrawalBtn, true); // Show loading
+            setTimeout(() => { // Simulate async operation
+                state.withdrawalDetails = { accountNumber, bankName, accountName };
+                saveState();
+                renderWithdrawalSection();
+                showCustomMessage('Details Saved', 'Withdrawal details saved successfully!', 'success');
+                updateLastActivity(); // NEW: Update activity
+                setButtonLoadingState(saveWithdrawalBtn, false); // Hide loading
+            }, 500);
         } else {
-            alert('Please fill in all withdrawal details.');
+            showCustomMessage('Missing Details', 'Please fill in all withdrawal details.', 'error');
         }
     }
 
     function renderWithdrawalSection() {
         withdrawalDetailsDisplay.innerHTML = '';
+        withdrawalEligibilityMessage.textContent = ''; // Clear previous message
+        withdrawalEligibilityMessage.classList.remove('success', 'error', 'info');
+
         if (state.withdrawalDetails) {
             withdrawalDetailsDisplay.innerHTML = `
                 <p><strong>Account Number:</strong> ${state.withdrawalDetails.accountNumber}</p>
                 <p><strong>Bank Name:</strong> ${state.withdrawalDetails.bankName}</p>
                 <p><strong>Account Name:</strong> ${state.withdrawalDetails.accountName}</p>
             `;
+        } else {
+            withdrawalDetailsDisplay.innerHTML = `<p style="color: var(--text-medium); text-align: center;">No withdrawal details saved yet.</p>`;
         }
 
-        requestWithdrawalBtn.disabled = true; // Disable by default
+        requestWithdrawalBtn.disabled = true; 
         const minimumWithdrawalDate = state.signUpDate ? addWeeksToDate(new Date(state.signUpDate), 3) : null;
         const today = new Date();
 
-        if (state.coupon && state.coupon.value && state.withdrawalDetails) {
-            if (minimumWithdrawalDate && today >= minimumWithdrawalDate) {
-                // Check for minimum earnings based on coupon value (e.g., 50% of coupon value)
-                const minEarningsForWithdrawal = state.coupon.value * 0.5; // Example: 50% of coupon value
-                if (state.totalEarnings >= minEarningsForWithdrawal) {
-                    requestWithdrawalBtn.disabled = false;
-                } else {
-                    requestWithdrawalBtn.disabled = true;
-                    withdrawalDetailsDisplay.innerHTML += `<p style="color: red; font-weight: bold;">Minimum earnings for withdrawal (${minEarningsForWithdrawal.toLocaleString()}) not met yet.</p>`;
-                }
-            } else {
-                requestWithdrawalBtn.disabled = true;
-                if (minimumWithdrawalDate) {
-                    withdrawalDetailsDisplay.innerHTML += `<p style="color: red; font-weight: bold;">Withdrawals enabled after ${formatDate(minimumWithdrawalDate)}.</p>`;
-                } else {
-                    withdrawalDetailsDisplay.innerHTML += `<p style="color: red; font-weight: bold;">Sign up date not recorded. Verify coupon to set it.</p>`;
-                }
+        // Combined eligibility check
+        let canWithdraw = true;
+        let eligibilityMessages = [];
+
+        // Condition 1: Username saved and not guest
+        if (!state.fullName || state.fullName === 'Guest') {
+            canWithdraw = false;
+            eligibilityMessages.push("Please save your User Name to proceed with withdrawals.");
+        }
+
+        // Condition 2: Withdrawal details saved
+        if (!state.withdrawalDetails) {
+            canWithdraw = false;
+            eligibilityMessages.push("Please save your bank withdrawal details.");
+        } else {
+            // Condition 3: Account Name must match User Name
+            if (state.withdrawalDetails.accountName.toUpperCase() !== state.fullName.toUpperCase()) {
+                canWithdraw = false;
+                eligibilityMessages.push(`Account Name (${state.withdrawalDetails.accountName}) does not match User Name (${state.fullName}). Please correct your withdrawal details.`);
+            }
+        }
+
+        // Condition 4: Minimum sign-up duration
+        if (minimumWithdrawalDate) {
+            if (today < minimumWithdrawalDate) {
+                canWithdraw = false;
+                eligibilityMessages.push(`Withdrawals will be enabled after ${formatDate(minimumWithdrawalDate)}.`);
             }
         } else {
-            withdrawalDetailsDisplay.innerHTML += `<p style="color: red; font-weight: bold;">Save your withdrawal details and verify coupon to enable withdrawals.</p>`;
+            canWithdraw = false;
+            eligibilityMessages.push("Sign up date not recorded. Save your name to set it and enable withdrawal date tracking.");
+        }
+
+        // Condition 5: Minimum earnings
+        const minEarningsForWithdrawal = state.coupon ? state.coupon.value * 0.5 : 10000; 
+        if (state.totalEarnings < minEarningsForWithdrawal) {
+            canWithdraw = false;
+            eligibilityMessages.push(`Minimum earnings for withdrawal (₦${minEarningsForWithdrawal.toLocaleString()}) not met yet. Current: ₦${state.totalEarnings.toLocaleString()}.`);
+        }
+
+        if (canWithdraw) {
+            requestWithdrawalBtn.disabled = false;
+            withdrawalEligibilityMessage.textContent = "You are eligible for withdrawal!";
+            withdrawalEligibilityMessage.classList.add('success');
+        } else {
+            requestWithdrawalBtn.disabled = true;
+            withdrawalEligibilityMessage.innerHTML = eligibilityMessages.join('<br>');
+            withdrawalEligibilityMessage.classList.add('error');
         }
     }
 
     function requestWithdrawal() {
-        if (!state.withdrawalDetails) {
-            alert('Please save your withdrawal details first.');
+        // Re-run checks for robustness
+        const amount = parseFloat(withdrawalAmountInput.value.trim());
+        const bankName = bankNameInput.value.trim();
+        const accountNumber = accountNumberInput.value.trim();
+        const accountName = accountNameInput.value.trim();
+
+        if (isNaN(amount) || amount <= 0) {
+            showCustomMessage('Withdrawal Error', 'Please enter a valid withdrawal amount.', 'error');
             return;
         }
 
-        if (state.totalEarnings <= 0) {
-            alert('You have no earnings to withdraw.');
+        const minWithdrawalAmount = state.coupon ? state.coupon.value * 0.5 : 10000; 
+        if (amount < minWithdrawalAmount) {
+            showCustomMessage('Withdrawal Error', `Minimum withdrawal amount is ₦${minWithdrawalAmount.toLocaleString()}.`, 'error');
             return;
         }
 
-        const withdrawalAmount = state.totalEarnings;
-        const todayDate = getTodayDateString();
+        if (amount > state.totalEarnings) {
+            showCustomMessage('Withdrawal Error', `Insufficient balance. Your current balance is ₦${state.totalEarnings.toLocaleString()}.`, 'error');
+            return;
+        }
 
-        const newWithdrawal = {
-            id: state.pastWithdrawals.length + 1,
-            amount: withdrawalAmount,
-            date: todayDate,
-            status: 'Pending' // Initial status
-        };
+        if (!accountNumber || !bankName || !accountName) {
+            showCustomMessage('Withdrawal Error', 'Please ensure all withdrawal details are filled.', 'error');
+            return;
+        }
+        if (accountName.toUpperCase() !== state.fullName.toUpperCase()) {
+            showCustomMessage('Name Mismatch', `Account Name (${accountName}) must exactly match your User Name (${state.fullName}). Please correct your withdrawal details.`, 'error');
+            return;
+        }
 
-        state.pastWithdrawals.push(newWithdrawal);
-        state.totalEarnings = 0; // Reset earnings after withdrawal
-        saveState();
-        updateRecordDisplay();
-        renderPastWithdrawals();
-        renderWithdrawalSection(); // Re-render to update withdrawal button state
-        alert(`Withdrawal request for ₦${withdrawalAmount.toLocaleString()} submitted successfully!`);
+        setButtonLoadingState(requestWithdrawalBtn, true); // Show loading
+        setTimeout(() => { // Simulate async operation
+            const withdrawalAmount = amount; // Use the amount from the input field
+            const todayDate = getTodayDateString();
+
+            const newWithdrawal = {
+                id: state.pastWithdrawals.length + 1,
+                amount: withdrawalAmount,
+                date: todayDate,
+                status: 'Pending',
+                withdrawalTimestamp: Date.now() 
+            };
+
+            state.pastWithdrawals.push(newWithdrawal);
+            state.totalEarnings -= withdrawalAmount; // Deduct the requested amount
+            saveState();
+            updateRecordDisplay();
+            renderPastWithdrawals(); 
+            renderWithdrawalSection(); 
+            showCustomMessage('Withdrawal Submitted', `Withdrawal request for ₦${withdrawalAmount.toLocaleString()} submitted successfully! It will be processed shortly.`, 'success');
+            startWithdrawalStatusChecker(); 
+            updateLastActivity(); // NEW: Update activity
+            setButtonLoadingState(requestWithdrawalBtn, false); // Hide loading
+        }, 1000);
+    }
+
+    // Starts or restarts the interval for checking withdrawal statuses
+    function startWithdrawalStatusChecker() {
+        if (withdrawalCheckInterval) {
+            clearInterval(withdrawalCheckInterval);
+        }
+        withdrawalCheckInterval = setInterval(renderPastWithdrawals, 60 * 1000); 
     }
 
     function renderPastWithdrawals() {
+        const now = Date.now();
+        let hasPendingWithdrawals = false;
+
+        state.pastWithdrawals.forEach(withdrawal => {
+            if (withdrawal.status === 'Pending' && withdrawal.withdrawalTimestamp) {
+                if (now - withdrawal.withdrawalTimestamp >= WITHDRAWAL_PROCESSING_TIME_MS) {
+                    withdrawal.status = 'Paid';
+                    saveState(); 
+                } else {
+                    hasPendingWithdrawals = true; 
+                }
+            }
+        });
+
+        if (!hasPendingWithdrawals && withdrawalCheckInterval) {
+            clearInterval(withdrawalCheckInterval);
+            withdrawalCheckInterval = null;
+        }
+
         pastWithdrawalsList.innerHTML = '';
         if (state.pastWithdrawals.length === 0) {
-            pastWithdrawalsList.innerHTML = '<p>No past withdrawals yet.</p>';
+            pastWithdrawalsList.innerHTML = '<p style="color: var(--text-medium);">No past withdrawals yet.</p>';
             return;
         }
 
-        state.pastWithdrawals.forEach(withdrawal => {
+        state.pastWithdrawals.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()).forEach(withdrawal => {
             const withdrawalItem = document.createElement('div');
             withdrawalItem.className = 'withdrawal-item';
             withdrawalItem.innerHTML = `
@@ -716,6 +1359,32 @@ document.addEventListener('DOMContentLoaded', function() {
             pastWithdrawalsList.appendChild(withdrawalItem);
         });
     }
+
+    // --- Custom Message Modal Function ---
+    function showCustomMessage(title, message, type) {
+        let iconHtml = '';
+        let titleColor = '';
+        if (type === 'success') {
+            iconHtml = '<i class="fas fa-check-circle success-icon"></i>';
+            titleColor = 'var(--primary-green)';
+        } else if (type === 'error') {
+            iconHtml = '<i class="fas fa-times-circle error-icon"></i>';
+            titleColor = 'var(--error-text)';
+        } else if (type === 'warning') {
+            iconHtml = '<i class="fas fa-exclamation-triangle warning-icon"></i>';
+            titleColor = 'var(--warning-text)';
+        }
+        
+        customMessageTitle.innerHTML = `${iconHtml} ${title}`;
+        customMessageTitle.style.color = titleColor;
+        customMessageText.textContent = message;
+        customMessageModal.style.display = 'flex';
+    }
+
+    customMessageOkBtn.addEventListener('click', () => {
+        customMessageModal.style.display = 'none';
+    });
+
 
     // --- EVENT LISTENERS ---
     saveNameBtn.addEventListener('click', handleSaveName);
@@ -737,7 +1406,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initial load
     loadState();
-    displayDailyTasks();
 });
 </script>
 </body>

@@ -4,9 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>COREVEST - Account</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Base Styles (Mobile-first approach is generally recommended) */
+        /* Global CSS Variables - Consistent with COREVEST theme */
+        :root {
+            --primary-green: #388E3C; /* Darker, richer green */
+            --light-green: #66BB6A;   /* Medium green */
+            --accent-blue: #2196F3;   /* Vibrant blue */
+            --dark-blue: #1976D2;     /* Deeper blue */
+            --text-dark: #2c3e50;     /* Soft dark text */
+            --text-medium: #7f8c8d;   /* Soft medium gray */
+            --text-light: #ecf0f1;    /* Lighter near white */
+            --bg-light: #ecf0f1;      /* Very light gray background */
+            --card-bg: #FFFFFF;       /* Pure white for cards */
+            --shadow-light: rgba(0, 0, 0, 0.08); /* Lighter, subtle shadow */
+            --shadow-medium: rgba(0, 0, 0, 0.2); /* Slightly more prominent shadow */
+            --border-color: #bdc3c7;  /* Softer light gray border */
+            --success-bg: #e8f5e9;    /* Light green for success */
+            --success-text: #2e7d32;  /* Dark green for success text */
+            --error-bg: #ffebee;      /* Light red for error */
+            --error-text: #d32f2f;    /* Dark red for error text */
+        }
+
+        /* Base Styles */
         * {
             margin: 0;
             padding: 0;
@@ -15,8 +37,8 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f0f0f0;
-            color: #333;
+            background: linear-gradient(135deg, var(--bg-light) 0%, #dde1e5 50%, #ccd1d7 100%); /* Enhanced gradient */
+            color: var(--text-dark);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -28,113 +50,125 @@
 
         .container {
             width: 100%; /* Make it take full width on smaller screens */
-            max-width: 450px;
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 480px; /* Slightly wider max-width */
+            background-color: var(--card-bg);
+            padding: 40px; /* Increased padding */
+            border-radius: 15px; /* More rounded corners */
+            box-shadow: 0 10px 30px var(--shadow-medium); /* Deeper, softer shadow */
             text-align: center;
             margin: 0 15px; /* Add some side margin for smaller screens to prevent sticking to edges */
+            border: 1px solid var(--border-color); /* Subtle border */
         }
 
         h1 {
-            font-size: 2rem;
-            color: #4CAF50;
-            margin-bottom: 25px;
-            /* Consider adjusting line-height for better readability on small screens if title wraps */
+            font-size: 2.5rem; /* Larger heading */
+            color: var(--primary-green);
+            margin-bottom: 30px; /* More space below heading */
             line-height: 1.2;
+            font-weight: 800; /* Bolder heading */
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.08); /* Subtle text shadow */
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px; /* Increased spacing */
             text-align: left;
         }
 
         label {
             display: block;
             margin-bottom: 8px;
-            font-weight: 600;
-            color: #555;
-            font-size: 0.95rem; /* Slightly smaller label for compact feel on mobile */
+            font-weight: 700; /* Bolder label */
+            color: var(--text-dark);
+            font-size: 1rem; /* Slightly larger label */
         }
 
         input[type="text"],
         input[type="password"] {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            padding: 14px; /* Larger padding for inputs */
+            border: 1px solid var(--border-color);
+            border-radius: 10px; /* More rounded inputs */
             font-size: 1rem;
-            transition: border-color 0.3s ease;
-            -webkit-appearance: none; /* Reset default browser styles for input fields on iOS */
-            -moz-appearance: none;
-            appearance: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions */
+            background-color: #fcfcfc; /* Slightly off-white background */
         }
 
         input[type="text"]:focus,
         input[type="password"]:focus {
-            border-color: #4CAF50;
+            border-color: var(--primary-green);
             outline: none;
-            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2); /* Subtle focus ring */
+            box-shadow: 0 0 0 4px rgba(56, 142, 60, 0.25); /* More prominent, green focus ring */
+            background-color: var(--card-bg); /* White background on focus */
         }
 
         button {
             width: 100%;
-            padding: 12px;
-            background-color: #4CAF50;
-            color: white;
+            padding: 15px; /* Larger padding for buttons */
+            background-color: var(--primary-green);
+            color: var(--text-light);
             border: none;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: 600;
+            border-radius: 10px; /* More rounded buttons */
+            font-size: 1.15rem; /* Slightly larger font */
+            font-weight: 700; /* Bolder text */
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            margin-top: 10px;
-            -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; /* Smooth transitions */
+            margin-top: 15px; /* More space above buttons */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Deeper shadow */
+            display: flex; /* For icon alignment */
+            align-items: center;
+            justify-content: center;
+            gap: 10px; /* Space between icon and text */
         }
 
         button:hover {
-            background-color: #3e8e41;
-            transform: translateY(-2px);
+            background-color: #27ae60; /* Darker green on hover */
+            transform: translateY(-3px); /* Subtle lift effect */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* More pronounced shadow on hover */
         }
-        /* Active state for better feedback on touch devices */
         button:active {
             transform: translateY(0);
-            background-color: #347c37;
+            background-color: #2ecc71; /* Even brighter green on active */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2); /* Flatter shadow on active */
         }
 
         .message {
-            margin-top: 20px;
-            padding: 10px;
-            border-radius: 5px;
-            font-weight: bold;
+            margin-top: 25px; /* More space above messages */
+            padding: 15px; /* More padding */
+            border-radius: 8px; /* More rounded */
+            font-weight: 600; /* Medium bold */
             display: none; /* Hidden by default */
-            font-size: 0.9rem; /* Slightly smaller message text */
+            font-size: 1rem; /* Standard message text size */
+            display: flex; /* For icon alignment */
+            align-items: center;
+            gap: 10px; /* Space between icon and text */
+            justify-content: center; /* Center content with icon */
         }
 
         .message.success {
-            background-color: #e8f5e9;
-            color: #2e7d32;
-            border: 1px solid #4CAF50;
+            background-color: var(--success-bg);
+            color: var(--success-text);
+            border: 1px solid var(--primary-green);
         }
 
         .message.error {
-            background-color: #ffebee;
-            color: #d32f2f;
-            border: 1px solid #f44336;
+            background-color: var(--error-bg);
+            color: var(--error-text);
+            border: 1px solid var(--warning-red);
         }
 
         .toggle-link {
-            margin-top: 20px;
-            font-size: 0.9rem;
-            color: #2196F3;
+            margin-top: 25px; /* More space above link */
+            font-size: 0.95rem; /* Slightly larger font */
+            color: var(--accent-blue);
             cursor: pointer;
-            text-decoration: underline;
-            -webkit-tap-highlight-color: transparent; /* Remove tap highlight */
+            text-decoration: none; /* Remove underline by default */
+            font-weight: 600; /* Bolder link */
+            transition: color 0.3s ease, text-decoration 0.3s ease; /* Smooth transitions */
         }
 
         .toggle-link:hover {
-            color: #1a78c2;
+            color: var(--dark-blue);
+            text-decoration: underline; /* Underline on hover */
         }
 
         /* Initial state: Login form is hidden */
@@ -147,32 +181,48 @@
             - Start with mobile-first (base styles apply to mobile)
             - Use `min-width` for larger screens
         */
-        @media (min-width: 481px) {
+        @media (max-width: 480px) {
             .container {
-                padding: 30px; /* Restore original padding for larger screens */
-                margin: 0; /* Remove side margin as max-width will control it */
+                padding: 25px; /* Slightly less padding on very small screens */
+                margin: 0 10px; /* Reduce side margin slightly */
             }
-
             h1 {
-                font-size: 2rem; /* Restore original font size */
+                font-size: 2rem; /* Smaller heading on small mobile */
+                margin-bottom: 25px;
             }
-
             button {
-                font-size: 1.1rem; /* Restore original font size */
+                padding: 12px; /* Smaller button padding */
+                font-size: 1.05rem; /* Smaller button font */
+                gap: 8px;
+            }
+            label {
+                font-size: 0.95rem;
+            }
+            input[type="text"],
+            input[type="password"] {
                 padding: 12px;
             }
-
-            label {
-                font-size: 1rem; /* Restore original label font size */
-            }
-
             .message {
-                font-size: 1rem; /* Restore original message font size */
+                font-size: 0.9rem;
+                padding: 12px;
+                gap: 8px;
+            }
+            .toggle-link {
+                font-size: 0.85rem;
+                margin-top: 20px;
+            }
+        }
+
+        @media (min-width: 481px) and (max-width: 768px) {
+            .container {
+                padding: 30px; /* Restore original padding for tablets */
+                margin: 0; /* Remove side margin as max-width will control it */
+                max-width: 450px;
             }
         }
 
         /* Optional: Even larger screens like tablets/desktops */
-        @media (min-width: 768px) {
+        @media (min-width: 769px) {
             .container {
                 max-width: 500px; /* Allow container to be slightly wider on larger screens if desired */
             }
@@ -193,7 +243,7 @@
                 <label for="create-password">Password:</label>
                 <input type="password" id="create-password" placeholder="Create a strong password" required>
             </div>
-            <button id="create-account-btn">Create Account</button>
+            <button id="create-account-btn"><i class="fas fa-user-plus"></i> Create Account</button>
             <p class="toggle-link" id="show-login-link">Already have an account? Login</p>
             <div id="create-message" class="message"></div>
         </div>
@@ -208,7 +258,7 @@
                 <label for="login-password">Password:</label>
                 <input type="password" id="login-password" placeholder="Enter your password" required>
             </div>
-            <button id="login-btn">Login</button>
+            <button id="login-btn"><i class="fas fa-sign-in-alt"></i> Login</button>
             <p class="toggle-link" id="show-create-link">Don't have an account? Create one</p>
             <div id="login-message" class="message"></div>
         </div>
@@ -238,11 +288,11 @@
 
             // --- FUNCTIONS ---
 
-            // Function to display messages
+            // Function to display messages with icons
             function showMessage(element, text, type) {
-                element.textContent = text;
+                element.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-triangle'}"></i> ${text}`;
                 element.className = `message ${type}`; // success or error
-                element.style.display = 'block';
+                element.style.display = 'flex'; // Use flex for icon alignment
                 setTimeout(() => {
                     element.style.display = 'none';
                 }, 3000); // Hide message after 3 seconds

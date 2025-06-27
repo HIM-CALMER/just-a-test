@@ -4,243 +4,553 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Core Vest Coupon Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* Global CSS Variables - Consistent with COREVEST theme */
+        :root {
+            --primary-green: #388E3C; /* Darker, richer green */
+            --light-green: #66BB6A;   /* Medium green */
+            --accent-blue: #2196F3;   /* Vibrant blue */
+            --dark-blue: #1976D2;     /* Deeper blue */
+            --text-dark: #2c3e50;     /* Slightly softer dark text (was #333333) */
+            --text-medium: #7f8c8d;   /* Slightly softer medium gray (was #555555) */
+            --text-light: #ecf0f1;    /* Lighter near white */
+            --bg-light: #ecf0f1;      /* Very light gray background (was #F8F9FA) */
+            --card-bg: #FFFFFF;       /* Pure white for cards */
+            --shadow-light: rgba(0, 0, 0, 0.08); /* Lighter, subtle shadow */
+            --shadow-medium: rgba(0, 0, 0, 0.2); /* Slightly more prominent shadow (was 0.15) */
+            --border-color: #bdc3c7;  /* Softer light gray border (was #E0E0E0) */
+
+            --coupon-blue: #3498db; /* Specific blue for coupon titles (was #007bff) */
+            --coupon-price-green: #27ae60; /* Specific green for coupon prices (was #28a745) */
+            --warning-red: #e74c3c; /* Specific red for warnings (was #dc3545) */
+            --timer-orange: #f39c12; /* Orange for timers (was #ff8c00) */
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Inter', sans-serif;
             text-align: center;
-            background-color: #f4f4f4;
+            /* Enhance the gradient for more depth */
+            background: linear-gradient(135deg, var(--bg-light) 0%, #dde1e5 50%, #ccd1d7 100%);
             margin: 0;
             padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: var(--text-dark);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         .container {
             width: 90%;
-            max-width: 600px;
+            max-width: 1000px; /* Slightly wider max-width for more spacious layout */
             margin: 40px auto;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            background-color: white;
+            padding: 40px; /* Increased padding for more breathing room */
+            border: 1px solid var(--border-color);
+            border-radius: 20px; /* Even more rounded corners */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25); /* Deeper, softer shadow */
+            background-color: var(--card-bg);
+            flex-grow: 1; /* Allow container to grow */
+            position: relative; /* For potential absolute positioning of elements inside */
+            overflow: hidden; /* Ensures shadows and borders are contained */
         }
 
         h1 {
-            color: #333;
-            margin-bottom: 20px;
+            color: var(--dark-blue); /* Stronger heading color */
+            margin-bottom: 30px; /* More space below heading */
+            font-size: 3rem; /* Larger heading */
+            font-weight: 800;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.15); /* More prominent text shadow */
+        }
+
+        /* General Button Styling */
+        button {
+            padding: 15px 30px; /* Larger padding for buttons */
+            font-size: 1.2em; /* Slightly larger font */
+            cursor: pointer;
+            color: var(--text-light);
+            background-color: var(--primary-green);
+            border: none;
+            border-radius: 10px; /* More rounded buttons */
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25); /* More pronounced shadow */
+            font-weight: 700; /* Bolder text */
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px; /* Increased gap for icon */
+            letter-spacing: 0.5px; /* Subtle letter spacing */
+            text-transform: uppercase; /* Make button text uppercase */
+        }
+
+        button:hover:not(:disabled) {
+            background-color: #27ae60; /* Slightly different green on hover */
+            transform: translateY(-5px); /* More pronounced lift effect */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+        }
+
+        button:active:not(:disabled) {
+            transform: translateY(0);
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+            background-color: #2ecc71; /* Even brighter green on active */
+        }
+
+        button:disabled {
+            opacity: 0.5; /* More transparent when disabled */
+            cursor: not-allowed;
+            background-color: #bdc3c7; /* Softer grey for disabled */
+            box-shadow: none;
         }
 
         #generate-btn {
-            padding: 12px 25px;
-            font-size: 18px;
-            cursor: pointer;
-            color: white;
-            background-color: #008000;
-            border: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-        #generate-btn:hover {
-            background-color: #006600;
+            margin-top: 30px; /* Increased margin */
         }
 
         /* Styles for the dynamically generated coupon options */
         #coupon-options {
-            margin-top: 25px;
-            display: flex;
-            flex-wrap: wrap;
+            margin-top: 40px; /* Increased margin */
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Larger min-width for cards */
+            gap: 30px; /* Increased gap */
+            padding: 30px;
+            border: 1px solid var(--border-color);
+            border-radius: 15px; /* More rounded */
+            background-color: #fcfdfe; /* Slightly lighter background */
             justify-content: center;
-            gap: 15px;
-            padding: 15px;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            background-color: #fcfcfc;
+            align-items: stretch;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.05); /* Inner shadow for depth */
         }
 
         .coupon-option-card {
-            background-color: #fff;
-            border: 1px solid #cceeff; /* Light blue border */
-            border-radius: 8px;
-            padding: 20px;
-            width: 150px; /* Fixed width for card */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            background: linear-gradient(145deg, var(--card-bg), #F9F9F9); /* Slightly more pronounced gradient */
+            border: 1px solid #d4edda; /* Lighter green border */
+            border-radius: 15px; /* More rounded */
+            padding: 30px; /* Increased padding */
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1); /* Slightly deeper shadow */
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, border-color 0.3s ease;
             display: flex;
             flex-direction: column;
-            justify-content: space-between; /* Pushes button to bottom */
+            justify-content: space-between;
             align-items: center;
+            text-align: center;
+            position: relative; /* For potential decorative elements */
+            overflow: hidden;
+        }
+
+        .coupon-option-card::before { /* Decorative corner element */
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 30px;
+            height: 30px;
+            background-color: var(--primary-green);
+            border-bottom-right-radius: 15px;
+            opacity: 0.1;
         }
 
         .coupon-option-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-8px); /* More pronounced lift */
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2); /* Deeper shadow on hover */
+            border-color: var(--primary-green);
         }
 
         .coupon-option-card h3 {
-            color: #007bff; /* Blue for coupon title */
-            margin-bottom: 10px;
-            font-size: 1.3em;
+            color: var(--coupon-blue);
+            margin-bottom: 15px; /* More space */
+            font-size: 1.7em; /* Larger coupon title */
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
 
         .coupon-option-card .price {
-            font-size: 2.2em;
-            font-weight: bold;
-            color: #008000; /* Green for price */
-            margin-bottom: 15px;
+            font-size: 3em; /* Even larger price */
+            font-weight: 800;
+            color: var(--coupon-price-green);
+            margin-bottom: 25px; /* More space */
+            line-height: 1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
 
         .coupon-option-card button {
-            padding: 10px 18px;
-            font-size: 16px;
-            cursor: pointer;
-            background-color: #4CAF50; /* Green buy button */
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            width: 100%; /* Make button full width of card */
-            transition: background-color 0.3s ease;
+            background-color: var(--accent-blue); /* Blue buy button */
+            width: calc(100% - 20px); /* Slightly less than 100% to allow padding/margin */
+            margin-top: auto; /* Push button to bottom */
+            font-size: 1.1em;
+            padding: 12px 20px;
         }
 
         .coupon-option-card button:hover {
-            background-color: #45a049;
+            background-color: var(--dark-blue);
         }
 
-        #buy-now-btn, #payment-made-btn { /* Kept existing styles for #payment-made-btn */
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            background-color: #4CAF50;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            margin-top: 20px;
-            transition: background-color 0.3s ease;
-        }
-
-        #buy-now-btn:hover, #payment-made-btn:hover {
-            background-color: #45a049;
-        }
-
-        #payment-details, #coupon-details, #merchant-info {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #eee;
-            color: #555;
+        #payment-details, #coupon-details, #merchant-info, #purchased-coupons-section {
+            margin-top: 45px; /* Increased margin */
+            padding: 35px; /* Increased padding */
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.18); /* Deeper shadow */
+            background-color: #fefefe;
+            border: 1px solid var(--border-color);
+            text-align: center;
         }
         /* Styling for the new merchant info section */
         #merchant-info {
-            background-color: #f0f7f0; /* Light green background */
+            background-color: #e8f5e9; /* Light green background */
             border: 1px solid #c8e6c9; /* Green border */
-            padding: 20px;
+            box-shadow: 0 5px 12px rgba(76, 175, 80, 0.15); /* More defined shadow */
+            margin-top: 50px; /* Increased margin */
+        }
+
+        #payment-details h2, #coupon-details h2, #merchant-info h2, #purchased-coupons-section h2 {
+            color: var(--primary-green);
+            margin-bottom: 25px; /* More space */
+            font-size: 2.5em; /* Larger heading */
+            font-weight: 700;
+            border-bottom: 3px solid var(--light-green); /* Thicker border */
+            padding-bottom: 12px; /* More padding */
+        }
+
+        #payment-details p, #coupon-details p, #merchant-info p, #purchased-coupons-section p {
+            margin-bottom: 15px; /* More space */
+            font-size: 1.1em; /* Slightly larger font */
+            color: var(--text-medium);
+            line-height: 1.7; /* Increased line height */
+        }
+
+        #payment-details .payment-info {
+            background-color: #F8FAFC; /* Lighter blue-grey background */
+            padding: 15px; /* More padding */
+            border-radius: 10px; /* More rounded */
+            margin-bottom: 15px; /* More space */
+            font-size: 1.15em; /* Larger font */
+            color: var(--text-dark);
+            font-weight: 600; /* Bolder */
+            word-break: break-all;
+            border: 1px dashed #d1d9dd; /* Dashed border for payment info */
+        }
+
+        #payment-details .payment-info strong {
+            color: var(--dark-blue);
+        }
+
+        #coupon-details #coupon-code-final, .coupon-history-card .coupon-code {
+            font-size: 2.2em; /* Larger code */
+            font-weight: 800; /* Bolder code */
+            color: var(--accent-blue);
+            background-color: #e0f2f7; /* Lighter blue background */
+            padding: 10px 20px; /* More padding */
             border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            margin-top: 30px;
+            display: inline-block;
+            margin-top: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            letter-spacing: 1px; /* Add letter spacing to code */
         }
 
-        #payment-details h2, #coupon-details h2, #merchant-info h2 {
-            color: #008000;
-            margin-bottom: 15px;
+        .instruction-message, .info-message {
+            margin-top: 40px; /* Increased margin */
+            padding: 25px; /* Increased padding */
+            background-color: #e6f9e6; /* Lighter green */
+            border: 1px solid #8ac28a; /* More distinct green border */
+            border-radius: 12px;
+            font-size: 1.15em; /* Slightly larger */
+            color: #1a6b1a; /* Darker green text */
+            font-weight: 500;
+            line-height: 1.8; /* Increased line height */
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
         }
 
-        #coupon-details p {
-            margin-bottom: 10px;
+        .instruction-message strong, .info-message strong {
+            color: #004d00;
+            font-weight: bold;
         }
 
-        .instruction-message {
-            margin-top: 25px;
-            padding: 15px;
-            background-color: #e6ffe6;
-            border: 1px solid #a0e6a0;
-            border-radius: 8px;
-            font-size: 1.2em;
-            color: #006600;
-            font-weight: normal;
-            line-height: 1.5;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        .instruction-message a, .info-message a {
+            color: var(--primary-green);
+            text-decoration: none;
+            font-weight: bold;
+            transition: text-decoration 0.2s ease;
+        }
+
+        .instruction-message a:hover, .info-message a:hover {
+            text-decoration: underline;
+        }
+
+        .whatsapp-btn {
+            background-color: #25D366; /* WhatsApp green */
+            margin-top: 25px; /* Increased margin */
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3); /* Green shadow */
+        }
+
+        .whatsapp-btn:hover {
+            background-color: #1DA851; /* Darker green on hover */
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.4);
+        }
+
+        .payment-warning {
+            color: var(--warning-red);
+            font-weight: bold;
+            margin-top: 25px; /* Increased margin */
+            font-size: 1.15em; /* Slightly larger */
+            background-color: #fff0f0; /* Lighter red background */
+            padding: 18px; /* More padding */
+            border-radius: 10px;
+            border: 1px solid #ef7373; /* More distinct red border */
+            box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+            line-height: 1.6;
+        }
+
+        #countdown-timer {
+            font-size: 1.8em; /* Larger timer */
+            font-weight: bold;
+            color: var(--timer-orange);
+            margin-top: 25px; /* Increased margin */
+            background-color: #fffaf0; /* Lighter orange background */
+            padding: 15px; /* More padding */
+            border-radius: 10px;
+            border: 1px solid #ffde99; /* More distinct orange border */
+            box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+            letter-spacing: 1px;
         }
 
         .hidden {
             display: none !important;
         }
 
-        .instruction-message strong {
-            color: #004d00;
-            font-weight: bold;
+        /* Footer */
+        .footer {
+            margin-top: 50px; /* Increased margin */
+            padding: 25px; /* Increased padding */
+            background-color: var(--text-dark);
+            color: var(--text-light);
+            text-align: center;
+            font-size: 1em; /* Slightly larger font */
+            border-top: 8px solid var(--primary-green); /* Thicker border */
+            border-top-left-radius: 20px; /* More rounded */
+            border-top-right-radius: 20px;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.15);
         }
 
-        .instruction-message a {
-            color: #008000;
-            text-decoration: none;
-            font-weight: bold;
+        /* Styles for purchased coupons list */
+        #purchased-coupons-list {
+            margin-top: 25px; /* Increased margin */
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Even larger min-width for history cards */
+            gap: 25px; /* Increased gap */
+            padding: 20px;
+            background-color: #fcfcfc; /* Lighter background */
+            border-radius: 12px;
+            border: 2px dashed var(--border-color); /* Thicker dashed border */
         }
 
-        .instruction-message a:hover {
-            text-decoration: underline;
+        .coupon-history-card {
+            background-color: #fefefe; /* Very light background */
+            border: 1px solid #e0e0e0;
+            border-radius: 12px; /* More rounded */
+            padding: 25px; /* More padding */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* Deeper shadow */
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .whatsapp-btn {
-            display: inline-block;
-            padding: 12px 25px;
-            font-size: 18px;
-            background-color: #25D366; /* WhatsApp green */
+        .coupon-history-card::before { /* Small decorative corner */
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 20px;
+            height: 20px;
+            background-color: var(--accent-blue);
+            border-bottom-left-radius: 10px;
+            opacity: 0.1;
+        }
+
+
+        .coupon-history-card:hover {
+            transform: translateY(-5px); /* More pronounced lift */
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15); /* Deeper shadow on hover */
+            background-color: #f5f5f5; /* Slight background change on hover */
+        }
+
+        .coupon-history-card h3 {
+            color: var(--primary-green);
+            font-size: 1.5em; /* Larger heading */
+            margin-bottom: 10px;
+            text-align: center;
+            border-bottom: 1px solid #e0e0e0; /* Subtle separator */
+            padding-bottom: 8px;
+        }
+        .coupon-history-card p {
+            font-size: 1em; /* Slightly larger text */
+            color: var(--text-medium);
+            margin-bottom: 8px;
+            word-break: break-all;
+            line-height: 1.5;
+        }
+        .coupon-history-card p strong {
+            color: var(--text-dark);
+        }
+
+        .coupon-history-card .copy-btn {
+            background-color: var(--accent-blue);
             color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            margin-top: 15px;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 10px 18px; /* More padding */
+            font-size: 1em; /* Larger font */
+            border-radius: 8px; /* More rounded */
+            margin-top: 20px; /* More space */
+            align-self: center;
+            width: calc(100% - 20px); /* Adjust width */
+            max-width: 180px; /* Max width for button */
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+        .coupon-history-card .copy-btn:hover {
+            background-color: var(--dark-blue);
+            transform: translateY(-3px); /* More pronounced lift */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .coupon-history-card .copy-btn.copied {
+            background-color: #28a745; /* Darker green when copied */
+            color: white;
         }
 
-        .whatsapp-btn:hover {
-            background-color: #1DA851; /* Darker green on hover */
-        }
 
-        .payment-warning {
-            color: #d32f2f; /* Red for warning */
-            font-weight: bold;
-            margin-top: 15px;
-            font-size: 1.1em;
-            background-color: #ffebee;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ef9a9a;
-        }
-
-        #countdown-timer {
-            font-size: 1.5em;
-            font-weight: bold;
-            color: #e65100; /* Orange for urgency */
-            margin-top: 15px;
-            background-color: #fff3e0;
-            padding: 8px;
-            border-radius: 5px;
-            border: 1px solid #ffcc80;
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                width: 95%;
-                margin: 20px auto;
-                padding: 15px;
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem; /* Adjust heading for tablets */
             }
-            #generate-btn {
-                font-size: 16px;
-                padding: 10px 20px;
+            .container {
+                padding: 25px; /* Adjust padding */
+                margin: 25px auto;
             }
             #coupon-options {
-                flex-direction: column; /* Stack cards vertically on small screens */
-                align-items: center;
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Keep 2 columns on most tablets */
+                gap: 20px;
+                padding: 20px;
             }
             .coupon-option-card {
-                width: 80%; /* Wider on small screens */
+                padding: 20px;
             }
-            .instruction-message, .payment-warning, #countdown-timer {
+            .coupon-option-card h3 {
+                font-size: 1.4em;
+            }
+            .coupon-option-card .price {
+                font-size: 2.5em;
+            }
+            button {
+                padding: 12px 25px;
+                font-size: 1.1em;
+            }
+            #payment-details p, #coupon-details p, #merchant-info p, #purchased-coupons-section p {
                 font-size: 1em;
-                padding: 10px;
             }
-            .whatsapp-btn {
+            #payment-details h2, #coupon-details h2, #merchant-info h2, #purchased-coupons-section h2 {
+                font-size: 2em;
+            }
+            #coupon-details #coupon-code-final, .coupon-history-card .coupon-code {
+                font-size: 1.8em;
+            }
+            .instruction-message, .payment-warning, #countdown-timer, .info-message {
+                font-size: 1.05em;
+                padding: 15px;
+            }
+            #purchased-coupons-list {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Smaller cards for history on mobile */
+                gap: 20px;
+            }
+            .coupon-history-card {
+                padding: 20px;
+            }
+            .coupon-history-card h3 {
+                font-size: 1.3em;
+            }
+            .coupon-history-card p {
+                font-size: 0.95em;
+            }
+            .coupon-history-card .copy-btn {
+                padding: 8px 15px;
+                font-size: 0.9em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 20px;
+            }
+            .container {
+                padding: 20px;
+                margin: 20px auto;
+                border-radius: 15px;
+                box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+            }
+            #coupon-options {
+                grid-template-columns: 1fr; /* Single column on very small screens */
+                gap: 15px;
+                padding: 15px;
+            }
+            .coupon-option-card {
+                width: 98%; /* Almost full width */
+                max-width: 300px; /* Cap max width for cards even in single column */
+                margin: 0 auto;
+                padding: 20px;
+            }
+            .coupon-option-card .price {
+                font-size: 2.2em;
+            }
+            button {
                 padding: 10px 20px;
-                font-size: 16px;
+                font-size: 1em;
+                gap: 8px;
+            }
+            #payment-details h2, #coupon-details h2, #merchant-info h2, #purchased-coupons-section h2 {
+                font-size: 1.8em;
+                margin-bottom: 20px;
+                padding-bottom: 8px;
+            }
+            #coupon-details #coupon-code-final, .coupon-history-card .coupon-code {
+                font-size: 1.6em;
+                padding: 8px 15px;
+            }
+            .instruction-message, .payment-warning, #countdown-timer, .info-message {
+                font-size: 0.95em;
+                padding: 12px;
+                margin-top: 30px;
+            }
+            #purchased-coupons-list {
+                grid-template-columns: 1fr; /* Single column for history on smallest screens */
+                gap: 15px;
+            }
+            .coupon-history-card {
+                width: 98%;
+                margin: 0 auto;
+                padding: 20px;
+            }
+            .coupon-history-card .copy-btn {
+                max-width: 150px;
+                padding: 10px 15px;
+                font-size: 0.9em;
+            }
+            .footer {
+                padding: 20px;
+                margin-top: 40px;
+                font-size: 0.85em;
             }
         }
     </style>
@@ -249,17 +559,16 @@
     <div class="container">
         <h1>Core Vest Coupon Generator</h1>
         
-        <button id="generate-btn">View Available Coupons</button>
+        <button id="generate-btn"><i class="fas fa-tags"></i> View Available Coupons</button>
 
         <div id="coupon-options" class="hidden">
             </div>
 
         <div id="payment-details" class="hidden">
-            <h2>Payment Details for ₦<span id="payment-for-price"></span></h2>
-            <p class="payment-info">Account Name: COREVEST SOLUTIONS</p>
-            <p class="payment-info">Account Number: 1234567890</p>
-            <p class="payment-info">Bank Name: COREVEST BANK</p>
-            <p class="payment-info" style="font-style: italic;">This is a **one-time bank account** for this transaction only.</p>
+            <h2><i class="fas fa-wallet"></i> Payment Details for ₦<span id="payment-for-price"></span></h2>
+            <p class="payment-info"><strong>Account Name:</strong> COREVEST SOLUTIONS</p>
+            <p class="payment-info"><strong>Account Number:</strong> 1234567890</p>
+            <p class="payment-info" style="font-style: italic;">This is a <strong>one-time bank account</strong> for this transaction only.</p>
             
             <div id="countdown-timer">Time Remaining: 02:00</div>
             
@@ -267,27 +576,41 @@
                 <strong>IMPORTANT:</strong> DO NOT CLICK 'I Have Made Payment' if you haven't actually paid, to avoid account restriction.
             </p>
             
-            <button id="payment-made-btn">I Have Made Payment</button>
+            <button id="payment-made-btn"><i class="fas fa-check-circle"></i> I Have Made Payment</button>
         </div>
 
         <div id="coupon-details" class="hidden">
-            <h2>Your Purchased Coupon</h2>
-            <p>Coupon Code: <span id="coupon-code-final"></span></p>
-            <p>Price: ₦<span id="coupon-price-final"></span></p>
-            <p>Payment Amount: ₦<span id="payment-amount"></span></p>
+            <h2><i class="fas fa-ticket-alt"></i> Your Purchased Coupon</h2>
+            <p><strong>Coupon Code:</strong> <span id="coupon-code-final"></span></p>
+            <p><strong>Price:</strong> ₦<span id="coupon-price-final"></span></p>
+            <p><strong>Payment Amount:</strong> ₦<span id="payment-amount"></span></p>
             
             <p class="instruction-message hidden" id="couponInstruction">
-                Please **copy this coupon code** and **paste it into the "VIDEO TASK FIELD" TO VERIFY** AFTER CREATING AN ACCOUNT <a href="create.html"> creation page</a>.
+                Please <strong>copy this coupon code</strong> and <strong>paste it into the "VIDEO TASK FIELD" TO VERIFY</strong> AFTER CREATING AN ACCOUNT on the <a href="create.html">account creation page</a>.
             </p>
-            <button id="buy-another-coupon-btn" style="margin-top: 20px; padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">Buy Another Coupon</button>
+            <button id="buy-another-coupon-btn" style="margin-top: 20px;"><i class="fas fa-redo"></i> Buy Another Coupon</button>
         </div>
 
         <div id="merchant-info">
-            <h2>Need a Verified Coupon?</h2>
+            <h2><i class="fas fa-handshake"></i> Need a Verified Coupon?</h2>
             <p>You can also get a verified coupon code directly from our official merchant! It's fast and reliable.</p>
-            <a href="https://wa.me/qr/TVIMRTUNTLTBD1" class="whatsapp-btn" target="_blank">Chat on WhatsApp</a>
+            <a href="https://wa.me/qr/TVIMRTUNTLTBD1" class="whatsapp-btn" target="_blank"><i class="fab fa-whatsapp"></i> Chat on WhatsApp</a>
         </div>
+
+        <!-- NEW: Purchased Coupons History Section -->
+        <div id="purchased-coupons-section" class="hidden">
+            <h2><i class="fas fa-history"></i> Your Coupon History</h2>
+            <p class="info-message hidden" id="noCouponsMessage">You haven't purchased any coupons yet. Your history will appear here!</p>
+            <div id="purchased-coupons-list">
+                <!-- Purchased coupons will be rendered here -->
+            </div>
         </div>
+
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Core Vest. All rights reserved.</p>
+    </footer>
 
     <script>
         // DOM Elements
@@ -303,19 +626,38 @@
         const paymentAmountSpan = document.getElementById('payment-amount');
         const couponInstruction = document.getElementById('couponInstruction');
         const buyAnotherCouponBtn = document.getElementById('buy-another-coupon-btn');
+        // New DOM Elements for history
+        const purchasedCouponsSection = document.getElementById('purchased-coupons-section');
+        const purchasedCouponsList = document.getElementById('purchased-coupons-list');
+        const noCouponsMessage = document.getElementById('noCouponsMessage');
+        const merchantInfoDiv = document.getElementById('merchant-info'); // Get merchant info div
 
-        // Pre-defined coupon data (expanded range)
+        // Pre-defined coupon data (expanded to 20 pieces)
         const couponsData = [
-            { id: 'bronze', name: 'Bronze Coupon', price: 15000, code: 'CVB15K' },
-            { id: 'silver', name: 'Silver Coupon', price: 25000, code: 'CVS25K' },
-            { id: 'gold', name: 'Gold Coupon', price: 50000, code: 'CVG50K' },
-            { id: 'premium', name: 'Premium Coupon', price: 100000, code: 'CVP100K' },
-            { id: 'vip', name: 'VIP Coupon', price: 250000, code: 'CVVIP250K' },
-            { id: 'elite', name: 'Elite Coupon', price: 500000, code: 'CVELITE500K' },
-            { id: 'ultimate', name: 'Ultimate Coupon', price: 1000000, code: 'CVULT1M' }
+            { id: 'bronze', name: 'Bronze Coupon', type: 'Starter', price: 15000, code: 'CVB15K-ST' },
+            { id: 'silver', name: 'Silver Coupon', type: 'Basic', price: 25000, code: 'CVS25K-BS' },
+            { id: 'gold', name: 'Gold Coupon', type: 'Standard', price: 50000, code: 'CVG50K-SD' },
+            { id: 'platinum', name: 'Platinum Coupon', type: 'Advanced', price: 75000, code: 'CVP75K-AD' },
+            { id: 'diamond', name: 'Diamond Coupon', type: 'Premium', price: 100000, code: 'CVD100K-PM' },
+            { id: 'emerald', name: 'Emerald Coupon', type: 'Elite', price: 125000, code: 'CVE125K-ET' },
+            { id: 'sapphire', name: 'Sapphire Coupon', type: 'Pro', price: 150000, code: 'CVS150K-PR' },
+            { id: 'ruby', name: 'Ruby Coupon', type: 'Expert', price: 175000, code: 'CVR175K-EX' },
+            { id: 'topaz', name: 'Topaz Coupon', type: 'Master', price: 200000, code: 'CVT200K-MR' },
+            { id: 'amethyst', name: 'Amethyst Coupon', type: 'Grand', price: 225000, code: 'CVA225K-GR' },
+            { id: 'pearl', name: 'Pearl Coupon', type: 'Deluxe', price: 250000, code: 'CVP250K-DX' },
+            { id: 'onyx', name: 'Onyx Coupon', type: 'Superior', price: 275000, code: 'CVO275K-SU' },
+            { id: 'quartz', name: 'Quartz Coupon', type: 'Supreme', price: 300000, code: 'CVQ300K-SP' },
+            { id: 'crystal', name: 'Crystal Coupon', type: 'Ultimate', price: 350000, code: 'CVC350K-UT' },
+            { id: 'meteor', name: 'Meteor Coupon', type: 'Legendary', price: 400000, code: 'CVM400K-LG' },
+            { id: 'galaxy', name: 'Galaxy Coupon', type: 'Heroic', price: 450000, code: 'CVG450K-HR' },
+            { id: 'nebula', name: 'Nebula Coupon', type: 'Mythic', price: 500000, code: 'CVN500K-MY' },
+            { id: 'supernova', name: 'Supernova Coupon', type: 'Cosmic', price: 600000, code: 'CVS600K-CM' },
+            { id: 'infinity', name: 'Infinity Coupon', type: 'Infinite', price: 750000, code: 'CVI750K-IN' },
+            { id: 'cosmic', name: 'Cosmic Coupon', type: 'Omni', price: 1000000, code: 'CVC1M-OMNI' }
         ];
 
-        let currentSelectedCoupon = null; // Stores the coupon object selected by the user
+        let currentSelectedCoupon = null; // Stores the coupon object selected by the user for the current transaction
+        let allPurchasedCoupons = []; // NEW: Array to store all purchased coupons
         let countdownInterval; // To store the interval ID for the timer
         const paymentTimeoutSeconds = 120; // 2 minutes
 
@@ -329,20 +671,28 @@
 
         // Initialize the page state on load
         function init() {
-            const storedCoupon = localStorage.getItem('purchasedCorevestCoupon');
-            if (storedCoupon) {
-                // If a coupon was previously purchased, display it
-                currentSelectedCoupon = JSON.parse(storedCoupon);
+            // Load all purchased coupons history
+            const storedAllCoupons = localStorage.getItem('allPurchasedCorevestCoupons');
+            if (storedAllCoupons) {
+                allPurchasedCoupons = JSON.parse(storedAllCoupons);
+            }
+            renderPurchasedCoupons(); // Always render history on init
+
+            // Load the last prominently displayed coupon
+            const storedCurrentCoupon = localStorage.getItem('currentDisplayedCorevestCoupon');
+            if (storedCurrentCoupon) {
+                currentSelectedCoupon = JSON.parse(storedCurrentCoupon);
                 showPurchasedCoupon(true); // Pass true to indicate it's from storage, not a new payment
             } else {
                 // Otherwise, show the initial "View Available Coupons" button
                 generateBtn.classList.remove('hidden');
+                hideAllSectionsExcept(generateBtn, merchantInfoDiv, purchasedCouponsSection); // Ensure only this button, merchant, and history are visible initially
             }
         }
 
         // Displays the list of available coupon options
         function displayCouponOptions() {
-            hideAllSections(); // Hide other active sections first
+            hideAllSectionsExcept(couponOptionsDiv, merchantInfoDiv, purchasedCouponsSection); // Keep merchant info and history visible
             generateBtn.classList.add('hidden'); // Hide the initial generate button
 
             couponOptionsDiv.innerHTML = ''; // Clear previous options
@@ -372,12 +722,12 @@
             currentSelectedCoupon = couponsData.find(coupon => coupon.id === couponId);
 
             if (currentSelectedCoupon) {
-                hideAllSections();
+                hideAllSectionsExcept(paymentDetailsDiv, merchantInfoDiv, purchasedCouponsSection); // Keep merchant info and history visible
                 paymentForPriceSpan.textContent = currentSelectedCoupon.price.toLocaleString('en-NG');
                 paymentDetailsDiv.classList.remove('hidden');
                 startCountdown(); // Start the payment countdown
             } else {
-                alert('Error: Coupon not found.');
+                displayMessage('Error: Coupon not found. Please try again.', 'red');
                 resetAndDisplayOptions();
             }
         }
@@ -394,7 +744,7 @@
 
                 if (timeLeft <= 0) {
                     clearInterval(countdownInterval);
-                    alert('Payment time expired! Please select a coupon and try again.');
+                    displayMessage('Payment time expired! Please select a coupon and try again.', 'red');
                     resetAndDisplayOptions();
                 }
                 timeLeft--;
@@ -410,12 +760,12 @@
             clearInterval(countdownInterval);
 
             if (!currentSelectedCoupon) {
-                alert('No coupon selected or purchased.');
+                displayMessage('No coupon selected or purchased.', 'red');
                 resetAndDisplayOptions();
                 return;
             }
 
-            hideAllSections();
+            hideAllSectionsExcept(couponDetailsDiv, merchantInfoDiv, purchasedCouponsSection); // Keep merchant info and history visible
             
             couponCodeFinalSpan.textContent = currentSelectedCoupon.code;
             couponPriceFinalSpan.textContent = currentSelectedCoupon.price.toLocaleString('en-NG');
@@ -426,28 +776,117 @@
 
             // Only store in localStorage if it's a new purchase, not loading from storage
             if (!fromStorage) {
-                localStorage.setItem('purchasedCorevestCoupon', JSON.stringify(currentSelectedCoupon));
-                alert('Coupon code revealed! Your coupon has been saved.');
+                // Add to allPurchasedCoupons history with timestamp
+                allPurchasedCoupons.push({ ...currentSelectedCoupon, purchaseDate: Date.now() });
+                localStorage.setItem('allPurchasedCorevestCoupons', JSON.stringify(allPurchasedCoupons));
+                localStorage.setItem('currentDisplayedCorevestCoupon', JSON.stringify(currentSelectedCoupon)); // Save for next load
+                displayMessage('Coupon code revealed! Your coupon has been saved to history. Please copy it.', 'green');
             }
+            renderPurchasedCoupons(); // Re-render history to show new coupon
         }
 
         // Resets the UI to allow buying another coupon
         function resetAndDisplayOptions() {
             clearInterval(countdownInterval); // Ensure timer is stopped on reset
-            localStorage.removeItem('purchasedCorevestCoupon'); // Clear previously purchased coupon
+            localStorage.removeItem('currentDisplayedCorevestCoupon'); // Clear currently displayed coupon
             currentSelectedCoupon = null; // Clear current selection
-            hideAllSections();
-            generateBtn.classList.remove('hidden'); // Show initial button
+            hideAllSectionsExcept(generateBtn, merchantInfoDiv, purchasedCouponsSection); // Show initial button, merchant info, and history
+            generateBtn.classList.remove('hidden');
             couponInstruction.classList.add('hidden'); // Hide instruction if visible
         }
 
-        // Helper function to hide all major content sections
-        function hideAllSections() {
-            generateBtn.classList.add('hidden');
-            couponOptionsDiv.classList.add('hidden');
-            paymentDetailsDiv.classList.add('hidden');
-            couponDetailsDiv.classList.add('hidden');
-            couponInstruction.classList.add('hidden'); // Ensure instruction is hidden too
+        // Helper function to hide all major content sections, except specified ones
+        function hideAllSectionsExcept(...sectionsToKeepVisible) {
+            const allSections = [
+                generateBtn, couponOptionsDiv, paymentDetailsDiv, 
+                couponDetailsDiv, couponInstruction, purchasedCouponsSection, 
+                merchantInfoDiv // Always include merchant-info for hiding logic
+            ]; 
+            allSections.forEach(section => {
+                if (section && !sectionsToKeepVisible.includes(section)) {
+                    section.classList.add('hidden');
+                } else if (section) {
+                    section.classList.remove('hidden'); // Ensure specified sections are visible
+                }
+            });
+        }
+
+        // NEW: Function to render the list of purchased coupons
+        function renderPurchasedCoupons() {
+            purchasedCouponsList.innerHTML = ''; // Clear previous history
+
+            if (allPurchasedCoupons.length === 0) {
+                noCouponsMessage.classList.remove('hidden');
+            } else {
+                noCouponsMessage.classList.add('hidden');
+                // Sort by purchase date, newest first
+                const sortedCoupons = [...allPurchasedCoupons].sort((a, b) => b.purchaseDate - a.purchaseDate);
+
+                sortedCoupons.forEach(coupon => {
+                    const card = document.createElement('div');
+                    card.classList.add('coupon-history-card');
+
+                    // Format purchase date and time
+                    const purchaseDate = coupon.purchaseDate 
+                        ? new Date(coupon.purchaseDate).toLocaleString('en-NG', {
+                            year: 'numeric',
+                            month: 'short',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            second: '2-digit'
+                        }) 
+                        : 'N/A';
+
+                    card.innerHTML = `
+                        <h3>${coupon.name}</h3>
+                        <p><strong>Code:</strong> <span class="coupon-code">${coupon.code}</span></p>
+                        <p><strong>Price:</strong> ₦${coupon.price.toLocaleString('en-NG')}</p>
+                        <p><strong>Type:</strong> ${coupon.type}</p>
+                        <p><strong>Purchased On:</strong> ${purchaseDate}</p>
+                        <button class="copy-btn" data-coupon-code="${coupon.code}"><i class="fas fa-copy"></i> Copy Code</button>
+                    `;
+                    purchasedCouponsList.appendChild(card);
+                });
+
+                // Add event listeners to the new "Copy Code" buttons
+                purchasedCouponsList.querySelectorAll('.copy-btn').forEach(button => {
+                    button.addEventListener('click', (event) => {
+                        const codeToCopy = event.target.dataset.couponCode;
+                        copyToClipboard(codeToCopy, event.target);
+                    });
+                });
+            }
+            purchasedCouponsSection.classList.remove('hidden'); // Ensure history section is visible
+        }
+
+        // Custom Message Display (using alert for now, as per original code structure)
+        function displayMessage(message, type = 'info') {
+            alert(message); 
+        }
+
+        // Function to copy text to clipboard (compatible with iframes)
+        function copyToClipboard(text, buttonElement) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                if (buttonElement) {
+                    const originalText = buttonElement.innerHTML;
+                    buttonElement.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                    buttonElement.classList.add('copied');
+                    setTimeout(() => {
+                        buttonElement.innerHTML = originalText;
+                        buttonElement.classList.remove('copied');
+                    }, 2000);
+                }
+            } catch (err) {
+                displayMessage('Failed to copy coupon code.', 'red');
+            } finally {
+                document.body.removeChild(textarea);
+            }
         }
 
         // Initial call to set up the page when it loads
