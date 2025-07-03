@@ -20,7 +20,18 @@
             --card-bg: #FFFFFF;       /* Pure white for cards */
             --shadow-light: rgba(0, 0, 0, 0.08); /* Lighter, subtle shadow */
             --shadow-medium: rgba(0, 0, 0, 0.15); /* Medium shadow for depth */
-            --border-color: #E0E0E0;  /* Light gray border */
+            --shadow-strong: rgba(0, 0, 0, 0.25); /* Stronger shadow for buttons */
+            --border-color: #E0E0E0;   /* Light gray border */
+
+            /* New, distinct variables for Grow Vest - Golden/Orange Theme */
+            --grow-vest-primary: #FF9800; /* Vibrant Orange */
+            --grow-vest-light: #FFB74D;   /* Lighter Orange */
+            --grow-vest-dark: #F57C00;    /* Darker Orange */
+            --grow-vest-text-color: #E65100; /* Deep Orange for text */
+            --grow-vest-bg-gradient-start: #FFF3E0; /* Very light orange for background */
+            --grow-vest-bg-gradient-end: #FFE0B2;   /* Light orange for background */
+            --grow-vest-shadow-color: rgba(255, 152, 0, 0.4); /* Orange shadow */
+            --grow-vest-glow-color: rgba(255, 165, 0, 0.6); /* Brighter orange for glow */
         }
 
         /* Base Styles */
@@ -89,10 +100,10 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
-        /* Navigation */
+        /* Navigation - Enhanced */
         .nav {
             text-align: center;
-            margin-bottom: 40px; /* More space */
+            margin-bottom: 40px;
         }
 
         .nav ul {
@@ -100,31 +111,53 @@
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 20px; /* Increased gap */
+            gap: 20px;
         }
 
         .nav ul li a {
             color: var(--primary-green);
             text-decoration: none;
-            font-size: 1.15rem; /* Slightly larger */
-            font-weight: 600;
-            transition: all 0.3s ease; /* Smoother transitions */
-            padding: 10px 20px; /* Increased padding */
-            border-radius: 8px; /* More rounded */
-            background-color: var(--card-bg);
-            box-shadow: 0 4px 8px var(--shadow-light); /* Added shadow */
-            border: 1px solid var(--border-color); /* Subtle border */
+            font-size: 1.2rem; /* Slightly larger font */
+            font-weight: 700; /* Bolder */
+            transition: all 0.3s ease;
+            padding: 12px 25px; /* Increased padding */
+            border-radius: 10px; /* More rounded */
+            background: linear-gradient(145deg, var(--card-bg), #F0F0F0); /* Subtle gradient */
+            box-shadow: 0 6px 15px var(--shadow-medium); /* Stronger initial shadow */
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
         }
 
         .nav ul li a:hover {
             color: var(--text-light);
-            background-color: var(--primary-green);
-            box-shadow: 0 6px 12px var(--shadow-medium);
-            transform: translateY(-3px); /* Subtle lift effect */
+            background: linear-gradient(145deg, var(--primary-green), var(--dark-blue)); /* Green to blue gradient on hover */
+            box-shadow: 0 8px 20px var(--shadow-strong); /* Even stronger shadow on hover */
+            transform: translateY(-5px) scale(1.02); /* More pronounced lift and slight scale */
+            border-color: var(--primary-green);
         }
 
+        .nav ul li a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1); /* Subtle white overlay for shimmer */
+            transition: all 0.4s ease-out;
+            transform: skewX(-20deg);
+            z-index: -1;
+        }
+
+        .nav ul li a:hover::before {
+            left: 100%;
+        }
+
+
         /* Section Base Styles */
-        .about-section, .faq-section, .customer-care-section, .hiring-section, .partnership-section, .game-explanation-section {
+        .about-section, .faq-section, .customer-care-section, .hiring-section, .partnership-section, .game-explanation-section, .grow-vest-section {
             background-color: var(--card-bg);
             padding: 35px; /* More padding */
             border-radius: 12px; /* More rounded */
@@ -133,7 +166,7 @@
             border: 1px solid var(--border-color);
         }
 
-        .about-section h2, .faq-section h2, .customer-care-section h2, .hiring-section h2, .partnership-section h2, .game-explanation-section h2 {
+        .about-section h2, .faq-section h2, .customer-care-section h2, .hiring-section h2, .partnership-section h2, .game-explanation-section h2, .grow-vest-section h2 {
             font-size: 2.4rem; /* Larger headings */
             color: var(--dark-blue); /* Stronger heading color */
             margin-bottom: 25px; /* More space */
@@ -143,7 +176,7 @@
             font-weight: 700;
         }
 
-        .about-section p, .hiring-section p, .partnership-section p, .game-explanation-section p {
+        .about-section p, .hiring-section p, .partnership-section p, .game-explanation-section p, .grow-vest-section p {
             font-size: 1.05rem; /* Slightly larger body text */
             color: var(--text-medium);
             margin-bottom: 18px; /* More space */
@@ -178,26 +211,48 @@
             font-weight: bold;
         }
 
-        /* CTA Button */
+        /* CTA Button - Enhanced */
         .cta-button {
-            display: inline-block; /* Changed to inline-block for better centering with text-align */
+            display: inline-block;
             width: fit-content;
-            margin: 30px auto; /* Centered with more vertical margin */
-            padding: 15px 30px; /* Larger padding */
-            background-color: var(--accent-blue);
+            margin: 30px auto;
+            padding: 16px 35px; /* Larger padding */
+            background: linear-gradient(145deg, var(--accent-blue), var(--dark-blue)); /* Blue gradient */
             color: var(--text-light);
             text-decoration: none;
-            border-radius: 10px; /* More rounded */
+            border-radius: 12px; /* More rounded */
             font-weight: 700;
-            font-size: 1.15rem;
+            font-size: 1.2rem; /* Larger font */
             transition: all 0.3s ease;
-            box-shadow: 0 6px 12px rgba(33, 150, 243, 0.3); /* Blue shadow for CTA */
+            box-shadow: 0 8px 20px rgba(33, 150, 243, 0.4); /* Stronger initial shadow */
+            border: none; /* Ensure no default border */
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
         }
 
         .cta-button:hover {
-            background-color: var(--dark-blue);
-            transform: translateY(-4px); /* More pronounced lift */
-            box-shadow: 0 10px 20px rgba(33, 150, 243, 0.4);
+            background: linear-gradient(145deg, var(--dark-blue), #1565C0); /* Darker blue gradient on hover */
+            transform: translateY(-6px) scale(1.03); /* More pronounced lift and scale */
+            box-shadow: 0 12px 25px rgba(33, 150, 243, 0.5); /* Even stronger shadow */
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.15); /* Stronger white overlay for shimmer */
+            transition: all 0.4s ease-out;
+            transform: skewX(-20deg);
+            z-index: -1;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
         }
 
         /* Footer */
@@ -340,42 +395,49 @@
             flex-wrap: wrap;
         }
 
+        /* WhatsApp & Call Buttons - Enhanced */
         .contact-buttons a {
             display: inline-flex;
             align-items: center;
-            padding: 14px 28px; /* Larger buttons */
-            border-radius: 8px;
+            padding: 16px 30px; /* Larger padding */
+            border-radius: 10px; /* More rounded */
             text-decoration: none;
-            font-weight: 600;
-            font-size: 1.05rem;
+            font-weight: 700; /* Bolder */
+            font-size: 1.1rem; /* Larger font */
             transition: all 0.3s ease;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.25); /* Stronger initial shadow */
+            border: 2px solid transparent; /* Added border */
         }
 
         .contact-buttons a i {
             margin-right: 12px;
+            font-size: 1.3em; /* Larger icon */
         }
 
         .whatsapp-button {
-            background-color: #25D366; /* WhatsApp Green */
+            background: linear-gradient(145deg, #25D366, #1DA851); /* WhatsApp Green gradient */
             color: white;
+            border-color: #1DA851;
         }
 
         .whatsapp-button:hover {
-            background-color: #1DA851;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(37, 211, 102, 0.4);
+            background: linear-gradient(145deg, #1DA851, #16883F); /* Darker green gradient on hover */
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 20px rgba(37, 211, 102, 0.5);
+            border-color: #16883F;
         }
 
         .call-button {
-            background-color: var(--accent-blue);
+            background: linear-gradient(145deg, var(--accent-blue), var(--dark-blue)); /* Blue gradient */
             color: white;
+            border-color: var(--dark-blue);
         }
 
         .call-button:hover {
-            background-color: var(--dark-blue);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(33, 150, 243, 0.4);
+            background: linear-gradient(145deg, var(--dark-blue), #1565C0); /* Darker blue gradient on hover */
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 20px rgba(33, 150, 243, 0.5);
+            border-color: #1565C0;
         }
 
         /* Hiring Section */
@@ -476,40 +538,63 @@
             color: var(--primary-green);
         }
 
+        /* Application Email Button - Enhanced */
         .hiring-section .application-email {
             display: inline-block;
-            background-color: var(--primary-green);
+            background: linear-gradient(145deg, var(--primary-green), #337a37); /* Green gradient */
             color: white;
-            padding: 14px 30px;
-            border-radius: 8px;
+            padding: 16px 35px; /* Larger padding */
+            border-radius: 10px; /* More rounded */
             text-decoration: none;
-            font-weight: 600;
-            font-size: 1.15rem;
+            font-weight: 700; /* Bolder */
+            font-size: 1.2rem; /* Larger font */
             transition: all 0.3s ease;
             margin-top: 15px;
-            box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3);
+            box-shadow: 0 6px 15px rgba(76, 175, 80, 0.4); /* Stronger initial shadow */
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
         }
 
         .hiring-section .application-email:hover {
-            background-color: #337a37; /* Slightly darker green */
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(76, 175, 80, 0.4);
+            background: linear-gradient(145deg, #337a37, #2E6B32); /* Darker green gradient on hover */
+            transform: translateY(-6px) scale(1.03);
+            box-shadow: 0 10px 20px rgba(76, 175, 80, 0.5);
         }
 
-        /* Game Link Circle - Super Enhanced */
+        .hiring-section .application-email::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.15);
+            transition: all 0.4s ease-out;
+            transform: skewX(-20deg);
+            z-index: -1;
+        }
+
+        .hiring-section .application-email:hover::before {
+            left: 100%;
+        }
+
+        /* Game Link Circle - Super Enhanced (No changes needed, already very prominent) */
         .game-link-container {
-            width: 240px; /* Larger circle */
+            width: 240px;
             height: 240px;
-            background: radial-gradient(circle at center, #E8F5E9 0%, #DCE7D8 100%); /* Softer, more textured radial gradient */
+            background: radial-gradient(circle at center, #E8F5E9 0%, #DCE7D8 100%);
             border-radius: 50%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            margin: 50px auto; /* More vertical margin */
-            border: 6px solid var(--light-green); /* Thicker, slightly lighter green border */
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); /* More prominent initial shadow */
-            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease; /* Smoother, more defined transition */
+            margin: 50px auto;
+            border: 6px solid var(--light-green);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease;
             cursor: pointer;
             text-decoration: none;
             color: var(--text-dark);
@@ -519,12 +604,11 @@
         }
 
         .game-link-container:hover {
-            transform: scale(1.15); /* More pronounced enlargement on hover */
-            box-shadow: 0 15px 40px rgba(76, 175, 80, 0.6); /* Larger, more vibrant green shadow */
-            border-color: var(--primary-green); /* Darken border on hover */
+            transform: scale(1.15);
+            box-shadow: 0 15px 40px rgba(76, 175, 80, 0.6);
+            border-color: var(--primary-green);
         }
 
-        /* Pulse animation for the game link */
         .game-link-container::before {
             content: '';
             position: absolute;
@@ -532,11 +616,11 @@
             left: 50%;
             width: 100%;
             height: 100%;
-            background-color: rgba(76, 175, 80, 0.35); /* Slightly more opaque pulse */
+            background-color: rgba(76, 175, 80, 0.35);
             border-radius: 50%;
             transform: translate(-50%, -50%) scale(0);
             opacity: 0;
-            animation: pulse 3s infinite ease-out; /* Slower, more subtle pulse */
+            animation: pulse 3s infinite ease-out;
             z-index: 0;
         }
 
@@ -546,7 +630,7 @@
                 opacity: 0.7;
             }
             100% {
-                transform: translate(-50%, -50%) scale(1.3); /* Larger pulse */
+                transform: translate(-50%, -50%) scale(1.3);
                 opacity: 0;
             }
         }
@@ -563,42 +647,42 @@
         }
 
         .game-link-container:hover .game-link-content {
-            color: var(--primary-green); /* Green text on hover */
+            color: var(--primary-green);
         }
 
         .game-link-content .icon {
-            font-size: 5rem; /* Even larger icon */
-            margin-bottom: 10px; /* More space */
+            font-size: 5rem;
+            margin-bottom: 10px;
             transition: transform 0.3s ease;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.1); /* Subtle shadow for icon */
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
         }
         .game-link-container:hover .game-link-content .icon {
-            transform: translateY(-5px) rotate(5deg); /* More dynamic lift and slight rotation */
-            color: var(--primary-green); /* Ensure icon color change */
+            transform: translateY(-5px) rotate(5deg);
+            color: var(--primary-green);
         }
 
         .game-link-content .text {
-            font-size: 1.4rem; /* Larger main text */
-            font-weight: 800; /* Extra bold */
+            font-size: 1.4rem;
+            font-weight: 800;
             line-height: 1.2;
             text-transform: uppercase;
-            letter-spacing: 1px; /* More spacing */
+            letter-spacing: 1px;
             text-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
 
         .game-link-content .sub-text {
-            font-size: 1rem; /* Larger sub-text */
+            font-size: 1rem;
             margin-top: 5px;
-            color: var(--text-medium); /* Use medium text color */
+            color: var(--text-medium);
             font-style: italic;
             opacity: 0.9;
         }
 
         /* Partnership Section */
         .partnership-section {
-            background: linear-gradient(160deg, #EFEBE9, #F5F5F5); /* Warm, subtle gradient */
-            border: 1px solid #D7CCC8; /* Soft brown border */
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Lighter shadow for this section */
+            background: linear-gradient(160deg, #EFEBE9, #F5F5F5);
+            border: 1px solid #D7CCC8;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -611,14 +695,14 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('https://placehold.co/100x100/eeeeee/cccccc?text=P') no-repeat center center; /* Placeholder for subtle pattern */
+            background: url('https://placehold.co/100x100/eeeeee/cccccc?text=P') no-repeat center center;
             background-size: cover;
-            opacity: 0.05; /* Very subtle pattern */
+            opacity: 0.05;
             z-index: 0;
         }
 
         .partnership-section h2 {
-            color: var(--primary-green); /* Use primary green for partnership heading */
+            color: var(--primary-green);
             border-bottom-color: var(--light-green);
             position: relative;
             z-index: 1;
@@ -631,88 +715,111 @@
             z-index: 1;
         }
 
-        .partnership-section .cta-button {
-            background-color: var(--primary-green);
-            margin-top: 25px;
-            box-shadow: 0 6px 12px rgba(76, 175, 80, 0.4);
-            position: relative;
-            z-index: 1;
-        }
-        .partnership-section .cta-button:hover {
-            background-color: #337a37;
-            box-shadow: 0 8px 18px rgba(76, 175, 80, 0.5);
-        }
-
-        /* Game Explanation Section */
-        .game-explanation-section {
-            background: linear-gradient(160deg, #E3F2FD, #E1F5FE); /* Light blue gradient */
-            border: 1px solid #90CAF9; /* Soft blue border */
-            box-shadow: 0 8px 20px rgba(33, 150, 243, 0.1);
+        /* Grow Vest Section - Highly Visible Style (No changes needed, already very prominent) */
+        .grow-vest-section {
+            background: linear-gradient(135deg, var(--grow-vest-bg-gradient-start), var(--grow-vest-bg-gradient-end));
+            border: 2px solid var(--grow-vest-primary);
+            box-shadow: 0 10px 25px var(--grow-vest-shadow-color);
+            text-align: center;
+            margin-top: 60px;
+            margin-bottom: 60px;
             position: relative;
             overflow: hidden;
-        }
-        .game-explanation-section::before {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 150px;
-            height: 150px;
-            background: url('https://placehold.co/150x150/d1e2f7/adc9ea?text=🎮') no-repeat center center; /* Game controller icon */
-            background-size: contain;
-            opacity: 0.1;
-            z-index: 0;
-            transform: rotate(-20deg);
+            animation: border-pulse 2s infinite alternate ease-in-out;
         }
 
-        .game-explanation-section h2 {
-            color: var(--accent-blue); /* Blue for game section heading */
-            border-bottom-color: #A7D9FD; /* Lighter blue border */
-            position: relative;
-            z-index: 1;
+        @keyframes border-pulse {
+            0% {
+                box-shadow: 0 10px 25px var(--grow-vest-shadow-color), 0 0 0 0px var(--grow-vest-glow-color);
+            }
+            100% {
+                box-shadow: 0 10px 25px var(--grow-vest-shadow-color), 0 0 0 8px rgba(255, 165, 0, 0);
+            }
         }
 
-        .game-explanation-section h3 {
-            font-size: 1.6rem;
-            color: var(--dark-blue);
-            margin-top: 25px;
-            margin-bottom: 15px;
-            font-weight: 700;
-            position: relative;
-            z-index: 1;
+        .grow-vest-section h2 {
+            color: var(--grow-vest-dark);
+            border-bottom-color: var(--grow-vest-primary);
+            font-size: 2.8rem;
+            margin-bottom: 30px;
         }
 
-        .game-explanation-section ul {
-            list-style: none; /* Remove default bullets */
-            margin-left: 0;
-            padding-left: 0;
-            margin-bottom: 25px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .game-explanation-section ul li {
-            font-size: 1rem;
+        .grow-vest-section p {
             color: var(--text-medium);
-            margin-bottom: 10px;
-            position: relative;
-            padding-left: 25px;
-            line-height: 1.6;
+            margin-bottom: 30px;
+            font-size: 1.15rem;
         }
 
-        .game-explanation-section ul li b {
+        .grow-vest-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px auto;
+            max-width: 550px;
+            text-decoration: none;
             color: var(--text-dark);
+            box-shadow: 0 8px 20px var(--shadow-medium);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+            border: 3px solid var(--grow-vest-light);
         }
 
-        .game-explanation-section ul li::before {
-            content: '•';
-            color: var(--accent-blue); /* Blue bullet */
-            font-size: 1.2em;
-            position: absolute;
-            left: 0;
-            top: 0;
-            font-weight: bold;
+        .grow-vest-card:hover {
+            transform: translateY(-12px) scale(1.05);
+            box-shadow: 0 18px 35px var(--grow-vest-shadow-color);
+            border-color: var(--grow-vest-dark);
         }
+
+        .grow-vest-card .icon {
+            font-size: 5rem;
+            color: var(--grow-vest-primary);
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .grow-vest-card:hover .icon {
+            transform: rotate(8deg) scale(1.1);
+        }
+
+        .grow-vest-card .text {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--grow-vest-text-color);
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .grow-vest-card .sub-text {
+            font-size: 1.25rem;
+            color: var(--text-medium);
+            text-align: center;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .grow-vest-card .cta-label {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--grow-vest-dark);
+            background-color: var(--grow-vest-light);
+            padding: 8px 15px;
+            border-radius: 8px;
+            animation: glow 1.5s infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 5px var(--grow-vest-primary);
+            }
+            to {
+                box-shadow: 0 0 15px var(--grow-vest-primary), 0 0 25px var(--grow-vest-light);
+            }
+        }
+
 
         /* Responsive Adjustments */
         @media (max-width: 768px) {
@@ -730,11 +837,13 @@
                 width: 80%;
                 max-width: 300px;
                 margin: 0 auto;
+                font-size: 1.1rem;
+                padding: 10px 20px;
             }
-            .about-section, .faq-section, .customer-care-section, .hiring-section, .partnership-section, .game-explanation-section {
+            .about-section, .faq-section, .customer-care-section, .hiring-section, .partnership-section, .game-explanation-section, .grow-vest-section {
                 padding: 25px;
             }
-            .about-section h2, .faq-section h2, .customer-care-section h2, .hiring-section h2, .partnership-section h2, .game-explanation-section h2 {
+            .about-section h2, .faq-section h2, .customer-care-section h2, .hiring-section h2, .partnership-section h2, .game-explanation-section h2, .grow-vest-section h2 {
                 font-size: 2rem;
             }
             .hiring-section .job-role-card {
@@ -756,18 +865,51 @@
                 font-size: 0.9rem;
             }
             .cta-button {
-                padding: 12px 25px;
-                font-size: 1rem;
+                padding: 14px 30px;
+                font-size: 1.1rem;
             }
             .footer p {
                 font-size: 0.9rem;
-                margin-bottom: 8px; /* Adjust spacing for mobile */
+                margin-bottom: 8px;
             }
             .footer-social-links {
-                gap: 15px; /* Adjust spacing for mobile */
+                gap: 15px;
             }
             .footer-social-links a {
-                font-size: 1.6rem; /* Adjust icon size for mobile */
+                font-size: 1.6rem;
+            }
+            .grow-vest-section {
+                padding: 30px;
+            }
+            .grow-vest-section h2 {
+                font-size: 2.2rem;
+            }
+            .grow-vest-section p {
+                font-size: 1.05rem;
+            }
+            .grow-vest-card {
+                padding: 30px;
+                max-width: 90%;
+            }
+            .grow-vest-card .icon {
+                font-size: 4rem;
+            }
+            .grow-vest-card .text {
+                font-size: 1.8rem;
+            }
+            .grow-vest-card .sub-text {
+                font-size: 1.1rem;
+            }
+            .grow-vest-card .cta-label {
+                font-size: 1rem;
+            }
+            .contact-buttons a {
+                padding: 14px 25px;
+                font-size: 1rem;
+            }
+            .hiring-section .application-email {
+                padding: 14px 30px;
+                font-size: 1.1rem;
             }
         }
 
@@ -785,10 +927,10 @@
                 font-size: 1rem;
                 padding: 10px 15px;
             }
-            .about-section h2, .faq-section h2, .customer-care-section h2, .hiring-section h2, .partnership-section h2, .game-explanation-section h2 {
+            .about-section h2, .faq-section h2, .customer-care-section h2, .hiring-section h2, .partnership-section h2, .game-explanation-section h2, .grow-vest-section h2 {
                 font-size: 1.8rem;
             }
-            .about-section p, .about-section ul li, .hiring-section p, .hiring-section ul li, .partnership-section p, .game-explanation-section p {
+            .about-section p, .about-section ul li, .hiring-section p, .hiring-section ul li, .partnership-section p, .game-explanation-section p, .grow-vest-section p {
                 font-size: 0.95rem;
             }
             .game-link-container {
@@ -829,13 +971,32 @@
             }
             .footer p {
                 font-size: 0.85rem;
-                margin-bottom: 6px; /* Further adjust spacing for very small mobile */
+                margin-bottom: 6px;
             }
             .footer-social-links {
                 gap: 10px;
             }
             .footer-social-links a {
                 font-size: 1.4rem;
+            }
+            .grow-vest-card {
+                padding: 20px;
+            }
+            .grow-vest-card .icon {
+                font-size: 3rem;
+            }
+            .grow-vest-card .text {
+                font-size: 1.3rem;
+            }
+            .grow-vest-card .sub-text {
+                font-size: 0.9rem;
+            }
+            .grow-vest-card .cta-label {
+                font-size: 0.9rem;
+            }
+            .hiring-section .application-email {
+                padding: 12px 25px;
+                font-size: 1rem;
             }
         }
     </style>
@@ -864,6 +1025,18 @@
             </div>
         </a>
 
+        <!-- Highly Visible Section for Grow Vest with new Golden/Orange Theme and Animations -->
+        <section class="grow-vest-section">
+            <h2>Introducing COREVEST Grow Vest!</h2>
+            <p>Ready to take your earnings to the next level? COREVEST Grow Vest offers advanced investment opportunities and financial tools designed to help you grow your wealth steadily and securely. Explore tailored investment plans and maximize your returns with our expert guidance.</p>
+            <a href="growvest.html" class="grow-vest-card">
+                <i class="fas fa-chart-line icon"></i>
+                <span class="text">Explore Grow Vest</span>
+                <span class="sub-text">Smart Investments for a Brighter Future</span>
+                <span class="cta-label">Click to Learn More!</span>
+            </a>
+        </section>
+
         <section class="partnership-section">
             <h2>Exciting News: COREVEST Acquires New Game Partnership!</h2>
             <p>We're thrilled to announce a significant expansion to our entertainment offerings! COREVEST has officially acquired a new game partnership, bringing even more diverse and exciting gaming experiences directly to you.</p>
@@ -891,265 +1064,145 @@
                     <b>Referral Program:</b> Share the opportunity with your friends and family! Our "Refer and Earn" program allows you to generate a unique referral link and earn bonuses when new users join and activate their accounts through your link.
                 </li>
                 <li>
-                    <b>Secure Withdrawals:</b> Your earnings are safe and accessible. We provide a clear and structured withdrawal process, with payments enabled after a minimum of three weeks from your initial sign-up, ensuring a stable and reliable payout system.
-                </li>
-                <li>
-                    <b>Transparent System:</b> Track your earnings, completed tasks, and withdrawal status directly from your personalized dashboard.
+                    hope you remeber
                 </li>
             </ul>
         </section>
 
-        <section class="about-section">
-            <h2>How It Works</h2>
-            <p>Getting started with COREVEST is easy:</p>
-            <ol>
-                <li>
-                    <b>Register:</b> Create your free account on our platform.
-                </li>
-                <li>
-                    <b>Activate with a Coupon:</b> Purchase a one-time activation coupon to unlock access to all earning features and benefits. This ensures a serious and committed community.
-                </li>
-                <li>
-                    <b>Watch & Earn:</b> Dive into our daily video tasks. Watch videos for the required duration to unlock and claim your rewards.
-                </li>
-                <li>
-                    <b>Refer & Grow:</b> Generate your referral link and invite others to join COREVEST. Earn additional income for successful referrals.
-                </li>
-                <li>
-                    <b>Withdraw Your Earnings:</b> Once your account meets the withdrawal criteria (minimum three weeks from sign-up and having saved withdrawal details), you can request your payout.
-                </li>
-            </ol>
-        </section>
-
-        <section class="about-section">
-            <h2>Our Commitment</h2>
-            <p>We are committed to maintaining a trustworthy and supportive environment for our users. We continuously work to improve our platform, enhance security measures, and provide timely support to ensure a smooth and enjoyable earning experience. Your success is our priority.</p>
-        </section>
-
-        <section class="game-explanation-section">
-            <h2>COREVEST Games: How It Works & Future Updates</h2>
-            <p>Dive into the thrilling world of COREVEST Games, where entertainment meets earning potential! Our diverse range of games offers unique ways to test your luck and skills, providing a fun break from daily tasks while potentially boosting your earnings.</p>
-            <h3>How Our Games Work:</h3>
-            <p>Each game within COREVEST Games operates on a simple, engaging premise:</p>
-            <ul>
-                <li><b>Place Your Bet:</b> Start by selecting your desired bet amount for the game you wish to play.</li>
-                <li><b>Engage & Play:</b> Follow the game's rules – whether it's spinning a wheel, flipping a coin, racing a car, or playing slots. Interact with the game to determine the outcome.</li>
-                <li><b>Win or Lose:</b> Based on your performance or luck, you'll either multiply your bet and increase your balance, or your bet will be deducted. Outcomes are fair and simulated to be exciting!</li>
-                <li><b>Instant Results:</b> See your results and updated balance immediately after each game round.</li>
-            </ul>
-            <h3>Future Updates & Exciting Features:</h3>
-            <p>We are constantly working to expand and enhance the COREVEST Games experience. Here's a glimpse of what's coming:</p>
-            <ul>
-                <li><b>More Diverse Games:</b> Expect a continuous rollout of new and exciting game titles, including arcade-style challenges, puzzle games, and more strategic betting options.</li>
-                <li><b>Leaderboards & Tournaments:</b> Compete against other COREVEST users for top spots on leaderboards and participate in thrilling tournaments with grand prizes.</li>
-                <li><b>Special Events & Bonuses:</b> Look out for limited-time game events, seasonal challenges, and exclusive bonuses to maximize your earnings.</li>
-                <li><b>Enhanced Graphics & Sound:</b> We're committed to improving the visual and auditory experience of all our games for deeper immersion.</li>
-                <li><b>Interactive Features:</b> New ways to interact with games and other players will be introduced to build a vibrant gaming community.</li>
-            </ul>
-            <p>Stay tuned for these exciting updates and prepare to elevate your gaming and earning experience with COREVEST!</p>
-        </section>
-
-        <section class="hiring-section">
-            <h2>Join Our Team!</h2>
-            <p>Are you passionate about helping others and eager to grow with a dynamic online platform? COREVEST is expanding and we're looking for talented individuals to join our remote team!</p>
-
-            <div class="job-roles">
-                <div class="job-role-card">
-                    <h3>Remote Customer Attendant</h3>
-                    <p>Be the friendly voice of COREVEST! You'll assist our users with inquiries, provide support, and ensure a seamless experience, all from the comfort of your home.</p>
-                    <h4>Requirements:</h4>
-                    <ul>
-                        <li>Strong communication skills (written and verbal).</li>
-                        <li>Excellent problem-solving abilities.</li>
-                        <li>Ability to work independently and manage time effectively.</li>
-                        <li>Reliable internet access and a suitable home workspace.</li>
-                        <li>Prior customer service experience is a plus.</li>
-                    </ul>
-                </div>
-
-                <div class="job-role-card">
-                    <h3>Business Advertiser (Referral-Based)</h3>
-                    <p>Help us grow by actively promoting COREVEST and attracting new users through your personal network and self-referral efforts. Earn commissions for every successful referral!</p>
-                    <h4>Requirements:</h4>
-                    <ul>
-                        <li>Proven ability to network and build relationships.</li>
-                        <li>Strong persuasive and marketing skills.</li>
-                        <li>Self-motivated and goal-oriented.</li>
-                        <li>Familiarity with online marketing and social media.</li>
-                        <li>Experience in direct sales or referral programs is an advantage.</li>
-                    </ul>
-                </div>
+        <section class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-search">
+                <input type="text" id="faqSearch" onkeyup="filterFaq()" placeholder="Search for questions...">
             </div>
-
-            <div class="application-instructions">
-                <p>If you're ready to make an impact and contribute to the COREVEST mission, we invite you to apply!</p>
-                <p><strong>To apply, please send the following documents to our careers email:</strong></p>
-                <ul>
-                    <li>Your Updated Resume/CV</li>
-                    <li>A Copy of Your Valid Government-Issued ID (e.g., National ID, Driver's License, International Passport)</li>
-                    <li>Your Active Email Address</li>
-                    <li>Your Active Phone Number</li>
-                    <li>Details of Relevant Working Experience</li>
-                </ul>
-                <p>Send your application to:</p>
-                <a href="mailto:corevestify@gmail.com?subject=Job Application - [Your Name] - [Desired Role]" class="application-email">
-                    corevestify@gmail.com
-                </a>
-                <p style="font-size: 0.85rem; color: #777; margin-top: 15px;">Please title your email: "Job Application - [Your Name] - [Desired Role]".</p>
+            <div id="faqList">
+                <details class="faq-item">
+                    <summary>How do I start earning on COREVEST?</summary>
+                    <div class="faq-answer">
+                        To start earning, simply create an account, log in, and navigate to the "Daily Tasks" section. You'll find a list of videos to watch, each with its associated earning potential.
+                    </div>
+                </details>
+                <details class="faq-item">
+                    <summary>Is COREVEST free to join?</summary>
+                    <div class="faq-answer">
+                        Yes, creating an account on COREVEST is absolutely free. You only need to purchase a coupon to activate your account and start earning.
+                    </div>
+                </details>
+                <details class="faq-item">
+                    <summary>How do I withdraw my earnings?</summary>
+                    <div class="faq-answer">
+                        You can withdraw your earnings once you reach the minimum withdrawal threshold. Simply go to your dashboard, click on "Withdraw," and follow the instructions. Withdrawals are processed quickly to your preferred payment method.
+                    </div>
+                </details>
+                <details class="faq-item">
+                    <summary>What is the referral program?</summary>
+                    <div class="faq-answer">
+                        Our referral program allows you to earn extra income by inviting friends and family to join COREVEST. Share your unique referral link, and when someone signs up and activates their account through your link, you earn a bonus!
+                    </div>
+                </details>
+                <details class="faq-item">
+                    <summary>Are there any limits to how much I can earn?</summary>
+                    <div class="faq-answer">
+                        While there isn't a strict upper limit, your earnings depend on the number of tasks you complete and the activity of your referrals. The more engaged you are, the higher your earning potential.
+                    </div>
+                </details>
             </div>
         </section>
 
         <section class="customer-care-section">
-            <h2>Having a Problem?</h2>
-            <p>Don't hesitate to reach out! Our customer service team is here to help you with any questions or issues you might have.</p>
+            <h2>Customer Care</h2>
+            <p>Need assistance or have a question? Our dedicated customer care team is here to help you every step of the way. Reach out to us through the following channels:</p>
             <div class="contact-buttons">
-                <a href="https://wa.me/qr/TVIMRTUNTLTBD1" target="_blank" class="whatsapp-button">
+                <a href="https://wa.me/2348012345678" target="_blank" class="whatsapp-button">
                     <i class="fab fa-whatsapp"></i> Chat on WhatsApp
                 </a>
-                <a href="tel:+2348186949642" class="call-button">
+                <a href="tel:+2348012345678" class="call-button">
                     <i class="fas fa-phone-alt"></i> Call Us
                 </a>
             </div>
         </section>
 
-        <a href="create.html" class="cta-button">Ready to Start Earning? Join COREVEST Today!</a>
+        <section class="hiring-section">
+            <h2>Join Our Team: We're Hiring!</h2>
+            <p>COREVEST is a rapidly growing platform, and we're always looking for talented and passionate individuals to join our dynamic team. If you're looking for an opportunity to make a real impact and grow your career, explore our current openings.</p>
 
-        <section class="faq-section">
-            <h2>Frequently Asked Questions (FAQ)</h2>
-            <div class="faq-search">
-                <input type="text" id="faqSearchInput" placeholder="Search for answers...">
+            <div class="job-roles">
+                <div class="job-role-card">
+                    <h3>Content Review Specialist</h3>
+                    <p>Ensure the quality and appropriateness of video content on our platform. This role involves reviewing videos, flagging issues, and maintaining content standards.</p>
+                    <h4>Key Responsibilities:</h4>
+                    <ul>
+                        <li>Review and categorize video content according to guidelines.</li>
+                        <li>Identify and report any inappropriate or low-quality content.</li>
+                        <li>Collaborate with the content acquisition team.</li>
+                    </ul>
+                    <h4>Requirements:</h4>
+                    <ul>
+                        <li>Strong attention to detail.</li>
+                        <li>Excellent comprehension and analytical skills.</li>
+                        <li>Ability to work independently and as part of a team.</li>
+                    </ul>
+                </div>
+
+                <div class="job-role-card">
+                    <h3>Customer Support Representative</h3>
+                    <p>Be the first point of contact for our users, providing friendly and efficient support. Help resolve queries, guide users through the platform, and ensure a positive experience.</p>
+                    <h4>Key Responsibilities:</h4>
+                    <ul>
+                        <li>Respond to user inquiries via chat, email, and phone.</li>
+                        <li>Troubleshoot common issues and provide solutions.</li>
+                        <li>Gather user feedback to improve services.</li>
+                    </ul>
+                    <h4>Requirements:</h4>
+                    <ul>
+                        <li>Excellent communication skills (written and verbal).</li>
+                        <li>Patience and empathy in handling customer interactions.</li>
+                        <li>Problem-solving abilities and a proactive attitude.</li>
+                    </ul>
+                </div>
             </div>
-            <div id="faqList">
+
+            <div class="application-instructions">
+                <p>To apply for any of these positions, please send your resume and a cover letter to <strong>careers@corevest.com</strong>. In your cover letter, specify the role you are applying for and highlight why you would be a great fit for COREVEST.</p>
+                <a href="mailto:careers@corevest.com?subject=Job Application: [Your Name] - [Job Role]" class="application-email">
+                    Apply Now
+                </a>
             </div>
         </section>
+
     </div>
 
     <footer class="footer">
         <p>&copy; 2025 COREVEST. All rights reserved.</p>
-        <p>Email: <a href="mailto:support@corevest.com">support@corevest.com</a></p>
-        <p>Phone: <a href="tel:+2348123456789">+234 812 345 6789</a></p>
+        <p>Empowering your financial journey, one task at a time.</p>
         <div class="footer-social-links">
-            <a href="https://facebook.com/corevest" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-            <a href="https://twitter.com/corevest" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-            <a href="https://instagram.com/corevest" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-            <a href="https://linkedin.com/company/corevest" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
         </div>
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // FAQ data
-            const faqData = [
-                {
-                    question: "What is COREVEST?",
-                    answer: "COREVEST is an online platform that allows individuals to earn income by watching short video clips and participating in a referral program."
-                },
-                {
-                    question: "How do I get started?",
-                    answer: "To get started, you need to register for a free account, then purchase a one-time activation coupon to unlock earning features. After that, you can start watching daily videos and earning rewards."
-                },
-                {
-                    question: "Do I need to pay to join COREVEST?",
-                    answer: "Registration is free, but you'll need to purchase a one-time activation coupon to access earning opportunities and the referral program."
-                },
-                {
-                    question: "How do I earn money?",
-                    answer: "You earn money primarily by watching short daily video tasks. We also offer a referral program where you earn bonuses for inviting new users."
-                },
-                {
-                    question: "What is a coupon code and why do I need it?",
-                    answer: "A coupon code is a one-time activation key that verifies your account and unlocks all earning features on COREVEST. It helps us maintain a committed and secure community."
-                },
-                {
-                    question: "How often are new tasks available?",
-                    answer: "New video tasks are updated daily, providing consistent opportunities to earn."
-                },
-                {
-                    question: "How much can I earn per video?",
-                    answer: "The reward per video varies based on your coupon tier and a small random bonus. You can see the exact reward listed for each task."
-                },
-                {
-                    question: "How do I withdraw my earnings?",
-                    answer: "You can withdraw your earnings by providing your bank account details. Withdrawals are enabled after a minimum of three weeks from your initial coupon activation date."
-                },
-                {
-                    question: "Is there a minimum withdrawal amount?",
-                    answer: "No, there's no minimum withdrawal amount. However, withdrawals are enabled only after your account has been active for a minimum of three weeks from your sign-up date."
-                },
-                {
-                    question: "How long does it take for withdrawals to be processed?",
-                    answer: "Once requested and approved, withdrawals are typically processed within 2-3 business days."
-                },
-                {
-                    question: "What is the referral program?",
-                    answer: "Our referral program allows you to share COREVEST with friends and family. You earn a bonus when someone signs up and activates their account using your unique referral link."
-                },
-                {
-                    question: "Is COREVEST available worldwide?",
-                    answer: "COREVEST is currently available for users in Nigeria. We aim to expand to more regions in the future."
-                },
-                {
-                    question: "What if I have a problem or question not listed here?",
-                    answer: "If you have further questions, please contact our support team through the contact us page (once available) or the provided customer service channels."
-                },
-                { /* NEW FAQ ENTRY */
-                    question: "How does the COREVEST Games Partnership work?",
-                    answer: "COREVEST has recently acquired new gaming partnerships to expand our game offerings. This means more diverse and exciting games for our users to enjoy! We are also actively seeking new game developers and companies interested in partnering with us to integrate their games onto the COREVEST platform. If you have a game you'd like to feature or explore a collaboration, please use the 'Inquire About Partnerships' button in our 'Exciting News' section."
-                }
-            ];
+        // FAQ Search Functionality
+        function filterFaq() {
+            const input = document.getElementById('faqSearch');
+            const filter = input.value.toLowerCase();
+            const faqList = document.getElementById('faqList');
+            const faqItems = faqList.getElementsByClassName('faq-item');
 
-            const faqListContainer = document.getElementById('faqList');
-            const faqSearchInput = document.getElementById('faqSearchInput');
-            const gameLinkCircle = document.getElementById('gameLinkCircle'); // Get the game link circle element
+            for (let i = 0; i < faqItems.length; i++) {
+                const summary = faqItems[i].getElementsByTagName('summary')[0];
+                const answer = faqItems[i].getElementsByClassName('faq-answer')[0];
+                const textValue = summary.textContent || summary.innerText;
+                const answerText = answer.textContent || answer.innerText;
 
-            // Function to render FAQ items
-            function renderFAQs(filterText = '') {
-                faqListContainer.innerHTML = ''; // Clear existing FAQs
-
-                const lowerCaseFilter = filterText.toLowerCase();
-
-                faqData.forEach((item, index) => {
-                    const question = item.question;
-                    const answer = item.answer;
-
-                    // Check if question or answer contains the filter text
-                    if (question.toLowerCase().includes(lowerCaseFilter) || answer.toLowerCase().includes(lowerCaseFilter)) {
-                        const faqItem = document.createElement('details');
-                        faqItem.classList.add('faq-item');
-
-                        const summary = document.createElement('summary');
-                        summary.textContent = question;
-
-                        const answerDiv = document.createElement('div');
-                        answerDiv.classList.add('faq-answer');
-                        answerDiv.textContent = answer;
-
-                        faqItem.appendChild(summary);
-                        faqItem.appendChild(answerDiv);
-                        faqListContainer.appendChild(faqItem);
-                    }
-                });
-
-                if (faqListContainer.children.length === 0 && filterText.length > 0) {
-                    faqListContainer.innerHTML = '<p style="text-align: center; color: #777;">No matching questions found.</p>';
-                } else if (faqListContainer.children.length === 0) {
-                    faqListContainer.innerHTML = '<p style="text-align: center; color: #777;">FAQs loading...</p>'; // Should not happen if faqData is populated
+                if (textValue.toLowerCase().indexOf(filter) > -1 || answerText.toLowerCase().indexOf(filter) > -1) {
+                    faqItems[i].style.display = "";
+                } else {
+                    faqItems[i].style.display = "none";
                 }
             }
-
-            // Event listener for search input
-            faqSearchInput.addEventListener('input', function() {
-                renderFAQs(this.value);
-            });
-
-            // Initial render of all FAQs on page load
-            renderFAQs();
-
-            // JavaScript for the game link (optional, but adds a nice touch)
-            gameLinkCircle.addEventListener('click', function(event) {
-                console.log("Game link clicked! Redirecting to game.html");
-            });
-        });
+        }
     </script>
 </body>
 </html>
