@@ -3,39 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GrowVest: Investment Opportunities</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <title>GrowVest: Elite Investment Opportunities</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Global CSS Variables - Inherited and Extended */
+        /* Global CSS Variables - Refined & Premium Palette */
         :root {
-            --primary-green: #388E3C;
-            --light-green: #66BB6A;
-            --accent-blue: #2196F3;
-            --dark-blue: #1976D2;
-            --text-dark: #2c3e50; /* Darker for better contrast */
-            --text-medium: #555555;
-            --text-light: #f8f8f8;
-            --bg-light: #F8F9FA;
-            --card-bg: #FFFFFF;
-            --shadow-light: rgba(0, 0, 0, 0.08);
+            --primary-green: #2E7D32; /* Darker, more sophisticated green */
+            --light-green: #4CAF50;   /* Vibrant, lively green */
+            --accent-gold: #FFC107;   /* Rich gold for highlights */
+            --dark-gold: #FF8F00;     /* Deeper gold */
+            --text-dark: #212121;     /* Deep charcoal for main text */
+            --text-medium: #424242;   /* Dark gray for secondary text */
+            --text-light: #F5F5F5;    /* Off-white for contrasting text */
+            --bg-light: #F9F9F9;      /* Very light gray background */
+            --card-bg: #FFFFFF;       /* Pure white for cards */
+            --shadow-subtle: rgba(0, 0, 0, 0.05);
             --shadow-medium: rgba(0, 0, 0, 0.15);
+            --shadow-strong: rgba(0, 0, 0, 0.25);
             --border-color: #E0E0E0;
 
-            /* GrowVest Specific Colors - Refined Palette */
-            --growvest-dark: #5C4033;   /* Darker Brown */
-            --growvest-medium: #8B4513; /* SaddleBrown */
-            --growvest-light: #D2B48C;  /* Tan */
-            --growvest-text: #4A2C2A;   /* Dark Brown */
-            --growvest-accent: #FFD700; /* Gold for highlights */
-            --success-green: #28a745; /* For success messages */
-            --info-blue: #17a2b8; /* For info messages */
-            --danger-color: #dc3545; /* For error messages */
+            /* GrowVest Specific Colors - Enhanced Palette */
+            --growvest-dark: #4E342E;   /* Dark Brown */
+            --growvest-medium: #6D4C41; /* Medium Brown */
+            --growvest-light: #A1887F;  /* Light Brown */
+            --growvest-text: #3E2723;   /* Very Dark Brown */
+            --growvest-accent: var(--accent-gold); /* Using global gold */
+            --success-color: #388E3C; /* Consistent success green */
+            --info-color: #1976D2;    /* Consistent info blue */
+            --danger-color: #D32F2F;  /* Consistent danger red */
+            --dark-blue: #1565C0; /* Darker blue for info */
 
-            /* New Shadow Variables */
-            --shadow-elevation-1: 0 4px 8px rgba(0, 0, 0, 0.08);
-            --shadow-elevation-2: 0 8px 16px rgba(0, 0, 0, 0.12);
-            --shadow-elevation-3: 0 12px 24px rgba(0, 0, 0, 0.16);
+
+            /* New Shadow Variables for Elevation */
+            --elevation-1: 0 2px 5px var(--shadow-subtle);
+            --elevation-2: 0 5px 15px var(--shadow-medium);
+            --elevation-3: 0 10px 30px var(--shadow-strong);
+            --elevation-4: 0 15px 40px rgba(0, 0, 0, 0.35); /* For most prominent elements */
         }
 
         /* Base Styles */
@@ -47,7 +51,7 @@
 
         body {
             line-height: 1.7;
-            background: linear-gradient(to bottom right, var(--bg-light), #EBF2F7); /* Softer gradient */
+            background: linear-gradient(to bottom right, var(--bg-light), #E8F0F7); /* Softer, more inviting gradient */
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -56,15 +60,15 @@
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            /* Subtle background pattern */
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C9C9C' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zm12 12V8h-2v4h-4v2h4v4h2v-4h4v-2h-4zM12 34v-4H10v4H6v2h4v4h2v-4h4v-2h-4zm0-30V0H10v4H6v2h4v4h2V6H8V4h4zm24 24v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0 24v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM0 34v-4H-2v4h-4v2h4v4h2v-4h4v-2H0zm0-24V0H-2v4h-4v2h4v4h2V6H-4V4h4zm48 24v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0 24v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM24 0v-4h-2v4h-4v2h4v4h2V6h4V4h-4zM0 8V-2H-2v10h-4v2h4v4h2v-4h4V8H0zm24 48v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-24v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-24V0h-2v4h-4v2h4v4h2V6h4V4h-4zM48 8V-2h-2v10h-4v2h4v4h2v-4h4V8h-4zM24 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM12 48v-4H10v4H6v2h4v4h2v-4h4v-2h-4zm-12 0v-4H-2v4h-4v2h4v4h2v-4h4v-2H0zM36 48v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM12 12V8H10v4H6v2h4v4h2v-4h4v-2h-4zm24-8V-2h-2v10h-4v2h4v4h2v-4h4V4h-4zm-24 48v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM0 48v-4H-2v4h-4v2h4v4h2v-4h4v-2H0zM48 48v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            background-attachment: fixed; /* Keep pattern fixed while scrolling */
+            /* Subtle background pattern for texture */
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C9C9C' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zm12 12V8h-2v4h-4v2h4v4h2v-4h4v-2h-4zM12 34v-4H10v4H6v2h4v4h2v-4h4v-2h-4zm0-30V0H10v4H6v2h4v4h2V6H8V4h4zm24 24v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0 24v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM0 34v-4H-2v4h-4v2h4v4h2v-4h4v-2H0zm0-24V0H-2v4h-4v2h4v4h2V6H-4V4h4zm48 24v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0 24v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM24 0v-4h-2v4h-4v2h4v4h2V6h4V4h-4zM0 8V-2H-2v10h-4v2h4v4h2v-4h4V8H0zm24 48v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-24v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-24V0h-2v4h-4v2h4v4h2V6h4V4h-4zM48 8V-2h-2v10h-4v2h4v4h2v-4h4V8H-4zM24 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM12 48v-4H10v4H6v2h4v4h2v-4h4v-2h-4zm-12 0v-4H-2v4h-4v2h4v4h2v-4h4v-2H0zM36 48v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM12 12V8H10v4H6v2h4v4h2v-4h4v-2h-4zm24-8V-2h-2v10h-4v2h4v4h2v-4h4V4h-4zm-24 48v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM0 48v-4H-2v4h-4v2h4v4h2v-4h4v-2H0zM48 48v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            background-attachment: fixed;
         }
 
         .container {
-            max-width: 1100px;
+            max-width: 1200px; /* Wider container for more content */
             margin: 0 auto;
-            padding: 30px; /* Increased padding */
+            padding: 40px; /* Increased padding */
             flex-grow: 1;
             width: 100%;
         }
@@ -72,16 +76,29 @@
         /* Header */
         .header {
             text-align: center;
-            padding: 40px 20px; /* More padding */
+            padding: 50px 20px; /* More generous padding */
             background: linear-gradient(135deg, var(--growvest-dark), var(--growvest-medium));
             color: var(--text-light);
-            border-bottom-left-radius: 20px; /* More rounded */
-            border-bottom-right-radius: 20px;
-            box-shadow: var(--shadow-elevation-3); /* Stronger shadow */
-            margin-bottom: 40px; /* More space */
+            border-bottom-left-radius: 25px; /* More rounded */
+            border-bottom-right-radius: 25px;
+            box-shadow: var(--elevation-4); /* Strongest shadow */
+            margin-bottom: 50px; /* More space */
             position: relative;
             background-size: 200% 200%;
-            animation: gradientAnimation 12s ease infinite; /* Slower animation */
+            animation: gradientAnimation 15s ease infinite; /* Slower, smoother animation */
+            overflow: hidden; /* For subtle overlay */
+            padding-top: 80px; /* Make space for top nav */
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top left, rgba(255,255,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
         }
 
         @keyframes gradientAnimation {
@@ -91,47 +108,108 @@
         }
 
         .header h1 {
-            font-size: 3.5rem; /* Larger title */
-            margin-bottom: 20px; /* More space */
-            font-weight: 800;
-            text-shadow: 2px 2px 5px rgba(0,0,0,0.3); /* More pronounced shadow */
+            font-size: 4.5rem; /* Even larger title */
+            margin-bottom: 25px; /* More space */
+            font-weight: 900; /* Extra bold */
+            text-shadow: 3px 3px 7px rgba(0,0,0,0.4); /* More pronounced shadow */
+            letter-spacing: 1px;
         }
 
         .header p {
-            font-size: 1.2rem; /* Larger text */
-            margin-bottom: 20px;
-            color: rgba(255, 255, 255, 0.95);
-            max-width: 800px;
+            font-size: 1.3rem; /* Larger text */
+            margin-bottom: 25px;
+            color: rgba(255, 255, 255, 0.98);
+            max-width: 900px;
             margin-left: auto;
             margin-right: auto;
+            line-height: 1.6;
         }
+
+        /* Top Navigation for Login/Signup */
+        .top-nav {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            padding: 20px 40px; /* Padding for the top nav */
+            z-index: 10;
+        }
+
+        .top-nav .nav-button {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
+            margin-left: 15px;
+            background-color: rgba(255, 255, 255, 0.15);
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: var(--elevation-1);
+        }
+
+        .top-nav .nav-button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .top-nav .nav-button.signup {
+            background: var(--accent-gold);
+            color: var(--growvest-dark);
+            font-weight: 700;
+            border: 1px solid var(--dark-gold);
+        }
+
+        .top-nav .nav-button.signup:hover {
+            background: var(--dark-gold);
+            color: var(--text-light);
+        }
+
 
         /* Investment Cards Layout */
         .investment-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Slightly larger min-width */
-            gap: 35px; /* More space between cards */
-            margin-top: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* Larger min-width for cards */
+            gap: 40px; /* More space between cards */
+            margin-top: 50px;
         }
 
         .investment-card {
             background-color: var(--card-bg);
-            border-radius: 16px; /* More rounded */
-            box-shadow: var(--shadow-elevation-1); /* Subtle initial shadow */
+            border-radius: 20px; /* More rounded */
+            box-shadow: var(--elevation-2); /* Stronger initial shadow */
             overflow: hidden;
-            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother transition */
+            transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother transition */
             border: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
+            position: relative;
+        }
+
+        .investment-card::before { /* Subtle top border/accent */
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(to right, var(--primary-green), var(--light-green));
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
         }
 
         .investment-card:hover {
-            transform: translateY(-12px); /* More pronounced lift */
-            box-shadow: var(--shadow-elevation-3); /* Stronger shadow on hover */
+            transform: translateY(-15px) scale(1.02); /* More pronounced lift and slight scale */
+            box-shadow: var(--elevation-4); /* Strongest shadow on hover */
         }
 
         .investment-card .card-content {
-            padding: 30px; /* Increased padding */
+            padding: 35px; /* Increased padding */
             flex-grow: 1;
             display: flex;
             flex-direction: column;
@@ -139,92 +217,107 @@
         }
 
         .investment-card h3 {
-            font-size: 2.2rem; /* Larger card titles */
+            font-size: 2.5rem; /* Larger card titles */
             color: var(--growvest-dark);
-            margin-bottom: 18px; /* More space */
-            font-weight: 700;
+            margin-bottom: 20px; /* More space */
+            font-weight: 800; /* Extra bold */
             text-align: center;
             line-height: 1.2;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
         }
 
         .investment-card p {
-            font-size: 1.05rem; /* Slightly larger text */
+            font-size: 1.15rem; /* Larger text */
             color: var(--text-medium);
-            margin-bottom: 25px; /* More space */
+            margin-bottom: 30px; /* More space */
             line-height: 1.8;
         }
 
         .investment-card .growth-indicator {
             margin-top: auto;
-            padding-top: 20px; /* More padding */
-            border-top: 2px dashed rgba(var(--growvest-light), 0.5); /* Thicker, slightly transparent dash */
+            padding-top: 25px; /* More padding */
+            border-top: 3px dashed rgba(var(--growvest-light), 0.6); /* Thicker, slightly transparent dash */
             text-align: center;
-            font-size: 1rem; /* Slightly larger */
+            font-size: 1.1rem; /* Slightly larger */
             color: var(--growvest-text);
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .investment-card .growth-indicator i {
             color: var(--growvest-accent);
-            margin-right: 10px; /* More space */
-            font-size: 1.2rem; /* Larger icon */
+            margin-right: 12px; /* More space */
+            font-size: 1.3rem; /* Larger icon */
         }
 
         /* Conceptual Scale Graph */
         .scale-graph {
-            width: 90%; /* Wider bar */
-            height: 12px; /* Thicker bar */
+            width: 95%; /* Wider bar */
+            height: 15px; /* Thicker bar */
             background-color: #e0e0e0;
-            border-radius: 6px; /* More rounded */
-            margin: 15px auto 25px auto; /* More space */
+            border-radius: 8px; /* More rounded */
+            margin: 20px auto 30px auto; /* More space */
             position: relative;
             overflow: hidden;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1); /* Inner shadow for depth */
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.15); /* Inner shadow for depth */
         }
 
         .scale-graph-fill {
             height: 100%;
             background: linear-gradient(to right, var(--growvest-light), var(--growvest-medium), var(--growvest-dark));
             width: 0%; /* Will be animated by JS */
-            border-radius: 6px;
-            transition: width 2.5s cubic-bezier(0.23, 1, 0.32, 1); /* Slower, smoother ease-out */
+            border-radius: 8px;
+            transition: width 3s cubic-bezier(0.23, 1, 0.32, 1); /* Slower, smoother ease-out */
+            position: relative;
+            z-index: 1;
         }
+        .scale-graph-fill::after { /* Subtle glow effect */
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 30px;
+            height: 100%;
+            background: rgba(255,255,255,0.3);
+            filter: blur(5px);
+            border-radius: 8px;
+        }
+
 
         /* Media Gallery within Cards */
         .media-gallery {
-            margin-top: 25px; /* More space */
-            padding-top: 25px;
+            margin-top: 30px; /* More space */
+            padding-top: 30px;
             border-top: 1px solid var(--border-color);
         }
 
         .media-gallery h4 {
-            font-size: 1.4rem; /* Larger title */
+            font-size: 1.6rem; /* Larger title */
             color: var(--growvest-dark);
-            margin-bottom: 18px;
+            margin-bottom: 20px;
             text-align: center;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .media-gallery .images-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); /* Slightly larger min-width */
-            gap: 12px; /* More space */
-            margin-bottom: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Slightly larger min-width */
+            gap: 15px; /* More space */
+            margin-bottom: 30px;
         }
 
         .media-gallery .images-grid img {
             width: 100%;
-            height: 130px; /* Uniform height for gallery images */
+            height: 140px; /* Uniform height for gallery images */
             object-fit: cover;
-            border-radius: 10px; /* More rounded */
-            box-shadow: var(--shadow-elevation-1);
+            border-radius: 12px; /* More rounded */
+            box-shadow: var(--elevation-1);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid rgba(var(--border-color), 0.5); /* Subtle border */
+            border: 2px solid rgba(var(--border-color), 0.7); /* More prominent border */
         }
 
         .media-gallery .images-grid img:hover {
-            transform: scale(1.07); /* More pronounced scale */
-            box-shadow: var(--shadow-elevation-2);
+            transform: scale(1.1); /* More pronounced scale */
+            box-shadow: var(--elevation-3);
         }
 
         .media-gallery .video-wrapper {
@@ -232,10 +325,11 @@
             width: 100%;
             padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
             height: 0;
-            margin-bottom: 20px;
-            border-radius: 10px;
+            margin-bottom: 25px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: var(--shadow-elevation-2);
+            box-shadow: var(--elevation-3);
+            background-color: #000; /* Black background for video */
         }
 
         .media-gallery .video-wrapper iframe {
@@ -245,75 +339,143 @@
             width: 100%;
             height: 100%;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
         }
 
         .media-gallery .media-caption {
-            font-size: 0.95rem; /* Slightly larger */
+            font-size: 1rem; /* Slightly larger */
             color: var(--text-medium);
             text-align: center;
-            margin-top: 8px; /* More space */
+            margin-top: 10px; /* More space */
             font-style: italic;
         }
 
-        /* General GrowVest Intro Section */
-        .growvest-intro-section {
+        /* General Section Styling */
+        section {
             background-color: var(--card-bg);
-            padding: 40px; /* More padding */
-            border-radius: 16px; /* More rounded */
-            box-shadow: var(--shadow-elevation-2);
-            margin-bottom: 40px;
-            border: 1px solid var(--growvest-light);
+            padding: 45px; /* More generous padding */
+            border-radius: 20px; /* More rounded */
+            box-shadow: var(--elevation-3);
+            margin-bottom: 50px;
+            border: 1px solid var(--border-color);
             text-align: center;
+            position: relative; /* For overlays/patterns */
+            overflow: hidden;
         }
-        .growvest-intro-section h2 {
-            font-size: 2.8rem; /* Larger title */
-            color: var(--growvest-dark);
-            margin-bottom: 30px; /* More space */
-            border-bottom: 4px solid var(--growvest-medium); /* Thicker border */
+        section h2 {
+            font-size: 3.2rem; /* Larger titles for sections */
+            color: var(--primary-green);
+            margin-bottom: 35px; /* More space */
+            border-bottom: 5px solid var(--light-green); /* Thicker border */
             padding-bottom: 20px; /* More padding */
-            font-weight: 700;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            position: relative;
+            display: inline-block; /* To make border-bottom fit content */
         }
-        .growvest-intro-section p {
-            font-size: 1.1rem; /* Slightly larger */
+        section h2 i {
+            margin-right: 15px;
+            color: var(--accent-gold); /* Gold icon */
+        }
+        section p {
+            font-size: 1.15rem; /* Slightly larger */
             color: var(--text-medium);
             margin-bottom: 30px;
-            line-height: 1.8;
+            line-height: 1.9; /* Increased line height for readability */
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
         }
-        .growvest-intro-section .video-wrapper {
-            max-width: 850px; /* Wider video */
-            margin: 0 auto 30px auto;
+        section ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 30px;
+            text-align: left;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
-
+        section ul li {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            position: relative;
+            padding-left: 35px;
+            line-height: 1.7;
+            font-weight: 500;
+        }
+        section ul li::before {
+            content: '✓';
+            color: var(--primary-green);
+            font-size: 1.5em;
+            position: absolute;
+            left: 0;
+            top: -2px;
+            font-weight: bold;
+        }
+        section ol {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 30px;
+            text-align: left;
+            counter-reset: step-counter;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        section ol li {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            margin-bottom: 15px;
+            position: relative;
+            padding-left: 40px;
+            line-height: 1.7;
+            font-weight: 500;
+        }
+        section ol li::before {
+            counter-increment: step-counter;
+            content: counter(step-counter) ".";
+            color: var(--dark-gold); /* Gold numbers */
+            font-size: 1.4em;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            top: -2px;
+            width: 30px;
+            text-align: right;
+            margin-right: 10px;
+        }
 
         /* CTA Button - adapted for GrowVest */
         .cta-button {
-            display: inline-flex; /* Use flex for icon alignment */
+            display: inline-flex;
             align-items: center;
             justify-content: center;
             width: fit-content;
-            margin: 40px auto 0 auto; /* Centered with more vertical margin */
-            padding: 18px 35px; /* More padding */
-            background: linear-gradient(135deg, var(--growvest-dark), #6a3510); /* Gradient for button */
+            margin: 45px auto 0 auto; /* Centered with more vertical margin */
+            padding: 20px 40px; /* More padding */
+            background: linear-gradient(135deg, var(--growvest-dark), #6a3510);
             color: var(--text-light);
             text-decoration: none;
-            border-radius: 12px; /* More rounded */
-            font-weight: 700;
-            font-size: 1.2rem; /* Larger font */
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 15px rgba(139, 69, 19, 0.4); /* Stronger shadow */
-            gap: 12px; /* Space between text and icon */
-            border: 2px solid var(--growvest-accent); /* Gold border */
+            border-radius: 15px; /* More rounded */
+            font-weight: 800; /* Bolder */
+            font-size: 1.3rem; /* Larger font */
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother transition */
+            box-shadow: var(--elevation-3); /* Stronger shadow */
+            gap: 15px; /* Space between text and icon */
+            border: 3px solid var(--growvest-accent); /* Gold border */
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .cta-button:hover {
-            background: linear-gradient(135deg, #6a3510, var(--growvest-dark)); /* Reverse gradient on hover */
-            transform: translateY(-5px) scale(1.02); /* More pronounced lift and slight scale */
-            box-shadow: 0 12px 25px rgba(139, 69, 19, 0.5);
+            background: linear-gradient(135deg, #6a3510, var(--growvest-dark));
+            transform: translateY(-8px) scale(1.03); /* More pronounced lift and slight scale */
+            box-shadow: var(--elevation-4);
         }
         .cta-button:active {
             transform: translateY(0);
-            box-shadow: 0 4px 8px rgba(139, 69, 19, 0.2);
+            box-shadow: var(--elevation-2);
         }
 
 
@@ -322,179 +484,8 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 15px 30px; /* More padding */
-            background: linear-gradient(45deg, var(--primary-green), var(--light-green)); /* Green gradient */
-            color: white;
-            border: none;
-            border-radius: 10px; /* More rounded */
-            font-weight: 600;
-            font-size: 1.1rem; /* Larger font */
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: var(--shadow-elevation-1);
-            margin-top: 25px; /* More space */
-            width: 100%;
-            border: 1px solid rgba(255,255,255,0.3); /* Subtle white border */
-        }
-
-        .invest-now-btn:hover {
-            background: linear-gradient(45deg, var(--light-green), var(--primary-green)); /* Reverse gradient on hover */
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-elevation-2);
-        }
-        .invest-now-btn:active {
-            transform: translateY(0);
-            box-shadow: var(--shadow-elevation-1);
-        }
-
-
-        /* Footer */
-        .footer {
-            margin-top: 60px; /* More space */
-            padding: 30px 20px; /* More padding */
-            background-color: var(--text-dark);
-            color: var(--text-light);
-            text-align: center;
-            font-size: 0.95rem;
-            border-top: 6px solid var(--growvest-dark); /* Thicker border */
-            border-top-left-radius: 20px; /* More rounded */
-            border-top-right-radius: 20px;
-            box-shadow: 0 -6px 15px var(--shadow-medium);
-        }
-
-        .footer p {
-            margin: 0 0 12px 0; /* More space */
-            line-height: 1.6;
-        }
-
-        .footer a {
-            color: var(--growvest-light);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .footer a:hover {
-            color: #fff;
-            text-decoration: underline; /* Add underline on hover */
-        }
-
-        .footer-social-links {
-            margin-top: 20px; /* More space */
-            display: flex;
-            justify-content: center;
-            gap: 25px; /* More space */
-        }
-
-        .footer-social-links a {
-            font-size: 2rem; /* Larger icons */
-            color: rgba(255, 255, 255, 0.8); /* Slightly more opaque */
-            transition: color 0.3s ease, transform 0.2s ease;
-        }
-
-        .footer-social-links a:hover {
-            color: var(--growvest-accent); /* Gold on hover */
-            transform: translateY(-5px) rotate(5deg); /* Lift and subtle rotate */
-        }
-
-        /* Back to Top Button */
-        #backToTopBtn {
-            display: none;
-            position: fixed;
-            bottom: 40px; /* More space from bottom */
-            right: 40px; /* More space from right */
-            z-index: 99;
-            font-size: 22px; /* Larger icon */
-            border: none;
-            outline: none;
-            background-color: var(--primary-green);
-            color: white;
-            cursor: pointer;
-            padding: 16px 20px; /* More padding */
-            border-radius: 50%;
-            box-shadow: var(--shadow-elevation-2);
-            transition: background-color 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
-            opacity: 0.9; /* Slightly more opaque */
-        }
-
-        #backToTopBtn:hover {
-            background-color: var(--dark-blue);
-            transform: translateY(-7px) scale(1.05); /* More lift and scale */
-            opacity: 1;
-        }
-
-        /* Investment Calculator Section */
-        .investment-calculator-section {
-            background-color: var(--card-bg);
-            padding: 40px; /* More padding */
-            border-radius: 16px; /* More rounded */
-            box-shadow: var(--shadow-elevation-2);
-            margin-bottom: 40px;
-            border: 1px solid var(--accent-blue);
-            text-align: center;
-        }
-        .investment-calculator-section h2 {
-            font-size: 2.8rem; /* Larger title */
-            color: var(--accent-blue);
-            margin-bottom: 30px;
-            border-bottom: 4px solid var(--dark-blue);
-            padding-bottom: 20px;
-            font-weight: 700;
-        }
-        .investment-calculator-section p {
-            font-size: 1.1rem;
-            color: var(--text-medium);
-            margin-bottom: 30px;
-            line-height: 1.8;
-        }
-        .calculator-form {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 25px; /* More space */
-            margin-bottom: 35px;
-        }
-        .calculator-form .form-group {
-            flex: 1 1 calc(50% - 25px);
-            min-width: 300px; /* Slightly larger min-width */
-            text-align: left;
-        }
-        .calculator-form .form-group.duration-group {
-            display: flex;
-            gap: 15px; /* More space */
-            align-items: flex-end;
-        }
-        .calculator-form .form-group.duration-group input {
-            flex: 1;
-        }
-        .calculator-form .form-group.duration-group select {
-            flex: 0 0 110px; /* Slightly wider select */
-        }
-
-        .calculator-form label {
-            display: block;
-            margin-bottom: 10px; /* More space */
-            font-weight: 600;
-            color: var(--text-dark);
-            font-size: 1.05rem; /* Slightly larger */
-        }
-        .calculator-form input, .calculator-form select {
-            width: 100%;
-            padding: 14px; /* More padding */
-            border: 1px solid var(--border-color);
-            border-radius: 10px; /* More rounded */
-            font-size: 1.05rem; /* Slightly larger */
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-            background-color: #fcfcfc;
-            color: var(--text-dark); /* Ensure text color is dark */
-        }
-        .calculator-form input:focus, .calculator-form select:focus {
-            border-color: var(--accent-blue);
-            outline: none;
-            box-shadow: 0 0 0 4px rgba(33, 150, 243, 0.3); /* Stronger focus shadow */
-        }
-        .calculate-btn {
             padding: 18px 35px; /* More padding */
-            background: linear-gradient(135deg, var(--accent-blue), var(--dark-blue)); /* Blue gradient */
+            background: linear-gradient(45deg, var(--primary-green), var(--light-green));
             color: white;
             border: none;
             border-radius: 12px; /* More rounded */
@@ -502,76 +493,246 @@
             font-size: 1.2rem; /* Larger font */
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 8px 15px rgba(33, 150, 243, 0.4);
+            box-shadow: var(--elevation-2);
+            margin-top: 30px; /* More space */
+            width: 100%;
+            border: 2px solid rgba(255,255,255,0.4); /* Subtle white border */
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            text-decoration: none; /* Important for <a> tags */
+        }
+
+        .invest-now-btn:hover {
+            background: linear-gradient(45deg, var(--light-green), var(--primary-green));
+            transform: translateY(-5px);
+            box-shadow: var(--elevation-3);
+        }
+        .invest-now-btn:active {
+            transform: translateY(0);
+            box-shadow: var(--elevation-1);
+        }
+
+
+        /* Footer */
+        .footer {
+            margin-top: 70px; /* More space */
+            padding: 40px 20px; /* More padding */
+            background-color: var(--growvest-dark); /* Dark brown footer */
+            color: var(--text-light);
+            text-align: center;
+            font-size: 1rem;
+            border-top: 8px solid var(--growvest-medium); /* Thicker border */
+            border-top-left-radius: 25px; /* More rounded */
+            border-top-right-radius: 25px;
+            box-shadow: 0 -8px 20px var(--shadow-strong);
+            line-height: 1.6;
+        }
+
+        .footer p {
+            margin: 0 0 15px 0; /* More space */
+            line-height: 1.7;
+        }
+
+        .footer a {
+            color: var(--growvest-accent); /* Gold links */
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        .footer-social-links {
+            margin-top: 25px; /* More space */
+            display: flex;
+            justify-content: center;
+            gap: 30px; /* More space */
+        }
+
+        .footer-social-links a {
+            font-size: 2.2rem; /* Larger icons */
+            color: rgba(255, 255, 255, 0.85); /* Slightly more opaque */
+            transition: color 0.3s ease, transform 0.2s ease;
+        }
+
+        .footer-social-links a:hover {
+            color: var(--growvest-accent);
+            transform: translateY(-7px) rotate(8deg); /* Lift and subtle rotate */
+        }
+
+        /* Back to Top Button */
+        #backToTopBtn {
+            display: none;
+            position: fixed;
+            bottom: 45px; /* More space from bottom */
+            right: 45px; /* More space from right */
+            z-index: 99;
+            font-size: 24px; /* Larger icon */
+            border: none;
+            outline: none;
+            background-color: var(--primary-green);
+            color: white;
+            cursor: pointer;
+            padding: 18px 22px; /* More padding */
+            border-radius: 50%;
+            box-shadow: var(--elevation-3);
+            transition: background-color 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
+            opacity: 0.95; /* More opaque */
+        }
+
+        #backToTopBtn:hover {
+            background-color: var(--dark-blue); /* Dark blue on hover */
+            transform: translateY(-10px) scale(1.1); /* More lift and scale */
+            opacity: 1;
+        }
+
+        /* Investment Calculator Section */
+        .investment-calculator-section {
+            background-color: var(--card-bg);
+            padding: 45px; /* More padding */
+            border-radius: 20px; /* More rounded */
+            box-shadow: var(--elevation-3);
+            margin-bottom: 50px;
+            border: 1px solid var(--info-color); /* Blue border for calculator */
+            text-align: center;
+        }
+        .investment-calculator-section h2 {
+            color: var(--info-color); /* Blue for calculator heading */
+            border-bottom-color: var(--dark-blue);
+        }
+        .investment-calculator-section h2 i {
+            color: var(--growvest-accent); /* Gold icon */
+        }
+        .calculator-form {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px; /* More space */
+            margin-bottom: 40px;
+        }
+        .calculator-form .form-group {
+            flex: 1 1 calc(50% - 30px);
+            min-width: 320px; /* Slightly larger min-width */
+            text-align: left;
+        }
+        .calculator-form .form-group.duration-group {
+            display: flex;
+            gap: 20px; /* More space */
+            align-items: flex-end;
+        }
+        .calculator-form .form-group.duration-group input {
+            flex: 1;
+        }
+        .calculator-form .form-group.duration-group select {
+            flex: 0 0 120px; /* Slightly wider select */
+        }
+
+        .calculator-form label {
+            display: block;
+            margin-bottom: 12px; /* More space */
+            font-weight: 700;
+            color: var(--text-dark);
+            font-size: 1.1rem; /* Slightly larger */
+        }
+        .calculator-form input, .calculator-form select {
+            width: 100%;
+            padding: 16px; /* More padding */
+            border: 2px solid var(--border-color); /* Thicker border */
+            border-radius: 12px; /* More rounded */
+            font-size: 1.1rem; /* Slightly larger */
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            background-color: #fcfcfc;
+            color: var(--text-dark);
+        }
+        .calculator-form input:focus, .calculator-form select:focus {
+            border-color: var(--info-color);
+            outline: none;
+            box-shadow: 0 0 0 5px rgba(33, 150, 243, 0.3); /* Stronger focus shadow */
+        }
+        .calculate-btn {
+            padding: 20px 40px; /* More padding */
+            background: linear-gradient(135deg, var(--info-color), var(--dark-blue)); /* Blue gradient */
+            color: white;
+            border: none;
+            border-radius: 15px; /* More rounded */
+            font-weight: 800;
+            font-size: 1.3rem; /* Larger font */
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: var(--elevation-3);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
+            gap: 15px;
             width: fit-content;
             margin: 0 auto;
-            border: 2px solid rgba(255,255,255,0.3); /* Subtle white border */
+            border: 3px solid rgba(255,255,255,0.4); /* Subtle white border */
+            text-transform: uppercase;
         }
         .calculate-btn:hover {
-            background: linear-gradient(135deg, var(--dark-blue), var(--accent-blue)); /* Reverse gradient on hover */
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 12px 25px rgba(33, 150, 243, 0.5);
+            background: linear-gradient(135deg, var(--dark-blue), var(--info-color));
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: var(--elevation-4);
         }
         .calculate-btn:active {
             transform: translateY(0);
-            box-shadow: 0 4px 8px rgba(33, 150, 243, 0.2);
+            box-shadow: var(--elevation-2);
         }
 
         .calculator-results {
-            margin-top: 35px; /* More space */
-            padding: 30px; /* More padding */
+            margin-top: 40px; /* More space */
+            padding: 35px; /* More padding */
             background-color: #E3F2FD; /* Light blue background */
             border: 2px solid #90CAF9; /* Thicker border */
-            border-radius: 12px; /* More rounded */
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.08); /* More pronounced inner shadow */
-            text-align: left; /* Align text left for readability */
+            border-radius: 15px; /* More rounded */
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.1); /* More pronounced inner shadow */
+            text-align: left;
         }
         .calculator-results h3 {
-            font-size: 2rem; /* Larger title */
+            font-size: 2.2rem; /* Larger title */
             color: var(--dark-blue);
-            margin-bottom: 20px;
-            text-align: center; /* Center title */
+            margin-bottom: 25px;
+            text-align: center;
         }
         .calculator-results p {
-            font-size: 1.2rem; /* Larger text */
+            font-size: 1.3rem; /* Larger text */
             color: var(--text-dark);
-            margin-bottom: 12px;
+            margin-bottom: 15px;
             display: flex;
-            justify-content: space-between; /* Space out label and value */
+            justify-content: space-between;
             align-items: baseline;
+            font-weight: 600;
         }
         .calculator-results p:last-child {
             margin-bottom: 0;
         }
         .calculator-results span {
-            font-weight: 800; /* Bolder numbers */
+            font-weight: 900; /* Bolder numbers */
             color: var(--primary-green);
-            font-size: 1.3rem; /* Even larger numbers */
+            font-size: 1.5rem; /* Even larger numbers */
         }
         .calculator-message {
-            margin-top: 25px; /* More space */
-            font-size: 1.05rem; /* Slightly larger */
-            font-weight: 600;
-            padding: 12px 20px; /* More padding */
-            border-radius: 10px; /* More rounded */
-            display: none;
+            margin-top: 30px; /* More space */
+            font-size: 1.1rem; /* Slightly larger */
+            font-weight: 700;
+            padding: 15px 25px; /* More padding */
+            border-radius: 12px; /* More rounded */
+            display: none; /* Hidden by default */
             align-items: center;
             justify-content: center;
-            gap: 10px; /* More space */
-            box-shadow: var(--shadow-elevation-1); /* Subtle shadow */
+            gap: 12px; /* More space */
+            box-shadow: var(--elevation-1);
         }
         .calculator-message.info {
             background-color: #e0f7fa;
-            color: var(--info-blue);
+            color: var(--info-color);
             border: 1px solid #b2ebf2;
         }
         .calculator-message.success {
             background-color: #e6ffe6;
-            color: var(--success-green);
+            color: var(--success-color);
             border: 1px solid #a8e6a8;
         }
         .calculator-message.error {
@@ -579,89 +740,503 @@
             color: var(--danger-color);
             border: 1px solid #ffb3b3;
         }
-        
+
         /* Testimonials Section */
         .testimonials-section {
             background-color: var(--card-bg);
-            padding: 40px; /* More padding */
-            border-radius: 16px; /* More rounded */
-            box-shadow: var(--shadow-elevation-2);
-            margin-bottom: 40px;
+            padding: 45px;
+            border-radius: 20px;
+            box-shadow: var(--elevation-3);
+            margin-bottom: 50px;
             border: 1px solid var(--growvest-accent);
             text-align: center;
         }
         .testimonials-section h2 {
-            font-size: 2.8rem; /* Larger title */
-            color: var(--growvest-accent);
-            margin-bottom: 30px;
-            border-bottom: 4px solid var(--growvest-light);
-            padding-bottom: 20px;
-            font-weight: 700;
+            color: var(--growvest-accent); /* Gold for testimonials heading */
+            border-bottom-color: var(--dark-gold);
+        }
+        .testimonials-section h2 i {
+            color: var(--primary-green); /* Green icon */
         }
         .testimonials-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Slightly larger min-width */
-            gap: 30px; /* More space */
-            margin-top: 35px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Slightly larger min-width */
+            gap: 35px; /* More space */
+            margin-top: 40px;
         }
         .testimonial-card {
             background-color: #FFFDE7; /* Very light yellow for testimonials */
             border: 1px solid #FFECB3;
-            border-radius: 12px; /* More rounded */
-            padding: 30px; /* More padding */
-            box-shadow: var(--shadow-elevation-1);
+            border-radius: 15px; /* More rounded */
+            padding: 35px; /* More padding */
+            box-shadow: var(--elevation-2);
             text-align: left;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+        .testimonial-card::before { /* Quote icon as background */
+            content: '\201C'; /* Left double quotation mark */
+            font-family: serif;
+            font-size: 6em;
+            color: rgba(255, 193, 7, 0.1); /* Very light gold */
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            z-index: 0;
         }
         .testimonial-card:hover {
-            transform: translateY(-8px); /* More lift */
-            box-shadow: var(--shadow-elevation-2);
+            transform: translateY(-10px); /* More lift */
+            box-shadow: var(--elevation-3);
         }
         .testimonial-card .quote {
             font-style: italic;
             color: var(--text-medium);
-            margin-bottom: 20px; /* More space */
-            line-height: 1.7;
+            margin-bottom: 25px; /* More space */
+            line-height: 1.8;
             flex-grow: 1;
-            font-size: 1.05rem; /* Slightly larger */
+            font-size: 1.1rem; /* Slightly larger */
+            position: relative;
+            z-index: 1;
         }
         .testimonial-card .author-info {
             display: flex;
             align-items: center;
-            gap: 18px; /* More space */
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 2px dashed var(--growvest-accent); /* Thicker dash */
+            gap: 20px; /* More space */
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 3px dashed var(--growvest-accent); /* Thicker dash */
+            position: relative;
+            z-index: 1;
         }
         .testimonial-card .author-avatar {
-            width: 70px; /* Larger avatar */
-            height: 70px;
+            width: 80px; /* Larger avatar */
+            height: 80px;
             border-radius: 50%;
             object-fit: cover;
-            border: 4px solid var(--growvest-accent); /* Thicker border */
-            box-shadow: 0 3px 8px rgba(0,0,0,0.15); /* More pronounced shadow */
+            border: 5px solid var(--growvest-accent); /* Thicker border */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2); /* More pronounced shadow */
         }
         .testimonial-card .author-name {
-            font-weight: 700;
+            font-weight: 800;
             color: var(--growvest-dark);
-            font-size: 1.2rem; /* Larger font */
+            font-size: 1.3rem; /* Larger font */
         }
         .testimonial-card .author-investment {
-            font-size: 0.95rem; /* Slightly larger */
+            font-size: 1rem; /* Slightly larger */
             color: var(--growvest-text);
         }
 
+        /* Risk Disclosure Section */
+        .risk-disclosure-section {
+            background-color: #FFF3E0; /* Light orange background */
+            border: 1px solid #FFCC80; /* Orange border */
+            box-shadow: var(--elevation-3);
+            margin-bottom: 50px;
+            padding: 45px;
+        }
+        .risk-disclosure-section h2 {
+            color: var(--danger-color); /* Red for warning */
+            border-bottom-color: #FF8A65;
+        }
+        .risk-disclosure-section h2 i {
+            color: var(--danger-color); /* Red icon */
+        }
+        .risk-disclosure-section p {
+            font-weight: 600;
+            color: var(--growvest-text);
+        }
+        .risk-disclosure-section ul {
+            list-style: disc; /* Standard bullet points */
+            margin-left: 20px;
+            text-align: left;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .risk-disclosure-section ul li {
+            font-size: 1.05rem;
+            color: var(--text-medium);
+            margin-bottom: 10px;
+            line-height: 1.6;
+            font-weight: 400;
+            padding-left: 0; /* Remove custom padding */
+        }
+        .risk-disclosure-section ul li::before {
+            content: none; /* Remove custom bullet */
+        }
+        .risk-disclosure-section strong {
+            color: var(--danger-color);
+        }
+
+        /* Final Call to Action Section */
+        .final-cta-section {
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+            color: var(--text-light);
+            padding: 60px 40px; /* Even more padding */
+            border-radius: 25px;
+            box-shadow: var(--elevation-4);
+            text-align: center;
+            margin-top: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+        .final-cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zm12 12V8h-2v4h-4v2h4v4h2v-4h4v-2h-4zM12 34v-4H10v4H6v2h4v4h2v-4h4v-2h-4zm0-30V0H10v4H6v2h4v4h2V6H8V4h4zm24 24v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0 24v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM0 34v-4H-2v4h-4v2h4v4h2v-4h4v-2H0zm0-24V0H-2v4h-4v2h4v4h2V6H-4V4h4zm48 24v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0 24v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM24 0v-4h-2v4h-4v2h4v4h2V6h4V4h-4zM0 8V-2H-2v10h-4v2h4v4h2v-4h4V8H0zm24 48v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-24v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-24V0h-2v4h-4v2h4v4h2V6h4V4h-4zM48 8V-2h-2v10h-4v2h4v4h2v-4h4V8H-4zM24 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM12 48v-4H10v4H6v2h4v4h2v-4h4v-2h-4zm-12 0v-4H-2v4h-4v2h4v4h2v-4h4v-2H0zM36 48v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM12 12V8H10v4H6v2h4v4h2v-4h4v-2h-4zm24-8V-2h-2v10h-4v2h4v4h2v-4h4V4h-4zm-24 48v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM0 48v-4H-2v4h-4v2h4v4h2v-4h4v-2H0zM48 48v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") no-repeat center center;
+            background-size: cover;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        .final-cta-section h2 {
+            font-size: 3.8rem; /* Very large title */
+            color: var(--text-light);
+            margin-bottom: 30px;
+            border-bottom: none; /* No border for this section title */
+            padding-bottom: 0;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
+        .final-cta-section p {
+            font-size: 1.4rem; /* Larger text */
+            color: rgba(255, 255, 255, 0.95);
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+        }
+        .final-cta-section .cta-button {
+            background: var(--growvest-accent); /* Gold button */
+            color: var(--growvest-dark); /* Dark text on gold */
+            border: 3px solid rgba(0,0,0,0.2);
+            box-shadow: 0 10px 25px rgba(255, 193, 7, 0.4);
+            position: relative;
+            z-index: 1;
+        }
+        .final-cta-section .cta-button:hover {
+            background: var(--dark-gold);
+            box-shadow: 0 15px 35px rgba(255, 193, 7, 0.6);
+        }
+
+        /* --- New Styles for Added Sections --- */
+
+        /* FAQ Section */
+        .faq-section {
+            background-color: var(--card-bg);
+            padding: 45px;
+            border-radius: 20px;
+            box-shadow: var(--elevation-3);
+            margin-bottom: 50px;
+            border: 1px solid var(--primary-green);
+            text-align: center;
+        }
+        .faq-section h2 {
+            color: var(--primary-green);
+            border-bottom-color: var(--light-green);
+        }
+        .faq-section h2 i {
+            color: var(--accent-gold);
+        }
+        .faq-item {
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            text-align: left;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .faq-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .faq-question {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            cursor: pointer;
+            padding: 15px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: color 0.3s ease;
+        }
+        .faq-question:hover {
+            color: var(--primary-green);
+        }
+        .faq-question i {
+            margin-left: 15px;
+            transition: transform 0.3s ease;
+        }
+        .faq-question.active i {
+            transform: rotate(180deg);
+        }
+        .faq-answer {
+            font-size: 1.1rem;
+            color: var(--text-medium);
+            padding: 0 15px 15px 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+            line-height: 1.7;
+        }
+        .faq-answer.active {
+            max-height: 1000px; /* Increased max-height to ensure content is not cut off */
+            padding: 15px 15px 25px 0;
+        }
+
+        /* Recent Transactions Section */
+        .recent-transactions-section {
+            background-color: var(--card-bg);
+            padding: 45px;
+            border-radius: 20px;
+            box-shadow: var(--elevation-3);
+            margin-bottom: 50px;
+            border: 1px solid var(--growvest-medium);
+            text-align: center;
+        }
+        .recent-transactions-section h2 {
+            color: var(--growvest-dark);
+            border-bottom-color: var(--growvest-light);
+        }
+        .recent-transactions-section h2 i {
+            color: var(--accent-gold);
+        }
+        .transactions-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 30px;
+            font-size: 1rem;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .transactions-table th, .transactions-table td {
+            padding: 15px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+        }
+        .transactions-table th {
+            background-color: var(--growvest-light);
+            color: var(--text-dark);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 1.05rem;
+        }
+        .transactions-table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .transactions-table tbody tr:hover {
+            background-color: #f0f0f0;
+            transition: background-color 0.2s ease;
+        }
+        .transactions-table td {
+            color: var(--text-medium);
+        }
+        .transactions-table .amount {
+            font-weight: 600;
+            color: var(--primary-green);
+        }
+        .transactions-table .type {
+            font-weight: 600;
+            color: var(--dark-blue);
+        }
+        .transactions-table .date {
+            font-style: italic;
+            color: var(--text-medium);
+            font-size: 0.95rem;
+        }
+
+        /* Contact Us Section */
+        .contact-section {
+            background-color: var(--card-bg);
+            padding: 45px;
+            border-radius: 20px;
+            box-shadow: var(--elevation-3);
+            margin-bottom: 50px;
+            border: 1px solid var(--growvest-dark);
+            text-align: center;
+        }
+        .contact-section h2 {
+            color: var(--growvest-dark);
+            border-bottom-color: var(--growvest-medium);
+        }
+        .contact-section h2 i {
+            color: var(--accent-gold);
+        }
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            max-width: 700px;
+            margin: 30px auto 0 auto;
+            text-align: left;
+        }
+        .contact-form label {
+            font-weight: 700;
+            color: var(--text-dark);
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 1.1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            background-color: #fcfcfc;
+            color: var(--text-dark);
+        }
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            border-color: var(--growvest-dark);
+            outline: none;
+            box-shadow: 0 0 0 5px rgba(78, 52, 46, 0.2);
+        }
+        .contact-form textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        .contact-form button {
+            padding: 18px 35px;
+            background: linear-gradient(135deg, var(--growvest-dark), var(--growvest-medium));
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--elevation-3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: fit-content;
+            margin: 20px auto 0 auto;
+            border: 2px solid var(--growvest-accent);
+        }
+        .contact-form button:hover {
+            background: linear-gradient(135deg, var(--growvest-medium), var(--growvest-dark));
+            transform: translateY(-5px);
+            box-shadow: var(--elevation-4);
+        }
+        .contact-form button:active {
+            transform: translateY(0);
+            box-shadow: var(--elevation-2);
+        }
+        .contact-message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: none;
+            text-align: center;
+        }
+        .contact-message.success {
+            background-color: #e6ffe6;
+            color: var(--success-color);
+            border: 1px solid #a8e6a8;
+        }
+        .contact-message.error {
+            background-color: #ffe6e6;
+            color: var(--danger-color);
+            border: 1px solid #ffb3b3;
+        }
 
         /* Responsive Adjustments */
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
+            .container {
+                padding: 30px;
+            }
             .header h1 {
+                font-size: 3.8rem;
+            }
+            .header p {
+                font-size: 1.2rem;
+            }
+            .top-nav {
+                padding: 15px 25px;
+            }
+            .top-nav .nav-button {
+                padding: 8px 15px;
+                font-size: 1rem;
+            }
+            .investment-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 30px;
+            }
+            .investment-card h3 {
+                font-size: 2.2rem;
+            }
+            .investment-card p {
+                font-size: 1.05rem;
+            }
+            section h2 {
                 font-size: 2.8rem;
+            }
+            section p {
+                font-size: 1.05rem;
+            }
+            .calculator-form .form-group {
+                min-width: 280px;
+            }
+            .calculator-results p {
+                font-size: 1.2rem;
+            }
+            .final-cta-section h2 {
+                font-size: 3.2rem;
+            }
+            .final-cta-section p {
+                font-size: 1.2rem;
+            }
+            .faq-question {
+                font-size: 1.15rem;
+            }
+            .faq-answer {
+                font-size: 1rem;
+            }
+            .transactions-table th, .transactions-table td {
+                padding: 12px;
+                font-size: 0.95rem;
+            }
+            .contact-form input, .contact-form textarea {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding-top: 100px; /* More space for top nav on smaller screens */
+            }
+            .header h1 {
+                font-size: 3rem;
             }
             .header p {
                 font-size: 1.1rem;
+            }
+            .top-nav {
+                flex-direction: column; /* Stack buttons vertically */
+                align-items: flex-end; /* Align to the right */
+                gap: 10px; /* Space between stacked buttons */
+                padding: 15px 20px;
+            }
+            .top-nav .nav-button {
+                margin-left: 0; /* Remove left margin when stacked */
+                width: fit-content; /* Adjust width */
             }
             .container {
                 padding: 25px;
@@ -695,7 +1270,20 @@
                 padding: 14px 17px;
                 font-size: 20px;
             }
-            .investment-calculator-section h2, .testimonials-section h2 {
+            section h2 {
+                font-size: 2.5rem;
+            }
+            section p {
+                font-size: 1.05rem;
+            }
+            section ul li, section ol li {
+                font-size: 1rem;
+                padding-left: 30px;
+            }
+            section ul li::before, section ol li::before {
+                font-size: 1.3em;
+            }
+            .investment-calculator-section h2, .testimonials-section h2, .risk-disclosure-section h2, .faq-section h2, .recent-transactions-section h2, .contact-section h2 {
                 font-size: 2.2rem;
             }
             .calculator-form .form-group {
@@ -705,6 +1293,7 @@
             .calculator-form .form-group.duration-group {
                 flex-direction: column;
                 align-items: flex-start;
+                gap: 10px;
             }
             .calculator-form .form-group.duration-group select {
                 width: 100%;
@@ -726,14 +1315,52 @@
                 grid-template-columns: 1fr;
             }
             .testimonial-card .author-avatar {
-                width: 60px;
-                height: 60px;
+                width: 70px;
+                height: 70px;
+            }
+            .final-cta-section h2 {
+                font-size: 2.8rem;
+            }
+            .final-cta-section p {
+                font-size: 1.1rem;
+            }
+            .transactions-table thead {
+                display: none; /* Hide table headers on small screens */
+            }
+            .transactions-table, .transactions-table tbody, .transactions-table tr, .transactions-table td {
+                display: block;
+                width: 100%;
+            }
+            .transactions-table tr {
+                margin-bottom: 20px;
+                border: 1px solid var(--border-color);
+                border-radius: 10px;
+                box-shadow: var(--elevation-1);
+            }
+            .transactions-table td {
+                text-align: right;
+                padding-left: 50%;
+                position: relative;
+            }
+            .transactions-table td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 10px;
+                width: calc(50% - 20px);
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: 700;
+                color: var(--growvest-dark);
+            }
+            .contact-form button {
+                width: 100%;
             }
         }
 
         @media (max-width: 480px) {
             .header h1 {
-                font-size: 2.2rem;
+                font-size: 2.5rem;
             }
             .header p {
                 font-size: 1rem;
@@ -766,8 +1393,21 @@
                 padding: 12px 15px;
                 font-size: 18px;
             }
-            .investment-calculator-section h2, .testimonials-section h2 {
+            section h2 {
                 font-size: 2rem;
+            }
+            section p {
+                font-size: 0.95rem;
+            }
+            section ul li, section ol li {
+                font-size: 0.95rem;
+                padding-left: 25px;
+            }
+            section ul li::before, section ol li::before {
+                font-size: 1.2em;
+            }
+            .investment-calculator-section h2, .testimonials-section h2, .risk-disclosure-section h2, .faq-section h2, .recent-transactions-section h2, .contact-section h2 {
+                font-size: 1.8rem;
             }
             .calculator-results h3 {
                 font-size: 1.5rem;
@@ -778,246 +1418,506 @@
             .calculator-results span {
                 font-size: 1.1rem;
             }
+            .final-cta-section h2 {
+                font-size: 2.2rem;
+            }
+            .final-cta-section p {
+                font-size: 1.1rem;
+            }
+            .faq-question {
+                font-size: 1.05rem;
+            }
+            .faq-answer {
+                font-size: 0.95rem;
+            }
         }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>GrowVest: Cultivate Your Future!</h1>
-        <p>Explore tangible investment opportunities that connect you directly with real-world assets. Watch your wealth grow through sustainable agriculture, thriving livestock, and essential resources.</p>
+        <div class="top-nav">
+            <a href="#" class="nav-button">Login</a>
+            <a href="addup.html" class="nav-button signup">Sign Up</a>
+        </div>
+        <h1>GrowVest: Cultivating Elite Futures!</h1>
+        <p>Unlock unparalleled growth with tangible investment opportunities. Connect directly with real-world assets and witness your wealth flourish through sustainable agriculture, thriving livestock, and essential renewable energy projects. Experience the future of ethical and profitable investing.</p>
+        <a href="#investment-opportunities" class="cta-button" style="margin-top: 30px;">
+            <i class="fas fa-seedling"></i> Explore Opportunities
+        </a>
     </div>
 
     <div class="container">
-        <a href="index.html" class="cta-button" style="margin-bottom: 40px;">
+        <a href="index.html" class="cta-button" style="margin-bottom: 40px; background: var(--info-color); border-color: rgba(255,255,255,0.5);">
             <i class="fas fa-arrow-left"></i> Back to COREVEST Home
         </a>
 
         <!-- General GrowVest Introduction Section with Video -->
         <section class="growvest-intro-section">
-            <h2>Welcome to the World of GrowVest!</h2>
+            <h2><i class="fas fa-hand-holding-usd"></i> Welcome to the World of GrowVest!</h2>
             <p>At GrowVest, we bridge the gap between your financial aspirations and the tangible growth of real-world assets. Our platform offers unique investment opportunities in vital sectors, allowing you to contribute to sustainable development while securing impressive returns. Watch our introductory video to see how your investment makes a real impact!</p>
-            <div class="video-wrapper">
-                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="GrowVest Introduction Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <div class="media-gallery">
+                <div class="video-wrapper">
+                    <!-- Added controls, info, and related video parameters for better user experience -->
+                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=0&controls=1&showinfo=0&rel=0" title="GrowVest Introduction Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <p class="media-caption"><em>(This is a real, playable YouTube video embed. In a live environment, this would be an actual GrowVest introductory video showcasing our operations and impact. The video content is a placeholder.)</em></p>
             </div>
-            <p class="media-caption"><em>(This is a real, playable YouTube video embed. In a live environment, this would be an actual GrowVest introductory video showcasing our operations and impact. The video content is a placeholder.)</em></p>
+        </section>
+
+        <!-- Why Invest with GrowVest? Section -->
+        <section class="why-invest-section">
+            <h2><i class="fas fa-chart-line"></i> Why Invest with GrowVest?</h2>
+            <p>Choose GrowVest for a truly impactful and rewarding investment journey. We offer more than just returns; we offer a future.</p>
+            <ul>
+                <li>
+                    <strong>Sustainable Impact:</strong> Your investments directly support eco-friendly and community-benefiting projects.
+                </li>
+                <li>
+                    <strong>Exceptional Growth Potential:</strong> Our carefully curated opportunities are designed for high, consistent returns.
+                </li>
+                <li>
+                    <strong>Unwavering Transparency:</strong> Track every aspect of your investment with detailed, real-time reports.
+                </li>
+                <li>
+                    <strong>Expert Management:</strong> Our seasoned professionals handle all operational complexities, ensuring optimal performance.
+                </li>
+                <li>
+                    <strong>Vibrant Community & Support:1</strong> Join a network of like-minded investors and receive dedicated support.
+                </li>
+            </ul>
+        </section>
+
+        <!-- How GrowVest Works Section -->
+        <section class="how-it-works-section">
+            <h2><i class="fas fa-cogs"></i> How GrowVest Works</h2>
+            <p>Investing with GrowVest is simple, secure, and designed for your success. Follow these easy steps to start cultivating your future.</p>
+            <ol>
+                <li>
+                    <strong>Discover Opportunities:</strong> Browse our diverse portfolio of investment options, from agriculture to renewable energy.
+                </li>
+                <li>
+                    <strong>Calculate & Choose:</strong> Use our advanced calculator to estimate your potential earnings and select the best fit for your goals.
+                </li>
+                <li>
+                    <strong>Invest Securely:</strong> Complete your investment through our streamlined and highly secure platform.
+                </li>
+                <li>
+                    <strong>Monitor Growth:</strong> Watch your investment flourish with regular updates and performance reports.
+                </li>
+                <li>
+                    <strong>Reap Rewards:</strong> Enjoy the substantial returns from your successful, impactful investments.
+                </li>
+            </ol>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section">
+            <h2><i class="fas fa-question-circle"></i> Frequently Asked Questions</h2>
+            <p>Find answers to common questions about GrowVest, our investment opportunities, and how we ensure your success.</p>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    What types of investments does GrowVest offer? <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    GrowVest specializes in tangible, real-world asset investments, primarily focusing on sustainable agriculture (poultry, food cultivation, aquaculture, luxury crops) and renewable energy projects (solar, wind). These opportunities are carefully vetted for high growth potential and ethical practices.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    How are my investments secured? <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    Your investments are secured through direct asset ownership or strong contractual agreements tied to the underlying projects. We partner with reputable operators and employ robust legal frameworks. Our platform uses advanced encryption and security protocols to protect your data and transactions.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    What are the typical returns I can expect? <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    Our investment opportunities are designed for high returns, with estimated annual rates ranging from 150% to 300%, depending on the specific opportunity. These are projections based on market analysis and historical performance, and while we strive for consistency, actual returns may vary. Please refer to our Risk Disclosure.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    How do I monitor my investment's performance? <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    GrowVest provides a user-friendly dashboard where you can track the real-time performance of your investments. You'll receive regular updates, detailed reports, and insights into the progress of the projects you've funded.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    Is GrowVest regulated? <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    GrowVest operates in compliance with relevant local and international regulations governing investment platforms and agricultural/energy projects. We are committed to maintaining the highest standards of transparency and accountability. Specific regulatory details can be provided upon request.
+                </div>
+            </div>
         </section>
 
         <!-- Investment Calculator Section -->
         <section class="investment-calculator-section">
-            <h2><i class="fas fa-calculator"></i> Calculate Your Potential Returns</h2>
-            <p>Use our interactive calculator to estimate your potential earnings. **Please note: these are estimated annual returns, and actual returns may vary.**</p>
+            <h2><i class="fas fa-calculator"></i> Calculate Your Elite Potential Returns</h2>
+            <p>Use our interactive calculator to estimate your potential earnings. **Please note: these are estimated annual returns, and actual returns may vary. Results are for illustrative purposes only.**</p>
             <div class="calculator-form">
                 <div class="form-group">
                     <label for="investmentAmount">Investment Amount (₦):</label>
-                    <input type="number" id="investmentAmount" value="500000" min="10000" step="1000">
+                    <input type="number" id="investmentAmount" value="1000000" min="100000" step="50000">
                 </div>
                 <div class="form-group duration-group">
                     <label for="investmentDurationValue">Investment Duration:</label>
-                    <input type="number" id="investmentDurationValue" value="6" min="1" max="120" step="1">
+                    <input type="number" id="investmentDurationValue" value="12" min="1" max="60" step="1">
                     <select id="investmentDurationUnit">
                         <option value="months">Months</option>
                         <option value="years">Years</option>
                     </select>
                 </div>
                 <div class="form-group" style="flex: 1 1 100%;">
-                    <label for="investmentOpportunity">Choose Opportunity:</label>
+                    <label for="investmentOpportunity">Choose Elite Opportunity:</label>
                     <select id="investmentOpportunity">
-                        <option value="poultry">Poultry Farming (Est. 75% Annually)</option>
-                        <option value="food">Sustainable Food Cultivation (Est. 70% Annually)</option>
-                        <option value="aquaculture">Aquaculture (Fish Farming) (Est. 80% Annually)</option>
-                        <option value="energy">Renewable Energy Projects (Est. 70% Annually)</option>
+                        <option value="poultry">Poultry Farming (Est. 180% Annually)</option>
+                        <option value="food">Sustainable Food Cultivation (Est. 150% Annually)</option>
+                        <option value="aquaculture">Aquaculture (Fish Farming) (Est. 200% Annually)</option>
+                        <option value="energy">Renewable Energy Projects (Est. 160% Annually)</option>
+                        <option value="luxury_crops">Luxury Crop Cultivation (Est. 250% Annually)</option>
+                        <option value="tech_agri">Agri-Tech Innovations (Est. 300% Annually)</option>
                     </select>
                 </div>
             </div>
             <button id="calculateReturnsBtn" class="calculate-btn"><i class="fas fa-chart-pie"></i> Calculate Returns</button>
             <div id="calculatorMessage" class="calculator-message"></div>
 
-            <div id="calculatorResults" class="calculator-results" style="display: none;">
+            <div id="calculatorResults" class="calculator-results">
                 <h3>Estimated Returns</h3>
-                <p>Initial Investment: <span>₦<span id="calcInitialInvestment">0.00</span></span></p>
-                <p>Estimated Total Return: <span>₦<span id="calcTotalReturn">0.00</span></span></p>
-                <p>Estimated Profit: <span>₦<span id="calcProfit">0.00</span></span></p>
-                <p>Annual Estimated Rate: <span><span id="calcAnnualRate">0</span>%</span></p>
+                <p>Initial Investment: <span>₦<span id="displayInitialInvestment">0</span></span></p>
+                <p>Investment Duration: <span><span id="displayDurationValue">0</span> <span id="displayDurationUnit"></span></span></p>
+                <p>Opportunity: <span><span id="displayOpportunity"></span></span></p>
+                <hr style="margin: 20px 0; border: 0; border-top: 2px dashed var(--border-color);">
+                <p>Estimated Total Return: <span>₦<span id="displayTotalReturn">0</span></span></p>
+                <p>Estimated Profit: <span>₦<span id="displayProfit">0</span></span></p>
             </div>
         </section>
 
-        <div class="investment-grid">
-            <!-- Poultry Farming Investment -->
-            <div class="investment-card">
-                <div class="card-content">
-                    <h3>Poultry Farming</h3>
-                    <p>Invest in thriving poultry farms and capitalize on the consistent global demand for poultry products. Your capital directly supports the acquisition of healthy chicks, high-quality feed, modern brooding infrastructure, and essential veterinary care. This investment offers a relatively quick turnover cycle, allowing for frequent returns from the sale of eggs and premium poultry meat. It's a vital sector for food security and a robust path to financial growth.</p>
-                    <div class="growth-indicator">
-                        <i class="fas fa-chart-line"></i> Watch your investment grow with every new batch and egg laid!
-                        <div class="scale-graph"><div class="scale-graph-fill poultry-growth"></div></div>
-                    </div>
-
-                    <div class="media-gallery">
-                        <h4>See the Growth:</h4>
-                        <div class="images-grid">
-                            <img src="https://placehold.co/300x200/A0522D/FFFFFF?text=Poultry+Farm+View+1" alt="Healthy chicks in a farm setting">
-                            <img src="https://placehold.co/300x200/8B4513/FFFFFF?text=Egg+Collection+Process" alt="Fresh eggs being collected on a farm">
-                            <img src="https://placehold.co/300x200/D2B48C/4A2C2A?text=Modern+Poultry+House" alt="Overview of a modern poultry farm">
+        <!-- Investment Opportunities Grid -->
+        <section id="investment-opportunities">
+            <h2><i class="fas fa-leaf"></i> Our Premier Investment Opportunities</h2>
+            <p>Explore our diverse portfolio of high-yield, sustainable investment options. Each opportunity is carefully managed to maximize your returns while contributing to a better world.</p>
+            <div class="investment-grid">
+                <div class="investment-card">
+                    <div class="card-content">
+                        <h3>Poultry Farming</h3>
+                        <p>Invest in our state-of-the-art poultry farms. Benefit from high demand for poultry products and efficient, ethical farming practices. Consistent cycles ensure regular returns.</p>
+                        <div class="growth-indicator"><i class="fas fa-chart-line"></i> Est. 180% Annually</div>
+                        <div class="scale-graph"><div class="scale-graph-fill" data-fill-percentage="90"></div></div>
+                        <div class="media-gallery">
+                            <h4>Gallery</h4>
+                            <div class="images-grid">
+                                <img src="https://placehold.co/150x150/4CAF50/FFFFFF?text=Poultry+Farm+1" alt="Poultry Farm 1" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
+                                <img src="https://placehold.co/150x150/8BC34A/FFFFFF?text=Poultry+Farm+2" alt="Poultry Farm 2" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
+                                <img src="https://placehold.co/150x150/66BB6A/FFFFFF?text=Poultry+Farm+3" alt="Poultry Farm 3" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
+                            </div>
+                            <div class="video-wrapper">
+                                <!-- Added controls, info, and related video parameters for better user experience -->
+                                <iframe src="https://www.youtube.com/embed/q0_J37y6J5g?autoplay=0&controls=1&showinfo=0&rel=0" title="Poultry Farming Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                            <p class="media-caption"><em>(Example video: modern poultry operations)</em></p>
                         </div>
-                        <p class="media-caption"><em>(These are placeholder images. In a live environment, these would be actual photos of our partner poultry farms and operations.)</em></p>
-
-                        <div class="video-wrapper">
-                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Poultry Farming Operations" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                        <p class="media-caption"><em>(This is a real, playable YouTube video embed. In a live environment, this would be a short documentary on sustainable poultry farming practices and the impact of your investment. The video content is a placeholder.)</em></p>
+                        <a href="addup.html" class="invest-now-btn" ><i class="fas fa-hand-holding-usd"></i> Invest Now</a>
                     </div>
-                    <button class="invest-now-btn" data-opportunity="poultry"><i class="fas fa-hand-holding-usd"></i> Invest in Poultry</button>
                 </div>
-            </div>
 
-            <!-- Sustainable Food Cultivation Investment -->
-            <div class="investment-card">
-                <div class="card-content">
-                    <h3>Sustainable Food Cultivation</h3>
-                    <p>Support eco-friendly food cultivation projects that are at the forefront of sustainable agriculture. Your investment funds land preparation, the purchase of high-yield, organic seeds, efficient irrigation systems, and the implementation of advanced, environmentally conscious farming techniques. This venture not only promises significant financial returns from bountiful harvests and direct market sales but also contributes to global food security and promotes healthier eating habits. Invest in the earth, and watch your wealth flourish.</p>
-                    <div class="growth-indicator">
-                        <i class="fas fa-chart-line"></i> See your capital blossom into rich, sustainable harvests!
-                        <div class="scale-graph"><div class="scale-graph-fill food-growth"></div></div>
-                    </div>
-
-                    <div class="media-gallery">
-                        <h4>Witness the Harvest:</h4>
-                        <div class="images-grid">
-                            <img src="https://placehold.co/300x200/6B8E23/FFFFFF?text=Organic+Farm+View" alt="Vast green agricultural fields">
-                            <img src="https://placehold.co/300x200/4CAF50/FFFFFF?text=Fresh+Produce+Harvest" alt="Close-up of freshly harvested vegetables">
-                            <img src="https://placehold.co/300x200/8BC34A/FFFFFF?text=Irrigation+System" alt="Modern farming equipment in action">
+                <div class="investment-card">
+                    <div class="card-content">
+                        <h3>Sustainable Food Cultivation</h3>
+                        <p>Invest in eco-friendly farming of essential crops using advanced hydroponics and organic methods. Contribute to food security while earning from high-yield harvests.</p>
+                        <div class="growth-indicator"><i class="fas fa-chart-line"></i> Est. 150% Annually</div>
+                        <div class="scale-graph"><div class="scale-graph-fill" data-fill-percentage="80"></div></div>
+                        <div class="media-gallery">
+                            <h4>Gallery</h4>
+                            <div class="images-grid">
+                                <img src="https://placehold.co/150x150/3F51B5/FFFFFF?text=Hydroponics+1" alt="Hydroponics Farm 1" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
+                                <img src="https://placehold.co/150x150/2196F3/FFFFFF?text=Organic+Farm+2" alt="Organic Farm 2" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
+                                <img src="https://placehold.co/150x150/03A9F4/FFFFFF?text=Vertical+Farm+3" alt="Vertical Farm 3" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
+                            </div>
+                            <div class="video-wrapper">
+                                <!-- Added controls, info, and related video parameters for better user experience -->
+                                <iframe src="https://www.youtube.com/embed/sF2zHjN_W7E?autoplay=0&controls=1&showinfo=0&rel=0" title="Sustainable Farming Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                            <p class="media-caption"><em>(Example video: innovative farming techniques)</em></p>
                         </div>
-                        <p class="media-caption"><em>(These are placeholder images. In a live environment, these would be real-life examples of our sustainable cultivation projects.)</em></p>
-
-                        <div class="video-wrapper">
-                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Sustainable Farming Practices" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                        <p class="media-caption"><em>(This is a real, playable YouTube video embed. In a live environment, this would be a tour of a GrowVest-funded sustainable farm and its operations. The video content is a placeholder.)</em></p>
+                        <a href="addup.html" class="invest-now-btn" ><i class="fas fa-hand-holding-usd"></i> Invest Now</a>
                     </div>
-                    <button class="invest-now-btn" data-opportunity="food"><i class="fas fa-seedling"></i> Invest in Cultivation</button>
                 </div>
-            </div>
 
-            <!-- Aquaculture (Fish Farming) Investment -->
-            <div class="investment-card">
-                <div class="card-content">
-                    <h3>Aquaculture (Fish Farming)</h3>
-                    <p>Dive into the rapidly growing market of sustainable seafood with investments in modern aquaculture facilities. Your contribution helps with the acquisition of healthy fish stock, state-of-the-art feeding systems, and optimal water quality management, ensuring a controlled and efficient growth environment. This sector addresses the increasing demand for protein while reducing pressure on wild fish populations. Significant returns are realized from the efficient, high-yield production and sustainable sale of farmed fish to growing local and international markets.</p>
-                    <div class="growth-indicator">
-                        <i class="fas fa-chart-line"></i> Witness your investment multiply in controlled, thriving waters!
-                        <div class="scale-graph"><div class="scale-graph-fill fish-growth"></div></div>
-                    </div>
-
-                    <div class="media-gallery">
-                        <h4>Our Aquaculture Operations:</h4>
-                        <div class="images-grid">
-                            <img src="https://placehold.co/300x200/4682B4/FFFFFF?text=Fish+Pond+Overview" alt="Modern fish ponds with aeration systems">
-                            <img src="https://placehold.co/300x200/2196F3/FFFFFF?text=Healthy+Fish+Close-up" alt="Close-up of healthy fish in water">
-                            <img src="https://placehold.co/300x200/90CAF9/000000?text=Fish+Harvesting" alt="Workers harvesting fish from a pond">
+                <div class="investment-card">
+                    <div class="card-content">
+                        <h3>Aquaculture (Fish Farming)</h3>
+                        <p>Dive into the lucrative world of fish farming. Our modern aquaculture facilities ensure healthy growth and high market value, providing excellent returns from aquatic resources.</p>
+                        <div class="growth-indicator"><i class="fas fa-chart-line"></i> Est. 200% Annually</div>
+                        <div class="scale-graph"><div class="scale-graph-fill" data-fill-percentage="95"></div></div>
+                        <div class="media-gallery">
+                            <h4>Gallery</h4>
+                            <div class="images-grid">
+                                <img src="https://placehold.co/150x150/00BCD4/FFFFFF?text=Fish+Farm+1" alt="Fish Farm 1" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
+                                <img src="https://placehold.co/150x150/0097A7/FFFFFF?text=Fish+Farm+2" alt="Fish Farm 2" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
+                                <img src="https://placehold.co/150x150/00ACC1/FFFFFF?text=Fish+Farm+3" alt="Fish Farm 3" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
+                            </div>
+                            <div class="video-wrapper">
+                                <!-- Added controls, info, and related video parameters for better user experience -->
+                                <iframe src="https://www.youtube.com/embed/9B01aJ3N584?autoplay=0&controls=1&showinfo=0&rel=0" title="Aquaculture Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                            <p class="media-caption"><em>(Example video: sustainable fish farming)</em></p>
                         </div>
-                        <p class="media-caption"><em>(These are placeholder images. In a live environment, these would be glimpses into our advanced aquaculture facilities.)</em></p>
-
-                        <div class="video-wrapper">
-                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Aquaculture Process" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                        <p class="media-caption"><em>(This is a real, playable YouTube video embed. In a live environment, this would be an overview of our sustainable fish farming process. The video content is a placeholder.)</em></p>
+                        <a href="addup.html" class="invest-now-btn" ><i class="fas fa-hand-holding-usd"></i> Invest Now</a>
                     </div>
-                    <button class="invest-now-btn" data-opportunity="aquaculture"><i class="fas fa-fish"></i> Invest in Aquaculture</button>
                 </div>
-            </div>
 
-            <!-- Renewable Energy Projects Investment -->
-            <div class="investment-card">
-                <div class="card-content">
-                    <h3>Renewable Energy Projects</h3>
-                    <p>Power a sustainable future and your portfolio by investing in small-to-medium scale renewable energy initiatives. Your funds directly support the installation and maintenance of solar panel arrays, compact wind turbines, and other clean energy solutions for local communities, businesses, and remote areas. This investment not only offers long-term, stable returns from energy sales and valuable environmental credits but also contributes significantly to reducing carbon footprints and fostering energy independence. It's an investment in both financial prosperity and a greener planet.</p>
-                    <div class="growth-indicator">
-                        <i class="fas fa-chart-line"></i> Energize your earnings with the power of clean energy!
-                        <div class="scale-graph"><div class="scale-graph-fill energy-growth"></div></div>
-                    </div>
-
-                    <div class="media-gallery">
-                        <h4>Powering the Future:</h4>
-                        <div class="images-grid">
-                            <img src="https://placehold.co/300x200/FFD700/000000?text=Solar+Panel+Installation" alt="Solar panels on a rooftop">
-                            <img src="https://placehold.co/300x200/FFECB3/000000?text=Small+Wind+Turbine" alt="Small wind turbine in a rural setting">
-                            <img src="https://placehold.co/300x200/FFC107/000000?text=Clean+Energy+Grid" alt="Diagram showing clean energy flow">
+                <div class="investment-card">
+                    <div class="card-content">
+                        <h3>Renewable Energy Projects</h3>
+                        <p>Power the future with clean energy investments. From solar farms to wind energy, our projects offer stable, long-term growth and a positive environmental impact.</p>
+                        <div class="growth-indicator"><i class="fas fa-chart-line"></i> Est. 160% Annually</div>
+                        <div class="scale-graph"><div class="scale-graph-fill" data-fill-percentage="85"></div></div>
+                        <div class="media-gallery">
+                            <h4>Gallery</h4>
+                            <div class="images-grid">
+                                <img src="https://placehold.co/150x150/FFEB3B/FFFFFF?text=Solar+Farm+1" alt="Solar Farm 1" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
+                                <img src="https://placehold.co/150x150/FBC02D/FFFFFF?text=Wind+Turbine+2" alt="Wind Turbine 2" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
+                                <img src="https://placehold.co/150x150/FFD700/FFFFFF?text=Hydro+Plant+3" alt="Hydro Plant 3" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
+                            </div>
+                            <div class="video-wrapper">
+                                <!-- Added controls, info, and related video parameters for better user experience -->
+                                <iframe src="https://www.youtube.com/embed/L_tYQ4FRy38?autoplay=0&controls=1&showinfo=0&rel=0" title="Renewable Energy Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                            <p class="media-caption"><em>(Example video: large-scale renewable energy)</em></p>
                         </div>
-                        <p class="media-caption"><em>(These are placeholder images. In a live environment, these would be visuals of our renewable energy installations.)</em></p>
-
-                        <div class="video-wrapper">
-                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Renewable Energy Impact" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        </div>
-                        <p class="media-caption"><em>(This is a real, playable YouTube video embed. In a live environment, this would be a video highlighting the environmental and economic impact of our energy projects. The video content is a placeholder.)</em></p>
+                        <a href="addup.html" class="invest-now-btn" ><i class="fas fa-hand-holding-usd"></i> Invest Now</a>
                     </div>
-                    <button class="invest-now-btn" data-opportunity="energy"><i class="fas fa-solar-panel"></i> Invest in Energy</button>
                 </div>
+
+                <div class="investment-card">
+                    <div class="card-content">
+                        <h3>Luxury Crop Cultivation</h3>
+                        <p>Delve into high-value agricultural investments focusing on premium, exotic crops. These niche markets offer exceptional profit margins due to rarity and demand.</p>
+                        <div class="growth-indicator"><i class="fas fa-chart-line"></i> Est. 250% Annually</div>
+                        <div class="scale-graph"><div class="scale-graph-fill" data-fill-percentage="98"></div></div>
+                        <div class="media-gallery">
+                            <h4>Gallery</h4>
+                            <div class="images-grid">
+                                <img src="https://placehold.co/150x150/8E24AA/FFFFFF?text=Saffron+Farm" alt="Saffron Farm" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
+                                <img src="https://placehold.co/150x150/AB47BC/FFFFFF?text=Truffle+Forest" alt="Truffle Forest" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
+                                <img src="https://placehold.co/150x150/BA68C8/FFFFFF?text=Vanilla+Orchid" alt="Vanilla Orchid" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
+                            </div>
+                            <div class="video-wrapper">
+                                <!-- Added controls, info, and related video parameters for better user experience -->
+                                <iframe src="https://www.youtube.com/embed/l5M8n4b14uU?autoplay=0&controls=1&showinfo=0&rel=0" title="Luxury Crops Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                            <p class="media-caption"><em>(Example video: high-value crop cultivation)</em></p>
+                        </div>
+                        <a href="addup.html" class="invest-now-btn" ><i class="fas fa-hand-holding-usd"></i> Invest Now</a>
+                    </div>
+                </div>
+
+                <div class="investment-card">
+                    <div class="card-content">
+                        <h3>Agri-Tech Innovations</h3>
+                        <p>Invest in cutting-edge agricultural technology. Fund smart farming solutions, AI-driven crop management, and sustainable robotics that revolutionize food production for maximum efficiency and yield.</p>
+                        <div class="growth-indicator"><i class="fas fa-chart-line"></i> Est. 300% Annually</div>
+                        <div class="scale-graph"><div class="scale-graph-fill" data-fill-percentage="100"></div></div>
+                        <div class="media-gallery">
+                            <h4>Gallery</h4>
+                            <div class="images-grid">
+                                <img src="https://placehold.co/150x150/607D8B/FFFFFF?text=Smart+Farm+1" alt="Smart Farm 1" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
+                                <img src="https://placehold.co/150x150/78909C/FFFFFF?text=Drone+Agri" alt="Drone Agri" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
+                                <img src="https://placehold.co/150x150/90A4AE/FFFFFF?text=Robo+Harvester" alt="Robo Harvester" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
+                            </div>
+                            <div class="video-wrapper">
+                                <!-- Added controls, info, and related video parameters for better user experience -->
+                                <iframe src="https://www.youtube.com/embed/sF2zHjN_W7E?autoplay=0&controls=1&showinfo=0&rel=0" title="Agri-Tech Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                            <p class="media-caption"><em>(Example video: future of farming technology)</em></p>
+                        </div>
+                        <a href="addup.html" class="invest-now-btn" ><i class="fas fa-hand-holding-usd"></i> Invest Now</a>
+                    </div>
+                </div>
+
             </div>
-        </div>
+        </section>
+
+        <!-- Recent Transactions Section -->
+        <section class="recent-transactions-section">
+            <h2><i class="fas fa-history"></i> Recent Investor Activity</h2>
+            <p>See the latest investments made by our growing community. Join them in cultivating a prosperous future!</p>
+            <table class="transactions-table">
+                <thead>
+                    <tr>
+                        <th>Investor ID</th>
+                        <th>Investment Type</th>
+                        <th>Amount</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-label="Investor ID">GRV-INV-98765</td>
+                        <td data-label="Investment Type" class="type">Poultry Farming</td>
+                        <td data-label="Amount" class="amount">₦2,500,000</td>
+                        <td data-label="Date" class="date">2025-07-04</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Investor ID">GRV-INV-12345</td>
+                        <td data-label="Investment Type" class="type">Renewable Energy</td>
+                        <td data-label="Amount" class="amount">₦5,000,000</td>
+                        <td data-label="Date" class="date">2025-07-03</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Investor ID">GRV-INV-67890</td>
+                        <td data-label="Investment Type" class="type">Aquaculture</td>
+                        <td data-label="Amount" class="amount">₦1,200,000</td>
+                        <td data-label="Date" class="date">2025-07-02</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Investor ID">GRV-INV-54321</td>
+                        <td data-label="Investment Type" class="type">Luxury Crop Cultivation</td>
+                        <td data-label="Amount" class="amount">₦3,800,000</td>
+                        <td data-label="Date" class="date">2025-07-01</td>
+                    </tr>
+                    <tr>
+                        <td data-label="Investor ID">GRV-INV-09876</td>
+                        <td data-label="Investment Type" class="type">Agri-Tech Innovations</td>
+                        <td data-label="Amount" class="amount">₦7,000,000</td>
+                        <td data-label="Date" class="date">2025-06-30</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
 
         <!-- Testimonials Section -->
         <section class="testimonials-section">
-            <h2><i class="fas fa-star"></i> What Our Investors Say</h2>
-            <p>Hear directly from satisfied GrowVest investors who are cultivating their future with us.</p>
+            <h2><i class="fas fa-star"></i> What Our Elite Investors Say</h2>
+            <p>Hear directly from satisfied GrowVest investors who are cultivating their future with us, achieving remarkable financial success and making a real impact.</p>
             <div class="testimonials-grid">
                 <div class="testimonial-card">
-                    <p class="quote">"GrowVest made investing in agriculture so easy and transparent. My poultry investment has consistently yielded great returns. Highly recommend!"</p>
+                    <p class="quote">"GrowVest transformed my investment portfolio! The poultry farming returns are incredible, far exceeding anything I've seen. Truly a game-changer for sustainable wealth."</p>
                     <div class="author-info">
-                        <img src="https://placehold.co/60x60/8B4513/FFFFFF?text=JD" alt="John Doe" class="author-avatar">
+                        <img src="https://placehold.co/80x80/8B4513/FFFFFF?text=JD" alt="John Doe" class="author-avatar">
                         <div>
-                            <div class="author-name">John D.</div>
-                            <div class="author-investment">Poultry Investor</div>
+                            <div class="author-name">John D. <small>(Lagos, Nigeria)</small></div>
+                            <div class="author-investment">Poultry Investor | 3 Years</div>
                         </div>
                     </div>
                 </div>
                 <div class="testimonial-card">
-                    <p class="quote">"I love that my investment in sustainable food cultivation is not only growing my wealth but also contributing to a healthier planet. It's a win-win!"</p>
+                    <p class="quote">"Investing in sustainable food cultivation with GrowVest aligns with my values and delivers phenomenal returns. It's empowering to grow wealth while contributing to global food security."</p>
                     <div class="author-info">
-                        <img src="https://placehold.co/60x60/A0522D/FFFFFF?text=AS" alt="Alice Smith" class="author-avatar">
+                        <img src="https://placehold.co/80x80/A0522D/FFFFFF?text=AS" alt="Alice Smith" class="author-avatar">
                         <div>
-                            <div class="author-name">Alice S.</div>
-                            <div class="author-investment">Food Cultivation Investor</div>
+                            <div class="author-name">Alice S. <small>(Accra, Ghana)</small></div>
+                            <div class="author-investment">Food Cultivation Investor | 2.5 Years</div>
                         </div>
                     </div>
                 </div>
                 <div class="testimonial-card">
-                    <p class="quote">"The returns from aquaculture have exceeded my expectations. GrowVest's detailed reports keep me informed every step of the way. Fantastic platform!"</p>
+                    <p class="quote">"The aquaculture projects are incredibly lucrative. GrowVest's transparency and expert management make it a seamless experience. My profits have soared!"</p>
                     <div class="author-info">
-                        <img src="https://placehold.co/60x60/D2B48C/4A2C2A?text=MB" alt="Michael Brown" class="author-avatar">
+                        <img src="https://placehold.co/80x80/D2B48C/4A2C2A?text=MB" alt="Michael Brown" class="author-avatar">
                         <div>
-                            <div class="author-name">Michael B.</div>
-                            <div class="author-investment">Aquaculture Investor</div>
+                            <div class="author-name">Michael B. <small>(Nairobi, Kenya)</small></div>
+                            <div class="author-investment">Aquaculture Investor | 4 Years</div>
                         </div>
                     </div>
                 </div>
                 <div class="testimonial-card">
-                    <p class="quote">"Investing in renewable energy with GrowVest feels impactful. It's a stable, long-term growth opportunity that aligns with my values."</p>
+                    <p class="quote">"Renewable energy investments with GrowVest are both financially rewarding and environmentally conscious. A stable, high-growth opportunity that I wholeheartedly endorse."</p>
                     <div class="author-info">
-                        <img src="https://placehold.co/60x60/4A2C2A/FFFFFF?text=CL" alt="Carol Lee" class="author-avatar">
+                        <img src="https://placehold.co/80x80/4A2C2A/FFFFFF?text=CL" alt="Carol Lee" class="author-avatar">
                         <div>
-                            <div class="author-name">Carol L.</div>
-                            <div class="author-investment">Renewable Energy Investor</div>
+                            <div class="author-name">Carol L. <small>(Cape Town, South Africa)</small></div>
+                            <div class="author-investment">Renewable Energy Investor | 1.5 Years</div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <a href="index.html" class="cta-button" style="margin-top: 40px;">
-            <i class="fas fa-arrow-left"></i> Back to COREVEST Home
-        </a>
+        <!-- Our Story: About GrowVest Section -->
+        <section class="about-us-section">
+            <h2><i class="fas fa-building"></i> Our Story: About GrowVest</h2>
+            <p>GrowVest was founded on the principle of connecting visionary investors with high-potential, sustainable real-world assets. We believe in fostering a future where financial growth goes hand-in-hand with environmental stewardship and community development.</p>
+            <p>Our journey began with a simple yet powerful idea: to democratize access to lucrative agricultural and renewable energy investments, traditionally reserved for large corporations. By leveraging cutting-edge technology and a network of expert farmers and engineers, we've built a platform that offers transparency, security, and exceptional returns to every investor, regardless of their background.</p>
+            <p>We are a team of passionate professionals dedicated to integrity, innovation, and impact. Join us in cultivating a prosperous and sustainable future, one investment at a time.</p>
+        </section>
+
+        <!-- Contact Us Section -->
+        <section class="contact-section">
+            <h2><i class="fas fa-envelope"></i> Get In Touch With Us</h2>
+            <p>Have questions, feedback, or ready to discuss your investment goals? Reach out to the GrowVest team today!</p>
+            <form id="contactForm" class="contact-form">
+                <div class="form-group">
+                    <label for="contactName">Your Name:</label>
+                    <input type="text" id="contactName" name="contactName" required>
+                </div>
+                <div class="form-group">
+                    <label for="contactEmail">Your Email:</label>
+                    <input type="email" id="contactEmail" name="contactEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="contactSubject">Subject:</label>
+                    <input type="text" id="contactSubject" name="contactSubject" required>
+                </div>
+                <div class="form-group">
+                    <label for="contactMessage">Your Message:</label>
+                    <textarea id="contactMessage" name="contactMessage" required></textarea>
+                </div>
+                <button type="submit"><i class="fas fa-paper-plane"></i> Send Message</button>
+                <div id="contactMessageDisplay" class="contact-message"></div>
+            </form>
+        </section>
+
+        <!-- Important Risk Disclosure Section -->
+        <section class="risk-disclosure-section">
+            <h2><i class="fas fa-exclamation-triangle"></i> Important Risk Disclosure</h2>
+            <p>Investing in real-world assets, while potentially highly rewarding, involves inherent risks. Please read the following carefully:</p>
+            <ul>
+                <li><strong>Investment Risks:</strong> All investments carry a degree of risk, including the potential loss of principal. The value of your investment may fluctuate.</li>
+                <li><strong>Estimated Returns:</strong> The "Estimated Annual Returns" displayed on this page and in the calculator are projections based on historical data and market analysis. They are **not guaranteed returns** and actual results may vary significantly.</li>
+                <li><strong>Market Volatility:</strong> Performance can be affected by various factors including market conditions, weather events, disease outbreaks, regulatory changes, and economic shifts.</li>
+                <li><strong>Liquidity:</b> Investments in real-world assets may not be as liquid as traditional financial instruments. Withdrawal periods or the ability to exit an investment early may be subject to specific terms.</li>
+                <li><strong>Due Diligence:</strong> Investors should conduct their own thorough due diligence and consider their financial situation and risk tolerance before making any investment decisions.</li>
+                <li><strong>Professional Advice:</strong> GrowVest does not provide financial advice. We strongly recommend consulting with a qualified financial advisor to understand the risks and suitability of any investment for your individual circumstances.</li>
+            </ul>
+            <p>By proceeding with an investment on GrowVest, you acknowledge that you have read, understood, and accepted these risks.</p>
+        </section>
+
+        <!-- Final Call to Action Section -->
+        <section class="final-cta-section">
+            <h2>Ready to Cultivate Your Elite Future?</h2>
+            <p>Join the growing community of smart investors who are building wealth with purpose. Start your journey with GrowVest today and see your investments thrive!</p>
+            <a href="addup.html" class="cta-button">
+                <i class="fas fa-arrow-right"></i> Get Started Now!
+            </a>
+        </section>
 
     </div>
 
     <footer class="footer">
         <p>&copy; 2025 GrowVest, a COREVEST Initiative. All rights reserved.</p>
         <p>Cultivating tangible wealth for a sustainable future.</p>
+        <p>General inquiries: <a href="mailto:support@growvest.com">support@growvest.com</a></p>
+        <p>For investment inquiries: <a href="mailto:growvestinvestment@gmail.com">growvestinvestment@gmail.com</a></p>
+        <p>Phone: <a href="tel:+2349012345678">+234 901 234 5678</a></p>
         <div class="footer-social-links">
-            <a href="#"><i class="fab fa-facebook-f"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://facebook.com/growvest" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://twitter.com/growvest" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="https://instagram.com/growvest" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="https://linkedin.com/company/growvest" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
         </div>
     </footer>
 
@@ -1028,177 +1928,202 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Function to animate the growth bars
-            function animateGrowthBars() {
-                const poultryBar = document.querySelector('.poultry-growth');
-                const foodBar = document.querySelector('.food-growth');
-                const fishBar = document.querySelector('.fish-growth');
-                const energyBar = document.querySelector('.energy-growth');
+            // --- Elements for Calculator ---
+            const investmentAmountInput = document.getElementById('investmentAmount');
+            const investmentDurationValueInput = document.getElementById('investmentDurationValue');
+            const investmentDurationUnitSelect = document.getElementById('investmentDurationUnit');
+            const investmentOpportunitySelect = document.getElementById('investmentOpportunity');
+            const calculateReturnsBtn = document.getElementById('calculateReturnsBtn');
+            const calculatorMessage = document.getElementById('calculatorMessage');
+            const calculatorResults = document.getElementById('calculatorResults');
+            const displayInitialInvestment = document.getElementById('displayInitialInvestment');
+            const displayDurationValue = document.getElementById('displayDurationValue');
+            const displayDurationUnit = document.getElementById('displayDurationUnit');
+            const displayOpportunity = document.getElementById('displayOpportunity');
+            const displayTotalReturn = document.getElementById('displayTotalReturn');
+            const displayProfit = document.getElementById('displayProfit');
 
-                // Simulate various growth levels for demonstration
-                // Use a slight delay to make the animation more noticeable on load
-                setTimeout(() => {
-                    poultryBar.style.width = '85%';
-                    foodBar.style.width = '75%';
-                    fishBar.style.width = '90%';
-                    energyBar.style.width = '80%';
-                }, 500); // Delay by 500ms
-            }
-
-            // Trigger animation when the page loads
-            animateGrowthBars();
-
-            // Get the button
+            // --- Elements for Back to Top Button ---
             let mybutton = document.getElementById("backToTopBtn");
 
+            // --- Elements for FAQ Accordion ---
+            const faqQuestions = document.querySelectorAll('.faq-question');
+
+            // --- Elements for Contact Form ---
+            const contactForm = document.getElementById('contactForm');
+            const contactMessageDisplay = document.getElementById('contactMessageDisplay');
+
+
+            // --- Calculator Logic ---
+            // Increased profit rates as requested
+            const opportunityRates = {
+                poultry: 1.80, // 180% annually
+                food: 1.50,    // 150% annually
+                aquaculture: 2.00, // 200% annually
+                energy: 1.60,   // 160% annually
+                luxury_crops: 2.50, // 250% annually (NEW)
+                tech_agri: 3.00   // 300% annually (NEW)
+            };
+
+            function calculateReturns() {
+                const investmentAmount = parseFloat(investmentAmountInput.value);
+                let durationValue = parseFloat(investmentDurationValueInput.value);
+                const durationUnit = investmentDurationUnitSelect.value;
+                const opportunity = investmentOpportunitySelect.value;
+                const annualRate = opportunityRates[opportunity];
+
+                // Input validation
+                if (isNaN(investmentAmount) || investmentAmount < 100000) {
+                    showMessage("Please enter a valid investment amount (minimum ₦100,000).", 'error');
+                    // Clear results if input is invalid
+                    displayInitialInvestment.textContent = '0';
+                    displayDurationValue.textContent = '0';
+                    displayDurationUnit.textContent = '';
+                    displayOpportunity.textContent = '';
+                    displayTotalReturn.textContent = '0';
+                    displayProfit.textContent = '0';
+                    return;
+                }
+                if (isNaN(durationValue) || durationValue < 1 || durationValue > 60) {
+                    showMessage("Please enter a valid duration (1-60 months/years).", 'error');
+                    // Clear results if input is invalid
+                    displayInitialInvestment.textContent = '0';
+                    displayDurationValue.textContent = '0';
+                    displayDurationUnit.textContent = '';
+                    displayOpportunity.textContent = '';
+                    displayTotalReturn.textContent = '0';
+                    displayProfit.textContent = '0';
+                    return;
+                }
+
+                // Convert duration to years
+                let durationInYears;
+                if (durationUnit === 'months') {
+                    durationInYears = durationValue / 12;
+                } else { // 'years'
+                    durationInYears = durationValue;
+                }
+
+                // Simple interest calculation (for demonstration)
+                const totalReturn = investmentAmount * (1 + (annualRate * durationInYears));
+                const profit = totalReturn - investmentAmount;
+
+                // Display results
+                displayInitialInvestment.textContent = investmentAmount.toLocaleString('en-NG');
+                displayDurationValue.textContent = durationValue;
+                displayDurationUnit.textContent = durationUnit;
+                // Ensure the displayed opportunity text matches the selected option's text
+                displayOpportunity.textContent = investmentOpportunitySelect.options[investmentOpportunitySelect.selectedIndex].text.split(' (Est.')[0].trim();
+                displayTotalReturn.textContent = totalReturn.toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                displayProfit.textContent = profit.toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+                showMessage("Estimated returns calculated successfully!", 'success');
+            }
+
+            function showMessage(message, type) {
+                calculatorMessage.textContent = message;
+                calculatorMessage.className = `calculator-message ${type}`; // info, success, or error
+                calculatorMessage.style.display = 'flex';
+                setTimeout(() => {
+                    calculatorMessage.style.display = 'none';
+                }, 4000); // Hide message after 4 seconds
+            }
+
+            // Function to hide only the calculator message
+            function hideCalculatorMessageOnly() {
+                calculatorMessage.style.display = 'none';
+            }
+
+            // Event Listener for Calculate Button
+            calculateReturnsBtn.addEventListener('click', calculateReturns);
+
+            // Trigger initial calculation on page load to populate the fields
+            calculateReturns();
+
+            // Hide message when inputs change, but keep results visible
+            investmentAmountInput.addEventListener('input', hideCalculatorMessageOnly);
+            investmentDurationValueInput.addEventListener('input', hideCalculatorMessageOnly);
+            investmentDurationUnitSelect.addEventListener('change', hideCalculatorMessageOnly);
+            investmentOpportunitySelect.addEventListener('change', hideCalculatorMessageOnly);
+
+
+            // --- Back to Top Button Logic ---
             // When the user scrolls down 200px from the top of the document, show the button
             window.onscroll = function() {scrollFunction()};
 
             function scrollFunction() {
                 if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-                    mybutton.style.display = "block";
+                    mybutton.style.display = "flex"; /* Use flex for button display */
                 } else {
                     mybutton.style.display = "none";
                 }
             }
 
             // When the user clicks on the button, scroll to the top of the document
-            window.topFunction = function() {
+            window.topFunction = function() { // Made global for onclick in HTML
                 document.body.scrollTop = 0; // For Safari
                 document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
             }
 
-            // --- Investment Calculator Logic ---
-            // Estimated annual rates for different opportunities
-            const investmentRates = {
-                // Dramatically increased rates to be "big"
-                poultry: 0.75, // 75% estimated annual return
-                food: 0.70,    // 70% estimated annual return
-                aquaculture: 0.80, // 80% estimated annual return
-                energy: 0.70   // 70% estimated annual return
-            };
-
-            const investmentAmountInput = document.getElementById('investmentAmount');
-            const investmentDurationValueInput = document.getElementById('investmentDurationValue');
-            const investmentDurationUnitSelect = document.getElementById('investmentDurationUnit');
-            const investmentOpportunitySelect = document.getElementById('investmentOpportunity');
-            const calculateReturnsBtn = document.getElementById('calculateReturnsBtn');
-            const calculatorResultsDiv = document.getElementById('calculatorResults');
-            const calcInitialInvestmentSpan = document.getElementById('calcInitialInvestment');
-            const calcTotalReturnSpan = document.getElementById('calcTotalReturn');
-            const calcProfitSpan = document.getElementById('calcProfit');
-            const calcAnnualRateSpan = document.getElementById('calcAnnualRate');
-            const calculatorMessage = document.getElementById('calculatorMessage');
-
-            /**
-             * Displays a message to the user in the calculator section.
-             * @param {string} message - The message to display.
-             * @param {'info'|'success'|'error'} type - The type of message (for styling).
-             */
-            function showCalculatorMessage(message, type = 'info') {
-                calculatorMessage.textContent = message;
-                calculatorMessage.className = `calculator-message ${type}`;
-                calculatorMessage.style.display = 'flex';
-                setTimeout(() => {
-                    calculatorMessage.style.display = 'none';
-                }, 4000); // Message disappears after 4 seconds
+            // --- Scale Graph Animation ---
+            function animateScaleGraphs() {
+                document.querySelectorAll('.scale-graph-fill').forEach(fill => {
+                    const percentage = fill.dataset.fillPercentage;
+                    fill.style.width = percentage + '%';
+                });
             }
 
-            /**
-             * Formats a number as currency (Nigerian Naira).
-             * @param {number} amount - The numeric amount to format.
-             * @returns {string} - The formatted currency string.
-             */
-            function formatCurrency(amount) {
-                return amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            }
+            animateScaleGraphs(); // Animate scale graphs on load
 
-            /**
-             * Calculates and displays estimated investment returns.
-             */
-            function calculateReturns() {
-                const amount = parseFloat(investmentAmountInput.value);
-                const durationValue = parseFloat(investmentDurationValueInput.value);
-                const durationUnit = investmentDurationUnitSelect.value;
-                const opportunity = investmentOpportunitySelect.value;
-                const annualRate = investmentRates[opportunity];
+            // --- FAQ Accordion Logic ---
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', function() {
+                    const answer = this.nextElementSibling; // The answer div is the next sibling
+                    const icon = this.querySelector('i');
 
-                // Input validation
-                if (isNaN(amount) || amount < 10000) {
-                    showCalculatorMessage('Please enter a valid investment amount (minimum ₦10,000).', 'error');
-                    calculatorResultsDiv.style.display = 'none';
-                    return;
-                }
-                if (isNaN(durationValue) || durationValue <= 0) {
-                    showCalculatorMessage('Please enter a valid duration (must be a positive number).', 'error');
-                    calculatorResultsDiv.style.display = 'none';
-                    return;
-                }
-                if (durationUnit === 'years' && durationValue > 10) {
-                    showCalculatorMessage('Maximum duration for years is 10.', 'error');
-                    calculatorResultsDiv.style.display = 'none';
-                    return;
-                }
-                if (durationUnit === 'months' && durationValue > 120) { // 10 years = 120 months
-                    showCalculatorMessage('Maximum duration for months is 120 (10 years).', 'error');
-                    calculatorResultsDiv.style.display = 'none';
-                    return;
-                }
+                    // Toggle active class on the question
+                    this.classList.toggle('active');
+                    // Toggle active class on the answer to control max-height and padding
+                    answer.classList.toggle('active');
 
-
-                let totalMonths;
-                if (durationUnit === 'years') {
-                    totalMonths = durationValue * 12;
-                } else { // 'months'
-                    totalMonths = durationValue;
-                }
-
-                // Calculate monthly rate from annual rate
-                // Assuming simple monthly compounding (APR / 12)
-                const monthlyRate = annualRate / 12;
-
-                // Compound interest calculation
-                let totalReturn = amount * Math.pow((1 + monthlyRate), totalMonths);
-                let profit = totalReturn - amount;
-
-                // Display results
-                calcInitialInvestmentSpan.textContent = formatCurrency(amount);
-                calcTotalReturnSpan.textContent = formatCurrency(totalReturn);
-                calcProfitSpan.textContent = formatCurrency(profit);
-                calcAnnualRateSpan.textContent = (annualRate * 100).toFixed(0); // Display the original annual rate
-
-                calculatorResultsDiv.style.display = 'block';
-                showCalculatorMessage('Calculation successful! Results are estimates.', 'success');
-            }
-
-            // Attach event listener to the calculate button
-            calculateReturnsBtn.addEventListener('click', calculateReturns);
-
-            // Also recalculate if inputs change, to provide real-time feedback
-            investmentAmountInput.addEventListener('input', calculateReturns);
-            investmentDurationValueInput.addEventListener('input', calculateReturns);
-            investmentDurationUnitSelect.addEventListener('change', calculateReturns);
-            investmentOpportunitySelect.addEventListener('change', calculateReturns);
-
-            // Initial calculation on page load (with default values)
-            calculateReturns();
-
-
-            // --- Invest Now Button Logic ---
-            const investNowButtons = document.querySelectorAll('.invest-now-btn');
-
-            investNowButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const opportunityType = this.dataset.opportunity;
-                    let message = `Thank you for your interest in ${opportunityType.replace(/./, c => c.toUpperCase())} investment!`;
-                    message += ` Our team will reach out to you shortly to discuss this exciting opportunity.`;
-                    
-                    // In a real application, this would trigger a modal, a form submission, or a redirect.
-                    // For this demo, we'll use a simple alert (or a custom modal if preferred, but alert is used for simplicity as per previous instructions).
-                    alert(message);
+                    // Rotate the icon
+                    if (icon) {
+                        icon.style.transform = answer.classList.contains('active') ? 'rotate(180deg)' : 'rotate(0deg)';
+                    }
                 });
             });
+
+            // --- Contact Form Logic ---
+            contactForm.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevent default form submission
+
+                const name = document.getElementById('contactName').value;
+                const email = document.getElementById('contactEmail').value;
+                const subject = document.getElementById('contactSubject').value;
+                const message = document.getElementById('contactMessage').value;
+
+                // Basic client-side validation
+                if (!name || !email || !subject || !message) {
+                    displayContactMessage("Please fill in all fields.", 'error');
+                    return;
+                }
+
+                // Simulate form submission (in a real app, you'd send this to a server)
+                console.log('Contact Form Submitted:', { name, email, subject, message });
+
+                displayContactMessage("Thank you for your message! We will get back to you shortly.", 'success');
+
+                // Clear form fields after successful submission
+                contactForm.reset();
+            });
+
+            function displayContactMessage(message, type) {
+                contactMessageDisplay.textContent = message;
+                contactMessageDisplay.className = `contact-message ${type}`;
+                contactMessageDisplay.style.display = 'block';
+                setTimeout(() => {
+                    contactMessageDisplay.style.display = 'none';
+                }, 5000); // Hide message after 5 seconds
+            }
         });
     </script>
-</body>
-</html>

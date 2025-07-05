@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Authentication App</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Base styles for Inter font and dark background */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1a2a3a 0%, #0a111a 100%); /* Deep, subtle dark gradient */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            color: #e0e7ff; /* Light, soft blue text for contrast */
+        }
+
+        /* Main container styling */
+        .container {
+            background-color: #1c2b3a; /* Slightly lighter than body background for subtle contrast */
+            padding: 3.5rem 3rem; /* More generous padding */
+            border-radius: 1.75rem; /* More rounded corners */
+            /* Multi-layered, sophisticated shadow */
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3),
+                        0 0 0 1px rgba(255, 255, 255, 0.05); /* Subtle inner border/glow */
+            width: 100%;
+            max-width: 520px; /* Slightly wider for a more spacious feel */
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.08); /* Very subtle light border */
+            animation: fadeIn 0.6s ease-out forwards; /* Slightly longer fade-in */
+            opacity: 0; /* Start invisible for animation */
+            transform: translateY(30px); /* Start lower for animation */
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Input field styling */
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 1.1rem 1.4rem; /* Generous padding */
+            margin-bottom: 1.5rem; /* More space between inputs */
+            background-color: #2a3d50; /* Darker input background */
+            border: 1px solid #3c5a78; /* Muted blue border */
+            border-radius: 0.9rem; /* Smoothly rounded */
+            font-size: 1.05rem;
+            color: #e0e7ff; /* Light text color */
+            transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2); /* Subtle inner shadow */
+        }
+        input[type="text"]::placeholder,
+        input[type="password"]::placeholder {
+            color: #94a3b8; /* Lighter placeholder text */
+        }
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #6366f1; /* Vibrant indigo focus border */
+            background-color: #2f455c; /* Slightly lighter on focus */
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.25), inset 0 1px 3px rgba(0, 0, 0, 0.3); /* Enhanced focus shadow */
+        }
+
+        /* Button styling */
+        button {
+            width: 100%;
+            padding: 1.1rem 1.5rem;
+            border-radius: 0.9rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(.25,.8,.25,1); /* Unified, smooth transition */
+            margin-top: 1rem;
+            letter-spacing: 0.02em; /* Slight letter spacing for elegance */
+            position: relative; /* For pseudo-elements/overlays */
+            overflow: hidden; /* Hide overflow for ripple effect or glow */
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #6366f1 0%, #8b5cf6 100%); /* Indigo to Violet gradient */
+            color: white;
+            border: none;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15); /* Deeper shadow + subtle highlight */
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Subtle text shadow */
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(45deg, #7c7ffc 0%, #9f7afc 100%); /* Lighter gradient on hover */
+            transform: translateY(-4px); /* More pronounced lift */
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.2); /* Stronger shadow + highlight */
+        }
+
+        .btn-primary:active {
+            transform: translateY(0); /* Press down effect */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3), inset 0 1px 3px rgba(0, 0, 0, 0.3); /* Deeper inset shadow */
+            filter: brightness(0.9); /* Slightly darker on active */
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #3b526b 0%, #2a3d50 100%); /* Subtle dark blue gradient */
+            color: #aebed1; /* Lighter text for secondary */
+            border: 1px solid #4a6581; /* More defined, elegant border */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-secondary:hover {
+            background: linear-gradient(135deg, #4a6581 0%, #3b526b 100%); /* Inverted/darker gradient on hover */
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+            border-color: #5b7da0; /* Lighter border on hover */
+            color: #c4d4e6; /* Slightly brighter text */
+        }
+
+        .btn-secondary:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.2);
+            filter: brightness(0.9);
+        }
+
+        /* Message styling */
+        .message {
+            padding: 1rem 1.25rem;
+            border-radius: 0.85rem;
+            margin-bottom: 1.75rem; /* More space below messages */
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-align: left;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid; /* Dynamic border based on type */
+        }
+        .message.success {
+            background-color: #284a3b; /* Darker green */
+            color: #a7f3d0; /* Light green text */
+            border-color: #34d399;
+        }
+        .message.error {
+            background-color: #4a2a2a; /* Darker red */
+            color: #fca5a5; /* Light red text */
+            border-color: #ef4444;
+        }
+
+        /* Heading styling */
+        h2 {
+            color: #f8fafc; /* Near white for headings */
+            margin-bottom: 2.5rem; /* More space below heading */
+            font-weight: 800; /* Extra bold */
+            font-size: 2.6rem; /* Even larger heading */
+            letter-spacing: -0.03em; /* Tighter letter spacing for impact */
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle text shadow */
+        }
+
+        /* Link styling */
+        .link-text {
+            color: #a78bfa; /* Soft violet for links */
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease-in-out, text-decoration 0.2s ease-in-out;
+        }
+        .link-text:hover {
+            color: #c4b5fd; /* Lighter violet on hover */
+            text-decoration: underline;
+        }
+
+        /* Paragraph text */
+        p {
+            color: #cbd5e1; /* Soft gray for general text */
+            margin-top: 1.5rem;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" class="container">
+        <!-- Content will be dynamically loaded here by JavaScript -->
+    </div>
+
+    <script>
+        // Function to get a unique application ID (for local storage namespacing)
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-auth-app';
+
+        // Function to get the current user ID (for potential future use, though not directly used in this local storage example)
+        // For local storage, we'll just use a generic key for simplicity.
+        // If Firestore were integrated, this would be used for user-specific data.
+        const getUserId = () => {
+            // In a real Firebase app, you'd get auth.currentUser.uid
+            // For local storage, we'll just use a generic identifier or let the app manage it.
+            return 'local-user';
+        };
+
+        // --- Page Rendering Functions ---
+
+        /**
+         * Renders the Sign Up page.
+         * @param {string} message - Optional message to display (e.g., success/error).
+         * @param {string} type - Type of message ('success' or 'error').
+         */
+        function renderSignUpPage(message = '', type = '') {
+            const appDiv = document.getElementById('app');
+            appDiv.innerHTML = `
+                <h2 class="mb-6">Create Your Account</h2>
+                ${message ? `<div class="message ${type}">${message}</div>` : ''}
+                <form id="signupForm" class="space-y-4">
+                    <div>
+                        <input type="text" id="signupUsername" placeholder="Username" required>
+                    </div>
+                    <div>
+                        <input type="password" id="signupPassword" placeholder="Password" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Sign Up</button>
+                </form>
+                <p class="mt-6">
+                    Already have an account? <span class="link-text" onclick="navigateTo('login')">Log In</span>
+                </p>
+            `;
+
+            document.getElementById('signupForm').addEventListener('submit', handleSignUp);
+        }
+
+        /**
+         * Renders the Login page.
+         * @param {string} message - Optional message to display (e.g., success/error).
+         * @param {string} type - Type of message ('success' or 'error').
+         */
+        function renderLoginPage(message = '', type = '') {
+            const appDiv = document.getElementById('app');
+            appDiv.innerHTML = `
+                <h2 class="mb-6">Welcome Back!</h2>
+                ${message ? `<div class="message ${type}">${message}</div>` : ''}
+                <form id="loginForm" class="space-y-4">
+                    <div>
+                        <input type="text" id="loginUsername" placeholder="Username" required>
+                    </div>
+                    <div>
+                        <input type="password" id="loginPassword" placeholder="Password" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Log In</button>
+                </form>
+                <p class="mt-6">
+                    Don't have an account? <span class="link-text" onclick="navigateTo('signup')">Sign Up</span>
+                </p>
+            `;
+
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+        }
+
+        /**
+         * Renders the Dashboard page.
+         * @param {string} username - The username of the logged-in user.
+         */
+        function renderDashboardPage(username) {
+            const appDiv = document.getElementById('app');
+            appDiv.innerHTML = `
+                <h2 class="mb-6">Welcome, ${username}!</h2>
+                <p class="mb-8">You have successfully logged into your dashboard.</p>
+                <button id="logoutButton" class="btn-secondary">Log Out</button>
+            `;
+
+            document.getElementById('logoutButton').addEventListener('click', handleLogout);
+        }
+
+        // --- Navigation Logic ---
+
+        /**
+         * Navigates to a specific page.
+         * @param {string} page - The page to navigate to ('signup', 'login', 'dashboard').
+         * @param {string} message - Optional message to pass to the page.
+         * @param {string} type - Type of message ('success' or 'error').
+         */
+        function navigateTo(page, message = '', type = '') {
+            switch (page) {
+                case 'signup':
+                    renderSignUpPage(message, type);
+                    break;
+                case 'login':
+                    renderLoginPage(message, type);
+                    break;
+                case 'dashboard':
+                    const loggedInUser = localStorage.getItem(`${appId}-loggedInUser`);
+                    if (loggedInUser) {
+                        renderDashboardPage(loggedInUser);
+                    } else {
+                        // If no user is logged in, redirect to login
+                        navigateTo('login', 'Please log in to view your dashboard.', 'error');
+                    }
+                    break;
+                default:
+                    renderSignUpPage(); // Default to signup page
+            }
+        }
+
+        // --- Authentication Handlers ---
+
+        /**
+         * Handles the sign-up form submission.
+         * Stores user credentials in local storage.
+         * @param {Event} event - The form submission event.
+         */
+        function handleSignUp(event) {
+            event.preventDefault();
+            const usernameInput = document.getElementById('signupUsername');
+            const passwordInput = document.getElementById('signupPassword');
+
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            if (!username || !password) {
+                renderSignUpPage('Please enter both username and password.', 'error');
+                return;
+            }
+
+            // Check if username already exists
+            const existingUsers = JSON.parse(localStorage.getItem(`${appId}-users`) || '{}');
+            if (existingUsers[username]) {
+                renderSignUpPage('Username already exists. Please choose a different one.', 'error');
+                return;
+            }
+
+            // Store user in local storage (in a real app, this would be hashed and stored securely on a server)
+            existingUsers[username] = password; // Storing password directly for simplicity, NOT secure for production
+            localStorage.setItem(`${appId}-users`, JSON.stringify(existingUsers));
+
+            // Clear form fields
+            usernameInput.value = '';
+            passwordInput.value = '';
+
+            navigateTo('login', 'You successfully created an account! Please log in.', 'success');
+        }
+
+        /**
+         * Handles the login form submission.
+         * Authenticates user against credentials in local storage.
+         * @param {Event} event - The form submission event.
+         */
+        function handleLogin(event) {
+            event.preventDefault();
+            const usernameInput = document.getElementById('loginUsername');
+            const passwordInput = document.getElementById('loginPassword');
+
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            if (!username || !password) {
+                renderLoginPage('Please enter both username and password.', 'error');
+                return;
+            }
+
+            const storedUsers = JSON.parse(localStorage.getItem(`${appId}-users`) || '{}');
+
+            if (storedUsers[username] && storedUsers[username] === password) {
+                // Successful login
+                localStorage.setItem(`${appId}-loggedInUser`, username); // Store logged-in user
+                navigateTo('dashboard');
+            } else {
+                // Failed login
+                renderLoginPage('Invalid username or password. Please try again.', 'error');
+            }
+        }
+
+        /**
+         * Handles the logout action.
+         * Clears the logged-in user from local storage and redirects to login.
+         */
+        function handleLogout() {
+            localStorage.removeItem(`${appId}-loggedInUser`); // Clear logged-in user
+            navigateTo('login', 'You have been logged out.', 'success');
+        }
+
+        // --- Initial Page Load ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if a user is already logged in
+            const loggedInUser = localStorage.getItem(`${appId}-loggedInUser`);
+            if (loggedInUser) {
+                navigateTo('dashboard');
+            } else {
+                navigateTo('signup'); // Start with the signup page if not logged in
+            }
+        });
+    </script>
+</body>
+</html>
