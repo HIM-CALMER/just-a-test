@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Authentication App</title>
+    <title>Grow Vest - Investment Dashboard</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         /* Base styles for Inter font and dark background */
         body {
@@ -20,9 +22,22 @@
             padding: 20px;
             box-sizing: border-box;
             color: #e0e7ff; /* Light, soft blue text for contrast */
+            overflow-x: hidden; /* Crucial: Prevent horizontal scrolling on the body */
         }
 
-        /* Main container styling */
+        /* Universal box-sizing for consistent layout */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        /* General image responsiveness */
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block; /* Remove extra space below images */
+        }
+
+        /* Main container styling for Login/Signup */
         .container {
             background-color: #1c2b3a; /* Slightly lighter than body background for subtle contrast */
             padding: 3.5rem 3rem; /* More generous padding */
@@ -39,13 +54,36 @@
             transform: translateY(30px); /* Start lower for animation */
         }
 
+        /* Dashboard-specific container styling */
+        .dashboard-container {
+            background-color: #1c2b3a; /* Slightly lighter than body background for subtle contrast */
+            padding: 2rem; /* Adjusted padding for dashboard */
+            border-radius: 1.75rem; /* More rounded corners */
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3),
+                        0 0 0 1px rgba(255, 255, 255, 0.05);
+            width: 100%; /* Ensure it takes full available width */
+            max-width: 1400px; /* Max width for desktop */
+            min-height: 90vh; /* Ensure it takes up a good portion of the viewport */
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            animation: fadeIn 0.6s ease-out forwards;
+            opacity: 0;
+            transform: translateY(30px);
+            overflow-y: auto; /* Allow vertical scrolling for long content */
+            overflow-x: hidden; /* Crucial: Prevent horizontal scrolling within dashboard */
+        }
+
         @keyframes fadeIn {
             to { opacity: 1; transform: translateY(0); }
         }
 
         /* Input field styling */
         input[type="text"],
-        input[type="password"] {
+        input[type="password"],
+        input[type="number"],
+        input[type="email"],
+        select {
             width: 100%;
             padding: 1.1rem 1.4rem; /* Generous padding */
             margin-bottom: 1.5rem; /* More space between inputs */
@@ -58,11 +96,15 @@
             box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2); /* Subtle inner shadow */
         }
         input[type="text"]::placeholder,
-        input[type="password"]::placeholder {
+        input[type="password"]::placeholder,
+        input[type="email"]::placeholder {
             color: #94a3b8; /* Lighter placeholder text */
         }
         input[type="text"]:focus,
-        input[type="password"]:focus {
+        input[type="password"]:focus,
+        input[type="number"]:focus,
+        input[type="email"]:focus,
+        select:focus {
             outline: none;
             border-color: #6366f1; /* Vibrant indigo focus border */
             background-color: #2f455c; /* Slightly lighter on focus */
@@ -126,6 +168,105 @@
             filter: brightness(0.9);
         }
 
+        .calculate-btn {
+            background: linear-gradient(45deg, #10b981 0%, #059669 100%); /* Green gradient */
+            color: white;
+            border: none;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+        .calculate-btn:hover {
+            background: linear-gradient(45deg, #0e9f73 0%, #047857 100%);
+            transform: translateY(-4px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.45);
+        }
+        .calculate-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            filter: brightness(0.9);
+        }
+
+        .invest-now-btn {
+            display: inline-flex; /* Use flex to align icon and text */
+            align-items: center;
+            justify-content: center;
+            padding: 0.8rem 1.2rem;
+            border-radius: 0.7rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+            background: linear-gradient(45deg, #a78bfa 0%, #8b5cf6 100%); /* Violet gradient */
+            color: white;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            text-decoration: none; /* Remove underline for links */
+            margin-top: 1.5rem; /* Space from content above */
+        }
+        .invest-now-btn:hover {
+            background: linear-gradient(45deg, #c4b5fd 0%, #9f7afc 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        .invest-now-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            filter: brightness(0.9);
+        }
+        .invest-now-btn i {
+            margin-right: 0.5rem; /* Space between icon and text */
+        }
+
+        .ai-insights-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.7rem 1rem;
+            border-radius: 0.7rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+            background: linear-gradient(45deg, #fcd34d 0%, #fbbf24 100%); /* Yellow gradient */
+            color: #1a2a3a; /* Dark text for contrast */
+            border: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            margin-top: 1rem;
+        }
+        .ai-insights-btn:hover {
+            background: linear-gradient(45deg, #fde68a 0%, #fcd34d 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        .ai-insights-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            filter: brightness(0.9);
+        }
+        .ai-insights-btn i {
+            margin-right: 0.5rem;
+        }
+
+        .pay-in-btn {
+            background: linear-gradient(45deg, #34d399 0%, #10b981 100%); /* Green gradient */
+            color: white;
+            border: none;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+        .pay-in-btn:hover {
+            background: linear-gradient(45deg, #10b981 0%, #059669 100%);
+            transform: translateY(-4px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.45);
+        }
+        .pay-in-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            filter: brightness(0.9);
+        }
+
+
         /* Message styling */
         .message {
             padding: 1rem 1.25rem;
@@ -147,6 +288,12 @@
             color: #fca5a5; /* Light red text */
             border-color: #ef4444;
         }
+        .message.info {
+            background-color: #2a3d50; /* Darker blue */
+            color: #93c5fd; /* Light blue text */
+            border-color: #60a5fa;
+        }
+
 
         /* Heading styling */
         h2 {
@@ -156,6 +303,29 @@
             font-size: 2.6rem; /* Even larger heading */
             letter-spacing: -0.03em; /* Tighter letter spacing for impact */
             text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle text shadow */
+        }
+        .dashboard-h2 {
+            font-size: 2.2rem; /* Slightly smaller for dashboard */
+            margin-bottom: 1.5rem;
+        }
+        section h2 {
+            font-size: 2rem; /* Section headings */
+            margin-bottom: 1.5rem;
+            margin-top: 3rem;
+            text-align: center;
+            color: #e0e7ff;
+        }
+        section h2 i {
+            margin-right: 0.75rem;
+            color: #a78bfa; /* Violet icon */
+        }
+        section p {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #cbd5e1;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         /* Link styling */
@@ -177,6 +347,644 @@
             margin-top: 1.5rem;
             font-size: 1rem;
         }
+
+        /* Investment Calculator styles */
+        .investment-calculator-section .calculator-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+        .investment-calculator-section .form-group {
+            width: 100%; /* Default to full width on small screens */
+            text-align: left;
+        }
+        .investment-calculator-section .duration-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .investment-calculator-section .duration-group div {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .investment-calculator-section .duration-group input,
+        .investment-calculator-section .duration-group select {
+            flex: 1;
+            margin-bottom: 0; /* Remove default margin */
+        }
+
+        .calculator-message {
+            background-color: #2a3d50;
+            color: #a78bfa;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            margin-top: 1.5rem;
+            font-weight: 500;
+            text-align: center;
+            display: none; /* Hidden by default */
+            border: 1px solid #6366f1;
+        }
+
+        .calculator-results {
+            background-color: #2a3d50;
+            padding: 2rem;
+            border-radius: 1rem;
+            margin-top: 2rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            text-align: left;
+        }
+        .calculator-results h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #e0e7ff;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        .calculator-results p {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            color: #cbd5e1;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        .calculator-results p span {
+            font-weight: 700;
+            color: #a78bfa;
+        }
+
+        /* Portfolio Overview Grid */
+        .portfolio-overview {
+            display: grid;
+            grid-template-columns: 1fr; /* Default to single column on small screens */
+            gap: 1.5rem;
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        @media (min-width: 640px) { /* Two columns on small tablets and up */
+            .portfolio-overview {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+
+        /* Investment Opportunities Grid */
+        .investment-grid {
+            display: grid;
+            grid-template-columns: 1fr; /* Default to single column on small screens */
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        @media (min-width: 768px) { /* Two columns on tablets and up */
+            .investment-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+        }
+
+        /* Testimonials Grid */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: 1fr; /* Default to single column on small screens */
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        @media (min-width: 768px) { /* Two columns on tablets and up */
+            .testimonials-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+        }
+
+        .investment-card {
+            background-color: #2a3d50;
+            border-radius: 1rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .investment-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+        .investment-card .card-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+        .investment-card h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #e0e7ff;
+            margin-bottom: 0.75rem;
+            text-align: left; /* Override section h2 */
+            margin-top: 0; /* Override section h2 */
+        }
+        .investment-card p {
+            font-size: 0.95rem;
+            color: #cbd5e1;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            text-align: left; /* Override section p */
+            margin-top: 0; /* Override section p */
+        }
+        .investment-card .growth-indicator {
+            font-weight: 600;
+            color: #34d399; /* Green for growth */
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+        .investment-card .growth-indicator i {
+            margin-right: 0.5rem;
+        }
+
+        .scale-graph {
+            width: 100%;
+            height: 8px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .scale-graph-fill {
+            height: 100%;
+            background-color: #a78bfa; /* Violet fill */
+            border-radius: 4px;
+            width: 0%; /* Will be set by JS */
+            transition: width 0.8s ease-out;
+        }
+
+        /* Media Gallery within cards */
+        .media-gallery {
+            margin-top: 1.5rem;
+            background-color: #1a2a3a; /* Darker background for gallery */
+            padding: 1rem;
+            border-radius: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 1.5rem;
+        }
+        .media-gallery h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #e0e7ff;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .media-gallery .images-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        .media-gallery .images-grid img {
+            width: 100%;
+            height: 80px; /* Fixed height for image thumbnails */
+            object-fit: cover;
+            border-radius: 0.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.2s ease-in-out;
+        }
+        .media-gallery .images-grid img:hover {
+            transform: scale(1.05);
+        }
+        .media-gallery .video-wrapper {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            margin-bottom: 0.75rem;
+        }
+        .media-gallery .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 0.75rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .media-gallery .media-caption {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            text-align: center;
+            margin-top: 0.5rem;
+            margin-bottom: 0;
+        }
+
+        /* Recent Transactions Table */
+        .transactions-table {
+            width: 100%;
+            border-collapse: separate; /* For rounded corners */
+            border-spacing: 0;
+            margin-top: 2rem;
+            background-color: #2a3d50;
+            border-radius: 1rem;
+            overflow: hidden; /* Ensures rounded corners apply to content */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .transactions-table th, .transactions-table td {
+            padding: 1rem 1.25rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .transactions-table th {
+            background-color: #3c5a78; /* Header background */
+            color: #e0e7ff;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .transactions-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        .transactions-table tbody tr:hover {
+            background-color: #3b526b; /* Hover effect for rows */
+        }
+        .transactions-table td {
+            color: #cbd5e1;
+            font-size: 0.95rem;
+        }
+        .transactions-table td.amount {
+            font-weight: 600;
+            color: #a78bfa;
+        }
+        .transactions-table td.type {
+            font-weight: 500;
+        }
+        .transactions-table td.date {
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }
+
+        /* Responsive table for small screens */
+        @media screen and (max-width: 768px) {
+            .transactions-table thead {
+                display: none; /* Hide header on small screens */
+            }
+            .transactions-table, .transactions-table tbody, .transactions-table tr, .transactions-table td {
+                display: block;
+                width: 100%;
+            }
+            .transactions-table tr {
+                margin-bottom: 1rem;
+                border: 1px solid rgba(255, 255, 255, 0.08);
+                border-radius: 1rem;
+                overflow: hidden;
+            }
+            .transactions-table td {
+                text-align: right;
+                padding-left: 50%;
+                position: relative;
+            }
+            .transactions-table td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 1rem;
+                width: calc(50% - 1.5rem);
+                padding-right: 1rem;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: 700;
+                color: #e0e7ff;
+            }
+        }
+
+        /* Testimonials Section */
+        .testimonial-card {
+            background-color: #2a3d50;
+            border-radius: 1rem;
+            padding: 1.75rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s ease-in-out;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-8px);
+        }
+        .testimonial-card .quote {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: #e0e7ff;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+            text-align: left;
+        }
+        .testimonial-card .author-info {
+            display: flex;
+            align-items: center;
+            margin-top: auto; /* Push to bottom */
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .testimonial-card .author-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 1rem;
+            border: 2px solid #a78bfa;
+        }
+        .testimonial-card .author-name {
+            font-weight: 700;
+            color: #a78bfa;
+            font-size: 1.1rem;
+        }
+        .testimonial-card .author-name small {
+            font-weight: 400;
+            color: #94a3b8;
+            font-size: 0.85rem;
+            display: block;
+        }
+        .testimonial-card .author-investment {
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            margin-top: 0.2rem;
+        }
+
+        /* Responsive adjustments for flex containers */
+        @media (max-width: 639px) { /* Small screens (e.g., mobile portrait) */
+            .dashboard-container {
+                padding: 1rem; /* Reduce padding on very small screens */
+            }
+            .dashboard-h2 {
+                font-size: 1.8rem;
+            }
+            /* Stack header elements */
+            .flex.justify-between.items-center {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            .flex.justify-between.items-center > div {
+                width: 100%; /* Make button container full width */
+                display: flex;
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+            .flex.justify-between.items-center button {
+                width: 100%; /* Make buttons full width */
+            }
+
+            .investment-calculator-section .form-group {
+                width: 100%; /* Ensure full width on very small screens */
+            }
+            .investment-calculator-section .duration-group {
+                flex-direction: column; /* Stack duration input and select */
+            }
+            .investment-calculator-section .duration-group input {
+                margin-right: 0;
+                margin-bottom: 0.5rem;
+            }
+        }
+
+        @media (min-width: 640px) and (max-width: 767px) { /* Medium screens (e.g., mobile landscape, small tablets) */
+            .investment-calculator-section .form-group {
+                flex: 1 1 calc(50% - 0.75rem); /* Two columns for calculator form */
+                max-width: calc(50% - 0.75rem);
+            }
+        }
+
+        @media (min-width: 768px) { /* Larger screens (e.g., tablets, desktops) */
+            .dashboard-container {
+                padding: 3rem;
+            }
+            /* Revert header to horizontal on larger screens */
+            .flex.justify-between.items-center {
+                flex-direction: row;
+                align-items: center;
+                gap: unset; /* Remove gap if set by smaller breakpoint */
+            }
+            .flex.justify-between.items-center > div {
+                width: auto;
+                flex-direction: row;
+                gap: 1rem; /* Restore space between buttons */
+            }
+            .flex.justify-between.items-center button {
+                width: auto;
+            }
+
+            .investment-calculator-section .form-group {
+                flex: 1 1 calc(33% - 1rem); /* Three columns on larger screens */
+                max-width: calc(33% - 1rem);
+            }
+            .investment-calculator-section .duration-group {
+                flex-direction: row; /* Horizontal layout for duration input/select */
+            }
+            .investment-calculator-section .duration-group input {
+                margin-right: 0.5rem;
+            }
+        }
+
+        /* Modal specific styles */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.75);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background-color: #1c2b3a;
+            padding: 2.5rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.08);
+            max-width: 500px;
+            width: 90%; /* Responsive width */
+            text-align: center;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+        }
+        .modal-overlay.active .modal-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .modal-content h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #f8fafc;
+            margin-bottom: 1.5rem;
+        }
+        .modal-content p {
+            font-size: 1.05rem;
+            color: #cbd5e1;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        .modal-content .info-box {
+            background-color: #2a3d50;
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1.5rem;
+            text-align: left;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .modal-content .info-box p {
+            margin: 0.5rem 0;
+            color: #e0e7ff;
+            font-size: 0.95rem;
+        }
+        .modal-content .info-box strong {
+            color: #a78bfa;
+        }
+        .modal-content .info-box .account-number {
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #fcd34d; /* Yellow for account number */
+        }
+        .modal-content .copy-btn {
+            background: none;
+            border: none;
+            color: #818cf8; /* Light blue for copy button */
+            font-size: 0.9rem;
+            padding: 0.25rem 0.5rem;
+            margin-left: 0.5rem;
+            cursor: pointer;
+            transition: color 0.2s ease-in-out;
+            width: auto; /* Override full width button style */
+            margin-top: 0; /* Override margin-top for buttons */
+        }
+        .modal-content .copy-btn:hover {
+            color: #a5b4fc;
+        }
+
+        /* AI Insights Modal specific styles */
+        #aiInsightModal .modal-content {
+            max-width: 600px;
+        }
+        #aiInsightContent {
+            min-height: 100px; /* Ensure space for content */
+            text-align: left;
+            color: #cbd5e1;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+        #aiInsightContent.loading-text {
+            color: #a78bfa;
+            font-style: italic;
+        }
+
+        /* Portfolio Overview Section */
+        .portfolio-card {
+            background-color: #2a3d50;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .portfolio-card .icon {
+            font-size: 2.5rem;
+            color: #a78bfa;
+            margin-bottom: 0.75rem;
+        }
+        .portfolio-card .label {
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        .portfolio-card .value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #e0e7ff;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .portfolio-card.balance .value {
+            color: #34d399; /* Green for balance */
+        }
+        .portfolio-card.returns .value {
+            color: #fcd34d; /* Yellow for returns */
+        }
+        .portfolio-card.invested .value {
+            color: #a78bfa; /* Violet for invested */
+        }
+
+        /* Settings Modal Specifics */
+        #settingsModal .modal-content {
+            max-width: 600px;
+            text-align: left;
+        }
+        #settingsModal .form-group {
+            margin-bottom: 1.5rem;
+        }
+        #settingsModal .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #e0e7ff;
+        }
+        #settingsModal .verification-status {
+            font-weight: 600;
+            margin-top: 0.5rem;
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+        }
+        #settingsModal .verification-status.unverified {
+            background-color: #ef444430;
+            color: #fca5a5;
+        }
+        #settingsModal .verification-status.pending {
+            background-color: #fcd34d30;
+            color: #fde047;
+        }
+        #settingsModal .verification-status.verified {
+            background-color: #34d39930;
+            color: #a7f3d0;
+        }
+
+        /* Add Funds Section */
+        .add-funds-section {
+            background-color: #2a3d50;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            margin-top: 3rem;
+            text-align: center;
+        }
+        .add-funds-section h2 {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            color: #e0e7ff;
+        }
+        .add-funds-section .form-group {
+            max-width: 400px;
+            margin: 0 auto 1.5rem auto;
+            text-align: left;
+        }
+        .add-funds-section .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #e0e7ff;
+        }
     </style>
 </head>
 <body>
@@ -188,14 +996,102 @@
         // Function to get a unique application ID (for local storage namespacing)
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-auth-app';
 
-        // Function to get the current user ID (for potential future use, though not directly used in this local storage example)
-        // For local storage, we'll just use a generic key for simplicity.
-        // If Firestore were integrated, this would be used for user-specific data.
+        // Function to get the current user ID for display (important for multi-user apps)
         const getUserId = () => {
             // In a real Firebase app, you'd get auth.currentUser.uid
-            // For local storage, we'll just use a generic identifier or let the app manage it.
-            return 'local-user';
+            // For this local storage example, we'll generate a consistent dummy ID
+            let storedUserId = localStorage.getItem(`${appId}-currentUserId`);
+            if (!storedUserId) {
+                storedUserId = 'user_' + Math.random().toString(36).substring(2, 11).toUpperCase();
+                localStorage.setItem(`${appId}-currentUserId`, storedUserId);
+            }
+            return storedUserId;
         };
+
+        // --- User Data Management (Simulated with localStorage) ---
+        // In a real application, this would be managed by a backend (e.g., Firestore)
+        function getUserData(username) {
+            const usersData = JSON.parse(localStorage.getItem(`${appId}-usersData`) || '{}');
+            return usersData[username] || {
+                balance: 0,
+                totalInvested: 0,
+                estimatedTotalReturns: 0,
+                email: '',
+                verificationStatus: 'unverified' // 'unverified', 'pending', 'verified'
+            };
+        }
+
+        function saveUserData(username, data) {
+            const usersData = JSON.parse(localStorage.getItem(`${appId}-usersData`) || '{}');
+            usersData[username] = data;
+            localStorage.setItem(`${appId}-usersData`, JSON.stringify(usersData));
+        }
+
+        // --- Utility Functions ---
+
+        /**
+         * Formats a number to Nigerian Naira currency string.
+         * @param {number} amount - The number to format.
+         * @returns {string} - Formatted currency string.
+         */
+        function formatNaira(amount) {
+            return `₦${amount.toLocaleString('en-NG', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
+        }
+
+        /**
+         * Copies text content from a specified element to the clipboard.
+         * Provides visual feedback.
+         * @param {string} elementId - The ID of the element whose text content should be copied.
+         */
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                const textToCopy = element.textContent;
+                const tempInput = document.createElement('textarea');
+                tempInput.value = textToCopy;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                try {
+                    document.execCommand('copy');
+                    // Provide visual feedback
+                    const originalText = element.textContent;
+                    element.textContent = 'Copied!';
+                    setTimeout(() => {
+                        element.textContent = originalText;
+                    }, 1500);
+                } catch (err) {
+                    console.error('Failed to copy text: ', err);
+                    const messageDiv = document.createElement('div');
+                    messageDiv.textContent = 'Could not copy text. Please copy manually.';
+                    messageDiv.style.cssText = 'position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background-color: #ef4444; color: white; padding: 10px 20px; border-radius: 8px; z-index: 100;';
+                    document.body.appendChild(messageDiv);
+                    setTimeout(() => {
+                        document.body.removeChild(messageDiv);
+                    }, 3000);
+                } finally {
+                    document.body.removeChild(tempInput);
+                }
+            }
+        }
+
+        /**
+         * Displays a temporary message on the dashboard.
+         * @param {string} messageText - The text content of the message.
+         * @param {string} type - The type of message ('success', 'error', 'info').
+         * @param {string} targetId - The ID of the element to display the message in.
+         */
+        function displayDashboardMessage(messageText, type, targetId) {
+            const messageDiv = document.getElementById(targetId);
+            if (messageDiv) {
+                messageDiv.textContent = messageText;
+                messageDiv.className = `message ${type}`; // Reset classes and add new type
+                messageDiv.classList.remove('hidden');
+                setTimeout(() => {
+                    messageDiv.classList.add('hidden');
+                    messageDiv.textContent = '';
+                }, 3000);
+            }
+        }
 
         // --- Page Rendering Functions ---
 
@@ -206,6 +1102,8 @@
          */
         function renderSignUpPage(message = '', type = '') {
             const appDiv = document.getElementById('app');
+            // Ensure the container class is correct for login/signup
+            appDiv.className = 'container';
             appDiv.innerHTML = `
                 <h2 class="mb-6">Create Your Account</h2>
                 ${message ? `<div class="message ${type}">${message}</div>` : ''}
@@ -233,6 +1131,8 @@
          */
         function renderLoginPage(message = '', type = '') {
             const appDiv = document.getElementById('app');
+            // Ensure the container class is correct for login/signup
+            appDiv.className = 'container';
             appDiv.innerHTML = `
                 <h2 class="mb-6">Welcome Back!</h2>
                 ${message ? `<div class="message ${type}">${message}</div>` : ''}
@@ -254,18 +1154,761 @@
         }
 
         /**
-         * Renders the Dashboard page.
+         * Renders the Dashboard page for Grow Vest.
          * @param {string} username - The username of the logged-in user.
          */
         function renderDashboardPage(username) {
             const appDiv = document.getElementById('app');
+            // Change container class for dashboard layout
+            appDiv.className = 'dashboard-container';
+
+            const userId = getUserId(); // Get the current user ID for display
+            const userData = getUserData(username);
+
             appDiv.innerHTML = `
-                <h2 class="mb-6">Welcome, ${username}!</h2>
-                <p class="mb-8">You have successfully logged into your dashboard.</p>
-                <button id="logoutButton" class="btn-secondary">Log Out</button>
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="dashboard-h2 text-left m-0">Grow Vest Dashboard</h2>
+                    <div class="flex space-x-4">
+                        <button id="settingsButton" class="btn-secondary w-auto px-6 py-3 text-sm">
+                            <i class="fas fa-cog mr-2"></i>Settings
+                        </button>
+                        <button id="logoutButton" class="btn-secondary w-auto px-6 py-3 text-sm">
+                            <i class="fas fa-sign-out-alt mr-2"></i>Log Out
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mb-6 text-sm text-gray-400 text-left">
+                    Logged in as: <span class="font-semibold text-blue-300">${username}</span> | User ID: <span class="font-mono text-blue-400 text-xs">${userId}</span>
+                </div>
+
+                <!-- Portfolio Overview Section -->
+                <section class="portfolio-overview-section mt-8">
+                    <h2><i class="fas fa-chart-pie"></i> Your Portfolio Overview</h2>
+                    <p>A quick glance at your financial health with Grow Vest.</p>
+                    <div class="portfolio-overview">
+                        <div class="portfolio-card balance">
+                            <i class="fas fa-wallet icon"></i>
+                            <div class="label">My Balance</div>
+                            <div id="displayBalance" class="value">${formatNaira(userData.balance)}</div>
+                        </div>
+                        <div class="portfolio-card invested">
+                            <i class="fas fa-sack-dollar icon"></i>
+                            <div class="label">Total Invested</div>
+                            <div id="displayTotalInvested" class="value">${formatNaira(userData.totalInvested)}</div>
+                        </div>
+                        <div class="portfolio-card returns">
+                            <i class="fas fa-hand-holding-usd icon"></i>
+                            <div class="label">Estimated Total Returns</div>
+                            <div id="displayEstimatedTotalReturns" class="value">${formatNaira(userData.estimatedTotalReturns)}</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Add Funds Section -->
+                <section class="add-funds-section mt-12">
+                    <h2><i class="fas fa-wallet"></i> Add Funds to Your Balance</h2>
+                    <p>Top up your Grow Vest balance to start or expand your investments.</p>
+                    <div class="form-group">
+                        <label for="addFundsAmount">Amount to Add (₦):</label>
+                        <input type="number" id="addFundsAmount" placeholder="e.g., 100000" min="1000">
+                    </div>
+                    <button id="payInBtn" class="pay-in-btn"><i class="fas fa-money-bill-wave mr-2"></i> Pay In</button>
+                    <div id="addFundsMessage" class="message hidden mt-4"></div>
+                </section>
+
+                <!-- Make a New Investment Section (formerly Calculator) -->
+                <section class="investment-calculator-section mt-12">
+                    <h2><i class="fas fa-calculator"></i> Make a New Investment</h2>
+                    <p>Use our interactive calculator to estimate your potential earnings and select an opportunity. **Please note: these are estimated annual returns, and actual returns may vary. Results are for illustrative purposes only.**</p>
+                    <div class="calculator-form">
+                        <div class="form-group">
+                            <label for="investmentAmount">Investment Amount (₦):</label>
+                            <input type="number" id="investmentAmount" value="50000" min="50000" step="10000">
+                        </div>
+                        <div class="form-group duration-group">
+                            <label for="investmentDurationValue">Investment Duration:</label>
+                            <div class="flex gap-2">
+                                <input type="number" id="investmentDurationValue" value="12" min="1" max="60" step="1">
+                                <select id="investmentDurationUnit">
+                                    <option value="months">Months</option>
+                                    <option value="years">Years</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="investmentOpportunity">Choose Elite Opportunity:</label>
+                            <select id="investmentOpportunity">
+                                <option value="poultry">Poultry Farming (Est. 250% Annually)</option>
+                                <option value="food">Sustainable Food Cultivation (Est. 220% Annually)</option>
+                                <option value="aquaculture">Aquaculture (Fish Farming) (Est. 280% Annually)</option>
+                                <option value="energy">Renewable Energy Projects (Est. 230% Annually)</option>
+                                <option value="luxury_crops">Luxury Crop Cultivation (Est. 350% Annually)</option>
+                                <option value="tech_agri">Agri-Tech Innovations (Est. 400% Annually)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button id="calculateReturnsBtn" class="calculate-btn"><i class="fas fa-chart-pie"></i> Calculate Returns</button>
+                    <div id="calculatorMessage" class="message hidden"></div>
+
+                    <div id="calculatorResults" class="calculator-results hidden">
+                        <h3>Estimated Returns Summary</h3>
+                        <p>Initial Investment: <span><span id="displayInitialInvestment">0</span></span></p>
+                        <p>Investment Duration: <span><span id="displayDurationValue">0</span> <span id="displayDurationUnit"></span></span></p>
+                        <p>Opportunity: <span><span id="displayOpportunity"></span></span></p>
+                        <hr style="margin: 20px 0; border: 0; border-top: 2px dashed rgba(255,255,255,0.1);">
+                        <p>Estimated Total Return: <span><span id="displayTotalReturn">0</span></span></p>
+                        <p>Estimated Profit: <span><span id="displayProfit">0</span></span></p>
+                        <button id="proceedToInvestBtn" class="btn-primary mt-6"><i class="fas fa-hand-holding-usd"></i> Proceed to Invest</button>
+                    </div>
+                </section>
+
+                <!-- Investment Opportunities Grid -->
+                <section id="investment-opportunities" class="mt-12">
+                    <h2><i class="fas fa-leaf"></i> Our Premier Investment Opportunities</h2>
+                    <p>Explore our diverse portfolio of high-yield, sustainable investment options. Each opportunity is carefully managed to maximize your returns while contributing to a better world.</p>
+                    <div class="investment-grid">
+                        <div class="investment-card">
+                            <div class="card-content">
+                                <h3>Poultry Farming</h3>
+                                <p>Invest in our state-of-the-art poultry farms. Benefit from high demand for poultry products and efficient, ethical farming practices. Consistent cycles ensure regular returns.</p>
+                                <div class="growth-indicator"><i class="fas fa-chart-line"></i> Est. 250% Annually</div>
+                                <div class="scale-graph"><div class="scale-graph-fill" data-fill-percentage="90"></div></div>
+                                <div class="media-gallery">
+                                    <h4>Gallery</h4>
+                                    <div class="images-grid">
+                                        <img src="https://placehold.co/150x150/4CAF50/FFFFFF?text=Poultry+Farm+1" alt="Poultry Farm 1" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
+                                        <img src="https://placehold.co/150x150/8BC34A/FFFFFF?text=Poultry+Farm+2" alt="Poultry Farm 2" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
+                                        <img src="https://placehold.co/150x150/66BB6A/FFFFFF?text=Poultry+Farm+3" alt="Poultry Farm 3" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
+                                    </div>
+                                </div>
+                                <a href="#" class="invest-now-btn" onclick="showInvestmentConfirmation('Poultry Farming', 250)"><i class="fas fa-hand-holding-usd"></i> Invest Now</a>
+                                <button class="ai-insights-btn" onclick="showAiInsightModal('Poultry Farming')">✨ Get AI Insights</button>
+                            </div>
+                        </div>
+
+                        <div class="investment-card">
+                            <div class="card-content">
+                                <h3>Sustainable Food Cultivation</h3>
+                                <p>Invest in eco-friendly farming of essential crops using advanced hydroponics and organic methods. Contribute to food security while earning from high-yield harvests.</p>
+                                <div class="growth-indicator"><i class="fas fa-chart-line"></i> Est. 220% Annually</div>
+                                <div class="scale-graph"><div class="scale-graph-fill" data-fill-percentage="80"></div></div>
+                                <div class="media-gallery">
+                                    <h4>Gallery</h4>
+                                    <div class="images-grid">
+                                        <img src="https://placehold.co/150x150/3F51B5/FFFFFF?text=Hydroponics+1" alt="Hydroponics Farm 1" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
+                                        <img src="https://placehold.co/150x150/2196F3/FFFFFF?text=Organic+Farm+2" alt="Organic Farm 2" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
+                                        <img src="https://placehold.co/150x150/03A9F4/FFFFFF?text=Vertical+Farm+3" alt="Vertical Farm 3" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
+                                    </div>
+                                </div>
+                                <a href="#" class="invest-now-btn" onclick="showInvestmentConfirmation('Sustainable Food Cultivation', 220)"><i class="fas fa-hand-holding-usd"></i> Invest Now</a>
+                                <button class="ai-insights-btn" onclick="showAiInsightModal('Sustainable Food Cultivation')">✨ Get AI Insights</button>
+                            </div>
+                        </div>
+
+                        <div class="investment-card">
+                            <div class="card-content">
+                                <h3>Aquaculture (Fish Farming)</h3>
+                                <p>Dive into the lucrative world of fish farming. Our modern aquaculture facilities ensure healthy growth and high market value, providing excellent returns from aquatic resources.</p>
+                                <div class="growth-indicator"><i class="fas fa-chart-line"></i> Est. 280% Annually</div>
+                                <div class="scale-graph"><div class="scale-graph-fill" data-fill-percentage="95"></div></div>
+                                <div class="media-gallery">
+                                    <h4>Gallery</h4>
+                                    <div class="images-grid">
+                                        <img src="https://placehold.co/150x150/00BCD4/FFFFFF?text=Fish+Farm+1" alt="Fish Farm 1" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
+                                        <img src="https://placehold.co/150x150/0097A7/FFFFFF?text=Fish+Farm+2" alt="Fish Farm 2" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
+                                        <img src="https://placehold.co/150x150/00ACC1/FFFFFF?text=Fish+Farm+3" alt="Fish Farm 3" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
+                                    </div>
+                                </div>
+                                <a href="#" class="invest-now-btn" onclick="showInvestmentConfirmation('Aquaculture (Fish Farming)', 280)"><i class="fas fa-hand-holding-usd"></i> Invest Now</a>
+                                <button class="ai-insights-btn" onclick="showAiInsightModal('Aquaculture (Fish Farming)')">✨ Get AI Insights</button>
+                            </div>
+                        </div>
+
+                        <div class="investment-card">
+                            <div class="card-content">
+                                <h3>Renewable Energy Projects</h3>
+                                <p>Power the future with clean energy investments. From solar farms to wind energy, our projects offer stable, long-term growth and a positive environmental impact.</p>
+                                <div class="growth-indicator"><i class="fas fa-chart-line"></i> Est. 230% Annually</div>
+                                <div class="scale-graph"><div class="scale-graph-fill" data-fill-percentage="85"></div></div>
+                                <div class="media-gallery">
+                                    <h4>Gallery</h4>
+                                    <div class="images-grid">
+                                        <img src="https://placehold.co/150x150/FFEB3B/FFFFFF?text=Solar+Farm+1" alt="Solar Farm 1" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
+                                        <img src="https://placehold.co/150x150/FBC02D/FFFFFF?text=Wind+Turbine+2" alt="Wind Turbine 2" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
+                                        <img src="https://placehold.co/150x150/FFD700/FFFFFF?text=Hydro+Plant+3" alt="Hydro Plant 3" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
+                                    </div>
+                                </div>
+                                <a href="#" class="invest-now-btn" onclick="showInvestmentConfirmation('Renewable Energy Projects', 230)"><i class="fas fa-hand-holding-usd"></i> Invest Now</a>
+                                <button class="ai-insights-btn" onclick="showAiInsightModal('Renewable Energy Projects')">✨ Get AI Insights</button>
+                            </div>
+                        </div>
+
+                        <div class="investment-card">
+                            <div class="card-content">
+                                <h3>Luxury Crop Cultivation</h3>
+                                <p>Delve into high-value agricultural investments focusing on premium, exotic crops. These niche markets offer exceptional profit margins due to rarity and demand.</p>
+                                <div class="growth-indicator"><i class="fas fa-chart-line"></i> Est. 350% Annually</div>
+                                <div class="scale-graph"><div class="scale-graph-fill" data-fill-percentage="98"></div></div>
+                                <div class="media-gallery">
+                                    <h4>Gallery</h4>
+                                    <div class="images-grid">
+                                        <img src="https://placehold.co/150x150/8E24AA/FFFFFF?text=Saffron+Farm" alt="Saffron Farm" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
+                                        <img src="https://placehold.co/150x150/AB47BC/FFFFFF?text=Truffle+Forest" alt="Truffle Forest" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
+                                        <img src="https://placehold.co/150x150/BA68C8/FFFFFF?text=Vanilla+Orchid" alt="Vanilla Orchid" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
+                                    </div>
+                                </div>
+                                <a href="#" class="invest-now-btn" onclick="showInvestmentConfirmation('Luxury Crop Cultivation', 350)"><i class="fas fa-hand-holding-usd"></i> Invest Now</a>
+                                <button class="ai-insights-btn" onclick="showAiInsightModal('Luxury Crop Cultivation')">✨ Get AI Insights</button>
+                            </div>
+                        </div>
+
+                        <div class="investment-card">
+                            <div class="card-content">
+                                <h3>Agri-Tech Innovations</h3>
+                                <p>Invest in cutting-edge agricultural technology. Fund smart farming solutions, AI-driven crop management, and sustainable robotics that revolutionize food production for maximum efficiency and yield.</p>
+                                <div class="growth-indicator"><i class="fas fa-chart-line"></i> Est. 400% Annually</div>
+                                <div class="scale-graph"><div class="scale-graph-fill" data-fill-percentage="100"></div></div>
+                                <div class="media-gallery">
+                                    <h4>Gallery</h4>
+                                    <div class="images-grid">
+                                        <img src="https://placehold.co/150x150/607D8B/FFFFFF?text=Smart+Farm+1" alt="Smart Farm 1" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
+                                        <img src="https://placehold.co/150x150/78909C/FFFFFF?text=Drone+Agri" alt="Drone Agri" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
+                                        <img src="https://placehold.co/150x150/90A4AE/FFFFFF?text=Robo+Harvester" alt="Robo Harvester" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
+                                    </div>
+                                </div>
+                                <a href="#" class="invest-now-btn" onclick="showInvestmentConfirmation('Agri-Tech Innovations', 400)"><i class="fas fa-hand-holding-usd"></i> Invest Now</a>
+                                <button class="ai-insights-btn" onclick="showAiInsightModal('Agri-Tech Innovations')">✨ Get AI Insights</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Recent Transactions Section -->
+                <section class="recent-transactions-section mt-12">
+                    <h2><i class="fas fa-history"></i> Recent Investor Activity</h2>
+                    <p>See the latest investments made by our growing community. Join them in cultivating a prosperous future!</p>
+                    <table class="transactions-table">
+                        <thead>
+                            <tr>
+                                <th>Investor ID</th>
+                                <th>Investment Type</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td data-label="Investor ID">GRV-INV-98765</td>
+                                <td data-label="Investment Type" class="type">Poultry Farming</td>
+                                <td data-label="Amount" class="amount">₦2,500,000</td>
+                                <td data-label="Date" class="date">2025-07-04</td>
+                            </tr>
+                            <tr>
+                                <td data-label="Investor ID">GRV-INV-12345</td>
+                                <td data-label="Investment Type" class="type">Renewable Energy</td>
+                                <td data-label="Amount" class="amount">₦5,000,000</td>
+                                <td data-label="Date" class="date">2025-07-03</td>
+                            </tr>
+                            <tr>
+                                <td data-label="Investor ID">GRV-INV-67890</td>
+                                <td data-label="Investment Type" class="type">Aquaculture</td>
+                                <td data-label="Amount" class="amount">₦1,200,000</td>
+                                <td data-label="Date" class="date">2025-07-02</td>
+                            </tr>
+                            <tr>
+                                <td data-label="Investor ID">GRV-INV-54321</td>
+                                <td data-label="Investment Type" class="type">Luxury Crop Cultivation</td>
+                                <td data-label="Amount" class="amount">₦3,800,000</td>
+                                <td data-label="Date" class="date">2025-07-01</td>
+                            </tr>
+                            <tr>
+                                <td data-label="Investor ID">GRV-INV-09876</td>
+                                <td data-label="Investment Type" class="type">Agri-Tech Innovations</td>
+                                <td data-label="Amount" class="amount">₦7,000,000</td>
+                                <td data-label="Date" class="date">2025-06-30</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <!-- Testimonials Section -->
+                <section class="testimonials-section mt-12">
+                    <h2><i class="fas fa-star"></i> What Our Elite Investors Say</h2>
+                    <p>Hear directly from satisfied GrowVest investors who are cultivating their future with us, achieving remarkable financial success and making a real impact.</p>
+                    <div class="testimonials-grid">
+                        <div class="testimonial-card">
+                            <p class="quote">"GrowVest transformed my investment portfolio! The poultry farming returns are incredible, far exceeding anything I've seen. Truly a game-changer for sustainable wealth."</p>
+                            <div class="author-info">
+                                <img src="https://placehold.co/80x80/8B4513/FFFFFF?text=JD" alt="John Doe" onerror="this.src='https://placehold.co/80x80/CCCCCC/333333?text=Image+Error';" class="author-avatar">
+                                <div>
+                                    <div class="author-name">John D. <small>(Lagos, Nigeria)</small></div>
+                                    <div class="author-investment">Poultry Investor | 3 Years</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="testimonial-card">
+                            <p class="quote">"Investing in sustainable food cultivation with GrowVest aligns with my values and delivers phenomenal returns. It's empowering to grow wealth while contributing to global food security."</p>
+                            <div class="author-info">
+                                <img src="https://placehold.co/80x80/A0522D/FFFFFF?text=AS" alt="Alice Smith" onerror="this.src='https://placehold.co/80x80/CCCCCC/333333?text=Image+Error';" class="author-avatar">
+                                <div>
+                                    <div class="author-name">Alice S. <small>(Accra, Ghana)</small></div>
+                                    <div class="author-investment">Food Cultivation Investor | 2.5 Years</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="testimonial-card">
+                            <p class="quote">"The aquaculture projects are incredibly lucrative. GrowVest's transparency and expert management make it a seamless experience. My profits have soared!"</p>
+                            <div class="author-info">
+                                <img src="https://placehold.co/80x80/D2B48C/4A2C2A?text=MB" alt="Michael Brown" onerror="this.src='https://placehold.co/80x80/CCCCCC/333333?text=Image+Error';" class="author-avatar">
+                                <div>
+                                    <div class="author-name">Michael B. <small>(Nairobi, Kenya)</small></div>
+                                    <div class="author-investment">Aquaculture Investor | 4 Years</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="testimonial-card">
+                            <p class="quote">"Renewable energy investments with GrowVest are both financially rewarding and environmentally conscious. A stable, high-growth opportunity that I wholeheartedly endorse."</p>
+                            <div class="author-info">
+                                <img src="https://placehold.co/80x80/4A2C2A/FFFFFF?text=CL" alt="Carol Lee" onerror="this.src='https://placehold.co/80x80/CCCCCC/333333?text=Image+Error';" class="author-avatar">
+                                <div>
+                                    <div class="author-name">Carol L. <small>(Cape Town, South Africa)</small></div>
+                                    <div class="author-investment">Renewable Energy Investor | 1.5 Years</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Investment Confirmation Modal -->
+                <div id="investmentConfirmationModal" class="modal-overlay hidden">
+                    <div class="modal-content">
+                        <h3 class="text-2xl font-bold text-white mb-4">Confirm Investment</h3>
+                        <p class="text-gray-300 mb-6">Are you sure you want to invest <span id="confirmInvestmentAmount" class="font-semibold text-green-400"></span> in <span id="confirmInvestmentType" class="font-semibold text-purple-400"></span> with an estimated annual return of <span id="confirmInvestmentRate" class="font-semibold text-green-400"></span>?</p>
+                        <div class="flex justify-center space-x-4">
+                            <button id="cancelInvestmentBtn" class="btn-secondary px-6 py-3 w-auto">Cancel</button>
+                            <button id="confirmInvestmentBtn" class="btn-primary px-6 py-3 w-auto">Confirm & Invest</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Instructions Modal (for external payment, not used for direct balance deduction) -->
+                <div id="paymentInstructionsModal" class="modal-overlay hidden">
+                    <div class="modal-content">
+                        <h3 class="text-2xl font-bold text-white mb-4">Add Funds Instructions</h3>
+                        <p class="text-gray-300 mb-6">Please make a transfer of <span id="paymentAmount" class="font-semibold text-green-400"></span> to the account details below to top up your Grow Vest balance:</p>
+                        <div class="info-box">
+                            <p><strong class="text-white">Bank Name:</strong> GrowVest Bank</p>
+                            <p><strong class="text-white">Account Name:</strong> GrowVest Investments Ltd.</p>
+                            <p><strong class="text-white">Account Number:</strong> <span id="accountNumber" class="account-number">1234567890</span> <button class="copy-btn" onclick="copyToClipboard('accountNumber')"><i class="fas fa-copy"></i> Copy</button></p>
+                        </div>
+                        <p class="text-gray-400 text-sm mb-6">Your balance will be updated upon successful confirmation of payment.</p>
+                        <div class="flex justify-center space-x-4">
+                            <button id="cancelPaymentInstructionsBtn" class="btn-secondary px-6 py-3 w-auto">Cancel</button>
+                            <button id="confirmPaymentReceivedBtn" class="btn-primary px-6 py-3 w-auto">I Have Paid</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Success Modal -->
+                <div id="paymentSuccessModal" class="modal-overlay hidden">
+                    <div class="modal-content">
+                        <h3 class="text-2xl font-bold text-green-400 mb-4"><i class="fas fa-check-circle mr-2"></i> Transaction Successful!</h3>
+                        <p class="text-gray-300 mb-6">Your <span id="successTransactionType" class="font-semibold text-purple-400"></span> has been processed. Your balance and portfolio have been updated.</p>
+                        <p class="text-gray-400 text-sm">You will receive an email confirmation shortly.</p>
+                        <button id="closeSuccessModalBtn" class="btn-primary mt-6 px-6 py-3 w-auto">Done</button>
+                    </div>
+                </div>
+
+                <!-- AI Insight Modal -->
+                <div id="aiInsightModal" class="modal-overlay hidden">
+                    <div class="modal-content">
+                        <h3 class="text-2xl font-bold text-white mb-4"><i class="fas fa-brain mr-2"></i> AI Insights for <span id="aiInsightTitle" class="text-yellow-400"></span></h3>
+                        <div id="aiInsightContent" class="text-gray-300 mb-6 loading-text">
+                            Generating insights...
+                        </div>
+                        <button id="closeAiInsightModalBtn" class="btn-secondary px-6 py-3 w-auto">Close</button>
+                    </div>
+                </div>
+
+                <!-- Settings Modal -->
+                <div id="settingsModal" class="modal-overlay hidden">
+                    <div class="modal-content">
+                        <h3 class="text-2xl font-bold text-white mb-4"><i class="fas fa-cog mr-2"></i> Profile Settings</h3>
+                        <div id="settingsMessage" class="message hidden"></div>
+
+                        <div class="form-group">
+                            <label for="settingsUsername">Username:</label>
+                            <input type="text" id="settingsUsername" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="settingsEmail">Email:</label>
+                            <input type="email" id="settingsEmail" placeholder="Enter your email">
+                        </div>
+                        <div class="form-group">
+                            <label>Verification Status:</label>
+                            <span id="verificationStatus" class="verification-status"></span>
+                        </div>
+                        <button id="updateProfileBtn" class="btn-primary"><i class="fas fa-save mr-2"></i> Update Profile</button>
+                        <button id="initiateVerificationBtn" class="btn-secondary mt-4"><i class="fas fa-user-check mr-2"></i> Initiate Verification</button>
+                        <button id="closeSettingsModalBtn" class="btn-secondary mt-4">Close</button>
+                    </div>
+                </div>
             `;
 
+            // All event listeners and element references should be set up here, after innerHTML is assigned
+            // This ensures the elements exist in the DOM before we try to access them.
+
             document.getElementById('logoutButton').addEventListener('click', handleLogout);
+            document.getElementById('settingsButton').addEventListener('click', showSettingsModal);
+
+            // Add Funds elements
+            const addFundsAmountInput = document.getElementById('addFundsAmount');
+            const payInBtn = document.getElementById('payInBtn');
+            const addFundsMessageDiv = document.getElementById('addFundsMessage');
+
+            // Investment Calculator elements
+            const investmentAmountInput = document.getElementById('investmentAmount');
+            const investmentDurationValueInput = document.getElementById('investmentDurationValue');
+            const investmentDurationUnitSelect = document.getElementById('investmentDurationUnit');
+            const investmentOpportunitySelect = document.getElementById('investmentOpportunity');
+            const calculateReturnsBtn = document.getElementById('calculateReturnsBtn');
+            const calculatorResultsDiv = document.getElementById('calculatorResults');
+            const calculatorMessageDiv = document.getElementById('calculatorMessage');
+            const proceedToInvestBtn = document.getElementById('proceedToInvestBtn');
+
+            const displayInitialInvestment = document.getElementById('displayInitialInvestment');
+            const displayDurationValue = document.getElementById('displayDurationValue');
+            const displayDurationUnit = document.getElementById('displayDurationUnit');
+            const displayOpportunity = document.getElementById('displayOpportunity');
+            const displayTotalReturn = document.getElementById('displayTotalReturn');
+            const displayProfit = document.getElementById('displayProfit');
+
+            const displayBalance = document.getElementById('displayBalance');
+            const displayTotalInvested = document.getElementById('displayTotalInvested');
+            const displayEstimatedTotalReturns = document.getElementById('displayEstimatedTotalReturns');
+
+
+            let currentInvestmentDetails = {}; // Store details for investment flow
+            let currentAddFundsAmount = 0; // Store amount for add funds flow
+
+            // Function to update portfolio overview
+            function updatePortfolioOverview() {
+                const updatedUserData = getUserData(username);
+                displayBalance.textContent = formatNaira(updatedUserData.balance);
+                displayTotalInvested.textContent = formatNaira(updatedUserData.totalInvested);
+                displayEstimatedTotalReturns.textContent = formatNaira(updatedUserData.estimatedTotalReturns);
+            }
+
+            // Function to handle adding funds
+            payInBtn.addEventListener('click', () => {
+                const amount = parseFloat(addFundsAmountInput.value);
+                if (isNaN(amount) || amount <= 0) {
+                    displayDashboardMessage('Please enter a valid positive amount to add.', 'error', 'addFundsMessage');
+                    return;
+                }
+
+                currentAddFundsAmount = amount; // Store the amount for the payment instructions modal
+                // Get paymentAmountSpan AFTER the dashboard HTML is rendered
+                const paymentAmountSpan = document.getElementById('paymentAmount');
+                const successTransactionTypeSpan = document.getElementById('successTransactionType'); // Also get this here
+                paymentAmountSpan.textContent = formatNaira(amount);
+                // Change the success message for add funds
+                // The paymentInvestmentTypeSpan is not directly used for this purpose in the current HTML,
+                // but if it were, it would need to be defined here too.
+                // document.getElementById('paymentInvestmentType').textContent = 'your balance';
+                successTransactionTypeSpan.textContent = 'funds addition';
+                paymentInstructionsModal.classList.add('active');
+            });
+
+            // Function to calculate and display returns
+            function calculateReturns() {
+                const amount = parseFloat(investmentAmountInput.value);
+                let duration = parseFloat(investmentDurationValueInput.value);
+                const durationUnit = investmentDurationUnitSelect.value;
+                const opportunityText = investmentOpportunitySelect.options[investmentOpportunitySelect.selectedIndex].text;
+                const selectedOpportunity = investmentOpportunitySelect.value;
+
+                // Increased rates to make investments more appealing
+                const rates = {
+                    poultry: 2.50, // 250%
+                    food: 2.20,   // 220%
+                    aquaculture: 2.80, // 280%
+                    energy: 2.30, // 230%
+                    luxury_crops: 3.50, // 350%
+                    tech_agri: 4.00   // 400%
+                };
+
+                const annualRate = rates[selectedOpportunity];
+
+                if (isNaN(amount) || amount < 50000) { // Minimum investment amount
+                    displayDashboardMessage('Investment amount must be at least ₦50,000.', 'error', 'calculatorMessage');
+                    calculatorResultsDiv.classList.add('hidden');
+                    return;
+                }
+                if (isNaN(duration) || duration <= 0) {
+                    displayDashboardMessage('Please enter a valid positive number for investment duration.', 'error', 'calculatorResults'); // Changed target ID
+                    calculatorResultsDiv.classList.add('hidden');
+                    return;
+                }
+
+                calculatorMessageDiv.classList.add('hidden'); // Hide any previous messages
+
+                // Convert duration to years for calculation
+                let durationInYears = duration;
+                if (durationUnit === 'months') {
+                    durationInYears = duration / 12;
+                }
+
+                // Simple interest calculation for illustrative purposes
+                // Total Return = Principal + (Principal * Annual Rate * Duration in Years)
+                const totalReturn = amount * (1 + (annualRate * durationInYears));
+                const profit = totalReturn - amount;
+
+                displayInitialInvestment.textContent = formatNaira(amount);
+                displayDurationValue.textContent = duration;
+                displayDurationUnit.textContent = durationUnit;
+                displayOpportunity.textContent = opportunityText;
+                displayTotalReturn.textContent = formatNaira(totalReturn);
+                displayProfit.textContent = formatNaira(profit);
+
+                calculatorResultsDiv.classList.remove('hidden');
+
+                // Store details for later use in payment flow
+                currentInvestmentDetails = {
+                    amount: amount,
+                    type: opportunityText,
+                    rate: annualRate * 100, // Convert back to percentage for display
+                    estimatedReturnAmount: profit // Store the calculated profit for estimated total returns
+                };
+            }
+
+            // Attach event listener to the calculate button
+            calculateReturnsBtn.addEventListener('click', calculateReturns);
+
+            // Trigger calculation on initial load
+            calculateReturns();
+            updatePortfolioOverview(); // Initial update of portfolio overview
+
+            // Animate scale graphs
+            document.querySelectorAll('.scale-graph-fill').forEach(graph => {
+                const percentage = graph.dataset.fillPercentage;
+                graph.style.width = `${percentage}%`;
+            });
+
+            // --- Modal Logic ---
+            const investmentConfirmationModal = document.getElementById('investmentConfirmationModal');
+            const confirmInvestmentAmount = document.getElementById('confirmInvestmentAmount');
+            const confirmInvestmentType = document.getElementById('confirmInvestmentType');
+            const confirmInvestmentRate = document.getElementById('confirmInvestmentRate');
+            const cancelInvestmentBtn = document.getElementById('cancelInvestmentBtn');
+            const confirmInvestmentBtn = document.getElementById('confirmInvestmentBtn');
+
+            const paymentInstructionsModal = document.getElementById('paymentInstructionsModal');
+            const paymentAmountSpan = document.getElementById('paymentAmount');
+            // Removed paymentInvestmentTypeSpan as it's not directly used in the current HTML for this purpose
+            const cancelPaymentInstructionsBtn = document.getElementById('cancelPaymentInstructionsBtn');
+            const confirmPaymentReceivedBtn = document.getElementById('confirmPaymentReceivedBtn');
+
+            const paymentSuccessModal = document.getElementById('paymentSuccessModal');
+            const successTransactionTypeSpan = document.getElementById('successTransactionType');
+            const closeSuccessModalBtn = document.getElementById('closeSuccessModalBtn');
+
+            const aiInsightModal = document.getElementById('aiInsightModal');
+            const aiInsightTitle = document.getElementById('aiInsightTitle');
+            const aiInsightContent = document.getElementById('aiInsightContent');
+            const closeAiInsightModalBtn = document.getElementById('closeAiInsightModalBtn');
+
+            const settingsModal = document.getElementById('settingsModal');
+            const settingsUsernameInput = document.getElementById('settingsUsername');
+            const settingsEmailInput = document.getElementById('settingsEmail');
+            const verificationStatusSpan = document.getElementById('verificationStatus');
+            const updateProfileBtn = document.getElementById('updateProfileBtn');
+            const initiateVerificationBtn = document.getElementById('initiateVerificationBtn'); // Fixed typo here
+            const closeSettingsModalBtn = document.getElementById('closeSettingsModalBtn');
+            const settingsMessageDiv = document.getElementById('settingsMessage');
+
+
+            // Function to show the initial investment confirmation modal
+            window.showInvestmentConfirmation = function(type, rate) {
+                // Ensure the calculator has run to populate currentInvestmentDetails
+                calculateReturns();
+
+                const userData = getUserData(username);
+                if (currentInvestmentDetails.amount > userData.balance) {
+                    displayDashboardMessage('Insufficient balance. Please add funds to your Grow Vest balance first.', 'error', 'calculatorMessage');
+                    return;
+                } else {
+                    calculatorMessageDiv.classList.add('hidden');
+                }
+
+                confirmInvestmentAmount.textContent = formatNaira(currentInvestmentDetails.amount);
+                confirmInvestmentType.textContent = type;
+                confirmInvestmentRate.textContent = `${rate}% Annually`;
+                investmentConfirmationModal.classList.add('active');
+            };
+
+            // Event listener for "Proceed to Invest" button from calculator results
+            proceedToInvestBtn.addEventListener('click', () => {
+                // Ensure the calculator has run to populate currentInvestmentDetails
+                calculateReturns();
+
+                const userData = getUserData(username);
+                if (currentInvestmentDetails.amount > userData.balance) {
+                    displayDashboardMessage('Insufficient balance. Please add funds to your Grow Vest balance first.', 'error', 'calculatorMessage');
+                    return;
+                } else {
+                    calculatorMessageDiv.classList.add('hidden');
+                }
+
+                confirmInvestmentAmount.textContent = formatNaira(currentInvestmentDetails.amount);
+                confirmInvestmentType.textContent = currentInvestmentDetails.type;
+                confirmInvestmentRate.textContent = `${currentInvestmentDetails.rate}% Annually`;
+                investmentConfirmationModal.classList.add('active');
+            });
+
+            // Event listener for confirming investment details (deducts from balance)
+            confirmInvestmentBtn.addEventListener('click', () => {
+                investmentConfirmationModal.classList.remove('active');
+
+                // Deduct from balance and add to invested/returns
+                let userData = getUserData(username);
+                userData.balance -= currentInvestmentDetails.amount;
+                userData.totalInvested += currentInvestmentDetails.amount;
+                // Add the *profit* to estimatedTotalReturns, not the total return amount
+                userData.estimatedTotalReturns += currentInvestmentDetails.estimatedReturnAmount;
+                saveUserData(username, userData);
+                updatePortfolioOverview(); // Update dashboard display
+
+                successTransactionTypeSpan.textContent = `investment in ${currentInvestmentDetails.type}`;
+                paymentSuccessModal.classList.add('active');
+            });
+
+            // Event listener for cancelling initial investment confirmation
+            cancelInvestmentBtn.addEventListener('click', () => {
+                investmentConfirmationModal.classList.remove('active');
+            });
+
+            // Event listener for cancelling payment instructions (for Add Funds)
+            cancelPaymentInstructionsBtn.addEventListener('click', () => {
+                paymentInstructionsModal.classList.remove('active');
+            });
+
+            // Event listener for "I Have Paid" button (for Add Funds)
+            confirmPaymentReceivedBtn.addEventListener('click', () => {
+                paymentInstructionsModal.classList.remove('active');
+
+                // Simulate funds addition
+                let userData = getUserData(username);
+                userData.balance += currentAddFundsAmount;
+                saveUserData(username, userData);
+                updatePortfolioOverview(); // Update dashboard display
+
+                successTransactionTypeSpan.textContent = 'funds addition';
+                paymentSuccessModal.classList.add('active');
+                addFundsAmountInput.value = ''; // Clear the input field
+            });
+
+            // Event listener for closing success modal
+            closeSuccessModalBtn.addEventListener('click', () => {
+                paymentSuccessModal.classList.remove('active');
+            });
+
+            // --- AI Insight Modal Logic ---
+            window.showAiInsightModal = async function(investmentType) {
+                aiInsightTitle.textContent = investmentType;
+                aiInsightContent.textContent = 'Generating insights...';
+                aiInsightContent.classList.add('loading-text');
+                aiInsightModal.classList.add('active');
+
+                const prompt = `Provide a concise summary of the key benefits and potential considerations for investing in "${investmentType}" within the sustainable agriculture or renewable energy sector, focusing on growth opportunities and ethical aspects. Keep it under 150 words.`;
+
+                try {
+                    let chatHistory = [];
+                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                    const payload = { contents: chatHistory };
+                    const apiKey = ""; // Leave as-is, Canvas will provide it
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        const text = result.candidates[0].content.parts[0].text;
+                        aiInsightContent.textContent = text;
+                    } else {
+                        aiInsightContent.textContent = 'Failed to generate insights. Please try again.';
+                        console.error('Gemini API response structure unexpected:', result);
+                    }
+                } catch (error) {
+                    aiInsightContent.textContent = 'Error generating insights. Please check your network connection.';
+                    console.error('Error calling Gemini API:', error);
+                } finally {
+                    aiInsightContent.classList.remove('loading-text');
+                }
+            };
+
+            closeAiInsightModalBtn.addEventListener('click', () => {
+                aiInsightModal.classList.remove('active');
+            });
+
+            // --- Settings Modal Logic ---
+            function showSettingsModal() {
+                const userData = getUserData(username);
+                settingsUsernameInput.value = username; // Username is read-only for this simulation
+                settingsEmailInput.value = userData.email || '';
+                updateVerificationStatusDisplay(userData.verificationStatus);
+                settingsMessageDiv.classList.add('hidden'); // Clear previous messages
+                settingsModal.classList.add('active');
+            }
+
+            function updateVerificationStatusDisplay(status) {
+                verificationStatusSpan.textContent = status.charAt(0).toUpperCase() + status.slice(1); // Capitalize first letter
+                verificationStatusSpan.className = `verification-status ${status}`; // Apply status-specific class
+            }
+
+            updateProfileBtn.addEventListener('click', () => {
+                let userData = getUserData(username);
+                const newEmail = settingsEmailInput.value.trim();
+
+                if (newEmail && !/\S+@\S+\.\S+/.test(newEmail)) {
+                    displayDashboardMessage('Please enter a valid email address.', 'error', 'settingsMessage');
+                    return;
+                }
+
+                userData.email = newEmail;
+                saveUserData(username, userData);
+                displayDashboardMessage('Profile updated successfully!', 'success', 'settingsMessage');
+            });
+
+            initiateVerificationBtn.addEventListener('click', () => {
+                let userData = getUserData(username);
+                if (userData.verificationStatus === 'unverified') {
+                    userData.verificationStatus = 'pending';
+                    saveUserData(username, userData);
+                    updateVerificationStatusDisplay(userData.verificationStatus);
+                    displayDashboardMessage('Verification initiated! Please check your email for further instructions.', 'info', 'settingsMessage');
+                } else if (userData.verificationStatus === 'pending') {
+                    displayDashboardMessage('Verification is already pending. Please wait for our team to review.', 'info', 'settingsMessage');
+                } else if (userData.verificationStatus === 'verified') {
+                    displayDashboardMessage('Your profile is already verified.', 'success', 'settingsMessage');
+                }
+            });
+
+            closeSettingsModalBtn.addEventListener('click', () => {
+                settingsModal.classList.remove('active');
+            });
+
+
+            // Make copyToClipboard globally accessible for the button in the modal
+            window.copyToClipboard = copyToClipboard;
         }
 
         // --- Navigation Logic ---
@@ -319,15 +1962,26 @@
             }
 
             // Check if username already exists
-            const existingUsers = JSON.parse(localStorage.getItem(`${appId}-users`) || '{}');
-            if (existingUsers[username]) {
+            const existingAuthUsers = JSON.parse(localStorage.getItem(`${appId}-users`) || '{}');
+            if (existingAuthUsers[username]) {
                 renderSignUpPage('Username already exists. Please choose a different one.', 'error');
                 return;
             }
 
             // Store user in local storage (in a real app, this would be hashed and stored securely on a server)
-            existingUsers[username] = password; // Storing password directly for simplicity, NOT secure for production
-            localStorage.setItem(`${appId}-users`, JSON.stringify(existingUsers));
+            existingAuthUsers[username] = password; // Storing password directly for simplicity, NOT secure for production
+            localStorage.setItem(`${appId}-users`, JSON.stringify(existingAuthUsers));
+
+            // Initialize user data (balance, investments, etc.) for the new user
+            const initialUserData = {
+                balance: 0, // Initial balance is 0
+                totalInvested: 0,
+                estimatedTotalReturns: 0,
+                email: '',
+                verificationStatus: 'unverified'
+            };
+            saveUserData(username, initialUserData);
+
 
             // Clear form fields
             usernameInput.value = '';
@@ -354,9 +2008,9 @@
                 return;
             }
 
-            const storedUsers = JSON.parse(localStorage.getItem(`${appId}-users`) || '{}');
+            const storedAuthUsers = JSON.parse(localStorage.getItem(`${appId}-users`) || '{}');
 
-            if (storedUsers[username] && storedUsers[username] === password) {
+            if (storedAuthUsers[username] && storedAuthUsers[username] === password) {
                 // Successful login
                 localStorage.setItem(`${appId}-loggedInUser`, username); // Store logged-in user
                 navigateTo('dashboard');
@@ -372,6 +2026,7 @@
          */
         function handleLogout() {
             localStorage.removeItem(`${appId}-loggedInUser`); // Clear logged-in user
+            localStorage.removeItem(`${appId}-currentUserId`); // Clear the dummy user ID on logout
             navigateTo('login', 'You have been logged out.', 'success');
         }
 
