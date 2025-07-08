@@ -3,1488 +3,1505 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grow Vest - Investment Dashboard</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Font Awesome for icons -->
+    <title>GrowVest - Invest in Sustainable Agriculture & Renewable Energy</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Base styles for Inter font and dark background */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Montserrat:wght@400;500;700&display=swap');
+
+        /* --- CSS Variables for easy theming --- */
+        :root {
+            --primary-color: #4CAF50; /* Green - for success, key actions */
+            --primary-light: #66BB6A;
+            --primary-dark: #388E3C;
+
+            --secondary-color: #2196F3; /* Blue - for links, info */
+            --secondary-light: #64B5F6;
+            --secondary-dark: #1976D2;
+
+            --dark-bg: #1A1A2E; /* Deep dark blue-purple for body background */
+            --card-bg: #16213E; /* Slightly lighter dark for cards */
+            --card-hover-bg: #1E2B4A; /* Even lighter for hover */
+
+            --text-color: #E0E0E0; /* Light gray for general text */
+            --light-text: #FFFFFF; /* White for headings, crucial info */
+            --accent-color: #FFEB3B; /* Yellow for highlights, icons */
+            --accent-light: #FFEE58;
+
+            --error-color: #F44336; /* Red for errors */
+            --success-color: #8BC34A; /* Light green for success */
+            --info-color: #03A9F4; /* Light blue for info */
+
+            --border-color: #3F4A6B; /* Border for subtle separation */
+            --shadow-color-light: rgba(0, 0, 0, 0.2);
+            --shadow-color-dark: rgba(0, 0, 0, 0.5);
+
+            --gradient-bg: linear-gradient(135deg, var(--dark-bg) 0%, #0F1626 100%);
+            --card-gradient-border: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        }
+
+        /* --- Base Styles --- */
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #1a2a3a 0%, #0a111a 100%); /* Deep, subtle dark gradient */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            background: var(--gradient-bg);
+            color: var(--text-color);
             margin: 0;
-            padding: 20px;
-            box-sizing: border-box;
-            color: #e0e7ff; /* Light, soft blue text for contrast */
-            overflow-x: hidden; /* Crucial: Prevent horizontal scrolling on the body */
-        }
-
-        /* Universal box-sizing for consistent layout */
-        *, *::before, *::after {
-            box-sizing: border-box;
-        }
-
-        /* General image responsiveness */
-        img {
-            max-width: 100%;
-            height: auto;
-            display: block; /* Remove extra space below images */
-        }
-
-        /* Main container styling for Login/Signup */
-        .container {
-            background-color: #1c2b3a; /* Slightly lighter than body background for subtle contrast */
-            padding: 3.5rem 3rem; /* More generous padding */
-            border-radius: 1.75rem; /* More rounded corners */
-            /* Multi-layered, sophisticated shadow */
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3),
-                        0 0 0 1px rgba(255, 255, 255, 0.05); /* Subtle inner border/glow */
-            width: 100%;
-            max-width: 520px; /* Slightly wider for a more spacious feel */
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.08); /* Very subtle light border */
-            animation: fadeIn 0.6s ease-out forwards; /* Slightly longer fade-in */
-            opacity: 0; /* Start invisible for animation */
-            transform: translateY(30px); /* Start lower for animation */
-        }
-
-        /* Dashboard-specific container styling */
-        .dashboard-container {
-            background-color: #1c2b3a; /* Slightly lighter than body background for subtle contrast */
-            padding: 2rem; /* Adjusted padding for dashboard */
-            border-radius: 1.75rem; /* More rounded corners */
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3),
-                        0 0 0 1px rgba(255, 255, 255, 0.05);
-            width: 100%; /* Ensure it takes full available width */
-            max-width: 1400px; /* Max width for desktop */
-            min-height: 90vh; /* Ensure it takes up a good portion of the viewport */
+            padding: 0;
+            line-height: 1.6;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+            transition: background 0.5s ease-in-out;
+            min-height: 100vh; /* Ensure full height for gradient */
             display: flex;
             flex-direction: column;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            animation: fadeIn 0.6s ease-out forwards;
-            opacity: 0;
-            transform: translateY(30px);
-            overflow-y: auto; /* Allow vertical scrolling for long content */
-            overflow-x: hidden; /* Crucial: Prevent horizontal scrolling within dashboard */
         }
 
-        @keyframes fadeIn {
-            to { opacity: 1; transform: translateY(0); }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            flex-grow: 1; /* Allows container to push footer down */
         }
 
-        /* Input field styling */
-        input[type="text"],
-        input[type="password"],
-        input[type="number"],
-        input[type="email"],
-        select {
-            width: 100%;
-            padding: 1.1rem 1.4rem; /* Generous padding */
-            margin-bottom: 1.5rem; /* More space between inputs */
-            background-color: #2a3d50; /* Darker input background */
-            border: 1px solid #3c5a78; /* Muted blue border */
-            border-radius: 0.9rem; /* Smoothly rounded */
-            font-size: 1.05rem;
-            color: #e0e7ff; /* Light text color */
-            transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out;
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2); /* Subtle inner shadow */
-        }
-        input[type="text"]::placeholder,
-        input[type="password"]::placeholder,
-        input[type="email"]::placeholder {
-            color: #94a3b8; /* Lighter placeholder text */
-        }
-        input[type="text"]:focus,
-        input[type="password"]:focus,
-        input[type="number"]:focus,
-        input[type="email"]:focus,
-        select:focus {
-            outline: none;
-            border-color: #6366f1; /* Vibrant indigo focus border */
-            background-color: #2f455c; /* Slightly lighter on focus */
-            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.25), inset 0 1px 3px rgba(0, 0, 0, 0.3); /* Enhanced focus shadow */
+        /* --- Utility Classes (Mimicking Tailwind where useful) --- */
+        .mt-12 { margin-top: 3rem; } /* 48px */
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-6 { margin-bottom: 1.5rem; }
+        .mt-6 { margin-top: 1.5rem; }
+        .mt-4 { margin-top: 1rem; }
+        .mr-2 { margin-right: 0.5rem; }
+        .hidden { display: none !important; }
+        .text-center { text-align: center; }
+        .text-2xl { font-size: 1.5rem; }
+        .text-3xl { font-size: 1.875rem; }
+        .text-4xl { font-size: 2.25rem; }
+        .font-bold { font-weight: 700; }
+        .font-semibold { font-weight: 600; }
+        .text-white { color: var(--light-text); }
+        .text-gray-300 { color: #C2C2C2; }
+        .text-gray-400 { color: #A0A0A0; }
+        .text-green-400 { color: var(--primary-light); }
+        .text-purple-400 { color: #A064FF; /* Custom purple */ }
+        .text-yellow-400 { color: var(--accent-light); }
+        .flex { display: flex; }
+        .items-center { align-items: center; }
+        .justify-center { justify-content: center; }
+        .justify-between { justify-content: space-between; }
+        .space-x-4 > *:not(:first-child) { margin-left: 1rem; }
+        .w-full { width: 100%; }
+        .w-auto { width: auto; }
+        .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+        .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+        .rounded-lg { border-radius: 0.5rem; }
+        .shadow-lg { box-shadow: 0 10px 25px -3px var(--shadow-color-dark), 0 4px 10px -2px var(--shadow-color-light); }
+
+
+        /* --- Typography --- */
+        h1, h2, h3 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--light-text);
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
         }
 
-        /* Button styling */
-        button {
-            width: 100%;
-            padding: 1.1rem 1.5rem;
-            border-radius: 0.9rem;
-            font-size: 1.1rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(.25,.8,.25,1); /* Unified, smooth transition */
-            margin-top: 1rem;
-            letter-spacing: 0.02em; /* Slight letter spacing for elegance */
-            position: relative; /* For pseudo-elements/overlays */
-            overflow: hidden; /* Hide overflow for ripple effect or glow */
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-color);
         }
 
-        .btn-primary {
-            background: linear-gradient(45deg, #6366f1 0%, #8b5cf6 100%); /* Indigo to Violet gradient */
-            color: white;
-            border: none;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.15); /* Deeper shadow + subtle highlight */
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Subtle text shadow */
+        a {
+            color: var(--secondary-light);
+            text-decoration: none;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
         }
 
-        .btn-primary:hover {
-            background: linear-gradient(45deg, #7c7ffc 0%, #9f7afc 100%); /* Lighter gradient on hover */
-            transform: translateY(-4px); /* More pronounced lift */
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.2); /* Stronger shadow + highlight */
+        a:hover {
+            color: var(--primary-light);
+            text-shadow: 0 0 5px rgba(255,255,255,0.3);
         }
 
-        .btn-primary:active {
-            transform: translateY(0); /* Press down effect */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3), inset 0 1px 3px rgba(0, 0, 0, 0.3); /* Deeper inset shadow */
-            filter: brightness(0.9); /* Slightly darker on active */
-        }
-
-        .btn-secondary {
-            background: linear-gradient(135deg, #3b526b 0%, #2a3d50 100%); /* Subtle dark blue gradient */
-            color: #aebed1; /* Lighter text for secondary */
-            border: 1px solid #4a6581; /* More defined, elegant border */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn-secondary:hover {
-            background: linear-gradient(135deg, #4a6581 0%, #3b526b 100%); /* Inverted/darker gradient on hover */
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-            border-color: #5b7da0; /* Lighter border on hover */
-            color: #c4d4e6; /* Slightly brighter text */
-        }
-
-        .btn-secondary:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2), inset 0 1px 3px rgba(0, 0, 0, 0.2);
-            filter: brightness(0.9);
-        }
-
-        .calculate-btn {
-            background: linear-gradient(45deg, #10b981 0%, #059669 100%); /* Green gradient */
-            color: white;
-            border: none;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-        }
-        .calculate-btn:hover {
-            background: linear-gradient(45deg, #0e9f73 0%, #047857 100%);
-            transform: translateY(-4px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.45);
-        }
-        .calculate-btn:active {
-            transform: translateY(0);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            filter: brightness(0.9);
-        }
-
-        .invest-now-btn {
-            display: inline-flex; /* Use flex to align icon and text */
-            align-items: center;
-            justify-content: center;
-            padding: 0.8rem 1.2rem;
-            border-radius: 0.7rem;
-            font-size: 0.95rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-            background: linear-gradient(45deg, #a78bfa 0%, #8b5cf6 100%); /* Violet gradient */
-            color: white;
-            border: none;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-            text-decoration: none; /* Remove underline for links */
-            margin-top: 1.5rem; /* Space from content above */
-        }
-        .invest-now-btn:hover {
-            background: linear-gradient(45deg, #c4b5fd 0%, #9f7afc 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-        }
-        .invest-now-btn:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            filter: brightness(0.9);
-        }
-        .invest-now-btn i {
-            margin-right: 0.5rem; /* Space between icon and text */
-        }
-
-        .ai-insights-btn {
+        /* --- Buttons --- */
+        .btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 0.7rem 1rem;
-            border-radius: 0.7rem;
-            font-size: 0.9rem;
+            padding: 12px 25px;
+            border-radius: 10px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-            background: linear-gradient(45deg, #fcd34d 0%, #fbbf24 100%); /* Yellow gradient */
-            color: #1a2a3a; /* Dark text for contrast */
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease, border-color 0.3s ease;
             border: none;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            margin-top: 1rem;
-        }
-        .ai-insights-btn:hover {
-            background: linear-gradient(45deg, #fde68a 0%, #fcd34d 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-        }
-        .ai-insights-btn:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            filter: brightness(0.9);
-        }
-        .ai-insights-btn i {
-            margin-right: 0.5rem;
-        }
-
-        .pay-in-btn {
-            background: linear-gradient(45deg, #34d399 0%, #10b981 100%); /* Green gradient */
-            color: white;
-            border: none;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-        }
-        .pay-in-btn:hover {
-            background: linear-gradient(45deg, #10b981 0%, #059669 100%);
-            transform: translateY(-4px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.45);
-        }
-        .pay-in-btn:active {
-            transform: translateY(0);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            filter: brightness(0.9);
-        }
-
-
-        /* Message styling */
-        .message {
-            padding: 1rem 1.25rem;
-            border-radius: 0.85rem;
-            margin-bottom: 1.75rem; /* More space below messages */
-            font-size: 0.95rem;
-            font-weight: 500;
-            text-align: left;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            border: 1px solid; /* Dynamic border based on type */
-        }
-        .message.success {
-            background-color: #284a3b; /* Darker green */
-            color: #a7f3d0; /* Light green text */
-            border-color: #34d399;
-        }
-        .message.error {
-            background-color: #4a2a2a; /* Darker red */
-            color: #fca5a5; /* Light red text */
-            border-color: #ef4444;
-        }
-        .message.info {
-            background-color: #2a3d50; /* Darker blue */
-            color: #93c5fd; /* Light blue text */
-            border-color: #60a5fa;
-        }
-
-
-        /* Heading styling */
-        h2 {
-            color: #f8fafc; /* Near white for headings */
-            margin-bottom: 2.5rem; /* More space below heading */
-            font-weight: 800; /* Extra bold */
-            font-size: 2.6rem; /* Even larger heading */
-            letter-spacing: -0.03em; /* Tighter letter spacing for impact */
-            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle text shadow */
-        }
-        .dashboard-h2 {
-            font-size: 2.2rem; /* Slightly smaller for dashboard */
-            margin-bottom: 1.5rem;
-        }
-        section h2 {
-            font-size: 2rem; /* Section headings */
-            margin-bottom: 1.5rem;
-            margin-top: 3rem;
-            text-align: center;
-            color: #e0e7ff;
-        }
-        section h2 i {
-            margin-right: 0.75rem;
-            color: #a78bfa; /* Violet icon */
-        }
-        section p {
-            text-align: center;
-            margin-bottom: 2rem;
-            color: #cbd5e1;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* Link styling */
-        .link-text {
-            color: #a78bfa; /* Soft violet for links */
-            cursor: pointer;
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.2s ease-in-out, text-decoration 0.2s ease-in-out;
-        }
-        .link-text:hover {
-            color: #c4b5fd; /* Lighter violet on hover */
-            text-decoration: underline;
-        }
-
-        /* Paragraph text */
-        p {
-            color: #cbd5e1; /* Soft gray for general text */
-            margin-top: 1.5rem;
+            box-shadow: 0 4px 15px var(--shadow-color-light);
             font-size: 1rem;
-        }
-
-        /* Investment Calculator styles */
-        .investment-calculator-section .calculator-form {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-            justify-content: center;
-            margin-bottom: 2rem;
-        }
-        .investment-calculator-section .form-group {
-            width: 100%; /* Default to full width on small screens */
-            text-align: left;
-        }
-        .investment-calculator-section .duration-group {
-            display: flex;
-            flex-direction: column;
-        }
-        .investment-calculator-section .duration-group div {
-            display: flex;
-            gap: 0.5rem;
-        }
-        .investment-calculator-section .duration-group input,
-        .investment-calculator-section .duration-group select {
-            flex: 1;
-            margin-bottom: 0; /* Remove default margin */
-        }
-
-        .calculator-message {
-            background-color: #2a3d50;
-            color: #a78bfa;
-            padding: 1rem;
-            border-radius: 0.75rem;
-            margin-top: 1.5rem;
-            font-weight: 500;
-            text-align: center;
-            display: none; /* Hidden by default */
-            border: 1px solid #6366f1;
-        }
-
-        .calculator-results {
-            background-color: #2a3d50;
-            padding: 2rem;
-            border-radius: 1rem;
-            margin-top: 2rem;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            text-align: left;
-        }
-        .calculator-results h3 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #e0e7ff;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-        .calculator-results p {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 0.75rem;
-            color: #cbd5e1;
-            font-size: 1.1rem;
-            font-weight: 500;
-        }
-        .calculator-results p span {
-            font-weight: 700;
-            color: #a78bfa;
-        }
-
-        /* Portfolio Overview Grid */
-        .portfolio-overview {
-            display: grid;
-            grid-template-columns: 1fr; /* Default to single column on small screens */
-            gap: 1.5rem;
-            margin-top: 2rem;
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-        @media (min-width: 640px) { /* Two columns on small tablets and up */
-            .portfolio-overview {
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            }
-        }
-
-        /* Investment Opportunities Grid */
-        .investment-grid {
-            display: grid;
-            grid-template-columns: 1fr; /* Default to single column on small screens */
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-        @media (min-width: 768px) { /* Two columns on tablets and up */
-            .investment-grid {
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            }
-        }
-
-        /* Testimonials Grid */
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: 1fr; /* Default to single column on small screens */
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-        @media (min-width: 768px) { /* Two columns on tablets and up */
-            .testimonials-grid {
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            }
-        }
-
-        .investment-card {
-            background-color: #2a3d50;
-            border-radius: 1rem;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-        }
-        .investment-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-        }
-        .investment-card .card-content {
-            padding: 1.5rem;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            text-align: left;
-        }
-        .investment-card h3 {
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: #e0e7ff;
-            margin-bottom: 0.75rem;
-            text-align: left; /* Override section h2 */
-            margin-top: 0; /* Override section h2 */
-        }
-        .investment-card p {
-            font-size: 0.95rem;
-            color: #cbd5e1;
-            line-height: 1.5;
-            margin-bottom: 1rem;
-            text-align: left; /* Override section p */
-            margin-top: 0; /* Override section p */
-        }
-        .investment-card .growth-indicator {
-            font-weight: 600;
-            color: #34d399; /* Green for growth */
-            margin-bottom: 1rem;
-            font-size: 1rem;
-        }
-        .investment-card .growth-indicator i {
-            margin-right: 0.5rem;
-        }
-
-        .scale-graph {
-            width: 100%;
-            height: 8px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            overflow: hidden;
-            margin-top: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-        .scale-graph-fill {
-            height: 100%;
-            background-color: #a78bfa; /* Violet fill */
-            border-radius: 4px;
-            width: 0%; /* Will be set by JS */
-            transition: width 0.8s ease-out;
-        }
-
-        /* Media Gallery within cards */
-        .media-gallery {
-            margin-top: 1.5rem;
-            background-color: #1a2a3a; /* Darker background for gallery */
-            padding: 1rem;
-            border-radius: 0.75rem;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            margin-bottom: 1.5rem;
-        }
-        .media-gallery h4 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #e0e7ff;
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-        .media-gallery .images-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-        }
-        .media-gallery .images-grid img {
-            width: 100%;
-            height: 80px; /* Fixed height for image thumbnails */
-            object-fit: cover;
-            border-radius: 0.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.2s ease-in-out;
-        }
-        .media-gallery .images-grid img:hover {
-            transform: scale(1.05);
-        }
-        .media-gallery .video-wrapper {
             position: relative;
-            width: 100%;
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-            margin-bottom: 0.75rem;
+            overflow: hidden;
+            z-index: 1;
         }
-        .media-gallery .video-wrapper iframe {
+
+        .btn::before {
+            content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            border-radius: 0.75rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-out;
+            z-index: -1;
         }
-        .media-gallery .media-caption {
-            font-size: 0.8rem;
-            color: #94a3b8;
-            text-align: center;
-            margin-top: 0.5rem;
+
+        .btn:hover::before {
+            transform: translateX(0);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px var(--shadow-color-dark);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--light-text);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background-color: var(--card-bg);
+            color: var(--secondary-light);
+            border: 1px solid var(--secondary-dark);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--secondary-dark);
+            color: var(--light-text);
+            border-color: var(--secondary-light);
+        }
+
+        .btn-danger {
+            background-color: var(--error-color);
+            color: var(--light-text);
+        }
+
+        .btn-danger:hover {
+            background-color: #D32F2F; /* Slightly darker red */
+        }
+
+        /* --- Forms --- */
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.6rem;
+            font-weight: 600;
+            color: var(--text-color);
+            font-size: 0.95rem;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="password"],
+        .form-group input[type="email"],
+        .form-group input[type="number"],
+        .form-group select {
+            width: calc(100% - 24px); /* Adjust for padding */
+            padding: 14px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            background-color: var(--card-bg);
+            color: var(--light-text);
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+            -webkit-appearance: none; /* Remove default styling for selects/inputs */
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group input[type="password"]:focus,
+        .form-group input[type="email"]:focus,
+        .form-group input[type="number"]:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.4); /* Focus ring */
+            background-color: var(--card-hover-bg);
+        }
+
+        /* --- Messages --- */
+        .message {
+            padding: 12px 18px;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            opacity: 1;
+            transition: opacity 0.4s ease, height 0.4s ease, padding 0.4s ease, margin-bottom 0.4s ease;
+            overflow: hidden; /* For height transition */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .message i {
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+
+        .message.hidden {
+            opacity: 0;
+            height: 0;
+            padding-top: 0;
+            padding-bottom: 0;
             margin-bottom: 0;
         }
 
-        /* Recent Transactions Table */
-        .transactions-table {
+        .message.success {
+            background-color: rgba(139, 195, 74, 0.15);
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+        }
+
+        .message.error {
+            background-color: rgba(244, 67, 54, 0.15);
+            color: var(--error-color);
+            border: 1px solid var(--error-color);
+        }
+
+        .message.info {
+            background-color: rgba(3, 169, 244, 0.15);
+            color: var(--info-color);
+            border: 1px solid var(--info-color);
+        }
+
+        /* --- Auth Layout --- */
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: var(--gradient-bg);
+        }
+
+        .auth-card {
+            background-color: var(--card-bg);
+            padding: 45px;
+            border-radius: 16px;
+            box-shadow: 0 12px 40px var(--shadow-color-dark);
             width: 100%;
-            border-collapse: separate; /* For rounded corners */
-            border-spacing: 0;
-            margin-top: 2rem;
-            background-color: #2a3d50;
-            border-radius: 1rem;
-            overflow: hidden; /* Ensures rounded corners apply to content */
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            max-width: 420px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+            position: relative;
+            overflow: hidden;
         }
-        .transactions-table th, .transactions-table td {
-            padding: 1rem 1.25rem;
-            text-align: left;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        .auth-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: var(--card-gradient-border);
+            z-index: -1;
+            border-radius: 18px; /* Slightly larger for the border effect */
+            filter: blur(10px);
+            opacity: 0;
+            transition: opacity 0.5s ease;
         }
-        .transactions-table th {
-            background-color: #3c5a78; /* Header background */
-            color: #e0e7ff;
-            font-weight: 600;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+
+        .auth-card:hover::before {
+            opacity: 0.6;
         }
-        .transactions-table tbody tr:last-child td {
-            border-bottom: none;
+
+        .auth-card:hover {
+             transform: translateY(-8px);
+             box-shadow: 0 18px 50px var(--shadow-color-dark);
         }
-        .transactions-table tbody tr:hover {
-            background-color: #3b526b; /* Hover effect for rows */
+
+        .auth-card h2 {
+            margin-bottom: 1.8rem;
+            color: var(--light-text);
+            font-size: 2.2rem;
+            letter-spacing: -0.5px;
+            text-shadow: 0 3px 8px rgba(0,0,0,0.5);
         }
-        .transactions-table td {
-            color: #cbd5e1;
+
+        .auth-card p {
+            margin-top: 1.2rem;
+            color: var(--text-color);
             font-size: 0.95rem;
         }
-        .transactions-table td.amount {
+
+        .auth-card a {
             font-weight: 600;
-            color: #a78bfa;
-        }
-        .transactions-table td.type {
-            font-weight: 500;
-        }
-        .transactions-table td.date {
-            color: #94a3b8;
-            font-size: 0.85rem;
         }
 
-        /* Responsive table for small screens */
-        @media screen and (max-width: 768px) {
-            .transactions-table thead {
-                display: none; /* Hide header on small screens */
-            }
-            .transactions-table, .transactions-table tbody, .transactions-table tr, .transactions-table td {
-                display: block;
-                width: 100%;
-            }
-            .transactions-table tr {
-                margin-bottom: 1rem;
-                border: 1px solid rgba(255, 255, 255, 0.08);
-                border-radius: 1rem;
-                overflow: hidden;
-            }
-            .transactions-table td {
-                text-align: right;
-                padding-left: 50%;
-                position: relative;
-            }
-            .transactions-table td::before {
-                content: attr(data-label);
-                position: absolute;
-                left: 1rem;
-                width: calc(50% - 1.5rem);
-                padding-right: 1rem;
-                white-space: nowrap;
-                text-align: left;
-                font-weight: 700;
-                color: #e0e7ff;
-            }
+        /* --- Dashboard Header --- */
+        .header {
+            background-color: var(--card-bg);
+            padding: 18px 30px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            flex-wrap: wrap; /* Allow wrapping on small screens */
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(8px); /* Frosted glass effect */
+            -webkit-backdrop-filter: blur(8px);
+            background-color: rgba(22, 33, 62, 0.8); /* Semi-transparent */
         }
 
-        /* Testimonials Section */
-        .testimonial-card {
-            background-color: #2a3d50;
-            border-radius: 1rem;
-            padding: 1.75rem;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+        .header .logo {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary-light);
+            display: flex;
+            align-items: center;
+            letter-spacing: -1px;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.4);
+        }
+
+        .header .logo i {
+            margin-right: 12px;
+            color: var(--accent-light);
+            font-size: 2.2rem;
+        }
+
+        .header nav {
+            flex-grow: 1; /* Allow nav to take available space */
+            text-align: center;
+        }
+
+        .header nav a, .header .user-menu button {
+            color: var(--text-color);
+            margin: 0 18px; /* Adjust margin for navigation items */
+            font-weight: 600;
+            transition: color 0.3s ease, transform 0.2s ease;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.05rem;
+            padding: 8px 0; /* Add padding for click area */
+            position: relative;
+        }
+
+        .header nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--primary-color);
+            transition: width 0.3s ease-out;
+            border-radius: 2px;
+        }
+        .header nav a:hover::after {
+            width: 100%;
+        }
+
+        .header nav a:hover, .header .user-menu button:hover {
+            color: var(--primary-light);
+            transform: translateY(-2px);
+        }
+
+        .header .user-menu {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 15px; /* Space between items */
+        }
+
+        .header .user-menu span {
+            color: var(--accent-light);
+            font-weight: 600;
+            margin-right: 10px;
+            display: none; /* Hidden by default for cleaner header on desktop, shown on hover/focus */
+            transition: opacity 0.3s ease;
+        }
+
+        .header .user-menu:hover span, .header .user-menu:focus-within span {
+            display: inline-block; /* Show on hover/focus within the menu */
+            opacity: 1;
+        }
+
+        .header .user-menu-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 6px 20px var(--shadow-color-dark);
+            z-index: 1000;
+            min-width: 180px;
+            padding: 10px 0;
+            border: 1px solid var(--border-color);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(15px);
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+        }
+
+        .header .user-menu-dropdown.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .header .user-menu-dropdown a, .header .user-menu-dropdown button {
+            display: block;
+            width: 100%;
+            padding: 12px 20px;
+            text-align: left;
+            color: var(--text-color);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.98rem;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .header .user-menu-dropdown a:hover, .header .user-menu-dropdown button:hover {
+            background-color: var(--hover-darken); /* Or similar subtle background */
+            color: var(--light-text);
+        }
+
+        /* --- Dashboard Sections --- */
+        .portfolio-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 35px;
+        }
+
+        .stat-card, .action-card, .calculator-section, .highlight-card {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 6px 25px var(--shadow-color-dark);
+            border: 1px solid var(--border-color);
+            text-align: center;
+            transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before, .action-card::before, .calculator-section::before, .highlight-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: var(--card-gradient-border);
+            z-index: -1;
+            border-radius: 18px;
+            filter: blur(10px);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .stat-card:hover::before, .action-card:hover::before, .calculator-section:hover::before, .highlight-card:hover::before {
+            opacity: 0.4;
+        }
+
+
+        .stat-card:hover, .action-card:hover, .highlight-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 35px var(--shadow-color-dark);
+            background-color: var(--card-hover-bg);
+        }
+
+
+        .stat-card h3 {
+            color: var(--primary-light);
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-card .value {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: var(--light-text);
+            margin-bottom: 8px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-shadow: 0 3px 10px rgba(0,0,0,0.6);
+        }
+
+        .stat-card .description {
+            font-size: 0.95rem;
+            color: var(--text-color);
+        }
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 45px;
+        }
+
+        .action-card h3 {
+            color: var(--secondary-light);
+            margin-bottom: 18px;
+            font-size: 1.4rem;
+            letter-spacing: 0.5px;
+        }
+
+        .action-card .icon {
+            font-size: 3.5rem;
+            color: var(--accent-light);
+            margin-bottom: 25px;
+            text-shadow: 0 0 15px var(--accent-light);
+        }
+
+        .action-card p {
+            color: var(--text-color);
+            margin-bottom: 25px;
+            font-size: 0.98rem;
+            line-height: 1.7;
+        }
+
+        /* --- Investment Calculator --- */
+        .calculator-section {
+            padding: 35px;
+            margin-top: 45px;
+        }
+
+        .calculator-section h2, .impact-highlights-section h2 {
+            text-align: center;
+            color: var(--light-text);
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            letter-spacing: -0.5px;
+            text-shadow: 0 3px 8px rgba(0,0,0,0.5);
+        }
+
+        .calculator-section .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .calculator-results {
+            background-color: rgba(26, 42, 74, 0.5); /* Slightly different background for results */
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 35px;
+            border: 1px dashed var(--primary-light);
+            box-shadow: inset 0 0 15px rgba(76, 175, 80, 0.2);
+        }
+
+        .calculator-results p {
+            font-size: 1.15rem;
+            margin-bottom: 0.9rem;
+            color: var(--text-color);
+        }
+
+        .calculator-results p strong {
+            color: var(--light-text);
+            font-weight: 700;
+        }
+
+        .calculator-results .total-return {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary-light);
+            margin-top: 1.2rem;
+            text-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
+        }
+
+        .calculator-results .profit {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-light);
+            text-shadow: 0 0 5px rgba(255, 235, 59, 0.4);
+        }
+
+        /* --- Impact & Sustainability Highlights --- */
+        .impact-highlights-section {
+            margin-top: 45px;
+            padding-bottom: 40px;
+        }
+
+        .impact-highlights-section p.intro-text {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 40px auto;
+            color: var(--text-color);
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        .highlights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 35px;
+        }
+
+        .highlight-card {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: transform 0.2s ease-in-out;
-        }
-        .testimonial-card:hover {
-            transform: translateY(-8px);
-        }
-        .testimonial-card .quote {
-            font-size: 1.05rem;
-            line-height: 1.6;
-            color: #e0e7ff;
-            margin-bottom: 1.5rem;
-            font-style: italic;
-            text-align: left;
-        }
-        .testimonial-card .author-info {
-            display: flex;
             align-items: center;
-            margin-top: auto; /* Push to bottom */
-            padding-top: 1rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            min-height: 200px; /* Ensure cards have some height */
         }
-        .testimonial-card .author-avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-right: 1rem;
-            border: 2px solid #a78bfa;
+
+        .highlight-card .highlight-icon {
+            font-size: 4rem;
+            color: var(--primary-light);
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
         }
-        .testimonial-card .author-name {
+
+        .highlight-card h4 {
+            font-size: 1.5rem;
+            color: var(--light-text);
+            margin-bottom: 15px;
+            font-family: 'Montserrat', sans-serif;
             font-weight: 700;
-            color: #a78bfa;
-            font-size: 1.1rem;
+            letter-spacing: -0.2px;
         }
-        .testimonial-card .author-name small {
-            font-weight: 400;
-            color: #94a3b8;
-            font-size: 0.85rem;
-            display: block;
+
+        .highlight-card p {
+            font-size: 0.95rem;
+            color: var(--text-color);
+            line-height: 1.7;
+            flex-grow: 1; /* Allows text to take available space */
         }
-        .testimonial-card .author-investment {
+
+
+        /* --- Footer --- */
+        .footer {
+            background-color: var(--card-bg);
+            padding: 25px 20px;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: var(--text-color);
             font-size: 0.9rem;
-            color: #cbd5e1;
-            margin-top: 0.2rem;
+            margin-top: auto; /* Pushes footer to the bottom */
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 999; /* Ensure footer is above content if needed */
         }
 
-        /* Responsive adjustments for flex containers */
-        @media (max-width: 639px) { /* Small screens (e.g., mobile portrait) */
-            .dashboard-container {
-                padding: 1rem; /* Reduce padding on very small screens */
-            }
-            .dashboard-h2 {
-                font-size: 1.8rem;
-            }
-            /* Stack header elements */
-            .flex.justify-between.items-center {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
-            }
-            .flex.justify-between.items-center > div {
-                width: 100%; /* Make button container full width */
-                display: flex;
-                flex-direction: column;
-                gap: 0.75rem;
-            }
-            .flex.justify-between.items-center button {
-                width: 100%; /* Make buttons full width */
-            }
-
-            .investment-calculator-section .form-group {
-                width: 100%; /* Ensure full width on very small screens */
-            }
-            .investment-calculator-section .duration-group {
-                flex-direction: column; /* Stack duration input and select */
-            }
-            .investment-calculator-section .duration-group input {
-                margin-right: 0;
-                margin-bottom: 0.5rem;
-            }
+        .footer p {
+            margin: 0;
+            color: var(--text-color);
         }
 
-        @media (min-width: 640px) and (max-width: 767px) { /* Medium screens (e.g., mobile landscape, small tablets) */
-            .investment-calculator-section .form-group {
-                flex: 1 1 calc(50% - 0.75rem); /* Two columns for calculator form */
-                max-width: calc(50% - 0.75rem);
-            }
+        .footer a {
+            color: var(--primary-light);
+            margin: 0 8px;
         }
 
-        @media (min-width: 768px) { /* Larger screens (e.g., tablets, desktops) */
-            .dashboard-container {
-                padding: 3rem;
-            }
-            /* Revert header to horizontal on larger screens */
-            .flex.justify-between.items-center {
-                flex-direction: row;
-                align-items: center;
-                gap: unset; /* Remove gap if set by smaller breakpoint */
-            }
-            .flex.justify-between.items-center > div {
-                width: auto;
-                flex-direction: row;
-                gap: 1rem; /* Restore space between buttons */
-            }
-            .flex.justify-between.items-center button {
-                width: auto;
-            }
-
-            .investment-calculator-section .form-group {
-                flex: 1 1 calc(33% - 1rem); /* Three columns on larger screens */
-                max-width: calc(33% - 1rem);
-            }
-            .investment-calculator-section .duration-group {
-                flex-direction: row; /* Horizontal layout for duration input/select */
-            }
-            .investment-calculator-section .duration-group input {
-                margin-right: 0.5rem;
-            }
-        }
-
-        /* Modal specific styles */
+        /* --- Modal Styles --- */
         .modal-overlay {
             position: fixed;
-            inset: 0;
-            background-color: rgba(0, 0, 0, 0.75);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8); /* Darker overlay */
             display: flex;
-            align-items: center;
             justify-content: center;
-            z-index: 50;
+            align-items: center;
+            z-index: 2000;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.3s ease-out, visibility 0.3s ease-out;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
         }
+
         .modal-overlay.active {
             opacity: 1;
             visibility: visible;
         }
+
         .modal-content {
-            background-color: #1c2b3a;
-            padding: 2.5rem;
-            border-radius: 1.5rem;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.08);
-            max-width: 500px;
-            width: 90%; /* Responsive width */
+            background-color: var(--card-bg);
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 12px 40px var(--shadow-color-dark);
+            width: 90%;
+            max-width: 550px;
             text-align: center;
-            transform: translateY(20px);
+            border: 1px solid var(--border-color);
+            transform: translateY(-50px);
             opacity: 0;
-            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+            transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.4s ease; /* Pop-in effect */
+            position: relative;
+            overflow: hidden;
         }
+
         .modal-overlay.active .modal-content {
             transform: translateY(0);
             opacity: 1;
         }
+
         .modal-content h3 {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #f8fafc;
             margin-bottom: 1.5rem;
+            font-size: 2rem;
+            color: var(--light-text);
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
         }
+
         .modal-content p {
             font-size: 1.05rem;
-            color: #cbd5e1;
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
+            color: var(--text-color);
+            line-height: 1.7;
         }
-        .modal-content .info-box {
-            background-color: #2a3d50;
-            padding: 1.25rem;
-            border-radius: 0.75rem;
-            margin-bottom: 1.5rem;
+
+        .info-box {
+            background-color: rgba(26, 42, 74, 0.5); /* Slightly different background for results */
+            border: 1px dashed var(--secondary-light);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 25px;
+            margin-bottom: 25px;
             text-align: left;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: inset 0 0 10px rgba(33, 150, 243, 0.2);
         }
-        .modal-content .info-box p {
-            margin: 0.5rem 0;
-            color: #e0e7ff;
-            font-size: 0.95rem;
+
+        .info-box p {
+            margin-bottom: 10px;
+            color: var(--text-color);
+            font-size: 0.98rem;
         }
-        .modal-content .info-box strong {
-            color: #a78bfa;
+
+        .info-box p:last-child {
+            margin-bottom: 0;
         }
-        .modal-content .info-box .account-number {
-            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #fcd34d; /* Yellow for account number */
+
+        .info-box strong {
+            color: var(--light-text);
+            display: inline-block;
+            min-width: 140px;
         }
-        .modal-content .copy-btn {
+
+        .account-number {
+            font-family: 'Montserrat', monospace;
+            color: var(--accent-light);
+            font-weight: bold;
+            user-select: all; /* Allow easy selection */
+            font-size: 1.05rem;
+        }
+
+        .copy-btn {
             background: none;
             border: none;
-            color: #818cf8; /* Light blue for copy button */
-            font-size: 0.9rem;
-            padding: 0.25rem 0.5rem;
-            margin-left: 0.5rem;
+            color: var(--secondary-light);
             cursor: pointer;
-            transition: color 0.2s ease-in-out;
-            width: auto; /* Override full width button style */
-            margin-top: 0; /* Override margin-top for buttons */
-        }
-        .modal-content .copy-btn:hover {
-            color: #a5b4fc;
-        }
-
-        /* AI Insights Modal specific styles */
-        #aiInsightModal .modal-content {
-            max-width: 600px;
-        }
-        #aiInsightContent {
-            min-height: 100px; /* Ensure space for content */
-            text-align: left;
-            color: #cbd5e1;
-            line-height: 1.6;
+            margin-left: 10px;
             font-size: 0.95rem;
+            transition: color 0.2s ease, transform 0.2s ease;
+            padding: 5px 8px;
+            border-radius: 5px;
         }
-        #aiInsightContent.loading-text {
-            color: #a78bfa;
-            font-style: italic;
+        .copy-btn:hover {
+            color: var(--primary-light);
+            transform: scale(1.1);
+            background-color: rgba(76, 175, 80, 0.1);
+        }
+        .copy-btn i {
+            margin-right: 5px;
         }
 
-        /* Portfolio Overview Section */
-        .portfolio-card {
-            background-color: #2a3d50;
-            padding: 1.5rem;
-            border-radius: 1rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+        .verification-status {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-left: 10px;
+            transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .verification-status.unverified {
+            background-color: rgba(244, 67, 54, 0.2);
+            color: var(--error-color);
+        }
+
+        .verification-status.pending {
+            background-color: rgba(255, 235, 59, 0.2);
+            color: var(--accent-light);
+        }
+
+        .verification-status.verified {
+            background-color: rgba(76, 175, 80, 0.2);
+            color: var(--primary-light);
+        }
+
+        /* Simple loading animation for AI insight */
+        .loading-text {
+            position: relative;
+            opacity: 0.8;
+            min-height: 80px; /* Prevent content jump */
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-        }
-        .portfolio-card .icon {
-            font-size: 2.5rem;
-            color: #a78bfa;
-            margin-bottom: 0.75rem;
-        }
-        .portfolio-card .label {
-            font-size: 0.9rem;
-            color: #cbd5e1;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-        .portfolio-card .value {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: #e0e7ff;
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-        .portfolio-card.balance .value {
-            color: #34d399; /* Green for balance */
-        }
-        .portfolio-card.returns .value {
-            color: #fcd34d; /* Yellow for returns */
-        }
-        .portfolio-card.invested .value {
-            color: #a78bfa; /* Violet for invested */
+            font-size: 1.1rem;
+            flex-direction: column; /* Allow spinner above text */
+            gap: 15px;
         }
 
-        /* Settings Modal Specifics */
-        #settingsModal .modal-content {
-            max-width: 600px;
-            text-align: left;
-        }
-        #settingsModal .form-group {
-            margin-bottom: 1.5rem;
-        }
-        #settingsModal .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: #e0e7ff;
-        }
-        #settingsModal .verification-status {
-            font-weight: 600;
-            margin-top: 0.5rem;
-            display: inline-block;
-            padding: 0.3rem 0.8rem;
-            border-radius: 0.5rem;
-            font-size: 0.9rem;
-        }
-        #settingsModal .verification-status.unverified {
-            background-color: #ef444430;
-            color: #fca5a5;
-        }
-        #settingsModal .verification-status.pending {
-            background-color: #fcd34d30;
-            color: #fde047;
-        }
-        #settingsModal .verification-status.verified {
-            background-color: #34d39930;
-            color: #a7f3d0;
+        .loading-text::after {
+            content: ' .';
+            animation: loading-dots 1s steps(5, end) infinite;
         }
 
-        /* Add Funds Section */
-        .add-funds-section {
-            background-color: #2a3d50;
-            padding: 2rem;
-            border-radius: 1rem;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            margin-top: 3rem;
-            text-align: center;
+        @keyframes loading-dots {
+            0%, 20% {
+                color: rgba(0,0,0,0);
+                text-shadow:
+                    .25em 0 0 rgba(0,0,0,0),
+                    .5em 0 0 rgba(0,0,0,0);
+            }
+            40% {
+                color: var(--text-color);
+                text-shadow:
+                    .25em 0 0 rgba(0,0,0,0),
+                    .5em 0 0 rgba(0,0,0,0);
+            }
+            60% {
+                text-shadow:
+                    .25em 0 0 var(--text-color),
+                    .5em 0 0 rgba(0,0,0,0);
+            }
+            80%, 100% {
+                text-shadow:
+                    .25em 0 0 var(--text-color),
+                    .5em 0 0 var(--text-color);
+            }
         }
-        .add-funds-section h2 {
-            margin-top: 0;
-            margin-bottom: 1.5rem;
-            font-size: 2rem;
-            color: #e0e7ff;
+
+        /* --- Modern Colorful Spinner Styles --- */
+        .spinner-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85); /* Slightly darker overlay */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000; /* Above modals */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
         }
-        .add-funds-section .form-group {
-            max-width: 400px;
-            margin: 0 auto 1.5rem auto;
-            text-align: left;
+
+        .spinner-overlay.active {
+            opacity: 1;
+            visibility: visible;
         }
-        .add-funds-section .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
+
+        .spinner {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 8px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--primary-light);
+            border-left-color: var(--secondary-light);
+            animation: spin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+            box-shadow: 0 0 20px rgba(76, 175, 80, 0.6), 0 0 20px rgba(33, 150, 243, 0.6);
+            position: relative;
+        }
+
+        .spinner::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 6px solid rgba(255, 255, 255, 0.08);
+            border-right-color: var(--accent-light);
+            border-bottom-color: #A064FF; /* Custom purple for extra color */
+            transform: translate(-50%, -50%);
+            animation: spin-reverse 0.9s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes spin-reverse {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(-360deg); }
+        }
+
+        .spinner-text {
+            color: var(--light-text);
+            font-size: 1.6rem;
             font-weight: 600;
-            color: #e0e7ff;
+            margin-top: 25px;
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+            letter-spacing: 0.5px;
+        }
+
+
+        /* --- Media Queries for Responsiveness --- */
+        @media (max-width: 1024px) {
+            .header nav a {
+                margin: 0 12px;
+            }
+            .header .user-menu span {
+                display: none; /* Hide welcome message on smaller desktops too */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                padding: 15px 20px;
+                text-align: center;
+            }
+
+            .header .logo {
+                margin-bottom: 15px;
+                font-size: 1.7rem;
+            }
+            .header .logo i {
+                font-size: 1.9rem;
+            }
+
+            .header nav {
+                margin-top: 15px;
+                width: 100%; /* Full width for nav */
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap; /* Allow nav items to wrap */
+                margin-bottom: 20px;
+            }
+
+            .header nav a, .header .user-menu button {
+                margin: 0 8px 10px; /* Adjust margin for mobile nav */
+                font-size: 0.95rem;
+            }
+
+            .header .user-menu {
+                width: 100%;
+                justify-content: center;
+                margin-top: 10px;
+                gap: 20px;
+            }
+            .header .user-menu span {
+                display: inline-block; /* Always show welcome message on mobile */
+                font-size: 0.9rem;
+            }
+
+            .portfolio-overview, .actions-grid, .highlights-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .auth-card {
+                padding: 35px 25px;
+                margin: 20px;
+                max-width: 360px;
+            }
+            .auth-card h2 {
+                font-size: 1.9rem;
+            }
+
+            .modal-content {
+                margin: 20px;
+                padding: 30px;
+            }
+            .modal-content h3 {
+                font-size: 1.7rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+            .stat-card .value {
+                font-size: 2.2rem;
+            }
+
+            .action-card .icon {
+                font-size: 3rem;
+            }
+
+            .calculator-results .total-return {
+                font-size: 1.6rem;
+            }
+
+            .calculator-results .profit {
+                font-size: 1.3rem;
+            }
+
+            .auth-card h2 {
+                font-size: 1.6rem;
+            }
+
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+
+            .highlight-card .highlight-icon {
+                font-size: 3.5rem;
+            }
+            .highlight-card h4 {
+                font-size: 1.3rem;
+            }
+            .spinner {
+                width: 60px;
+                height: 60px;
+                border-width: 6px;
+            }
+            .spinner::before {
+                width: 45px;
+                height: 45px;
+                border-width: 5px;
+            }
+            .spinner-text {
+                font-size: 1.2rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div id="app" class="container">
-        <!-- Content will be dynamically loaded here by JavaScript -->
+    <div id="app">
+        </div>
+
+    <div id="loadingSpinnerOverlay" class="spinner-overlay hidden">
+        <div class="spinner-content flex flex-col items-center justify-center">
+            <div class="spinner"></div>
+            <div class="spinner-text" id="spinnerMessage">Processing...</div>
+        </div>
     </div>
 
     <script>
-        // Function to get a unique application ID (for local storage namespacing)
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-auth-app';
+        // --- Configuration & Constants ---
+        const APP_ID = 'growvest-app'; // Unique ID for local storage keys
+        // !! WARNING: For a real application, store your API key securely on a server !!
+        // !! DO NOT expose it directly in client-side code in production !!
+        const GEMINI_API_KEY = ""; // Replace with your actual Gemini API Key (e.g., 'YOUR_GEMINI_API_KEY')
+        const MIN_INVESTMENT_AMOUNT = 50000; // Naira
 
-        // Function to get the current user ID for display (important for multi-user apps)
-        const getUserId = () => {
-            // In a real Firebase app, you'd get auth.currentUser.uid
-            // For this local storage example, we'll generate a consistent dummy ID
-            let storedUserId = localStorage.getItem(`${appId}-currentUserId`);
-            if (!storedUserId) {
-                storedUserId = 'user_' + Math.random().toString(36).substring(2, 11).toUpperCase();
-                localStorage.setItem(`${appId}-currentUserId`, storedUserId);
+        // --- Helper Functions ---
+
+        /**
+         * Formats a number as Naira currency.
+         * @param {number} amount - The amount to format.
+         * @returns {string} Formatted currency string (e.g., "₦100,000").
+         */
+        function formatNaira(amount) {
+            return `₦${new Intl.NumberFormat('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(amount)}`;
+        }
+
+        /**
+         * Formats a Date object into a readable string.
+         * @param {Date} date - The date object.
+         * @returns {string} Formatted date string (e.g., "Jan 1, 2024 10:30 AM").
+         */
+        function formatDate(date) {
+            if (!date) return 'N/A';
+            return new Date(date).toLocaleString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            });
+        }
+
+
+        /**
+         * Displays a temporary message in a specified DOM element.
+         * @param {HTMLElement} targetElement - The DOM element to display the message in.
+         * @param {string} message - The message text.
+         * @param {string} type - The message type ('success', 'error', 'info').
+         * @param {string} iconClass - Font Awesome icon class (optional).
+         */
+        function displayMessage(targetElement, message, type, iconClass = '') {
+            if (!targetElement) return;
+
+            targetElement.innerHTML = iconClass ? `<i class="${iconClass}"></i> ${message}` : message;
+            targetElement.className = `message ${type}`;
+            targetElement.classList.remove('hidden');
+
+            // Hide the message after a few seconds
+            setTimeout(() => {
+                targetElement.classList.add('hidden');
+                // Clear content after transition for accessibility/screen readers
+                setTimeout(() => targetElement.innerHTML = '', 400);
+            }, 5000);
+        }
+
+        /**
+         * Shows or hides the global loading spinner.
+         * @param {boolean} show - True to show, false to hide.
+         * @param {string} message - Optional message to display under the spinner.
+         */
+        function toggleSpinner(show, message = 'Processing...') {
+            const spinnerOverlay = document.getElementById('loadingSpinnerOverlay');
+            const spinnerMessage = document.getElementById('spinnerMessage');
+            if (show) {
+                spinnerMessage.textContent = message;
+                spinnerOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling
+            } else {
+                spinnerOverlay.classList.remove('active');
+                document.body.style.overflow = ''; // Restore scrolling
             }
-            return storedUserId;
-        };
+        }
 
-        // --- User Data Management (Simulated with localStorage) ---
-        // In a real application, this would be managed by a backend (e.g., Firestore)
-        function getUserData(username) {
-            const usersData = JSON.parse(localStorage.getItem(`${appId}-usersData`) || '{}');
-            return usersData[username] || {
+        /**
+         * Retrieves user authentication data (email, password, username, registrationDate, lastLogin).
+         * @returns {object} An object mapping email to user credentials.
+         */
+        function getAuthUsers() {
+            return JSON.parse(localStorage.getItem(`${APP_ID}-users`) || '{}');
+        }
+
+        /**
+         * Saves user authentication data.
+         * @param {object} authUsers - The object mapping email to user credentials.
+         */
+        function saveAuthUsers(authUsers) {
+            localStorage.setItem(`${APP_ID}-users`, JSON.stringify(authUsers));
+        }
+
+        /**
+         * Retrieves user profile data (balance, investments, verificationStatus, etc.).
+         * @returns {object} An object mapping email to user profile data.
+         */
+        function getUsersData() {
+            return JSON.parse(localStorage.getItem(`${APP_ID}-usersData`) || '{}');
+        }
+
+        /**
+         * Saves user profile data.
+         * @param {object} usersData - The object mapping email to user profile data.
+         */
+        function saveUsersData(usersData) {
+            localStorage.setItem(`${APP_ID}-usersData`, JSON.stringify(usersData));
+        }
+
+        /**
+         * Retrieves data for a specific user.
+         * @param {string} email - The user's email.
+         * @returns {object} User data object, or default if not found.
+         */
+        function getUserProfileData(email) {
+            const usersData = getUsersData();
+            // Default structure for new users
+            return usersData[email] || {
+                username: '',
+                email: email,
                 balance: 0,
                 totalInvested: 0,
                 estimatedTotalReturns: 0,
-                email: '',
-                verificationStatus: 'unverified' // 'unverified', 'pending', 'verified'
+                verificationStatus: 'unverified',
+                registrationDate: new Date().toISOString(), // Set on first access/creation
+                lastLogin: new Date().toISOString() // Set on first access/creation
             };
         }
 
-        function saveUserData(username, data) {
-            const usersData = JSON.parse(localStorage.getItem(`${appId}-usersData`) || '{}');
-            usersData[username] = data;
-            localStorage.setItem(`${appId}-usersData`, JSON.stringify(usersData));
-        }
-
-        // --- Utility Functions ---
-
         /**
-         * Formats a number to Nigerian Naira currency string.
-         * @param {number} amount - The number to format.
-         * @returns {string} - Formatted currency string.
+         * Updates and saves data for a specific user.
+         * @param {string} email - The user's email (current/old email if updating email).
+         * @param {object} data - The user data object to save.
+         * @param {string} [newEmail] - The new email if the email is being changed.
          */
-        function formatNaira(amount) {
-            return `₦${amount.toLocaleString('en-NG', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
+        function updateUserProfileData(email, data, newEmail = null) {
+            let usersData = getUsersData();
+            if (newEmail && newEmail !== email) {
+                // If email is changing, delete old entry and create new one
+                delete usersData[email];
+                usersData[newEmail] = data;
+            } else {
+                usersData[email] = data;
+            }
+            saveUsersData(usersData);
         }
 
         /**
-         * Copies text content from a specified element to the clipboard.
-         * Provides visual feedback.
+         * Copies text from a specified element to the clipboard.
          * @param {string} elementId - The ID of the element whose text content should be copied.
          */
         function copyToClipboard(elementId) {
             const element = document.getElementById(elementId);
             if (element) {
                 const textToCopy = element.textContent;
-                const tempInput = document.createElement('textarea');
-                tempInput.value = textToCopy;
-                document.body.appendChild(tempInput);
-                tempInput.select();
-                try {
-                    document.execCommand('copy');
-                    // Provide visual feedback
-                    const originalText = element.textContent;
-                    element.textContent = 'Copied!';
-                    setTimeout(() => {
-                        element.textContent = originalText;
-                    }, 1500);
-                } catch (err) {
-                    console.error('Failed to copy text: ', err);
-                    const messageDiv = document.createElement('div');
-                    messageDiv.textContent = 'Could not copy text. Please copy manually.';
-                    messageDiv.style.cssText = 'position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background-color: #ef4444; color: white; padding: 10px 20px; border-radius: 8px; z-index: 100;';
-                    document.body.appendChild(messageDiv);
-                    setTimeout(() => {
-                        document.body.removeChild(messageDiv);
-                    }, 3000);
-                } finally {
-                    document.body.removeChild(tempInput);
-                }
+                navigator.clipboard.writeText(textToCopy)
+                    .then(() => {
+                        alert('Account number copied to clipboard!'); // Simple alert for confirmation
+                    })
+                    .catch(err => {
+                        console.error('Failed to copy: ', err);
+                        alert('Failed to copy. Please try manually.');
+                    });
             }
         }
 
         /**
-         * Displays a temporary message on the dashboard.
-         * @param {string} messageText - The text content of the message.
-         * @param {string} type - The type of message ('success', 'error', 'info').
-         * @param {string} targetId - The ID of the element to display the message in.
+         * Toggles the visibility of a modal.
+         * @param {HTMLElement} modalElement - The modal overlay element.
+         * @param {boolean} show - True to show, false to hide.
          */
-        function displayDashboardMessage(messageText, type, targetId) {
-            const messageDiv = document.getElementById(targetId);
-            if (messageDiv) {
-                messageDiv.textContent = messageText;
-                messageDiv.className = `message ${type}`; // Reset classes and add new type
-                messageDiv.classList.remove('hidden');
-                setTimeout(() => {
-                    messageDiv.classList.add('hidden');
-                    messageDiv.textContent = '';
-                }, 3000);
+        function toggleModal(modalElement, show) {
+            if (show) {
+                modalElement.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+            } else {
+                modalElement.classList.remove('active');
+                document.body.style.overflow = ''; // Restore scrolling
             }
         }
 
-        // --- Page Rendering Functions ---
+        // --- Page Render Functions ---
 
         /**
          * Renders the Sign Up page.
-         * @param {string} message - Optional message to display (e.g., success/error).
-         * @param {string} type - Type of message ('success' or 'error').
+         * @param {string} message - Optional message to display.
+         * @param {string} type - Type of message ('success', 'error', 'info').
          */
-        function renderSignUpPage(message = '', type = '') {
+        function renderSignUpPage(message = '', type = '', icon = '') {
             const appDiv = document.getElementById('app');
-            // Ensure the container class is correct for login/signup
-            appDiv.className = 'container';
             appDiv.innerHTML = `
-                <h2 class="mb-6">Create Your Account</h2>
-                ${message ? `<div class="message ${type}">${message}</div>` : ''}
-                <form id="signupForm" class="space-y-4">
-                    <div>
-                        <input type="text" id="signupUsername" placeholder="Username" required>
+                <div class="auth-container">
+                    <div class="auth-card">
+                        <h2>Join GrowVest</h2>
+                        <div id="authMessage" class="message ${type} ${message ? '' : 'hidden'}">${icon ? `<i class="${icon}"></i> ` : ''}${message}</div>
+                        <form id="signupForm">
+                            <div class="form-group">
+                                <label for="signupEmail">Email</label>
+                                <input type="email" id="signupEmail" placeholder="Enter your email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="signupUsername">Username</label>
+                                <input type="text" id="signupUsername" placeholder="Choose a username (optional)" >
+                            </div>
+                            <div class="form-group">
+                                <label for="signupPassword">Password</label>
+                                <input type="password" id="signupPassword" placeholder="Create a secure password" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-full mt-4">Sign Up</button>
+                        </form>
+                        <p>Already a member? <a href="#" id="showLogin">Log In</a></p>
                     </div>
-                    <div>
-                        <input type="password" id="signupPassword" placeholder="Password" required>
-                    </div>
-                    <button type="submit" class="btn-primary">Sign Up</button>
-                </form>
-                <p class="mt-6">
-                    Already have an account? <span class="link-text" onclick="navigateTo('login')">Log In</span>
-                </p>
+                </div>
             `;
-
+            // Attach event listeners after rendering
             document.getElementById('signupForm').addEventListener('submit', handleSignUp);
+            document.getElementById('showLogin').addEventListener('click', (e) => {
+                e.preventDefault();
+                navigateTo('login');
+            });
         }
 
         /**
          * Renders the Login page.
-         * @param {string} message - Optional message to display (e.g., success/error).
-         * @param {string} type - Type of message ('success' or 'error').
+         * @param {string} message - Optional message to display.
+         * @param {string} type - Type of message ('success', 'error', 'info').
          */
-        function renderLoginPage(message = '', type = '') {
+        function renderLoginPage(message = '', type = '', icon = '') {
             const appDiv = document.getElementById('app');
-            // Ensure the container class is correct for login/signup
-            appDiv.className = 'container';
             appDiv.innerHTML = `
-                <h2 class="mb-6">Welcome Back!</h2>
-                ${message ? `<div class="message ${type}">${message}</div>` : ''}
-                <form id="loginForm" class="space-y-4">
-                    <div>
-                        <input type="text" id="loginUsername" placeholder="Username" required>
+                <div class="auth-container">
+                    <div class="auth-card">
+                        <h2>Welcome Back!</h2>
+                        <div id="authMessage" class="message ${type} ${message ? '' : 'hidden'}">${icon ? `<i class="${icon}"></i> ` : ''}${message}</div>
+                        <form id="loginForm">
+                            <div class="form-group">
+                                <label for="loginEmail">Email</label>
+                                <input type="email" id="loginEmail" placeholder="Enter your email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="loginPassword">Password</label>
+                                <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-full mt-4">Login</button>
+                        </form>
+                        <p>New to GrowVest? <a href="#" id="showSignup">Sign Up</a></p>
                     </div>
-                    <div>
-                        <input type="password" id="loginPassword" placeholder="Password" required>
-                    </div>
-                    <button type="submit" class="btn-primary">Log In</button>
-                </form>
-                <p class="mt-6">
-                    Don't have an account? <span class="link-text" onclick="navigateTo('signup')">Sign Up</span>
-                </p>
+                </div>
             `;
-
+            // Attach event listeners after rendering
             document.getElementById('loginForm').addEventListener('submit', handleLogin);
+            document.getElementById('showSignup').addEventListener('click', (e) => {
+                e.preventDefault();
+                navigateTo('signup');
+            });
         }
 
         /**
-         * Renders the Dashboard page for Grow Vest.
-         * @param {string} username - The username of the logged-in user.
+         * Renders the main Dashboard page.
+         * @param {string} userEmail - The email of the logged-in user.
          */
-        function renderDashboardPage(username) {
+        function renderDashboardPage(userEmail) {
             const appDiv = document.getElementById('app');
-            // Change container class for dashboard layout
-            appDiv.className = 'dashboard-container';
-
-            const userId = getUserId(); // Get the current user ID for display
-            const userData = getUserData(username);
+            const userData = getUserProfileData(userEmail);
+            const displayUsername = userData.username || userEmail.split('@')[0]; // Fallback to email part for display
 
             appDiv.innerHTML = `
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="dashboard-h2 text-left m-0">Grow Vest Dashboard</h2>
-                    <div class="flex space-x-4">
-                        <button id="settingsButton" class="btn-secondary w-auto px-6 py-3 text-sm">
-                            <i class="fas fa-cog mr-2"></i>Settings
-                        </button>
-                        <button id="logoutButton" class="btn-secondary w-auto px-6 py-3 text-sm">
-                            <i class="fas fa-sign-out-alt mr-2"></i>Log Out
-                        </button>
+                <header class="header">
+                    <div class="logo"><i class="fas fa-seedling"></i> GrowVest</div>
+                    <nav>
+                        <a href="#" id="dashboardNav">Dashboard</a>
+                        <a href="#">Invest</a>
+                        <a href="#">Portfolio</a>
+                    </nav>
+                    <div class="user-menu">
+                        <span>Welcome, ${displayUsername}!</span>
+                        <button id="settingsButton" title="Settings"><i class="fas fa-cog"></i></button>
+                        <button id="logoutButton" title="Logout"><i class="fas fa-sign-out-alt"></i></button>
                     </div>
-                </div>
+                </header>
 
-                <div class="mb-6 text-sm text-gray-400 text-left">
-                    Logged in as: <span class="font-semibold text-blue-300">${username}</span> | User ID: <span class="font-mono text-blue-400 text-xs">${userId}</span>
-                </div>
-
-                <!-- Portfolio Overview Section -->
-                <section class="portfolio-overview-section mt-8">
-                    <h2><i class="fas fa-chart-pie"></i> Your Portfolio Overview</h2>
-                    <p>A quick glance at your financial health with Grow Vest.</p>
-                    <div class="portfolio-overview">
-                        <div class="portfolio-card balance">
-                            <i class="fas fa-wallet icon"></i>
-                            <div class="label">My Balance</div>
-                            <div id="displayBalance" class="value">${formatNaira(userData.balance)}</div>
+                <main class="container">
+                    <section class="portfolio-overview">
+                        <div class="stat-card">
+                            <h3>Current Balance</h3>
+                            <div class="value" id="displayBalance">₦0</div>
+                            <p class="description">Funds available for investment</p>
                         </div>
-                        <div class="portfolio-card invested">
-                            <i class="fas fa-sack-dollar icon"></i>
-                            <div class="label">Total Invested</div>
-                            <div id="displayTotalInvested" class="value">${formatNaira(userData.totalInvested)}</div>
+                        <div class="stat-card">
+                            <h3>Total Invested</h3>
+                            <div class="value" id="displayTotalInvested">₦0</div>
+                            <p class="description">Across all active projects</p>
                         </div>
-                        <div class="portfolio-card returns">
-                            <i class="fas fa-hand-holding-usd icon"></i>
-                            <div class="label">Estimated Total Returns</div>
-                            <div id="displayEstimatedTotalReturns" class="value">${formatNaira(userData.estimatedTotalReturns)}</div>
+                        <div class="stat-card">
+                            <h3>Estimated Returns</h3>
+                            <div class="value" id="displayEstimatedTotalReturns">₦0</div>
+                            <p class="description">Potential earnings on current investments</p>
                         </div>
-                    </div>
-                </section>
+                    </section>
 
-                <!-- Add Funds Section -->
-                <section class="add-funds-section mt-12">
-                    <h2><i class="fas fa-wallet"></i> Add Funds to Your Balance</h2>
-                    <p>Top up your Grow Vest balance to start or expand your investments.</p>
-                    <div class="form-group">
-                        <label for="addFundsAmount">Amount to Add (₦):</label>
-                        <input type="number" id="addFundsAmount" placeholder="e.g., 100000" min="1000">
-                    </div>
-                    <button id="payInBtn" class="pay-in-btn"><i class="fas fa-money-bill-wave mr-2"></i> Pay In</button>
-                    <div id="addFundsMessage" class="message hidden mt-4"></div>
-                </section>
+                    <section class="actions-grid">
+                        <div class="action-card">
+                            <div class="icon"><i class="fas fa-piggy-bank"></i></div>
+                            <h3>Add Funds</h3>
+                            <p>Top up your GrowVest balance to seize new investment opportunities.</p>
+                            <div class="form-group">
+                                <input type="number" id="addFundsAmount" placeholder="Amount (e.g., ₦50,000)" min="${MIN_INVESTMENT_AMOUNT}" required>
+                            </div>
+                            <button id="payInBtn" class="btn btn-primary w-full">Add Funds</button>
+                            <div id="addFundsMessage" class="message hidden mt-4"></div>
+                        </div>
 
-                <!-- Make a New Investment Section (formerly Calculator) -->
-                <section class="investment-calculator-section mt-12">
-                    <h2><i class="fas fa-calculator"></i> Make a New Investment</h2>
-                    <p>Use our interactive calculator to estimate your potential earnings and select an opportunity. **Please note: these are estimated annual returns, and actual returns may vary. Results are for illustrative purposes only.**</p>
-                    <div class="calculator-form">
+                        <div class="action-card">
+                            <div class="icon"><i class="fas fa-chart-area"></i></div>
+                            <h3>Explore Investments</h3>
+                            <p>Discover high-yield opportunities in sustainable sectors.</p>
+                            <button class="btn btn-secondary w-full" id="marketInsightsBtn">Market Insights</button>
+                        </div>
+
+                        <div class="action-card">
+                            <div class="icon"><i class="fas fa-user-friends"></i></div>
+                            <h3>Refer & Earn</h3>
+                            <p>Invite friends to GrowVest and earn exciting bonuses.</p>
+                            <button class="btn btn-secondary w-full">Learn More</button>
+                        </div>
+                    </section>
+
+                    <section class="calculator-section mt-12">
+                        <h2><i class="fas fa-calculator"></i> Grow Your Future: Investment Calculator</h2>
+                        <div id="calculatorMessage" class="message hidden mb-4"></div>
                         <div class="form-group">
-                            <label for="investmentAmount">Investment Amount (₦):</label>
-                            <input type="number" id="investmentAmount" value="50000" min="50000" step="10000">
+                            <label for="investmentAmount">Investment Amount (₦)</label>
+                            <input type="number" id="investmentAmount" value="${MIN_INVESTMENT_AMOUNT}" min="${MIN_INVESTMENT_AMOUNT}" required>
                         </div>
-                        <div class="form-group duration-group">
-                            <label for="investmentDurationValue">Investment Duration:</label>
-                            <div class="flex gap-2">
-                                <input type="number" id="investmentDurationValue" value="12" min="1" max="60" step="1">
+                        <div class="form-group">
+                            <label for="investmentOpportunity">Investment Opportunity</label>
+                            <select id="investmentOpportunity">
+                                <option value="poultry" data-rate="2.50">Poultry Farming (250% Annually)</option>
+                                <option value="food" data-rate="2.20">Sustainable Food Cultivation (220% Annually)</option>
+                                <option value="aquaculture" data-rate="2.80">Aquaculture Projects (280% Annually)</option>
+                                <option value="energy" data-rate="2.30">Renewable Energy Solutions (230% Annually)</option>
+                                <option value="luxury_crops" data-rate="3.50">Luxury Crop Cultivation (350% Annually)</option>
+                                <option value="tech_agri" data-rate="4.00">Agri-Tech Innovations (400% Annually)</option>
+                            </select>
+                        </div>
+                        <div class="form-group flex items-center space-x-4">
+                            <div style="flex: 2;">
+                                <label for="investmentDurationValue">Duration</label>
+                                <input type="number" id="investmentDurationValue" value="1" min="1" required>
+                            </div>
+                            <div style="flex: 1;">
+                                <label for="investmentDurationUnit" class="hidden">Unit</label>
                                 <select id="investmentDurationUnit">
-                                    <option value="months">Months</option>
                                     <option value="years">Years</option>
+                                    <option value="months">Months</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="investmentOpportunity">Choose Elite Opportunity:</label>
-                            <select id="investmentOpportunity">
-                                <option value="poultry">Poultry Farming (Est. 250% Annually)</option>
-                                <option value="food">Sustainable Food Cultivation (Est. 220% Annually)</option>
-                                <option value="aquaculture">Aquaculture (Fish Farming) (Est. 280% Annually)</option>
-                                <option value="energy">Renewable Energy Projects (Est. 230% Annually)</option>
-                                <option value="luxury_crops">Luxury Crop Cultivation (Est. 350% Annually)</option>
-                                <option value="tech_agri">Agri-Tech Innovations (Est. 400% Annually)</option>
-                            </select>
+                        <button id="calculateReturnsBtn" class="btn btn-primary w-full mt-4">Calculate Returns</button>
+
+                        <div id="calculatorResults" class="calculator-results mt-6 hidden">
+                            <p>Initial Investment: <strong id="displayInitialInvestment"></strong></p>
+                            <p>Duration: <strong id="displayDurationValue"></strong> <span id="displayDurationUnit"></span></p>
+                            <p>Opportunity: <strong id="displayOpportunity"></strong></p>
+                            <p class="profit">Estimated Profit: <strong id="displayProfit"></strong></p>
+                            <p class="total-return">Total Return: <strong id="displayTotalReturn"></strong></p>
+                            <button id="proceedToInvestBtn" class="btn btn-primary mt-4 w-full">Proceed to Invest</button>
                         </div>
+                    </section>
+
+                    <section class="impact-highlights-section mt-12">
+                        <h2><i class="fas fa-globe-americas"></i> Our Impact & Sustainability Highlights</h2>
+                        <p class="intro-text">At GrowVest, we're not just growing wealth; we're cultivating a sustainable future. See the tangible impact of your investments and our commitment to positive change.</p>
+                        <div class="highlights-grid">
+                            <div class="highlight-card">
+                                <div class="highlight-icon"><i class="fas fa-tree"></i></div>
+                                <h4>Eco-Friendly Projects</h4>
+                                <p>Over <strong>2,500 hectares</strong> of sustainable farms and renewable energy sites funded globally.</p>
+                            </div>
+                            <div class="highlight-card">
+                                <div class="highlight-icon"><i class="fas fa-chart-line"></i></div>
+                                <h4>Consistent Growth</h4>
+                                <p>Achieving an average annual investor return of <strong>280% across all portfolios.</strong></p>
+                            </div>
+                            <div class="highlight-card">
+                                <div class="highlight-icon"><i class="fas fa-users"></i></div>
+                                <h4>Community Empowerment</h4>
+                                <p>Supporting <strong>10,000+ local farmers</strong> and generating rural employment opportunities.</p>
+                            </div>
+                            <div class="highlight-card">
+                                <div class="highlight-icon"><i class="fas fa-leaf"></i></div>
+                                <h4>Reduced Carbon Footprint</h4>
+                                <p>Contributing to a reduction of over <strong>50,000 tons of carbon emissions</strong> annually.</p>
+                            </div>
+                        </div>
+                    </section>
+                </main>
+
+                <footer class="footer">
+                    <div class="container">
+                        <p>&copy; 2025 GrowVest. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
                     </div>
-                    <button id="calculateReturnsBtn" class="calculate-btn"><i class="fas fa-chart-pie"></i> Calculate Returns</button>
-                    <div id="calculatorMessage" class="message hidden"></div>
+                </footer>
 
-                    <div id="calculatorResults" class="calculator-results hidden">
-                        <h3>Estimated Returns Summary</h3>
-                        <p>Initial Investment: <span><span id="displayInitialInvestment">0</span></span></p>
-                        <p>Investment Duration: <span><span id="displayDurationValue">0</span> <span id="displayDurationUnit"></span></span></p>
-                        <p>Opportunity: <span><span id="displayOpportunity"></span></span></p>
-                        <hr style="margin: 20px 0; border: 0; border-top: 2px dashed rgba(255,255,255,0.1);">
-                        <p>Estimated Total Return: <span><span id="displayTotalReturn">0</span></span></p>
-                        <p>Estimated Profit: <span><span id="displayProfit">0</span></span></p>
-                        <button id="proceedToInvestBtn" class="btn-primary mt-6"><i class="fas fa-hand-holding-usd"></i> Proceed to Invest</button>
-                    </div>
-                </section>
-
-                <!-- Investment Opportunities Grid -->
-                <section id="investment-opportunities" class="mt-12">
-                    <h2><i class="fas fa-leaf"></i> Our Premier Investment Opportunities</h2>
-                    <p>Explore our diverse portfolio of high-yield, sustainable investment options. Each opportunity is carefully managed to maximize your returns while contributing to a better world.</p>
-                    <div class="investment-grid">
-                        <div class="investment-card">
-                            <div class="card-content">
-                                <h3>Poultry Farming</h3>
-                                <p>Invest in our state-of-the-art poultry farms. Benefit from high demand for poultry products and efficient, ethical farming practices. Consistent cycles ensure regular returns.</p>
-                                <div class="growth-indicator"><i class="fas fa-chart-line"></i> Est. 250% Annually</div>
-                                <div class="scale-graph"><div class="scale-graph-fill" data-fill-percentage="90"></div></div>
-                                <div class="media-gallery">
-                                    <h4>Gallery</h4>
-                                    <div class="images-grid">
-                                        <img src="https://placehold.co/150x150/4CAF50/FFFFFF?text=Poultry+Farm+1" alt="Poultry Farm 1" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
-                                        <img src="https://placehold.co/150x150/8BC34A/FFFFFF?text=Poultry+Farm+2" alt="Poultry Farm 2" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
-                                        <img src="https://placehold.co/150x150/66BB6A/FFFFFF?text=Poultry+Farm+3" alt="Poultry Farm 3" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
-                                    </div>
-                                </div>
-                                <a href="#" class="invest-now-btn" onclick="showInvestmentConfirmation('Poultry Farming', 250)"><i class="fas fa-hand-holding-usd"></i> Invest Now</a>
-                                <button class="ai-insights-btn" onclick="showAiInsightModal('Poultry Farming')">✨ Get AI Insights</button>
-                            </div>
-                        </div>
-
-                        <div class="investment-card">
-                            <div class="card-content">
-                                <h3>Sustainable Food Cultivation</h3>
-                                <p>Invest in eco-friendly farming of essential crops using advanced hydroponics and organic methods. Contribute to food security while earning from high-yield harvests.</p>
-                                <div class="growth-indicator"><i class="fas fa-chart-line"></i> Est. 220% Annually</div>
-                                <div class="scale-graph"><div class="scale-graph-fill" data-fill-percentage="80"></div></div>
-                                <div class="media-gallery">
-                                    <h4>Gallery</h4>
-                                    <div class="images-grid">
-                                        <img src="https://placehold.co/150x150/3F51B5/FFFFFF?text=Hydroponics+1" alt="Hydroponics Farm 1" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
-                                        <img src="https://placehold.co/150x150/2196F3/FFFFFF?text=Organic+Farm+2" alt="Organic Farm 2" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
-                                        <img src="https://placehold.co/150x150/03A9F4/FFFFFF?text=Vertical+Farm+3" alt="Vertical Farm 3" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
-                                    </div>
-                                </div>
-                                <a href="#" class="invest-now-btn" onclick="showInvestmentConfirmation('Sustainable Food Cultivation', 220)"><i class="fas fa-hand-holding-usd"></i> Invest Now</a>
-                                <button class="ai-insights-btn" onclick="showAiInsightModal('Sustainable Food Cultivation')">✨ Get AI Insights</button>
-                            </div>
-                        </div>
-
-                        <div class="investment-card">
-                            <div class="card-content">
-                                <h3>Aquaculture (Fish Farming)</h3>
-                                <p>Dive into the lucrative world of fish farming. Our modern aquaculture facilities ensure healthy growth and high market value, providing excellent returns from aquatic resources.</p>
-                                <div class="growth-indicator"><i class="fas fa-chart-line"></i> Est. 280% Annually</div>
-                                <div class="scale-graph"><div class="scale-graph-fill" data-fill-percentage="95"></div></div>
-                                <div class="media-gallery">
-                                    <h4>Gallery</h4>
-                                    <div class="images-grid">
-                                        <img src="https://placehold.co/150x150/00BCD4/FFFFFF?text=Fish+Farm+1" alt="Fish Farm 1" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
-                                        <img src="https://placehold.co/150x150/0097A7/FFFFFF?text=Fish+Farm+2" alt="Fish Farm 2" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
-                                        <img src="https://placehold.co/150x150/00ACC1/FFFFFF?text=Fish+Farm+3" alt="Fish Farm 3" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
-                                    </div>
-                                </div>
-                                <a href="#" class="invest-now-btn" onclick="showInvestmentConfirmation('Aquaculture (Fish Farming)', 280)"><i class="fas fa-hand-holding-usd"></i> Invest Now</a>
-                                <button class="ai-insights-btn" onclick="showAiInsightModal('Aquaculture (Fish Farming)')">✨ Get AI Insights</button>
-                            </div>
-                        </div>
-
-                        <div class="investment-card">
-                            <div class="card-content">
-                                <h3>Renewable Energy Projects</h3>
-                                <p>Power the future with clean energy investments. From solar farms to wind energy, our projects offer stable, long-term growth and a positive environmental impact.</p>
-                                <div class="growth-indicator"><i class="fas fa-chart-line"></i> Est. 230% Annually</div>
-                                <div class="scale-graph"><div class="scale-graph-fill" data-fill-percentage="85"></div></div>
-                                <div class="media-gallery">
-                                    <h4>Gallery</h4>
-                                    <div class="images-grid">
-                                        <img src="https://placehold.co/150x150/FFEB3B/FFFFFF?text=Solar+Farm+1" alt="Solar Farm 1" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
-                                        <img src="https://placehold.co/150x150/FBC02D/FFFFFF?text=Wind+Turbine+2" alt="Wind Turbine 2" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
-                                        <img src="https://placehold.co/150x150/FFD700/FFFFFF?text=Hydro+Plant+3" alt="Hydro Plant 3" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
-                                    </div>
-                                </div>
-                                <a href="#" class="invest-now-btn" onclick="showInvestmentConfirmation('Renewable Energy Projects', 230)"><i class="fas fa-hand-holding-usd"></i> Invest Now</a>
-                                <button class="ai-insights-btn" onclick="showAiInsightModal('Renewable Energy Projects')">✨ Get AI Insights</button>
-                            </div>
-                        </div>
-
-                        <div class="investment-card">
-                            <div class="card-content">
-                                <h3>Luxury Crop Cultivation</h3>
-                                <p>Delve into high-value agricultural investments focusing on premium, exotic crops. These niche markets offer exceptional profit margins due to rarity and demand.</p>
-                                <div class="growth-indicator"><i class="fas fa-chart-line"></i> Est. 350% Annually</div>
-                                <div class="scale-graph"><div class="scale-graph-fill" data-fill-percentage="98"></div></div>
-                                <div class="media-gallery">
-                                    <h4>Gallery</h4>
-                                    <div class="images-grid">
-                                        <img src="https://placehold.co/150x150/8E24AA/FFFFFF?text=Saffron+Farm" alt="Saffron Farm" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
-                                        <img src="https://placehold.co/150x150/AB47BC/FFFFFF?text=Truffle+Forest" alt="Truffle Forest" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
-                                        <img src="https://placehold.co/150x150/BA68C8/FFFFFF?text=Vanilla+Orchid" alt="Vanilla Orchid" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
-                                    </div>
-                                </div>
-                                <a href="#" class="invest-now-btn" onclick="showInvestmentConfirmation('Luxury Crop Cultivation', 350)"><i class="fas fa-hand-holding-usd"></i> Invest Now</a>
-                                <button class="ai-insights-btn" onclick="showAiInsightModal('Luxury Crop Cultivation')">✨ Get AI Insights</button>
-                            </div>
-                        </div>
-
-                        <div class="investment-card">
-                            <div class="card-content">
-                                <h3>Agri-Tech Innovations</h3>
-                                <p>Invest in cutting-edge agricultural technology. Fund smart farming solutions, AI-driven crop management, and sustainable robotics that revolutionize food production for maximum efficiency and yield.</p>
-                                <div class="growth-indicator"><i class="fas fa-chart-line"></i> Est. 400% Annually</div>
-                                <div class="scale-graph"><div class="scale-graph-fill" data-fill-percentage="100"></div></div>
-                                <div class="media-gallery">
-                                    <h4>Gallery</h4>
-                                    <div class="images-grid">
-                                        <img src="https://placehold.co/150x150/607D8B/FFFFFF?text=Smart+Farm+1" alt="Smart Farm 1" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
-                                        <img src="https://placehold.co/150x150/78909C/FFFFFF?text=Drone+Agri" alt="Drone Agri" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
-                                        <img src="https://placehold.co/150x150/90A4AE/FFFFFF?text=Robo+Harvester" alt="Robo Harvester" onerror="this.src='https://placehold.co/150x150/CCCCCC/333333?text=Image+Error';">
-                                    </div>
-                                </div>
-                                <a href="#" class="invest-now-btn" onclick="showInvestmentConfirmation('Agri-Tech Innovations', 400)"><i class="fas fa-hand-holding-usd"></i> Invest Now</a>
-                                <button class="ai-insights-btn" onclick="showAiInsightModal('Agri-Tech Innovations')">✨ Get AI Insights</button>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Recent Transactions Section -->
-                <section class="recent-transactions-section mt-12">
-                    <h2><i class="fas fa-history"></i> Recent Investor Activity</h2>
-                    <p>See the latest investments made by our growing community. Join them in cultivating a prosperous future!</p>
-                    <table class="transactions-table">
-                        <thead>
-                            <tr>
-                                <th>Investor ID</th>
-                                <th>Investment Type</th>
-                                <th>Amount</th>
-                                <th>Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td data-label="Investor ID">GRV-INV-98765</td>
-                                <td data-label="Investment Type" class="type">Poultry Farming</td>
-                                <td data-label="Amount" class="amount">₦2,500,000</td>
-                                <td data-label="Date" class="date">2025-07-04</td>
-                            </tr>
-                            <tr>
-                                <td data-label="Investor ID">GRV-INV-12345</td>
-                                <td data-label="Investment Type" class="type">Renewable Energy</td>
-                                <td data-label="Amount" class="amount">₦5,000,000</td>
-                                <td data-label="Date" class="date">2025-07-03</td>
-                            </tr>
-                            <tr>
-                                <td data-label="Investor ID">GRV-INV-67890</td>
-                                <td data-label="Investment Type" class="type">Aquaculture</td>
-                                <td data-label="Amount" class="amount">₦1,200,000</td>
-                                <td data-label="Date" class="date">2025-07-02</td>
-                            </tr>
-                            <tr>
-                                <td data-label="Investor ID">GRV-INV-54321</td>
-                                <td data-label="Investment Type" class="type">Luxury Crop Cultivation</td>
-                                <td data-label="Amount" class="amount">₦3,800,000</td>
-                                <td data-label="Date" class="date">2025-07-01</td>
-                            </tr>
-                            <tr>
-                                <td data-label="Investor ID">GRV-INV-09876</td>
-                                <td data-label="Investment Type" class="type">Agri-Tech Innovations</td>
-                                <td data-label="Amount" class="amount">₦7,000,000</td>
-                                <td data-label="Date" class="date">2025-06-30</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </section>
-
-                <!-- Testimonials Section -->
-                <section class="testimonials-section mt-12">
-                    <h2><i class="fas fa-star"></i> What Our Elite Investors Say</h2>
-                    <p>Hear directly from satisfied GrowVest investors who are cultivating their future with us, achieving remarkable financial success and making a real impact.</p>
-                    <div class="testimonials-grid">
-                        <div class="testimonial-card">
-                            <p class="quote">"GrowVest transformed my investment portfolio! The poultry farming returns are incredible, far exceeding anything I've seen. Truly a game-changer for sustainable wealth."</p>
-                            <div class="author-info">
-                                <img src="https://placehold.co/80x80/8B4513/FFFFFF?text=JD" alt="John Doe" onerror="this.src='https://placehold.co/80x80/CCCCCC/333333?text=Image+Error';" class="author-avatar">
-                                <div>
-                                    <div class="author-name">John D. <small>(Lagos, Nigeria)</small></div>
-                                    <div class="author-investment">Poultry Investor | 3 Years</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="testimonial-card">
-                            <p class="quote">"Investing in sustainable food cultivation with GrowVest aligns with my values and delivers phenomenal returns. It's empowering to grow wealth while contributing to global food security."</p>
-                            <div class="author-info">
-                                <img src="https://placehold.co/80x80/A0522D/FFFFFF?text=AS" alt="Alice Smith" onerror="this.src='https://placehold.co/80x80/CCCCCC/333333?text=Image+Error';" class="author-avatar">
-                                <div>
-                                    <div class="author-name">Alice S. <small>(Accra, Ghana)</small></div>
-                                    <div class="author-investment">Food Cultivation Investor | 2.5 Years</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="testimonial-card">
-                            <p class="quote">"The aquaculture projects are incredibly lucrative. GrowVest's transparency and expert management make it a seamless experience. My profits have soared!"</p>
-                            <div class="author-info">
-                                <img src="https://placehold.co/80x80/D2B48C/4A2C2A?text=MB" alt="Michael Brown" onerror="this.src='https://placehold.co/80x80/CCCCCC/333333?text=Image+Error';" class="author-avatar">
-                                <div>
-                                    <div class="author-name">Michael B. <small>(Nairobi, Kenya)</small></div>
-                                    <div class="author-investment">Aquaculture Investor | 4 Years</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="testimonial-card">
-                            <p class="quote">"Renewable energy investments with GrowVest are both financially rewarding and environmentally conscious. A stable, high-growth opportunity that I wholeheartedly endorse."</p>
-                            <div class="author-info">
-                                <img src="https://placehold.co/80x80/4A2C2A/FFFFFF?text=CL" alt="Carol Lee" onerror="this.src='https://placehold.co/80x80/CCCCCC/333333?text=Image+Error';" class="author-avatar">
-                                <div>
-                                    <div class="author-name">Carol L. <small>(Cape Town, South Africa)</small></div>
-                                    <div class="author-investment">Renewable Energy Investor | 1.5 Years</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Investment Confirmation Modal -->
                 <div id="investmentConfirmationModal" class="modal-overlay hidden">
                     <div class="modal-content">
-                        <h3 class="text-2xl font-bold text-white mb-4">Confirm Investment</h3>
-                        <p class="text-gray-300 mb-6">Are you sure you want to invest <span id="confirmInvestmentAmount" class="font-semibold text-green-400"></span> in <span id="confirmInvestmentType" class="font-semibold text-purple-400"></span> with an estimated annual return of <span id="confirmInvestmentRate" class="font-semibold text-green-400"></span>?</p>
+                        <h3 class="text-2xl font-bold text-white mb-4">Confirm Your Investment</h3>
+                        <p class="text-gray-300 mb-6">You are about to invest <span id="confirmInvestmentAmount" class="font-semibold text-green-400"></span> in <span id="confirmInvestmentType" class="font-semibold text-purple-400"></span> with an estimated annual return of <span id="confirmInvestmentRate" class="font-semibold text-green-400"></span>. Please review the details carefully.</p>
                         <div class="flex justify-center space-x-4">
                             <button id="cancelInvestmentBtn" class="btn-secondary px-6 py-3 w-auto">Cancel</button>
                             <button id="confirmInvestmentBtn" class="btn-primary px-6 py-3 w-auto">Confirm & Invest</button>
@@ -1492,17 +1509,16 @@
                     </div>
                 </div>
 
-                <!-- Payment Instructions Modal (for external payment, not used for direct balance deduction) -->
                 <div id="paymentInstructionsModal" class="modal-overlay hidden">
                     <div class="modal-content">
                         <h3 class="text-2xl font-bold text-white mb-4">Add Funds Instructions</h3>
-                        <p class="text-gray-300 mb-6">Please make a transfer of <span id="paymentAmount" class="font-semibold text-green-400"></span> to the account details below to top up your Grow Vest balance:</p>
+                        <p class="text-gray-300 mb-6">Please make a transfer of <span id="paymentAmount" class="font-semibold text-green-400"></span> to the account details below to top up your GrowVest balance:</p>
                         <div class="info-box">
                             <p><strong class="text-white">Bank Name:</strong> GrowVest Bank</p>
                             <p><strong class="text-white">Account Name:</strong> GrowVest Investments Ltd.</p>
                             <p><strong class="text-white">Account Number:</strong> <span id="accountNumber" class="account-number">1234567890</span> <button class="copy-btn" onclick="copyToClipboard('accountNumber')"><i class="fas fa-copy"></i> Copy</button></p>
                         </div>
-                        <p class="text-gray-400 text-sm mb-6">Your balance will be updated upon successful confirmation of payment.</p>
+                        <p class="text-gray-400 text-sm mb-6">Your balance will be updated upon successful confirmation of payment, typically within 2-4 hours.</p>
                         <div class="flex justify-center space-x-4">
                             <button id="cancelPaymentInstructionsBtn" class="btn-secondary px-6 py-3 w-auto">Cancel</button>
                             <button id="confirmPaymentReceivedBtn" class="btn-primary px-6 py-3 w-auto">I Have Paid</button>
@@ -1510,28 +1526,25 @@
                     </div>
                 </div>
 
-                <!-- Payment Success Modal -->
                 <div id="paymentSuccessModal" class="modal-overlay hidden">
                     <div class="modal-content">
                         <h3 class="text-2xl font-bold text-green-400 mb-4"><i class="fas fa-check-circle mr-2"></i> Transaction Successful!</h3>
-                        <p class="text-gray-300 mb-6">Your <span id="successTransactionType" class="font-semibold text-purple-400"></span> has been processed. Your balance and portfolio have been updated.</p>
-                        <p class="text-gray-400 text-sm">You will receive an email confirmation shortly.</p>
+                        <p class="text-gray-300 mb-6">Your <span id="successTransactionType" class="font-semibold text-purple-400"></span> has been processed successfully. Your balance and portfolio have been updated.</p>
+                        <p class="text-gray-400 text-sm">You'll receive an email confirmation shortly.</p>
                         <button id="closeSuccessModalBtn" class="btn-primary mt-6 px-6 py-3 w-auto">Done</button>
                     </div>
                 </div>
 
-                <!-- AI Insight Modal -->
                 <div id="aiInsightModal" class="modal-overlay hidden">
                     <div class="modal-content">
                         <h3 class="text-2xl font-bold text-white mb-4"><i class="fas fa-brain mr-2"></i> AI Insights for <span id="aiInsightTitle" class="text-yellow-400"></span></h3>
                         <div id="aiInsightContent" class="text-gray-300 mb-6 loading-text">
-                            Generating insights...
+                            <div class="spinner small-spinner"></div> Generating insightful analysis...
                         </div>
                         <button id="closeAiInsightModalBtn" class="btn-secondary px-6 py-3 w-auto">Close</button>
                     </div>
                 </div>
 
-                <!-- Settings Modal -->
                 <div id="settingsModal" class="modal-overlay hidden">
                     <div class="modal-content">
                         <h3 class="text-2xl font-bold text-white mb-4"><i class="fas fa-cog mr-2"></i> Profile Settings</h3>
@@ -1539,35 +1552,50 @@
 
                         <div class="form-group">
                             <label for="settingsUsername">Username:</label>
-                            <input type="text" id="settingsUsername" readonly>
+                            <input type="text" id="settingsUsername" placeholder="Optional username">
                         </div>
                         <div class="form-group">
                             <label for="settingsEmail">Email:</label>
-                            <input type="email" id="settingsEmail" placeholder="Enter your email">
+                            <input type="email" id="settingsEmail" placeholder="Your current email">
+                        </div>
+                        <div class="form-group">
+                            <label for="settingsNewPassword">New Password:</label>
+                            <input type="password" id="settingsNewPassword" placeholder="Enter new password (min 6 chars)">
+                        </div>
+                         <div class="form-group">
+                            <label for="settingsConfirmPassword">Confirm New Password:</label>
+                            <input type="password" id="settingsConfirmPassword" placeholder="Confirm new password">
                         </div>
                         <div class="form-group">
                             <label>Verification Status:</label>
                             <span id="verificationStatus" class="verification-status"></span>
                         </div>
-                        <button id="updateProfileBtn" class="btn-primary"><i class="fas fa-save mr-2"></i> Update Profile</button>
-                        <button id="initiateVerificationBtn" class="btn-secondary mt-4"><i class="fas fa-user-check mr-2"></i> Initiate Verification</button>
-                        <button id="closeSettingsModalBtn" class="btn-secondary mt-4">Close</button>
+                        <div class="form-group">
+                            <label>Registration Date:</label>
+                            <span id="registrationDate" class="text-gray-300"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>Last Login:</label>
+                            <span id="lastLoginDate" class="text-gray-300"></span>
+                        </div>
+                        <div class="flex justify-center space-x-4 mt-6">
+                            <button id="updateProfileBtn" class="btn btn-primary"><i class="fas fa-save mr-2"></i> Save Changes</button>
+                            <button id="initiateVerificationBtn" class="btn btn-secondary"><i class="fas fa-user-check mr-2"></i> Initiate Verification</button>
+                        </div>
+                        <button id="closeSettingsModalBtn" class="btn btn-secondary mt-4 w-full">Close</button>
                     </div>
                 </div>
             `;
 
-            // All event listeners and element references should be set up here, after innerHTML is assigned
-            // This ensures the elements exist in the DOM before we try to access them.
+            // --- Cache DOM Elements (Dashboard Scope) ---
+            const logoutButton = document.getElementById('logoutButton');
+            const settingsButton = document.getElementById('settingsButton');
 
-            document.getElementById('logoutButton').addEventListener('click', handleLogout);
-            document.getElementById('settingsButton').addEventListener('click', showSettingsModal);
-
-            // Add Funds elements
             const addFundsAmountInput = document.getElementById('addFundsAmount');
             const payInBtn = document.getElementById('payInBtn');
             const addFundsMessageDiv = document.getElementById('addFundsMessage');
+            const marketInsightsBtn = document.getElementById('marketInsightsBtn');
 
-            // Investment Calculator elements
             const investmentAmountInput = document.getElementById('investmentAmount');
             const investmentDurationValueInput = document.getElementById('investmentDurationValue');
             const investmentDurationUnitSelect = document.getElementById('investmentDurationUnit');
@@ -1588,115 +1616,6 @@
             const displayTotalInvested = document.getElementById('displayTotalInvested');
             const displayEstimatedTotalReturns = document.getElementById('displayEstimatedTotalReturns');
 
-
-            let currentInvestmentDetails = {}; // Store details for investment flow
-            let currentAddFundsAmount = 0; // Store amount for add funds flow
-
-            // Function to update portfolio overview
-            function updatePortfolioOverview() {
-                const updatedUserData = getUserData(username);
-                displayBalance.textContent = formatNaira(updatedUserData.balance);
-                displayTotalInvested.textContent = formatNaira(updatedUserData.totalInvested);
-                displayEstimatedTotalReturns.textContent = formatNaira(updatedUserData.estimatedTotalReturns);
-            }
-
-            // Function to handle adding funds
-            payInBtn.addEventListener('click', () => {
-                const amount = parseFloat(addFundsAmountInput.value);
-                if (isNaN(amount) || amount <= 0) {
-                    displayDashboardMessage('Please enter a valid positive amount to add.', 'error', 'addFundsMessage');
-                    return;
-                }
-
-                currentAddFundsAmount = amount; // Store the amount for the payment instructions modal
-                // Get paymentAmountSpan AFTER the dashboard HTML is rendered
-                const paymentAmountSpan = document.getElementById('paymentAmount');
-                const successTransactionTypeSpan = document.getElementById('successTransactionType'); // Also get this here
-                paymentAmountSpan.textContent = formatNaira(amount);
-                // Change the success message for add funds
-                // The paymentInvestmentTypeSpan is not directly used for this purpose in the current HTML,
-                // but if it were, it would need to be defined here too.
-                // document.getElementById('paymentInvestmentType').textContent = 'your balance';
-                successTransactionTypeSpan.textContent = 'funds addition';
-                paymentInstructionsModal.classList.add('active');
-            });
-
-            // Function to calculate and display returns
-            function calculateReturns() {
-                const amount = parseFloat(investmentAmountInput.value);
-                let duration = parseFloat(investmentDurationValueInput.value);
-                const durationUnit = investmentDurationUnitSelect.value;
-                const opportunityText = investmentOpportunitySelect.options[investmentOpportunitySelect.selectedIndex].text;
-                const selectedOpportunity = investmentOpportunitySelect.value;
-
-                // Increased rates to make investments more appealing
-                const rates = {
-                    poultry: 2.50, // 250%
-                    food: 2.20,   // 220%
-                    aquaculture: 2.80, // 280%
-                    energy: 2.30, // 230%
-                    luxury_crops: 3.50, // 350%
-                    tech_agri: 4.00   // 400%
-                };
-
-                const annualRate = rates[selectedOpportunity];
-
-                if (isNaN(amount) || amount < 50000) { // Minimum investment amount
-                    displayDashboardMessage('Investment amount must be at least ₦50,000.', 'error', 'calculatorMessage');
-                    calculatorResultsDiv.classList.add('hidden');
-                    return;
-                }
-                if (isNaN(duration) || duration <= 0) {
-                    displayDashboardMessage('Please enter a valid positive number for investment duration.', 'error', 'calculatorResults'); // Changed target ID
-                    calculatorResultsDiv.classList.add('hidden');
-                    return;
-                }
-
-                calculatorMessageDiv.classList.add('hidden'); // Hide any previous messages
-
-                // Convert duration to years for calculation
-                let durationInYears = duration;
-                if (durationUnit === 'months') {
-                    durationInYears = duration / 12;
-                }
-
-                // Simple interest calculation for illustrative purposes
-                // Total Return = Principal + (Principal * Annual Rate * Duration in Years)
-                const totalReturn = amount * (1 + (annualRate * durationInYears));
-                const profit = totalReturn - amount;
-
-                displayInitialInvestment.textContent = formatNaira(amount);
-                displayDurationValue.textContent = duration;
-                displayDurationUnit.textContent = durationUnit;
-                displayOpportunity.textContent = opportunityText;
-                displayTotalReturn.textContent = formatNaira(totalReturn);
-                displayProfit.textContent = formatNaira(profit);
-
-                calculatorResultsDiv.classList.remove('hidden');
-
-                // Store details for later use in payment flow
-                currentInvestmentDetails = {
-                    amount: amount,
-                    type: opportunityText,
-                    rate: annualRate * 100, // Convert back to percentage for display
-                    estimatedReturnAmount: profit // Store the calculated profit for estimated total returns
-                };
-            }
-
-            // Attach event listener to the calculate button
-            calculateReturnsBtn.addEventListener('click', calculateReturns);
-
-            // Trigger calculation on initial load
-            calculateReturns();
-            updatePortfolioOverview(); // Initial update of portfolio overview
-
-            // Animate scale graphs
-            document.querySelectorAll('.scale-graph-fill').forEach(graph => {
-                const percentage = graph.dataset.fillPercentage;
-                graph.style.width = `${percentage}%`;
-            });
-
-            // --- Modal Logic ---
             const investmentConfirmationModal = document.getElementById('investmentConfirmationModal');
             const confirmInvestmentAmount = document.getElementById('confirmInvestmentAmount');
             const confirmInvestmentType = document.getElementById('confirmInvestmentType');
@@ -1706,8 +1625,7 @@
 
             const paymentInstructionsModal = document.getElementById('paymentInstructionsModal');
             const paymentAmountSpan = document.getElementById('paymentAmount');
-            // Removed paymentInvestmentTypeSpan as it's not directly used in the current HTML for this purpose
-            const cancelPaymentInstructionsBtn = document.getElementById('cancelPaymentInstructionsBtn');
+            const cancelButtonPaymentInstructionsBtn = document.getElementById('cancelPaymentInstructionsBtn'); // Renamed for clarity
             const confirmPaymentReceivedBtn = document.getElementById('confirmPaymentReceivedBtn');
 
             const paymentSuccessModal = document.getElementById('paymentSuccessModal');
@@ -1722,119 +1640,170 @@
             const settingsModal = document.getElementById('settingsModal');
             const settingsUsernameInput = document.getElementById('settingsUsername');
             const settingsEmailInput = document.getElementById('settingsEmail');
+            const settingsNewPasswordInput = document.getElementById('settingsNewPassword');
+            const settingsConfirmPasswordInput = document.getElementById('settingsConfirmPassword');
             const verificationStatusSpan = document.getElementById('verificationStatus');
+            const registrationDateSpan = document.getElementById('registrationDate');
+            const lastLoginDateSpan = document.getElementById('lastLoginDate');
             const updateProfileBtn = document.getElementById('updateProfileBtn');
-            const initiateVerificationBtn = document.getElementById('initiateVerificationBtn'); // Fixed typo here
+            const initiateVerificationBtn = document.getElementById('initiateVerificationBtn');
             const closeSettingsModalBtn = document.getElementById('closeSettingsModalBtn');
             const settingsMessageDiv = document.getElementById('settingsMessage');
 
+            // --- State Variables ---
+            let currentInvestmentDetails = {}; // Stores details of the last calculated investment
+            let currentAddFundsAmount = 0; // Stores the amount for the add funds flow
 
-            // Function to show the initial investment confirmation modal
-            window.showInvestmentConfirmation = function(type, rate) {
-                // Ensure the calculator has run to populate currentInvestmentDetails
-                calculateReturns();
+            // --- Functions (specific to Dashboard) ---
 
-                const userData = getUserData(username);
-                if (currentInvestmentDetails.amount > userData.balance) {
-                    displayDashboardMessage('Insufficient balance. Please add funds to your Grow Vest balance first.', 'error', 'calculatorMessage');
+            /**
+             * Updates the financial overview cards on the dashboard.
+             */
+            function updatePortfolioOverview() {
+                const updatedUserData = getUserProfileData(userEmail); // Use userEmail for data retrieval
+                displayBalance.textContent = formatNaira(updatedUserData.balance);
+                displayTotalInvested.textContent = formatNaira(updatedUserData.totalInvested);
+                displayEstimatedTotalReturns.textContent = formatNaira(updatedUserData.estimatedTotalReturns);
+            }
+
+            /**
+             * Handles the "Add Funds" button click, showing the payment instructions modal.
+             */
+            const handleAddFunds = () => {
+                const amount = parseFloat(addFundsAmountInput.value);
+                if (isNaN(amount) || amount < 10000) { // Enforce a minimum add funds amount
+                    displayMessage(addFundsMessageDiv, `Please enter a valid amount (minimum ${formatNaira(10000)}).`, 'error', 'fas fa-exclamation-triangle');
                     return;
-                } else {
-                    calculatorMessageDiv.classList.add('hidden');
                 }
+                displayMessage(addFundsMessageDiv, '', 'hidden'); // Clear previous message
 
-                confirmInvestmentAmount.textContent = formatNaira(currentInvestmentDetails.amount);
-                confirmInvestmentType.textContent = type;
-                confirmInvestmentRate.textContent = `${rate}% Annually`;
-                investmentConfirmationModal.classList.add('active');
+                currentAddFundsAmount = amount;
+                paymentAmountSpan.textContent = formatNaira(amount);
+                toggleModal(paymentInstructionsModal, true);
             };
 
-            // Event listener for "Proceed to Invest" button from calculator results
-            proceedToInvestBtn.addEventListener('click', () => {
-                // Ensure the calculator has run to populate currentInvestmentDetails
-                calculateReturns();
+            /**
+             * Calculates and displays estimated investment returns based on user input.
+             */
+            function calculateReturns() {
+                const amount = parseFloat(investmentAmountInput.value);
+                let duration = parseFloat(investmentDurationValueInput.value);
+                const durationUnit = investmentDurationUnitSelect.value;
+                const selectedOption = investmentOpportunitySelect.options[investmentOpportunitySelect.selectedIndex];
+                const opportunityText = selectedOption.text;
+                const annualRate = parseFloat(selectedOption.dataset.rate);
 
-                const userData = getUserData(username);
+                // Validation
+                if (isNaN(amount) || amount < MIN_INVESTMENT_AMOUNT) {
+                    displayMessage(calculatorMessageDiv, `Investment amount must be at least ${formatNaira(MIN_INVESTMENT_AMOUNT)}.`, 'error', 'fas fa-exclamation-circle');
+                    calculatorResultsDiv.classList.add('hidden');
+                    return;
+                }
+                if (isNaN(duration) || duration <= 0) {
+                    displayMessage(calculatorMessageDiv, 'Please enter a valid positive number for investment duration.', 'error', 'fas fa-exclamation-circle');
+                    calculatorResultsDiv.classList.add('hidden');
+                    return;
+                }
+
+                displayMessage(calculatorMessageDiv, '', 'hidden'); // Clear previous message
+
+                // Convert duration to years for calculation
+                let durationInYears = duration;
+                if (durationUnit === 'months') {
+                    durationInYears = duration / 12;
+                }
+
+                // Simple interest calculation
+                const totalReturn = amount * (1 + (annualRate * durationInYears));
+                const profit = totalReturn - amount;
+
+                displayInitialInvestment.textContent = formatNaira(amount);
+                displayDurationValue.textContent = duration;
+                displayDurationUnit.textContent = durationUnit;
+                displayOpportunity.textContent = opportunityText.split('(')[0].trim(); // Clean up text for display
+                displayTotalReturn.textContent = formatNaira(totalReturn);
+                displayProfit.textContent = formatNaira(profit);
+
+                calculatorResultsDiv.classList.remove('hidden');
+
+                // Store details for later use in confirmation/investment flow
+                currentInvestmentDetails = {
+                    amount: amount,
+                    type: opportunityText.split('(')[0].trim(),
+                    rate: annualRate * 100, // Convert back to percentage for display
+                    estimatedProfit: profit
+                };
+            }
+
+            /**
+             * Handles the "Proceed to Invest" button click, showing the confirmation modal.
+             */
+            const handleProceedToInvest = () => {
+                const userData = getUserProfileData(userEmail); // Use userEmail for data retrieval
                 if (currentInvestmentDetails.amount > userData.balance) {
-                    displayDashboardMessage('Insufficient balance. Please add funds to your Grow Vest balance first.', 'error', 'calculatorMessage');
+                    displayMessage(calculatorMessageDiv, 'Insufficient balance. Please add funds to your GrowVest balance first.', 'error', 'fas fa-wallet');
                     return;
                 } else {
-                    calculatorMessageDiv.classList.add('hidden');
+                    displayMessage(calculatorMessageDiv, '', 'hidden'); // Clear message if sufficient funds
                 }
 
                 confirmInvestmentAmount.textContent = formatNaira(currentInvestmentDetails.amount);
                 confirmInvestmentType.textContent = currentInvestmentDetails.type;
                 confirmInvestmentRate.textContent = `${currentInvestmentDetails.rate}% Annually`;
-                investmentConfirmationModal.classList.add('active');
-            });
+                toggleModal(investmentConfirmationModal, true);
+            };
 
-            // Event listener for confirming investment details (deducts from balance)
-            confirmInvestmentBtn.addEventListener('click', () => {
-                investmentConfirmationModal.classList.remove('active');
+            /**
+             * Handles the final confirmation of an investment.
+             */
+            const handleConfirmInvestment = () => {
+                toggleModal(investmentConfirmationModal, false);
 
-                // Deduct from balance and add to invested/returns
-                let userData = getUserData(username);
+                let userData = getUserProfileData(userEmail); // Use userEmail for data retrieval
                 userData.balance -= currentInvestmentDetails.amount;
                 userData.totalInvested += currentInvestmentDetails.amount;
-                // Add the *profit* to estimatedTotalReturns, not the total return amount
-                userData.estimatedTotalReturns += currentInvestmentDetails.estimatedReturnAmount;
-                saveUserData(username, userData);
-                updatePortfolioOverview(); // Update dashboard display
+                userData.estimatedTotalReturns += currentInvestmentDetails.estimatedProfit; // Add profit to estimated returns
+                updateUserProfileData(userEmail, userData); // Use userEmail for data saving
+                updatePortfolioOverview(); // Refresh dashboard stats
 
                 successTransactionTypeSpan.textContent = `investment in ${currentInvestmentDetails.type}`;
-                paymentSuccessModal.classList.add('active');
-            });
+                toggleModal(paymentSuccessModal, true);
+            };
 
-            // Event listener for cancelling initial investment confirmation
-            cancelInvestmentBtn.addEventListener('click', () => {
-                investmentConfirmationModal.classList.remove('active');
-            });
-
-            // Event listener for cancelling payment instructions (for Add Funds)
-            cancelPaymentInstructionsBtn.addEventListener('click', () => {
-                paymentInstructionsModal.classList.remove('active');
-            });
-
-            // Event listener for "I Have Paid" button (for Add Funds)
-            confirmPaymentReceivedBtn.addEventListener('click', () => {
-                paymentInstructionsModal.classList.remove('active');
-
-                // Simulate funds addition
-                let userData = getUserData(username);
-                userData.balance += currentAddFundsAmount;
-                saveUserData(username, userData);
-                updatePortfolioOverview(); // Update dashboard display
-
-                successTransactionTypeSpan.textContent = 'funds addition';
-                paymentSuccessModal.classList.add('active');
-                addFundsAmountInput.value = ''; // Clear the input field
-            });
-
-            // Event listener for closing success modal
-            closeSuccessModalBtn.addEventListener('click', () => {
-                paymentSuccessModal.classList.remove('active');
-            });
-
-            // --- AI Insight Modal Logic ---
-            window.showAiInsightModal = async function(investmentType) {
+            /**
+             * Fetches and displays AI insights for a given investment type.
+             * @param {string} investmentType - The type of investment to get insights for.
+             */
+            async function showAiInsightModal(investmentType) {
                 aiInsightTitle.textContent = investmentType;
-                aiInsightContent.textContent = 'Generating insights...';
+                aiInsightContent.innerHTML = `<div class="spinner small-spinner"></div> Generating insightful analysis...`; // Set spinner
                 aiInsightContent.classList.add('loading-text');
-                aiInsightModal.classList.add('active');
+                toggleModal(aiInsightModal, true);
 
-                const prompt = `Provide a concise summary of the key benefits and potential considerations for investing in "${investmentType}" within the sustainable agriculture or renewable energy sector, focusing on growth opportunities and ethical aspects. Keep it under 150 words.`;
+                if (!GEMINI_API_KEY || GEMINI_API_KEY === "") {
+                    aiInsightContent.innerHTML = 'Gemini API Key is not configured. AI insights will not work in this simulation.';
+                    aiInsightContent.classList.remove('loading-text');
+                    console.error('GEMINI_API_KEY is not set. AI insights will not work.');
+                    return;
+                }
+
+                const prompt = `Provide a concise, positive, and informative summary (under 150 words) of the key benefits and growth potential for investing in "${investmentType}" within the sustainable agriculture or renewable energy sector, from the perspective of an investment platform.`;
 
                 try {
-                    let chatHistory = [];
-                    chatHistory.push({ role: "user", parts: [{ text: prompt }] });
-                    const payload = { contents: chatHistory };
-                    const apiKey = ""; // Leave as-is, Canvas will provide it
-                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                    const payload = { contents: [{ role: "user", parts: [{ text: prompt }] }] };
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
 
                     const response = await fetch(apiUrl, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(payload)
                     });
+
+                    if (!response.ok) {
+                        const errorData = await response.json();
+                        console.error('Gemini API Error Response:', errorData);
+                        throw new Error(`API error: ${response.status} - ${errorData.error ? errorData.error.message : response.statusText}`);
+                    }
 
                     const result = await response.json();
 
@@ -1844,96 +1813,213 @@
                         const text = result.candidates[0].content.parts[0].text;
                         aiInsightContent.textContent = text;
                     } else {
-                        aiInsightContent.textContent = 'Failed to generate insights. Please try again.';
-                        console.error('Gemini API response structure unexpected:', result);
+                        aiInsightContent.textContent = 'Failed to generate insights. Unexpected API response structure.';
+                        console.warn('Gemini API response structure unexpected:', result);
                     }
                 } catch (error) {
-                    aiInsightContent.textContent = 'Error generating insights. Please check your network connection.';
+                    aiInsightContent.textContent = `Error generating insights: ${error.message}. Please try again later.`;
                     console.error('Error calling Gemini API:', error);
                 } finally {
                     aiInsightContent.classList.remove('loading-text');
                 }
+            }
+
+            /**
+             * Displays the settings modal with current user profile information.
+             */
+            function showSettingsModal() {
+                const userData = getUserProfileData(userEmail); // Use userEmail for data retrieval
+                settingsUsernameInput.value = userData.username || '';
+                settingsEmailInput.value = userData.email || '';
+                settingsNewPasswordInput.value = ''; // Clear password fields on open
+                settingsConfirmPasswordInput.value = ''; // Clear password fields on open
+                updateVerificationStatusDisplay(userData.verificationStatus);
+                registrationDateSpan.textContent = formatDate(userData.registrationDate);
+                lastLoginDateSpan.textContent = formatDate(userData.lastLogin);
+
+                displayMessage(settingsMessageDiv, '', 'hidden'); // Clear previous messages
+                toggleModal(settingsModal, true);
+            }
+
+            /**
+             * Updates the display of the user's verification status.
+             * @param {string} status - The verification status ('unverified', 'pending', 'verified').
+             */
+            function updateVerificationStatusDisplay(status) {
+                verificationStatusSpan.textContent = status.charAt(0).toUpperCase() + status.slice(1);
+                verificationStatusSpan.className = `verification-status ${status}`;
+            }
+
+            /**
+             * Handles updating the user's profile information (username, email, password).
+             */
+            const handleUpdateProfile = () => {
+                let currentAuthUsers = getAuthUsers();
+                let currentUserProfile = getUserProfileData(userEmail); // Get current profile data
+                let oldEmail = userEmail; // Store current email for potential change
+
+                const newUsername = settingsUsernameInput.value.trim();
+                const newEmail = settingsEmailInput.value.trim().toLowerCase();
+                const newPassword = settingsNewPasswordInput.value.trim();
+                const confirmPassword = settingsConfirmPasswordInput.value.trim();
+
+                // Validate new email if it's being changed
+                if (newEmail && newEmail !== oldEmail) {
+                    if (!/\S+@\S+\.\S+/.test(newEmail)) {
+                        displayMessage(settingsMessageDiv, 'Please enter a valid new email address.', 'error', 'fas fa-exclamation-triangle');
+                        return;
+                    }
+                    if (currentAuthUsers[newEmail]) {
+                        displayMessage(settingsMessageDiv, 'This new email is already registered to another account.', 'error', 'fas fa-exclamation-triangle');
+                        return;
+                    }
+                }
+
+                // Validate new password if it's being changed
+                if (newPassword) {
+                    if (newPassword.length < 6) {
+                        displayMessage(settingsMessageDiv, 'New password must be at least 6 characters long.', 'error', 'fas fa-exclamation-triangle');
+                        return;
+                    }
+                    if (newPassword !== confirmPassword) {
+                        displayMessage(settingsMessageDiv, 'New password and confirmation do not match.', 'error', 'fas fa-exclamation-triangle');
+                        return;
+                    }
+                }
+
+                let needsRelogin = false;
+
+                // Update authentication credentials if email or password changed
+                if (newEmail && newEmail !== oldEmail) {
+                    // Update auth user data
+                    const authUser = { ...currentAuthUsers[oldEmail] };
+                    delete currentAuthUsers[oldEmail]; // Remove old entry
+                    authUser.email = newEmail; // Update email in auth record
+                    currentAuthUsers[newEmail] = authUser; // Add new entry
+                    saveAuthUsers(currentAuthUsers);
+
+                    // Update profile data with new email key
+                    currentUserProfile.email = newEmail;
+                    updateUserProfileData(oldEmail, currentUserProfile, newEmail); // Pass old email and new email
+                    localStorage.setItem(`${APP_ID}-loggedInUserEmail`, newEmail); // Update logged in email
+                    userEmail = newEmail; // Update the userEmail variable in this scope
+                    needsRelogin = true;
+                }
+
+                if (newPassword) {
+                    currentAuthUsers[userEmail].password = newPassword; // Update password for the current (potentially new) email
+                    saveAuthUsers(currentAuthUsers);
+                    needsRelogin = true;
+                }
+
+                // Update username in profile data
+                currentUserProfile.username = newUsername;
+                updateUserProfileData(userEmail, currentUserProfile); // Save with current email (which might be new)
+
+                displayMessage(settingsMessageDiv, 'Profile updated successfully!', 'success', 'fas fa-check-circle');
+
+                // Re-render dashboard header to update username display if it changed
+                // This setTimeout is crucial for the message to be seen before re-render
+                setTimeout(() => {
+                    toggleModal(settingsModal, false); // Close modal
+                    if (needsRelogin) {
+                        navigateTo('login', 'Your account details have been updated. Please log in with your new credentials.', 'info', 'fas fa-lock');
+                    } else {
+                        renderDashboardPage(userEmail); // Just re-render dashboard if no re-login needed
+                    }
+                }, 1500);
             };
 
-            closeAiInsightModalBtn.addEventListener('click', () => {
-                aiInsightModal.classList.remove('active');
-            });
-
-            // --- Settings Modal Logic ---
-            function showSettingsModal() {
-                const userData = getUserData(username);
-                settingsUsernameInput.value = username; // Username is read-only for this simulation
-                settingsEmailInput.value = userData.email || '';
-                updateVerificationStatusDisplay(userData.verificationStatus);
-                settingsMessageDiv.classList.add('hidden'); // Clear previous messages
-                settingsModal.classList.add('active');
-            }
-
-            function updateVerificationStatusDisplay(status) {
-                verificationStatusSpan.textContent = status.charAt(0).toUpperCase() + status.slice(1); // Capitalize first letter
-                verificationStatusSpan.className = `verification-status ${status}`; // Apply status-specific class
-            }
-
-            updateProfileBtn.addEventListener('click', () => {
-                let userData = getUserData(username);
-                const newEmail = settingsEmailInput.value.trim();
-
-                if (newEmail && !/\S+@\S+\.\S+/.test(newEmail)) {
-                    displayDashboardMessage('Please enter a valid email address.', 'error', 'settingsMessage');
-                    return;
-                }
-
-                userData.email = newEmail;
-                saveUserData(username, userData);
-                displayDashboardMessage('Profile updated successfully!', 'success', 'settingsMessage');
-            });
-
-            initiateVerificationBtn.addEventListener('click', () => {
-                let userData = getUserData(username);
+            /**
+             * Handles initiating the user verification process.
+             */
+            const handleInitiateVerification = () => {
+                let userData = getUserProfileData(userEmail); // Use userEmail for data retrieval
                 if (userData.verificationStatus === 'unverified') {
                     userData.verificationStatus = 'pending';
-                    saveUserData(username, userData);
+                    updateUserProfileData(userEmail, userData); // Save using email as key
                     updateVerificationStatusDisplay(userData.verificationStatus);
-                    displayDashboardMessage('Verification initiated! Please check your email for further instructions.', 'info', 'settingsMessage');
+                    displayMessage(settingsMessageDiv, 'Verification initiated! Please check your email for further instructions.', 'info', 'fas fa-info-circle');
                 } else if (userData.verificationStatus === 'pending') {
-                    displayDashboardMessage('Verification is already pending. Please wait for our team to review.', 'info', 'settingsMessage');
+                    displayMessage(settingsMessageDiv, 'Verification is already pending. Please wait for our team to review.', 'info', 'fas fa-info-circle');
                 } else if (userData.verificationStatus === 'verified') {
-                    displayDashboardMessage('Your profile is already verified.', 'success', 'settingsMessage');
+                    displayMessage(settingsMessageDiv, 'Your profile is already verified.', 'success', 'fas fa-check-circle');
                 }
+            };
+
+            // --- Event Listeners (Dashboard Scope) ---
+            logoutButton.addEventListener('click', handleLogout);
+            settingsButton.addEventListener('click', showSettingsModal);
+            payInBtn.addEventListener('click', handleAddFunds);
+            marketInsightsBtn.addEventListener('click', () => showAiInsightModal('Market Overview'));
+
+            calculateReturnsBtn.addEventListener('click', calculateReturns);
+            investmentAmountInput.addEventListener('input', calculateReturns); // Recalculate on amount change
+            investmentDurationValueInput.addEventListener('input', calculateReturns); // Recalculate on duration change
+            investmentDurationUnitSelect.addEventListener('change', calculateReturns); // Recalculate on unit change
+            investmentOpportunitySelect.addEventListener('change', calculateReturns); // Recalculate on opportunity change
+
+            proceedToInvestBtn.addEventListener('click', handleProceedToInvest);
+            cancelInvestmentBtn.addEventListener('click', () => toggleModal(investmentConfirmationModal, false));
+            confirmInvestmentBtn.addEventListener('click', handleConfirmInvestment);
+            cancelButtonPaymentInstructionsBtn.addEventListener('click', () => toggleModal(paymentInstructionsModal, false));
+
+            // Event listener for "I Have Paid" button (for Add Funds)
+            confirmPaymentReceivedBtn.addEventListener('click', () => {
+                toggleModal(paymentInstructionsModal, false);
+                let userData = getUserProfileData(userEmail); // Use userEmail for data retrieval
+                userData.balance += currentAddFundsAmount;
+                updateUserProfileData(userEmail, userData); // Use userEmail for data saving
+                updatePortfolioOverview();
+                successTransactionTypeSpan.textContent = 'funds addition';
+                toggleModal(paymentSuccessModal, true);
+                addFundsAmountInput.value = ''; // Clear input
             });
 
-            closeSettingsModalBtn.addEventListener('click', () => {
-                settingsModal.classList.remove('active');
-            });
+            closeSuccessModalBtn.addEventListener('click', () => toggleModal(paymentSuccessModal, false));
+            closeAiInsightModalBtn.addEventListener('click', () => toggleModal(aiInsightModal, false));
+            updateProfileBtn.addEventListener('click', handleUpdateProfile);
+            initiateVerificationBtn.addEventListener('click', handleInitiateVerification);
+            closeSettingsModalBtn.addEventListener('click', () => toggleModal(settingsModal, false));
 
-
-            // Make copyToClipboard globally accessible for the button in the modal
-            window.copyToClipboard = copyToClipboard;
+            // Initial calls on dashboard load
+            calculateReturns(); // Run calculator on load
+            updatePortfolioOverview(); // Populate stats on load
         }
 
-        // --- Navigation Logic ---
+
+        // --- Global Navigation & Authentication Logic ---
 
         /**
          * Navigates to a specific page.
          * @param {string} page - The page to navigate to ('signup', 'login', 'dashboard').
          * @param {string} message - Optional message to pass to the page.
-         * @param {string} type - Type of message ('success' or 'error').
+         * @param {string} type - Type of message ('success', 'error', 'info').
          */
-        function navigateTo(page, message = '', type = '') {
+        function navigateTo(page, message = '', type = '', icon = '') {
+            // Clear any lingering modals from previous views
+            document.querySelectorAll('.modal-overlay').forEach(modal => modal.classList.remove('active'));
+
             switch (page) {
                 case 'signup':
-                    renderSignUpPage(message, type);
+                    renderSignUpPage(message, type, icon);
                     break;
                 case 'login':
-                    renderLoginPage(message, type);
+                    renderLoginPage(message, type, icon);
                     break;
                 case 'dashboard':
-                    const loggedInUser = localStorage.getItem(`${appId}-loggedInUser`);
-                    if (loggedInUser) {
-                        renderDashboardPage(loggedInUser);
+                    const loggedInUserEmail = localStorage.getItem(`${APP_ID}-loggedInUserEmail`);
+                    if (loggedInUserEmail) {
+                        // Update last login time for the user
+                        let usersData = getUsersData();
+                        if (usersData[loggedInUserEmail]) {
+                            usersData[loggedInUserEmail].lastLogin = new Date().toISOString();
+                            saveUsersData(usersData);
+                        }
+                        renderDashboardPage(loggedInUserEmail);
                     } else {
                         // If no user is logged in, redirect to login
-                        navigateTo('login', 'Please log in to view your dashboard.', 'error');
+                        navigateTo('login', 'Please log in to view your dashboard.', 'error', 'fas fa-lock');
                     }
                     break;
                 default:
@@ -1941,105 +2027,125 @@
             }
         }
 
-        // --- Authentication Handlers ---
-
         /**
          * Handles the sign-up form submission.
-         * Stores user credentials in local storage.
-         * @param {Event} event - The form submission event.
          */
-        function handleSignUp(event) {
+        async function handleSignUp(event) {
             event.preventDefault();
+            const emailInput = document.getElementById('signupEmail');
             const usernameInput = document.getElementById('signupUsername');
             const passwordInput = document.getElementById('signupPassword');
+            const authMessageDiv = document.getElementById('authMessage');
 
-            const username = usernameInput.value.trim();
+            const email = emailInput.value.trim().toLowerCase();
+            const username = usernameInput.value.trim(); // Optional username
             const password = passwordInput.value.trim();
 
-            if (!username || !password) {
-                renderSignUpPage('Please enter both username and password.', 'error');
+            if (!email || !password) {
+                displayMessage(authMessageDiv, 'Please enter both email and password.', 'error', 'fas fa-exclamation-triangle');
+                return;
+            }
+            if (!/\S+@\S+\.\S+/.test(email)) { // Basic email validation
+                displayMessage(authMessageDiv, 'Please enter a valid email address.', 'error', 'fas fa-exclamation-triangle');
+                return;
+            }
+            if (password.length < 6) { // Basic password length validation
+                displayMessage(authMessageDiv, 'Password must be at least 6 characters long.', 'error', 'fas fa-exclamation-triangle');
                 return;
             }
 
-            // Check if username already exists
-            const existingAuthUsers = JSON.parse(localStorage.getItem(`${appId}-users`) || '{}');
-            if (existingAuthUsers[username]) {
-                renderSignUpPage('Username already exists. Please choose a different one.', 'error');
+            toggleSpinner(true, 'Creating your account...');
+
+            // Simulate network delay for spinner
+            await new Promise(resolve => setTimeout(resolve, 1500));
+
+            let existingAuthUsers = getAuthUsers();
+            if (existingAuthUsers[email]) {
+                toggleSpinner(false);
+                displayMessage(authMessageDiv, 'An account with this email already exists. Please log in or use a different email.', 'error', 'fas fa-exclamation-triangle');
                 return;
             }
 
-            // Store user in local storage (in a real app, this would be hashed and stored securely on a server)
-            existingAuthUsers[username] = password; // Storing password directly for simplicity, NOT secure for production
-            localStorage.setItem(`${appId}-users`, JSON.stringify(existingAuthUsers));
+            // Store user credentials (in a real app, passwords MUST be hashed and securely stored on a server)
+            existingAuthUsers[email] = { password: password, username: username }; // Store password and optional username
+            saveAuthUsers(existingAuthUsers);
 
-            // Initialize user data (balance, investments, etc.) for the new user
-            const initialUserData = {
-                balance: 0, // Initial balance is 0
+            // Initialize user data (balance, investments, etc.) for the new user using email as key
+            const initialUserProfileData = {
+                username: username,
+                email: email,
+                balance: 0,
                 totalInvested: 0,
                 estimatedTotalReturns: 0,
-                email: '',
-                verificationStatus: 'unverified'
+                verificationStatus: 'unverified',
+                registrationDate: new Date().toISOString(), // Capture registration date
+                lastLogin: null // Will be set on first successful login
             };
-            saveUserData(username, initialUserData);
-
+            updateUserProfileData(email, initialUserProfileData);
 
             // Clear form fields
+            emailInput.value = '';
             usernameInput.value = '';
             passwordInput.value = '';
 
-            navigateTo('login', 'You successfully created an account! Please log in.', 'success');
+            toggleSpinner(false);
+            navigateTo('login', 'Account created successfully! Please log in.', 'success', 'fas fa-check-circle');
         }
 
         /**
          * Handles the login form submission.
-         * Authenticates user against credentials in local storage.
-         * @param {Event} event - The form submission event.
          */
-        function handleLogin(event) {
+        async function handleLogin(event) {
             event.preventDefault();
-            const usernameInput = document.getElementById('loginUsername');
+            const emailInput = document.getElementById('loginEmail');
             const passwordInput = document.getElementById('loginPassword');
+            const authMessageDiv = document.getElementById('authMessage');
 
-            const username = usernameInput.value.trim();
+            const email = emailInput.value.trim().toLowerCase();
             const password = passwordInput.value.trim();
 
-            if (!username || !password) {
-                renderLoginPage('Please enter both username and password.', 'error');
+            if (!email || !password) {
+                displayMessage(authMessageDiv, 'Please enter both email and password.', 'error', 'fas fa-exclamation-triangle');
                 return;
             }
 
-            const storedAuthUsers = JSON.parse(localStorage.getItem(`${appId}-users`) || '{}');
+            toggleSpinner(true, 'Logging in...');
+            // Simulate network delay for spinner
+            await new Promise(resolve => setTimeout(resolve, 1500));
 
-            if (storedAuthUsers[username] && storedAuthUsers[username] === password) {
-                // Successful login
-                localStorage.setItem(`${appId}-loggedInUser`, username); // Store logged-in user
+            const storedAuthUsers = getAuthUsers();
+            const userCredentials = storedAuthUsers[email];
+
+            if (userCredentials && userCredentials.password === password) {
+                localStorage.setItem(`${APP_ID}-loggedInUserEmail`, email); // Store email as logged in user
+                toggleSpinner(false);
                 navigateTo('dashboard');
             } else {
-                // Failed login
-                renderLoginPage('Invalid username or password. Please try again.', 'error');
+                toggleSpinner(false);
+                displayMessage(authMessageDiv, 'Invalid email or password. Please try again.', 'error', 'fas fa-times-circle');
             }
         }
 
         /**
          * Handles the logout action.
-         * Clears the logged-in user from local storage and redirects to login.
          */
         function handleLogout() {
-            localStorage.removeItem(`${appId}-loggedInUser`); // Clear logged-in user
-            localStorage.removeItem(`${appId}-currentUserId`); // Clear the dummy user ID on logout
-            navigateTo('login', 'You have been logged out.', 'success');
+            localStorage.removeItem(`${APP_ID}-loggedInUserEmail`);
+            navigateTo('login', 'You have been logged out.', 'success', 'fas fa-sign-out-alt');
         }
 
-        // --- Initial Page Load ---
+        // --- Initial Application Load ---
         document.addEventListener('DOMContentLoaded', () => {
-            // Check if a user is already logged in
-            const loggedInUser = localStorage.getItem(`${appId}-loggedInUser`);
-            if (loggedInUser) {
+            const loggedInUserEmail = localStorage.getItem(`${APP_ID}-loggedInUserEmail`);
+            if (loggedInUserEmail) {
                 navigateTo('dashboard');
             } else {
                 navigateTo('signup'); // Start with the signup page if not logged in
             }
         });
+
+        // Make copyToClipboard globally accessible for the button in the modal HTML
+        window.copyToClipboard = copyToClipboard;
     </script>
 </body>
 </html>
