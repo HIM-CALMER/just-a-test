@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GrowVest - Invest in Sustainable Agriculture & Renewable Energy</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Chart.js Library for Graphs -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Montserrat:wght@400;500;700&display=swap');
 
@@ -39,24 +37,9 @@
 
             --gradient-bg: linear-gradient(135deg, var(--dark-bg) 0%, #0F1626 100%);
             --card-gradient-border: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-
-            --hover-darken: rgba(0,0,0,0.1); /* For subtle hover backgrounds */
-            
-            /* Chart Colors - consistent with theme */
-            --chart-line-color-1: #66BB6A; /* Primary Light */
-            --chart-line-color-2: #64B5F6; /* Secondary Light */
-            --chart-line-color-3: #FFEE58; /* Accent Light */
-            --chart-line-color-4: #A064FF; /* Custom Purple */
-            --chart-grid-color: rgba(63, 74, 107, 0.4); /* Border color, semi-transparent */
-            --chart-text-color: #E0E0E0; /* Text color */
         }
 
         /* --- Base Styles --- */
-        /* Universal Box-Sizing for predictable sizing - CRITICAL FOR RESPONSIVENESS */
-        *, *::before, *::after {
-            box-sizing: border-box;
-        }
-
         body {
             font-family: 'Poppins', sans-serif;
             background: var(--gradient-bg);
@@ -64,7 +47,7 @@
             margin: 0;
             padding: 0;
             line-height: 1.6;
-            overflow-x: hidden; /* Crucial: Prevent horizontal scroll by default */
+            overflow-x: hidden; /* Prevent horizontal scroll */
             transition: background 0.5s ease-in-out;
             min-height: 100vh; /* Ensure full height for gradient */
             display: flex;
@@ -74,8 +57,7 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px; /* Consistent padding */
-            width: 100%; /* Ensure it takes full width within its parent */
+            padding: 20px;
             flex-grow: 1; /* Allows container to push footer down */
         }
 
@@ -104,7 +86,6 @@
         .justify-center { justify-content: center; }
         .justify-between { justify-content: space-between; }
         .space-x-4 > *:not(:first-child) { margin-left: 1rem; }
-        .space-y-2 > *:not(:first-child) { margin-top: 0.5rem; }
         .w-full { width: 100%; }
         .w-auto { width: auto; }
         .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
@@ -153,7 +134,6 @@
             position: relative;
             overflow: hidden;
             z-index: 1;
-            white-space: nowrap; /* Prevent text wrapping within button */
         }
 
         .btn::before {
@@ -219,7 +199,6 @@
             font-weight: 600;
             color: var(--text-color);
             font-size: 0.95rem;
-            text-align: left; /* Align labels to left in modal */
         }
 
         .form-group input[type="text"],
@@ -227,7 +206,7 @@
         .form-group input[type="email"],
         .form-group input[type="number"],
         .form-group select {
-            width: 100%; /* Now takes 100% and padding is included due to box-sizing */
+            width: calc(100% - 24px); /* Adjust for padding */
             padding: 14px 12px;
             border: 1px solid var(--border-color);
             border-radius: 10px;
@@ -250,16 +229,6 @@
             box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.4); /* Focus ring */
             background-color: var(--card-hover-bg);
         }
-        
-        /* Specific styling for select dropdown arrow */
-        .form-group select {
-            background-image: url('data:image/svg+xml;utf8,<svg fill="%23E0E0E0" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
-            background-repeat: no-repeat;
-            background-position: right 12px center;
-            background-size: 20px;
-            padding-right: 40px; /* Make space for the arrow */
-        }
-
 
         /* --- Messages --- */
         .message {
@@ -274,7 +243,6 @@
             font-size: 0.95rem;
             display: flex;
             align-items: center;
-            text-align: left; /* Align messages to left */
         }
 
         .message i {
@@ -315,7 +283,6 @@
             align-items: center;
             min-height: 100vh;
             background: var(--gradient-bg);
-            padding: 20px; /* Add padding to prevent card touching edges on small screens */
         }
 
         .auth-card {
@@ -509,41 +476,14 @@
         }
 
         /* --- Dashboard Sections --- */
-        /* Main Grid Layout for Dashboard */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 1fr; /* Default to single column on small screens */
-            gap: 25px;
-            margin-top: 35px;
-        }
-
-        /* Desktop Layout (2 columns) */
-        @media (min-width: 1024px) {
-            .dashboard-grid {
-                grid-template-columns: 2fr 1fr; /* Main content wider than sidebar */
-                grid-template-areas:
-                    "portfolio portfolio"
-                    "actions actions"
-                    "chart investments"
-                    "calculator calculator"
-                    "highlights highlights";
-            }
-            .portfolio-overview { grid-area: portfolio; }
-            .actions-grid { grid-area: actions; }
-            .investment-performance-section { grid-area: chart; }
-            .my-investments-section { grid-area: investments; }
-            .calculator-section { grid-area: calculator; }
-            .impact-highlights-section { grid-area: highlights; }
-        }
-
         .portfolio-overview {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 25px;
+            margin-top: 35px;
         }
 
-        .stat-card, .action-card, .calculator-section, .highlight-card, 
-        .investment-performance-section, .my-investments-section {
+        .stat-card, .action-card, .calculator-section, .highlight-card {
             background-color: var(--card-bg);
             padding: 30px;
             border-radius: 16px;
@@ -555,8 +495,7 @@
             overflow: hidden;
         }
 
-        .stat-card::before, .action-card::before, .calculator-section::before, .highlight-card::before,
-        .investment-performance-section::before, .my-investments-section::before {
+        .stat-card::before, .action-card::before, .calculator-section::before, .highlight-card::before {
             content: '';
             position: absolute;
             top: -2px;
@@ -565,14 +504,13 @@
             bottom: -2px;
             background: var(--card-gradient-border);
             z-index: -1;
-            border-radius: 18px; /* Slightly larger for the border effect */
+            border-radius: 18px;
             filter: blur(10px);
             opacity: 0;
             transition: opacity 0.5s ease;
         }
 
-        .stat-card:hover::before, .action-card:hover::before, .calculator-section:hover::before, .highlight-card:hover::before,
-        .investment-performance-section:hover::before, .my-investments-section:hover::before {
+        .stat-card:hover::before, .action-card:hover::before, .calculator-section:hover::before, .highlight-card:hover::before {
             opacity: 0.4;
         }
 
@@ -611,6 +549,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 25px;
+            margin-top: 45px;
         }
 
         .action-card h3 {
@@ -637,10 +576,10 @@
         /* --- Investment Calculator --- */
         .calculator-section {
             padding: 35px;
+            margin-top: 45px;
         }
 
-        .calculator-section h2, .impact-highlights-section h2,
-        .investment-performance-section h2, .my-investments-section h2 {
+        .calculator-section h2, .impact-highlights-section h2 {
             text-align: center;
             color: var(--light-text);
             margin-bottom: 2rem;
@@ -688,102 +627,9 @@
             text-shadow: 0 0 5px rgba(255, 235, 59, 0.4);
         }
 
-        /* --- Investment Performance Graph Section --- */
-        .investment-performance-section {
-            padding: 35px 20px;
-            display: flex;
-            flex-direction: column;
-        }
-        .investment-performance-section canvas {
-            max-width: 100%;
-            height: auto; /* Ensure canvas scales responsively */
-        }
-
-        /* --- My Active Investments Section --- */
-        .my-investments-section {
-            padding: 35px 20px;
-        }
-
-        .my-investments-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            max-height: 400px; /* Limit height for scroll */
-            overflow-y: auto; /* Enable scrolling for the list */
-        }
-
-        .my-investments-list::-webkit-scrollbar {
-            width: 8px;
-        }
-        .my-investments-list::-webkit-scrollbar-track {
-            background: var(--card-bg);
-            border-radius: 10px;
-        }
-        .my-investments-list::-webkit-scrollbar-thumb {
-            background: var(--border-color);
-            border-radius: 10px;
-        }
-        .my-investments-list::-webkit-scrollbar-thumb:hover {
-            background: var(--secondary-dark);
-        }
-
-        .investment-item {
-            background-color: var(--card-hover-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 15px;
-            text-align: left;
-            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .investment-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
-            background-color: rgba(30, 43, 74, 0.8); /* Slightly darker on hover */
-        }
-        
-        .investment-item.highlighted {
-            border-color: var(--primary-light);
-            box-shadow: 0 0 15px rgba(76, 175, 80, 0.5);
-            background-color: rgba(76, 175, 80, 0.1); /* Light green background */
-        }
-
-        .investment-item h4 {
-            font-size: 1.15rem;
-            color: var(--primary-light);
-            margin-bottom: 5px;
-        }
-
-        .investment-item p {
-            font-size: 0.9rem;
-            color: var(--text-color);
-            margin-bottom: 0;
-        }
-
-        .investment-item .value-current {
-            font-size: 1.2rem;
-            font-weight: 700;
-            color: var(--light-text);
-        }
-        .investment-item .profit-loss {
-            font-size: 1rem;
-            font-weight: 600;
-        }
-        .investment-item .profit-loss.positive {
-            color: var(--success-color);
-        }
-        .investment-item .profit-loss.negative {
-            color: var(--error-color);
-        }
-
-
         /* --- Impact & Sustainability Highlights --- */
         .impact-highlights-section {
+            margin-top: 45px;
             padding-bottom: 40px;
         }
 
@@ -889,7 +735,7 @@
             padding: 35px;
             border-radius: 16px;
             box-shadow: 0 12px 40px var(--shadow-color-dark);
-            width: 90%; /* Responsive width */
+            width: 90%;
             max-width: 550px;
             text-align: center;
             border: 1px solid var(--border-color);
@@ -898,8 +744,6 @@
             transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.4s ease; /* Pop-in effect */
             position: relative;
             overflow: hidden;
-            max-height: 90vh; /* Limit height for scrollable content */
-            overflow-y: auto; /* Enable scrolling for taller modals */
         }
 
         .modal-overlay.active .modal-content {
@@ -984,8 +828,6 @@
             margin-left: 10px;
             transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            vertical-align: middle; /* Align with label text */
-            white-space: nowrap; /* Prevent status text from wrapping */
         }
 
         .verification-status.unverified {
@@ -1014,7 +856,6 @@
             font-size: 1.1rem;
             flex-direction: column; /* Allow spinner above text */
             gap: 15px;
-            padding: 20px; /* Ensure content is within modal bounds */
         }
 
         .loading-text::after {
@@ -1032,7 +873,7 @@
             40% {
                 color: var(--text-color);
                 text-shadow:
-                    .25em 0 0 var(--text-color),
+                    .25em 0 0 rgba(0,0,0,0),
                     .5em 0 0 rgba(0,0,0,0);
             }
             60% {
@@ -1126,15 +967,9 @@
             .header .user-menu span {
                 display: none; /* Hide welcome message on smaller desktops too */
             }
-            .portfolio-overview, .actions-grid, .highlights-grid {
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Slightly smaller min-width */
-            }
         }
 
         @media (max-width: 768px) {
-            .container {
-                padding: 15px; /* Reduce container padding */
-            }
             .header {
                 flex-direction: column;
                 padding: 15px 20px;
@@ -1175,18 +1010,13 @@
             }
 
             .portfolio-overview, .actions-grid, .highlights-grid {
-                grid-template-columns: 1fr; /* Stack columns on small screens */
-                gap: 20px;
-            }
-            /* Ensure main dashboard grid stacks on mobile */
-            .dashboard-grid {
                 grid-template-columns: 1fr;
-                grid-template-areas: none; /* Remove explicit areas for stacking */
+                gap: 20px;
             }
 
             .auth-card {
                 padding: 35px 25px;
-                margin: 0 10px; /* Reduced margin to maximize space */
+                margin: 20px;
                 max-width: 360px;
             }
             .auth-card h2 {
@@ -1194,27 +1024,17 @@
             }
 
             .modal-content {
-                margin: 20px 15px; /* Adjust modal margin for smaller screens */
-                padding: 30px 20px; /* Adjust modal padding */
-                width: calc(100% - 30px); /* Fill space more effectively */
+                margin: 20px;
+                padding: 30px;
             }
             .modal-content h3 {
                 font-size: 1.7rem;
-            }
-            
-            /* Specific flex behavior for button groups in modals/forms */
-            .flex-wrap.justify-center.space-x-2.space-y-2.sm\:space-y-0.sm\:space-x-4 > * {
-                flex-basis: 100%; /* Make buttons full width on small screens */
-                margin-left: 0 !important; /* Override space-x */
-            }
-            .flex-wrap.justify-center.space-x-2.space-y-2.sm\:space-y-0.sm\:space-x-4 button:not(:first-child) {
-                margin-top: 10px; /* Add space between stacked buttons */
             }
         }
 
         @media (max-width: 480px) {
             .container {
-                padding: 10px; /* Even tighter padding for very small screens */
+                padding: 15px;
             }
             .stat-card .value {
                 font-size: 2.2rem;
@@ -1260,18 +1080,13 @@
             .spinner-text {
                 font-size: 1.2rem;
             }
-            .info-box strong {
-                min-width: 110px; /* Adjust min-width for labels in info box */
-            }
         }
     </style>
 </head>
 <body>
     <div id="app">
-        <!-- Content will be rendered here by JavaScript -->
-    </div>
+        </div>
 
-    <!-- Global Loading Spinner Overlay -->
     <div id="loadingSpinnerOverlay" class="spinner-overlay hidden">
         <div class="spinner-content flex flex-col items-center justify-center">
             <div class="spinner"></div>
@@ -1286,32 +1101,8 @@
         // !! DO NOT expose it directly in client-side code in production !!
         const GEMINI_API_KEY = ""; // Replace with your actual Gemini API Key (e.g., 'YOUR_GEMINI_API_KEY')
         const MIN_INVESTMENT_AMOUNT = 50000; // Naira
-        const MIN_WITHDRAWAL_AMOUNT = 10000; // Naira
-        const SIMULATION_INTERVAL_MS = 5000; // Update graph every 5 seconds
-        const MAX_HISTORICAL_POINTS = 100; // Max data points on the graph for performance
-
-        // --- Global Chart Instance ---
-        let investmentChart = null;
-        const chartColors = [
-            '#66BB6A', // primary-light
-            '#64B5F6', // secondary-light
-            '#FFEE58', // accent-light
-            '#A064FF', // custom purple
-            '#8BC34A', // success-color
-            '#2196F3', // secondary-color
-            '#FFEB3B', // accent-color
-        ];
-        let colorIndex = 0; // To cycle through colors for different lines
 
         // --- Helper Functions ---
-
-        /**
-         * Generates a unique ID.
-         * @returns {string} A unique ID string.
-         */
-        function generateUniqueId() {
-            return Date.now().toString(36) + Math.random().toString(36).substring(2);
-        }
 
         /**
          * Formats a number as Naira currency.
@@ -1327,26 +1118,16 @@
          * @param {Date} date - The date object.
          * @returns {string} Formatted date string (e.g., "Jan 1, 2024 10:30 AM").
          */
-        function formatDate(dateString) {
-            if (!dateString) return 'N/A';
-            try {
-                const date = new Date(dateString);
-                // Check if the date is valid
-                if (isNaN(date.getTime())) {
-                    return 'Invalid Date';
-                }
-                return date.toLocaleString('en-US', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    hour12: true
-                });
-            } catch (e) {
-                console.error("Error formatting date:", e, dateString);
-                return 'N/A';
-            }
+        function formatDate(date) {
+            if (!date) return 'N/A';
+            return new Date(date).toLocaleString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            });
         }
 
 
@@ -1358,10 +1139,7 @@
          * @param {string} iconClass - Font Awesome icon class (optional).
          */
         function displayMessage(targetElement, message, type, iconClass = '') {
-            if (!targetElement) {
-                console.error("Target element for message is null:", targetElement);
-                return;
-            }
+            if (!targetElement) return;
 
             targetElement.innerHTML = iconClass ? `<i class="${iconClass}"></i> ${message}` : message;
             targetElement.className = `message ${type}`;
@@ -1394,7 +1172,7 @@
         }
 
         /**
-         * Retrieves user authentication data (email, password, username).
+         * Retrieves user authentication data (email, password, username, registrationDate, lastLogin).
          * @returns {object} An object mapping email to user credentials.
          */
         function getAuthUsers() {
@@ -1432,33 +1210,33 @@
          */
         function getUserProfileData(email) {
             const usersData = getUsersData();
-            // Default structure for new users or if data is missing
+            // Default structure for new users
             return usersData[email] || {
-                username: email.split('@')[0], // Default username from email
+                username: '',
                 email: email,
                 balance: 0,
-                totalInvested: 0, // This will be the sum of initial amounts of active investments
-                estimatedTotalReturns: 0, // This will be the sum of (currentValue - initialAmount) of active investments
+                totalInvested: 0,
+                estimatedTotalReturns: 0,
                 verificationStatus: 'unverified',
                 registrationDate: new Date().toISOString(), // Set on first access/creation
-                lastLogin: null, // Set on first successful login
-                activeInvestments: [] // New: Array to store active investment details
+                lastLogin: new Date().toISOString() // Set on first access/creation
             };
         }
 
         /**
          * Updates and saves data for a specific user.
-         * @param {string} oldEmail - The user's current (or old if changing) email.
+         * @param {string} email - The user's email (current/old email if updating email).
          * @param {object} data - The user data object to save.
+         * @param {string} [newEmail] - The new email if the email is being changed.
          */
-        function updateUserProfileData(oldEmail, data) {
+        function updateUserProfileData(email, data, newEmail = null) {
             let usersData = getUsersData();
-            // If email is changing, delete old entry and create new one
-            if (oldEmail && data.email && oldEmail !== data.email) {
-                delete usersData[oldEmail];
-                usersData[data.email] = data;
+            if (newEmail && newEmail !== email) {
+                // If email is changing, delete old entry and create new one
+                delete usersData[email];
+                usersData[newEmail] = data;
             } else {
-                usersData[oldEmail] = data; // Update existing entry
+                usersData[email] = data;
             }
             saveUsersData(usersData);
         }
@@ -1514,15 +1292,15 @@
                         <form id="signupForm">
                             <div class="form-group">
                                 <label for="signupEmail">Email</label>
-                                <input type="email" id="signupEmail" placeholder="Enter your email" required autocomplete="email">
+                                <input type="email" id="signupEmail" placeholder="Enter your email" required>
                             </div>
                             <div class="form-group">
                                 <label for="signupUsername">Username</label>
-                                <input type="text" id="signupUsername" placeholder="Choose a username (optional)" autocomplete="username">
+                                <input type="text" id="signupUsername" placeholder="Choose a username (optional)" >
                             </div>
                             <div class="form-group">
                                 <label for="signupPassword">Password</label>
-                                <input type="password" id="signupPassword" placeholder="Create a secure password" required autocomplete="new-password">
+                                <input type="password" id="signupPassword" placeholder="Create a secure password" required>
                             </div>
                             <button type="submit" class="btn btn-primary w-full mt-4">Sign Up</button>
                         </form>
@@ -1553,11 +1331,11 @@
                         <form id="loginForm">
                             <div class="form-group">
                                 <label for="loginEmail">Email</label>
-                                <input type="email" id="loginEmail" placeholder="Enter your email" required autocomplete="email">
+                                <input type="email" id="loginEmail" placeholder="Enter your email" required>
                             </div>
                             <div class="form-group">
                                 <label for="loginPassword">Password</label>
-                                <input type="password" id="loginPassword" placeholder="Enter your password" required autocomplete="current-password">
+                                <input type="password" id="loginPassword" placeholder="Enter your password" required>
                             </div>
                             <button type="submit" class="btn btn-primary w-full mt-4">Login</button>
                         </form>
@@ -1591,155 +1369,127 @@
                         <a href="#">Portfolio</a>
                     </nav>
                     <div class="user-menu">
-                        <span id="welcomeMessage">Welcome, ${displayUsername}!</span>
+                        <span>Welcome, ${displayUsername}!</span>
                         <button id="settingsButton" title="Settings"><i class="fas fa-cog"></i></button>
                         <button id="logoutButton" title="Logout"><i class="fas fa-sign-out-alt"></i></button>
                     </div>
                 </header>
 
                 <main class="container">
-                    <div class="dashboard-grid">
-                        <section class="portfolio-overview">
-                            <h3>Your Financial Overview</h3>
-                            <div class="portfolio-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;">
-                                <div class="stat-card">
-                                    <h3>Current Balance</h3>
-                                    <div class="value" id="displayBalance">₦0</div>
-                                    <p class="description">Funds available for investment</p>
-                                </div>
-                                <div class="stat-card">
-                                    <h3>Total Invested</h3>
-                                    <div class="value" id="displayTotalInvested">₦0</div>
-                                    <p class="description">Across all active projects</p>
-                                </div>
-                                <div class="stat-card">
-                                    <h3>Estimated Returns</h3>
-                                    <div class="value" id="displayEstimatedTotalReturns">₦0</div>
-                                    <p class="description">Potential earnings on current investments</p>
-                                </div>
-                            </div>
-                        </section>
+                    <section class="portfolio-overview">
+                        <div class="stat-card">
+                            <h3>Current Balance</h3>
+                            <div class="value" id="displayBalance">₦0</div>
+                            <p class="description">Funds available for investment</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Total Invested</h3>
+                            <div class="value" id="displayTotalInvested">₦0</div>
+                            <p class="description">Across all active projects</p>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Estimated Returns</h3>
+                            <div class="value" id="displayEstimatedTotalReturns">₦0</div>
+                            <p class="description">Potential earnings on current investments</p>
+                        </div>
+                    </section>
 
-                        <section class="actions-grid mt-12">
-                            <div class="action-card">
-                                <div class="icon"><i class="fas fa-piggy-bank"></i></div>
-                                <h3>Add Funds</h3>
-                                <p>Top up your GrowVest balance to seize new investment opportunities.</p>
-                                <div class="form-group">
-                                    <input type="number" id="addFundsAmount" placeholder="Amount (e.g., ₦50,000)" min="10000" required>
-                                </div>
-                                <button id="payInBtn" class="btn btn-primary w-full">Add Funds</button>
-                                <div id="addFundsMessage" class="message hidden mt-4"></div>
-                            </div>
-
-                            <div class="action-card">
-                                <div class="icon"><i class="fas fa-hand-holding-usd"></i></div>
-                                <h3>Withdraw Funds</h3>
-                                <p>Cash out your earnings or available balance to your bank account.</p>
-                                <button id="withdrawBtn" class="btn btn-secondary w-full">Withdraw Funds</button>
-                            </div>
-
-                            <div class="action-card">
-                                <div class="icon"><i class="fas fa-chart-area"></i></div>
-                                <h3>Explore Investments</h3>
-                                <p>Discover high-yield opportunities in sustainable sectors.</p>
-                                <button class="btn btn-secondary w-full" id="marketInsightsBtn">Market Insights</button>
-                            </div>
-
-                            <div class="action-card">
-                                <div class="icon"><i class="fas fa-user-friends"></i></div>
-                                <h3>Refer & Earn</h3>
-                                <p>Invite friends to GrowVest and earn exciting bonuses.</p>
-                                <button class="btn btn-secondary w-full">Learn More</button>
-                            </div>
-                        </section>
-
-                        <section class="investment-performance-section mt-12">
-                            <h2><i class="fas fa-chart-line"></i> Investment Performance Graph</h2>
-                            <p class="text-center text-gray-400 mb-4">Track the simulated growth and fluctuations of your active investments over time.</p>
-                            <canvas id="investmentChart"></canvas>
-                            <p class="text-center text-gray-400 text-sm mt-4">Note: This graph displays simulated market performance and is for illustrative purposes only.</p>
-                        </section>
-
-                        <section class="my-investments-section mt-12">
-                            <h2><i class="fas fa-wallet"></i> My Active Investments</h2>
-                            <p class="text-center text-gray-400 mb-4" id="noInvestmentsMessage">No active investments yet. Start investing to see them here!</p>
-                            <ul id="myInvestmentsList" class="my-investments-list">
-                                <!-- Active investments will be rendered here -->
-                            </ul>
-                        </section>
-
-                        <section class="calculator-section mt-12">
-                            <h2><i class="fas fa-calculator"></i> Grow Your Future: Investment Calculator</h2>
-                            <div id="calculatorMessage" class="message hidden mb-4"></div>
+                    <section class="actions-grid">
+                        <div class="action-card">
+                            <div class="icon"><i class="fas fa-piggy-bank"></i></div>
+                            <h3>Add Funds</h3>
+                            <p>Top up your GrowVest balance to seize new investment opportunities.</p>
                             <div class="form-group">
-                                <label for="investmentAmount">Investment Amount (₦)</label>
-                                <input type="number" id="investmentAmount" value="${MIN_INVESTMENT_AMOUNT}" min="${MIN_INVESTMENT_AMOUNT}" required>
+                                <input type="number" id="addFundsAmount" placeholder="Amount (e.g., ₦50,000)" min="${MIN_INVESTMENT_AMOUNT}" required>
                             </div>
-                            <div class="form-group">
-                                <label for="investmentOpportunity">Investment Opportunity</label>
-                                <select id="investmentOpportunity">
-                                    <option value="poultry" data-rate="2.50">Poultry Farming (250% Annually)</option>
-                                    <option value="food" data-rate="2.20">Sustainable Food Cultivation (220% Annually)</option>
-                                    <option value="aquaculture" data-rate="2.80">Aquaculture Projects (280% Annually)</option>
-                                    <option value="energy" data-rate="2.30">Renewable Energy Solutions (230% Annually)</option>
-                                    <option value="luxury_crops" data-rate="3.50">Luxury Crop Cultivation (350% Annually)</option>
-                                    <option value="tech_agri" data-rate="4.00">Agri-Tech Innovations (400% Annually)</option>
+                            <button id="payInBtn" class="btn btn-primary w-full">Add Funds</button>
+                            <div id="addFundsMessage" class="message hidden mt-4"></div>
+                        </div>
+
+                        <div class="action-card">
+                            <div class="icon"><i class="fas fa-chart-area"></i></div>
+                            <h3>Explore Investments</h3>
+                            <p>Discover high-yield opportunities in sustainable sectors.</p>
+                            <button class="btn btn-secondary w-full" id="marketInsightsBtn">Market Insights</button>
+                        </div>
+
+                        <div class="action-card">
+                            <div class="icon"><i class="fas fa-user-friends"></i></div>
+                            <h3>Refer & Earn</h3>
+                            <p>Invite friends to GrowVest and earn exciting bonuses.</p>
+                            <button class="btn btn-secondary w-full">Learn More</button>
+                        </div>
+                    </section>
+
+                    <section class="calculator-section mt-12">
+                        <h2><i class="fas fa-calculator"></i> Grow Your Future: Investment Calculator</h2>
+                        <div id="calculatorMessage" class="message hidden mb-4"></div>
+                        <div class="form-group">
+                            <label for="investmentAmount">Investment Amount (₦)</label>
+                            <input type="number" id="investmentAmount" value="${MIN_INVESTMENT_AMOUNT}" min="${MIN_INVESTMENT_AMOUNT}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="investmentOpportunity">Investment Opportunity</label>
+                            <select id="investmentOpportunity">
+                                <option value="poultry" data-rate="2.50">Poultry Farming (250% Annually)</option>
+                                <option value="food" data-rate="2.20">Sustainable Food Cultivation (220% Annually)</option>
+                                <option value="aquaculture" data-rate="2.80">Aquaculture Projects (280% Annually)</option>
+                                <option value="energy" data-rate="2.30">Renewable Energy Solutions (230% Annually)</option>
+                                <option value="luxury_crops" data-rate="3.50">Luxury Crop Cultivation (350% Annually)</option>
+                                <option value="tech_agri" data-rate="4.00">Agri-Tech Innovations (400% Annually)</option>
+                            </select>
+                        </div>
+                        <div class="form-group flex items-center space-x-4">
+                            <div style="flex: 2;">
+                                <label for="investmentDurationValue">Duration</label>
+                                <input type="number" id="investmentDurationValue" value="1" min="1" required>
+                            </div>
+                            <div style="flex: 1;">
+                                <label for="investmentDurationUnit" class="hidden">Unit</label>
+                                <select id="investmentDurationUnit">
+                                    <option value="years">Years</option>
+                                    <option value="months">Months</option>
                                 </select>
                             </div>
-                            <div class="form-group flex items-center space-x-4">
-                                <div style="flex: 2;">
-                                    <label for="investmentDurationValue">Duration</label>
-                                    <input type="number" id="investmentDurationValue" value="1" min="1" required>
-                                </div>
-                                <div style="flex: 1;">
-                                    <label for="investmentDurationUnit" class="hidden">Unit</label>
-                                    <select id="investmentDurationUnit">
-                                        <option value="years">Years</option>
-                                        <option value="months">Months</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <button id="calculateReturnsBtn" class="btn btn-primary w-full mt-4">Calculate Returns</button>
+                        </div>
+                        <button id="calculateReturnsBtn" class="btn btn-primary w-full mt-4">Calculate Returns</button>
 
-                            <div id="calculatorResults" class="calculator-results mt-6 hidden">
-                                <p>Initial Investment: <strong id="displayInitialInvestment"></strong></p>
-                                <p>Duration: <strong id="displayDurationValue"></strong> <span id="displayDurationUnit"></span></p>
-                                <p>Opportunity: <strong id="displayOpportunity"></strong></p>
-                                <p class="profit">Estimated Profit: <strong id="displayProfit"></strong></p>
-                                <p class="total-return">Total Return: <strong id="displayTotalReturn"></strong></p>
-                                <button id="proceedToInvestBtn" class="btn btn-primary mt-4 w-full">Proceed to Invest</button>
-                            </div>
-                        </section>
+                        <div id="calculatorResults" class="calculator-results mt-6 hidden">
+                            <p>Initial Investment: <strong id="displayInitialInvestment"></strong></p>
+                            <p>Duration: <strong id="displayDurationValue"></strong> <span id="displayDurationUnit"></span></p>
+                            <p>Opportunity: <strong id="displayOpportunity"></strong></p>
+                            <p class="profit">Estimated Profit: <strong id="displayProfit"></strong></p>
+                            <p class="total-return">Total Return: <strong id="displayTotalReturn"></strong></p>
+                            <button id="proceedToInvestBtn" class="btn btn-primary mt-4 w-full">Proceed to Invest</button>
+                        </div>
+                    </section>
 
-                        <!-- Impact & Sustainability Highlights Section -->
-                        <section class="impact-highlights-section mt-12">
-                            <h2><i class="fas fa-globe-americas"></i> Our Impact & Sustainability Highlights</h2>
-                            <p class="intro-text">At GrowVest, we're not just growing wealth; we're cultivating a sustainable future. See the tangible impact of your investments and our commitment to positive change.</p>
-                            <div class="highlights-grid">
-                                <div class="highlight-card">
-                                    <div class="highlight-icon"><i class="fas fa-tree"></i></div>
-                                    <h4>Eco-Friendly Projects</h4>
-                                    <p>Over <strong>2,500 hectares</strong> of sustainable farms and renewable energy sites funded globally.</p>
-                                </div>
-                                <div class="highlight-card">
-                                    <div class="highlight-icon"><i class="fas fa-chart-line"></i></div>
-                                    <h4>Consistent Growth</h4>
-                                    <p>Achieving an average annual investor return of <strong>280% across all portfolios.</strong></p>
-                                </div>
-                                <div class="highlight-card">
-                                    <div class="highlight-icon"><i class="fas fa-users"></i></div>
-                                    <h4>Community Empowerment</h4>
-                                    <p>Supporting <strong>10,000+ local farmers</strong> and generating rural employment opportunities.</p>
-                                </div>
-                                <div class="highlight-card">
-                                    <div class="highlight-icon"><i class="fas fa-leaf"></i></div>
-                                    <h4>Reduced Carbon Footprint</h4>
-                                    <p>Contributing to a reduction of over <strong>50,000 tons of carbon emissions</strong> annually.</p>
-                                </div>
+                    <section class="impact-highlights-section mt-12">
+                        <h2><i class="fas fa-globe-americas"></i> Our Impact & Sustainability Highlights</h2>
+                        <p class="intro-text">At GrowVest, we're not just growing wealth; we're cultivating a sustainable future. See the tangible impact of your investments and our commitment to positive change.</p>
+                        <div class="highlights-grid">
+                            <div class="highlight-card">
+                                <div class="highlight-icon"><i class="fas fa-tree"></i></div>
+                                <h4>Eco-Friendly Projects</h4>
+                                <p>Over <strong>2,500 hectares</strong> of sustainable farms and renewable energy sites funded globally.</p>
                             </div>
-                        </section>
-                    </div>
+                            <div class="highlight-card">
+                                <div class="highlight-icon"><i class="fas fa-chart-line"></i></div>
+                                <h4>Consistent Growth</h4>
+                                <p>Achieving an average annual investor return of <strong>280% across all portfolios.</strong></p>
+                            </div>
+                            <div class="highlight-card">
+                                <div class="highlight-icon"><i class="fas fa-users"></i></div>
+                                <h4>Community Empowerment</h4>
+                                <p>Supporting <strong>10,000+ local farmers</strong> and generating rural employment opportunities.</p>
+                            </div>
+                            <div class="highlight-card">
+                                <div class="highlight-icon"><i class="fas fa-leaf"></i></div>
+                                <h4>Reduced Carbon Footprint</h4>
+                                <p>Contributing to a reduction of over <strong>50,000 tons of carbon emissions</strong> annually.</p>
+                            </div>
+                        </div>
+                    </section>
                 </main>
 
                 <footer class="footer">
@@ -1748,7 +1498,6 @@
                     </div>
                 </footer>
 
-                <!-- Modals -->
                 <div id="investmentConfirmationModal" class="modal-overlay hidden">
                     <div class="modal-content">
                         <h3 class="text-2xl font-bold text-white mb-4">Confirm Your Investment</h3>
@@ -1777,31 +1526,6 @@
                     </div>
                 </div>
 
-                <div id="withdrawalModal" class="modal-overlay hidden">
-                    <div class="modal-content">
-                        <h3 class="text-2xl font-bold text-white mb-4">Withdraw Funds</h3>
-                        <div id="withdrawalMessage" class="message hidden"></div>
-                        <form id="withdrawalForm">
-                            <div class="form-group">
-                                <label for="withdrawalAmount">Amount (₦)</label>
-                                <input type="number" id="withdrawalAmount" placeholder="Enter amount to withdraw" min="${MIN_WITHDRAWAL_AMOUNT}" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="bankName">Bank Name</label>
-                                <input type="text" id="bankName" placeholder="e.g., GrowVest Bank" required autocomplete="organization">
-                            </div>
-                            <div class="form-group">
-                                <label for="bankAccountNumber">Account Number</label>
-                                <input type="text" id="bankAccountNumber" placeholder="Your bank account number" required autocomplete="cc-number">
-                            </div>
-                            <div class="flex flex-wrap justify-center space-x-2 space-y-2 sm:space-y-0 sm:space-x-4 mt-6">
-                                <button type="button" id="cancelWithdrawalBtn" class="btn btn-secondary w-full sm:w-auto">Cancel</button>
-                                <button type="submit" class="btn btn-primary w-full sm:w-auto">Submit Withdrawal</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
                 <div id="paymentSuccessModal" class="modal-overlay hidden">
                     <div class="modal-content">
                         <h3 class="text-2xl font-bold text-green-400 mb-4"><i class="fas fa-check-circle mr-2"></i> Transaction Successful!</h3>
@@ -1815,8 +1539,7 @@
                     <div class="modal-content">
                         <h3 class="text-2xl font-bold text-white mb-4"><i class="fas fa-brain mr-2"></i> AI Insights for <span id="aiInsightTitle" class="text-yellow-400"></span></h3>
                         <div id="aiInsightContent" class="text-gray-300 mb-6 loading-text">
-                            <div class="spinner small-spinner"></div> <!-- Small spinner for AI insight -->
-                            Generating insightful analysis...
+                            <div class="spinner small-spinner"></div> Generating insightful analysis...
                         </div>
                         <button id="closeAiInsightModalBtn" class="btn-secondary px-6 py-3 w-auto">Close</button>
                     </div>
@@ -1826,41 +1549,40 @@
                     <div class="modal-content">
                         <h3 class="text-2xl font-bold text-white mb-4"><i class="fas fa-cog mr-2"></i> Profile Settings</h3>
                         <div id="settingsMessage" class="message hidden"></div>
-                        <form id="settingsForm"> <!-- Wrapped settings inputs in a form -->
-                            <div class="form-group">
-                                <label for="settingsUsername">Username:</label>
-                                <input type="text" id="settingsUsername" placeholder="Optional username" autocomplete="username">
-                            </div>
-                            <div class="form-group">
-                                <label for="settingsEmail">Email:</label>
-                                <input type="email" id="settingsEmail" placeholder="Your current email" autocomplete="email">
-                            </div>
-                            <div class="form-group">
-                                <label for="settingsNewPassword">New Password:</label>
-                                <input type="password" id="settingsNewPassword" placeholder="Enter new password (min 6 chars)" autocomplete="new-password">
-                            </div>
-                             <div class="form-group">
-                                <label for="settingsConfirmPassword">Confirm New Password:</label>
-                                <input type="password" id="settingsConfirmPassword" placeholder="Confirm new password" autocomplete="new-password">
-                            </div>
-                            <div class="form-group flex justify-between items-center">
-                                <label class="mb-0">Verification Status:</label>
-                                <span id="verificationStatus" class="verification-status"></span>
-                            </div>
-                            <div class="form-group flex justify-between items-center">
-                                <label class="mb-0">Registration Date:</label>
-                                <span id="registrationDate" class="text-gray-300"></span>
-                            </div>
-                            <div class="form-group flex justify-between items-center mb-6">
-                                <label class="mb-0">Last Login:</label>
-                                <span id="lastLoginDate" class="text-gray-300"></span>
-                            </div>
-                            <div class="flex flex-wrap justify-center space-x-2 space-y-2 sm:space-y-0 sm:space-x-4 mt-6">
-                                <button type="submit" id="updateProfileBtn" class="btn btn-primary w-full sm:w-auto"><i class="fas fa-save mr-2"></i> Save Changes</button>
-                                <button type="button" id="initiateVerificationBtn" class="btn btn-secondary w-full sm:w-auto"><i class="fas fa-user-check mr-2"></i> Initiate Verification</button>
-                            </div>
-                            <button type="button" id="closeSettingsModalBtn" class="btn btn-secondary mt-4 w-full">Close</button>
-                        </form>
+
+                        <div class="form-group">
+                            <label for="settingsUsername">Username:</label>
+                            <input type="text" id="settingsUsername" placeholder="Optional username">
+                        </div>
+                        <div class="form-group">
+                            <label for="settingsEmail">Email:</label>
+                            <input type="email" id="settingsEmail" placeholder="Your current email">
+                        </div>
+                        <div class="form-group">
+                            <label for="settingsNewPassword">New Password:</label>
+                            <input type="password" id="settingsNewPassword" placeholder="Enter new password (min 6 chars)">
+                        </div>
+                         <div class="form-group">
+                            <label for="settingsConfirmPassword">Confirm New Password:</label>
+                            <input type="password" id="settingsConfirmPassword" placeholder="Confirm new password">
+                        </div>
+                        <div class="form-group">
+                            <label>Verification Status:</label>
+                            <span id="verificationStatus" class="verification-status"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>Registration Date:</label>
+                            <span id="registrationDate" class="text-gray-300"></span>
+                        </div>
+                        <div class="form-group">
+                            <label>Last Login:</label>
+                            <span id="lastLoginDate" class="text-gray-300"></span>
+                        </div>
+                        <div class="flex justify-center space-x-4 mt-6">
+                            <button id="updateProfileBtn" class="btn btn-primary"><i class="fas fa-save mr-2"></i> Save Changes</button>
+                            <button id="initiateVerificationBtn" class="btn btn-secondary"><i class="fas fa-user-check mr-2"></i> Initiate Verification</button>
+                        </div>
+                        <button id="closeSettingsModalBtn" class="btn btn-secondary mt-4 w-full">Close</button>
                     </div>
                 </div>
             `;
@@ -1868,13 +1590,11 @@
             // --- Cache DOM Elements (Dashboard Scope) ---
             const logoutButton = document.getElementById('logoutButton');
             const settingsButton = document.getElementById('settingsButton');
-            const welcomeMessageSpan = document.getElementById('welcomeMessage');
 
             const addFundsAmountInput = document.getElementById('addFundsAmount');
             const payInBtn = document.getElementById('payInBtn');
             const addFundsMessageDiv = document.getElementById('addFundsMessage');
             const marketInsightsBtn = document.getElementById('marketInsightsBtn');
-            const withdrawBtn = document.getElementById('withdrawBtn'); // New: Withdrawal button
 
             const investmentAmountInput = document.getElementById('investmentAmount');
             const investmentDurationValueInput = document.getElementById('investmentDurationValue');
@@ -1905,16 +1625,8 @@
 
             const paymentInstructionsModal = document.getElementById('paymentInstructionsModal');
             const paymentAmountSpan = document.getElementById('paymentAmount');
-            const cancelButtonPaymentInstructionsBtn = document.getElementById('cancelPaymentInstructionsBtn');
+            const cancelButtonPaymentInstructionsBtn = document.getElementById('cancelPaymentInstructionsBtn'); // Renamed for clarity
             const confirmPaymentReceivedBtn = document.getElementById('confirmPaymentReceivedBtn');
-
-            const withdrawalModal = document.getElementById('withdrawalModal'); // New: Withdrawal modal
-            const withdrawalForm = document.getElementById('withdrawalForm'); // New: Withdrawal form
-            const withdrawalAmountInput = document.getElementById('withdrawalAmount'); // New: Withdrawal amount input
-            const bankNameInput = document.getElementById('bankName'); // New: Bank name input
-            const bankAccountNumberInput = document.getElementById('bankAccountNumber'); // New: Bank account number input
-            const cancelWithdrawalBtn = document.getElementById('cancelWithdrawalBtn'); // New: Cancel withdrawal button
-            const withdrawalMessageDiv = document.getElementById('withdrawalMessage'); // New: Withdrawal message div
 
             const paymentSuccessModal = document.getElementById('paymentSuccessModal');
             const successTransactionTypeSpan = document.getElementById('successTransactionType');
@@ -1926,7 +1638,6 @@
             const closeAiInsightModalBtn = document.getElementById('closeAiInsightModalBtn');
 
             const settingsModal = document.getElementById('settingsModal');
-            const settingsForm = document.getElementById('settingsForm'); // New: Settings form
             const settingsUsernameInput = document.getElementById('settingsUsername');
             const settingsEmailInput = document.getElementById('settingsEmail');
             const settingsNewPasswordInput = document.getElementById('settingsNewPassword');
@@ -1939,270 +1650,9 @@
             const closeSettingsModalBtn = document.getElementById('closeSettingsModalBtn');
             const settingsMessageDiv = document.getElementById('settingsMessage');
 
-            // New: Chart related elements
-            const investmentChartCanvas = document.getElementById('investmentChart');
-            const myInvestmentsList = document.getElementById('myInvestmentsList');
-            const noInvestmentsMessage = document.getElementById('noInvestmentsMessage');
-
             // --- State Variables ---
             let currentInvestmentDetails = {}; // Stores details of the last calculated investment
             let currentAddFundsAmount = 0; // Stores the amount for the add funds flow
-            let simulationIntervalId = null; // To store the interval ID for clearing
-
-            // --- Chart Functions ---
-            /**
-             * Initializes the Chart.js graph.
-             */
-            function initializeInvestmentChart() {
-                if (investmentChart) {
-                    investmentChart.destroy(); // Destroy existing chart if any
-                }
-
-                investmentChart = new Chart(investmentChartCanvas, {
-                    type: 'line',
-                    data: {
-                        labels: [], // Will be dates
-                        datasets: []
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                display: true,
-                                labels: {
-                                    color: 'var(--chart-text-color)',
-                                    font: {
-                                        family: 'Poppins'
-                                    }
-                                }
-                            },
-                            tooltip: {
-                                mode: 'index',
-                                intersect: false,
-                                callbacks: {
-                                    label: function(context) {
-                                        let label = context.dataset.label || '';
-                                        if (label) {
-                                            label += ': ';
-                                        }
-                                        label += formatNaira(context.raw);
-                                        return label;
-                                    },
-                                    title: function(context) {
-                                        return formatDate(context[0].label);
-                                    }
-                                },
-                                backgroundColor: 'var(--card-bg)',
-                                titleColor: 'var(--light-text)',
-                                bodyColor: 'var(--text-color)',
-                                borderColor: 'var(--border-color)',
-                                borderWidth: 1,
-                                borderRadius: 8,
-                                displayColors: true,
-                                boxPadding: 4,
-                            }
-                        },
-                        scales: {
-                            x: {
-                                type: 'time',
-                                time: {
-                                    unit: 'minute', // Could be 'hour', 'day', etc. depending on simulation speed
-                                    tooltipFormat: 'MMM d, h:mm a',
-                                    displayFormats: {
-                                        minute: 'h:mm a',
-                                        hour: 'h:mm a',
-                                        day: 'MMM d'
-                                    }
-                                },
-                                title: {
-                                    display: true,
-                                    text: 'Time',
-                                    color: 'var(--chart-text-color)',
-                                    font: { family: 'Poppins', size: 14 }
-                                },
-                                ticks: {
-                                    color: 'var(--chart-text-color)',
-                                    font: { family: 'Poppins' }
-                                },
-                                grid: {
-                                    color: 'var(--chart-grid-color)',
-                                    borderColor: 'var(--chart-grid-color)'
-                                }
-                            },
-                            y: {
-                                title: {
-                                    display: true,
-                                    text: 'Value (₦)',
-                                    color: 'var(--chart-text-color)',
-                                    font: { family: 'Poppins', size: 14 }
-                                },
-                                ticks: {
-                                    color: 'var(--chart-text-color)',
-                                    font: { family: 'Poppins' },
-                                    callback: function(value) {
-                                        return formatNaira(value);
-                                    }
-                                },
-                                grid: {
-                                    color: 'var(--chart-grid-color)',
-                                    borderColor: 'var(--chart-grid-color)'
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-
-            /**
-             * Updates the Chart.js graph with current investment data.
-             */
-            function updateInvestmentGraph() {
-                if (!investmentChart) {
-                    initializeInvestmentChart();
-                }
-
-                const userData = getUserProfileData(userEmail);
-                const datasets = [];
-                const allLabels = new Set(); // Use a Set to collect unique timestamps
-
-                userData.activeInvestments.forEach((investment, index) => {
-                    const lineColor = chartColors[index % chartColors.length];
-                    const dataPoints = investment.historicalData.map(point => {
-                        allLabels.add(point.date); // Collect all dates
-                        return { x: point.date, y: point.value };
-                    });
-
-                    datasets.push({
-                        label: investment.type,
-                        data: dataPoints,
-                        borderColor: lineColor,
-                        backgroundColor: lineColor + '33', // Semi-transparent fill
-                        borderWidth: 2,
-                        pointRadius: 0, // Hide individual points
-                        fill: false, // No fill under the line
-                        tension: 0.1, // Smoothness of the line
-                        hidden: investment.hiddenOnGraph || false // Allow hiding specific lines
-                    });
-                });
-
-                // Sort labels chronologically
-                const sortedLabels = Array.from(allLabels).sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
-
-                investmentChart.data.labels = sortedLabels;
-                investmentChart.data.datasets = datasets;
-                investmentChart.update();
-            }
-
-            /**
-             * Renders the list of active investments.
-             */
-            function renderActiveInvestments() {
-                const userData = getUserProfileData(userEmail);
-                myInvestmentsList.innerHTML = ''; // Clear existing list
-
-                if (userData.activeInvestments && userData.activeInvestments.length > 0) {
-                    noInvestmentsMessage.classList.add('hidden');
-                    userData.activeInvestments.forEach(investment => {
-                        const profitLoss = investment.currentValue - investment.initialAmount;
-                        const profitLossClass = profitLoss >= 0 ? 'positive' : 'negative';
-                        const profitLossSign = profitLoss >= 0 ? '+' : '';
-
-                        const listItem = document.createElement('li');
-                        listItem.className = 'investment-item';
-                        listItem.dataset.investmentId = investment.id; // Store ID for highlighting
-                        listItem.innerHTML = `
-                            <h4>${investment.type}</h4>
-                            <p>Initial: <strong>${formatNaira(investment.initialAmount)}</strong></p>
-                            <p>Current Value: <span class="value-current">${formatNaira(investment.currentValue)}</span></p>
-                            <p>Profit/Loss: <span class="profit-loss ${profitLossClass}">${profitLossSign}${formatNaira(profitLoss)}</span></p>
-                            <p>Duration: ${investment.durationMonths} months</p>
-                            <p>Started: ${formatDate(investment.startDate)}</p>
-                        `;
-                        listItem.addEventListener('click', () => highlightInvestmentOnGraph(investment.id));
-                        myInvestmentsList.appendChild(listItem);
-                    });
-                } else {
-                    noInvestmentsMessage.classList.remove('hidden');
-                }
-            }
-
-            /**
-             * Highlights an investment on the graph when its list item is clicked.
-             * @param {string} id - The ID of the investment to highlight.
-             */
-            function highlightInvestmentOnGraph(id) {
-                // Remove highlight from all items
-                document.querySelectorAll('.investment-item').forEach(item => {
-                    item.classList.remove('highlighted');
-                });
-
-                // Add highlight to the clicked item
-                const clickedItem = document.querySelector(`.investment-item[data-investment-id="${id}"]`);
-                if (clickedItem) {
-                    clickedItem.classList.add('highlighted');
-                }
-
-                // Update chart visibility
-                if (investmentChart) {
-                    investmentChart.data.datasets.forEach(dataset => {
-                        // Hide all datasets initially
-                        dataset.hidden = true;
-                    });
-
-                    // Find the dataset corresponding to the clicked investment and make it visible
-                    const targetDataset = investmentChart.data.datasets.find(dataset => dataset.label === clickedItem.querySelector('h4').textContent);
-                    if (targetDataset) {
-                        targetDataset.hidden = false;
-                    }
-                    investmentChart.update();
-                }
-            }
-
-
-            /**
-             * Simulates the growth and fluctuation of active investments.
-             */
-            function simulateInvestmentGrowth() {
-                let userData = getUserProfileData(userEmail);
-                let totalEstimatedReturns = 0;
-                let totalInvestedAmount = 0;
-
-                userData.activeInvestments.forEach(investment => {
-                    // Calculate daily growth based on annual rate
-                    const dailyRate = investment.annualRate / 365; // Convert annual to daily
-                    // Add a random fluctuation (e.g., +/- 0.5% of the daily growth)
-                    const fluctuation = (Math.random() * 0.01 - 0.005); // Random value between -0.005 and +0.005
-                    const effectiveDailyRate = dailyRate + fluctuation;
-
-                    investment.currentValue *= (1 + effectiveDailyRate);
-
-                    // Ensure value doesn't drop below 50% of initial amount (simple floor)
-                    investment.currentValue = Math.max(investment.currentValue, investment.initialAmount * 0.5);
-
-                    // Add new data point
-                    investment.historicalData.push({
-                        date: new Date().toISOString(),
-                        value: investment.currentValue
-                    });
-
-                    // Keep historical data manageable
-                    if (investment.historicalData.length > MAX_HISTORICAL_POINTS) {
-                        investment.historicalData.shift(); // Remove oldest point
-                    }
-
-                    totalEstimatedReturns += (investment.currentValue - investment.initialAmount);
-                    totalInvestedAmount += investment.initialAmount; // Sum of initial amounts
-                });
-
-                userData.estimatedTotalReturns = totalEstimatedReturns;
-                userData.totalInvested = totalInvestedAmount; // Update total invested based on active investments
-
-                updateUserProfileData(userEmail, userData);
-                updatePortfolioOverview();
-                updateInvestmentGraph();
-                renderActiveInvestments(); // Re-render list to show updated values
-            }
 
             // --- Functions (specific to Dashboard) ---
 
@@ -2230,56 +1680,6 @@
                 currentAddFundsAmount = amount;
                 paymentAmountSpan.textContent = formatNaira(amount);
                 toggleModal(paymentInstructionsModal, true);
-            };
-
-            /**
-             * Handles the "Withdraw Funds" button click, showing the withdrawal modal.
-             */
-            const handleWithdrawalClick = () => {
-                // Clear previous messages and inputs when opening
-                displayMessage(withdrawalMessageDiv, '', 'hidden');
-                withdrawalAmountInput.value = '';
-                bankNameInput.value = '';
-                bankAccountNumberInput.value = '';
-                toggleModal(withdrawalModal, true);
-            };
-
-            /**
-             * Handles the submission of the withdrawal form.
-             */
-            const handleWithdrawal = (event) => {
-                event.preventDefault(); // Prevent default form submission
-
-                const amount = parseFloat(withdrawalAmountInput.value);
-                const bankName = bankNameInput.value.trim();
-                const bankAccountNumber = bankAccountNumberInput.value.trim();
-                const userData = getUserProfileData(userEmail);
-
-                if (isNaN(amount) || amount < MIN_WITHDRAWAL_AMOUNT) {
-                    displayMessage(withdrawalMessageDiv, `Please enter a valid amount (minimum ${formatNaira(MIN_WITHDRAWAL_AMOUNT)}).`, 'error', 'fas fa-exclamation-triangle');
-                    return;
-                }
-                if (amount > userData.balance) {
-                    displayMessage(withdrawalMessageDiv, `Insufficient balance. Your current balance is ${formatNaira(userData.balance)}.`, 'error', 'fas fa-wallet');
-                    return;
-                }
-                if (!bankName || !bankAccountNumber) {
-                    displayMessage(withdrawalMessageDiv, 'Please fill in all bank details.', 'error', 'fas fa-exclamation-triangle');
-                    return;
-                }
-                if (bankAccountNumber.length < 10 || !/^\d+$/.test(bankAccountNumber)) {
-                    displayMessage(withdrawalMessageDiv, 'Please enter a valid 10-digit account number.', 'error', 'fas fa-exclamation-triangle');
-                    return;
-                }
-
-                // Simulate withdrawal success
-                userData.balance -= amount;
-                updateUserProfileData(userEmail, userData);
-                updatePortfolioOverview(); // Refresh dashboard stats
-
-                toggleModal(withdrawalModal, false);
-                successTransactionTypeSpan.textContent = `withdrawal of ${formatNaira(amount)}`;
-                toggleModal(paymentSuccessModal, true); // Re-using success modal for withdrawal
             };
 
             /**
@@ -2331,8 +1731,6 @@
                     amount: amount,
                     type: opportunityText.split('(')[0].trim(),
                     rate: annualRate * 100, // Convert back to percentage for display
-                    annualRate: annualRate, // Keep raw annual rate for simulation
-                    durationMonths: (durationUnit === 'years' ? duration * 12 : duration), // Store duration in months
                     estimatedProfit: profit
                 };
             }
@@ -2362,35 +1760,11 @@
                 toggleModal(investmentConfirmationModal, false);
 
                 let userData = getUserProfileData(userEmail); // Use userEmail for data retrieval
-
-                // Deduct from balance
                 userData.balance -= currentInvestmentDetails.amount;
-
-                // Create new active investment object
-                const newInvestment = {
-                    id: generateUniqueId(),
-                    type: currentInvestmentDetails.type,
-                    initialAmount: currentInvestmentDetails.amount,
-                    currentValue: currentInvestmentDetails.amount, // Starts at initial amount
-                    annualRate: currentInvestmentDetails.annualRate,
-                    durationMonths: currentInvestmentDetails.durationMonths,
-                    startDate: new Date().toISOString(),
-                    endDate: new Date(new Date().setMonth(new Date().getMonth() + currentInvestmentDetails.durationMonths)).toISOString(),
-                    historicalData: [{ date: new Date().toISOString(), value: currentInvestmentDetails.amount }],
-                    status: 'active'
-                };
-
-                // Add to active investments
-                userData.activeInvestments.push(newInvestment);
-
-                // Recalculate total invested and estimated total returns from active investments
-                userData.totalInvested = userData.activeInvestments.reduce((sum, inv) => sum + inv.initialAmount, 0);
-                userData.estimatedTotalReturns = userData.activeInvestments.reduce((sum, inv) => sum + (inv.currentValue - inv.initialAmount), 0);
-
-                updateUserProfileData(userEmail, userData); // Save updated user data
+                userData.totalInvested += currentInvestmentDetails.amount;
+                userData.estimatedTotalReturns += currentInvestmentDetails.estimatedProfit; // Add profit to estimated returns
+                updateUserProfileData(userEmail, userData); // Use userEmail for data saving
                 updatePortfolioOverview(); // Refresh dashboard stats
-                renderActiveInvestments(); // Update the list of investments
-                updateInvestmentGraph(); // Update the graph with the new investment
 
                 successTransactionTypeSpan.textContent = `investment in ${currentInvestmentDetails.type}`;
                 toggleModal(paymentSuccessModal, true);
@@ -2479,9 +1853,7 @@
             /**
              * Handles updating the user's profile information (username, email, password).
              */
-            const handleUpdateProfile = (event) => {
-                event.preventDefault(); // Prevent default form submission
-
+            const handleUpdateProfile = () => {
                 let currentAuthUsers = getAuthUsers();
                 let currentUserProfile = getUserProfileData(userEmail); // Get current profile data
                 let oldEmail = userEmail; // Store current email for potential change
@@ -2497,7 +1869,7 @@
                         displayMessage(settingsMessageDiv, 'Please enter a valid new email address.', 'error', 'fas fa-exclamation-triangle');
                         return;
                     }
-                    if (currentAuthUsers[newEmail] && newEmail !== oldEmail) { // Ensure it's not the current user's email itself
+                    if (currentAuthUsers[newEmail]) {
                         displayMessage(settingsMessageDiv, 'This new email is already registered to another account.', 'error', 'fas fa-exclamation-triangle');
                         return;
                     }
@@ -2517,50 +1889,46 @@
 
                 let needsRelogin = false;
 
+                // Update authentication credentials if email or password changed
+                if (newEmail && newEmail !== oldEmail) {
+                    // Update auth user data
+                    const authUser = { ...currentAuthUsers[oldEmail] };
+                    delete currentAuthUsers[oldEmail]; // Remove old entry
+                    authUser.email = newEmail; // Update email in auth record
+                    currentAuthUsers[newEmail] = authUser; // Add new entry
+                    saveAuthUsers(currentAuthUsers);
+
+                    // Update profile data with new email key
+                    currentUserProfile.email = newEmail;
+                    updateUserProfileData(oldEmail, currentUserProfile, newEmail); // Pass old email and new email
+                    localStorage.setItem(`${APP_ID}-loggedInUserEmail`, newEmail); // Update logged in email
+                    userEmail = newEmail; // Update the userEmail variable in this scope
+                    needsRelogin = true;
+                }
+
+                if (newPassword) {
+                    currentAuthUsers[userEmail].password = newPassword; // Update password for the current (potentially new) email
+                    saveAuthUsers(currentAuthUsers);
+                    needsRelogin = true;
+                }
+
                 // Update username in profile data
                 currentUserProfile.username = newUsername;
-                welcomeMessageSpan.textContent = `Welcome, ${newUsername || userEmail.split('@')[0]}!`; // Update welcome message immediately
-
-                // Handle email change logic
-                if (newEmail && newEmail !== oldEmail) {
-                    const authUser = { ...currentAuthUsers[oldEmail] }; // Copy auth data
-                    delete currentAuthUsers[oldEmail]; // Remove old entry from auth
-                    authUser.email = newEmail; // Update email in auth record
-                    currentAuthUsers[newEmail] = authUser; // Add new entry to auth
-
-                    // Also update the email in the current profile data object
-                    currentUserProfile.email = newEmail;
-
-                    localStorage.setItem(`${APP_ID}-loggedInUserEmail`, newEmail); // Update logged in email
-                    userEmail = newEmail; // Update the userEmail variable in this scope for immediate use
-                    needsRelogin = true;
-                }
-
-                // Handle password change logic
-                if (newPassword) {
-                    // Update password for the user in auth data (using the potentially new userEmail)
-                    currentAuthUsers[userEmail].password = newPassword;
-                    needsRelogin = true;
-                }
-
-                saveAuthUsers(currentAuthUsers); // Save updated auth users
-                updateUserProfileData(oldEmail, currentUserProfile); // Save updated profile data (using oldEmail as key to manage potential key change)
+                updateUserProfileData(userEmail, currentUserProfile); // Save with current email (which might be new)
 
                 displayMessage(settingsMessageDiv, 'Profile updated successfully!', 'success', 'fas fa-check-circle');
 
                 // Re-render dashboard header to update username display if it changed
+                // This setTimeout is crucial for the message to be seen before re-render
                 setTimeout(() => {
                     toggleModal(settingsModal, false); // Close modal
                     if (needsRelogin) {
                         navigateTo('login', 'Your account details have been updated. Please log in with your new credentials.', 'info', 'fas fa-lock');
                     } else {
-                        // If only username changed, the welcomeMessageSpan update above already handles this.
-                        // No full re-render is needed unless other elements depend on the 'userEmail' var.
-                        // Since this is a client-side app, 'userEmail' here is already updated.
+                        renderDashboardPage(userEmail); // Just re-render dashboard if no re-login needed
                     }
-                }, 1500); // Give user time to see the success message
+                }, 1500);
             };
-
 
             /**
              * Handles initiating the user verification process.
@@ -2583,10 +1951,6 @@
             logoutButton.addEventListener('click', handleLogout);
             settingsButton.addEventListener('click', showSettingsModal);
             payInBtn.addEventListener('click', handleAddFunds);
-            withdrawBtn.addEventListener('click', handleWithdrawalClick); // New: Event listener for withdrawal button
-            withdrawalForm.addEventListener('submit', handleWithdrawal); // New: Event listener for withdrawal form submission
-            cancelWithdrawalBtn.addEventListener('click', () => toggleModal(withdrawalModal, false)); // New: Cancel withdrawal modal
-
             marketInsightsBtn.addEventListener('click', () => showAiInsightModal('Market Overview'));
 
             calculateReturnsBtn.addEventListener('click', calculateReturns);
@@ -2605,7 +1969,7 @@
                 toggleModal(paymentInstructionsModal, false);
                 let userData = getUserProfileData(userEmail); // Use userEmail for data retrieval
                 userData.balance += currentAddFundsAmount;
-                updateUserProfileData(userEmail, userData); // Save using email as key
+                updateUserProfileData(userEmail, userData); // Use userEmail for data saving
                 updatePortfolioOverview();
                 successTransactionTypeSpan.textContent = 'funds addition';
                 toggleModal(paymentSuccessModal, true);
@@ -2614,22 +1978,13 @@
 
             closeSuccessModalBtn.addEventListener('click', () => toggleModal(paymentSuccessModal, false));
             closeAiInsightModalBtn.addEventListener('click', () => toggleModal(aiInsightModal, false));
-            
-            // Settings Form Event Listeners
-            settingsForm.addEventListener('submit', handleUpdateProfile); // Changed to listen to form submit
-            initiateVerificationBtn.addEventListener('click', handleInitiateVerification); // Still a button click
+            updateProfileBtn.addEventListener('click', handleUpdateProfile);
+            initiateVerificationBtn.addEventListener('click', handleInitiateVerification);
             closeSettingsModalBtn.addEventListener('click', () => toggleModal(settingsModal, false));
 
             // Initial calls on dashboard load
             calculateReturns(); // Run calculator on load
             updatePortfolioOverview(); // Populate stats on load
-            initializeInvestmentChart(); // Initialize the chart
-            renderActiveInvestments(); // Render active investments list
-            
-            // Start simulation interval only if it's not already running
-            if (!simulationIntervalId) {
-                simulationIntervalId = setInterval(simulateInvestmentGrowth, SIMULATION_INTERVAL_MS);
-            }
         }
 
 
@@ -2640,23 +1995,10 @@
          * @param {string} page - The page to navigate to ('signup', 'login', 'dashboard').
          * @param {string} message - Optional message to pass to the page.
          * @param {string} type - Type of message ('success', 'error', 'info').
-         * @param {string} icon - Font Awesome icon class for the message.
          */
         function navigateTo(page, message = '', type = '', icon = '') {
             // Clear any lingering modals from previous views
             document.querySelectorAll('.modal-overlay').forEach(modal => modal.classList.remove('active'));
-
-            // Clear simulation interval when navigating away from dashboard
-            if (simulationIntervalId) {
-                clearInterval(simulationIntervalId);
-                simulationIntervalId = null;
-            }
-            // Destroy chart instance when navigating away
-            if (investmentChart) {
-                investmentChart.destroy();
-                investmentChart = null;
-            }
-
 
             switch (page) {
                 case 'signup':
@@ -2730,15 +2072,14 @@
 
             // Initialize user data (balance, investments, etc.) for the new user using email as key
             const initialUserProfileData = {
-                username: username || email.split('@')[0], // Use provided username or derive from email
+                username: username,
                 email: email,
                 balance: 0,
                 totalInvested: 0,
                 estimatedTotalReturns: 0,
                 verificationStatus: 'unverified',
                 registrationDate: new Date().toISOString(), // Capture registration date
-                lastLogin: null, // Will be set on first successful login
-                activeInvestments: [] // Initialize empty array for new user
+                lastLogin: null // Will be set on first successful login
             };
             updateUserProfileData(email, initialUserProfileData);
 
@@ -2777,27 +2118,6 @@
 
             if (userCredentials && userCredentials.password === password) {
                 localStorage.setItem(`${APP_ID}-loggedInUserEmail`, email); // Store email as logged in user
-
-                // Update lastLogin for the user on successful login
-                let usersData = getUsersData();
-                if (usersData[email]) {
-                    usersData[email].lastLogin = new Date().toISOString();
-                } else {
-                    // This case should ideally not happen if signup works, but for robustness
-                    usersData[email] = {
-                        username: email.split('@')[0],
-                        email: email,
-                        balance: 0,
-                        totalInvested: 0,
-                        estimatedTotalReturns: 0,
-                        verificationStatus: 'unverified',
-                        registrationDate: new Date().toISOString(),
-                        lastLogin: new Date().toISOString(),
-                        activeInvestments: [] // Ensure this is initialized even if user data was missing
-                    };
-                }
-                saveUsersData(usersData);
-
                 toggleSpinner(false);
                 navigateTo('dashboard');
             } else {
