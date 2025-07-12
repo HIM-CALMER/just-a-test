@@ -8,6 +8,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Font: Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         /* Define CSS Variables for a consistent and beautiful color palette */
         :root {
@@ -25,6 +27,7 @@
             --shadow-light: rgba(0, 0, 0, 0.08); /* Light shadow */
             --shadow-medium: rgba(0, 0, 0, 0.12); /* Medium shadow */
             --shadow-strong: rgba(0, 0, 0, 0.2); /* Strong shadow */
+            --shadow-deep: rgba(0, 0, 0, 0.25); /* Deeper shadow for modals */
         }
 
         /* Base styles for the entire page */
@@ -36,7 +39,7 @@
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            padding: 1.5rem; /* Slightly reduced padding for tighter look */
+            padding: 1.5rem;
             box-sizing: border-box;
             color: var(--text-dark);
             overflow-x: hidden;
@@ -49,7 +52,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.25rem 2rem; /* Slightly smaller padding */
+            padding: 1.25rem 2rem;
             background-color: var(--card-bg);
             border-radius: 1.5rem;
             box-shadow: 0 10px 30px var(--shadow-light);
@@ -58,9 +61,9 @@
             opacity: 0;
             transform: translateY(-20px);
             z-index: 10;
-            border-bottom: 2px solid var(--border-light); /* Subtle border */
-            position: sticky; /* Make header sticky */
-            top: 1.5rem; /* Position it with page padding */
+            border-bottom: 2px solid var(--border-light);
+            position: sticky;
+            top: 1.5rem;
             transition: top 0.3s ease-in-out;
         }
 
@@ -69,11 +72,11 @@
         }
 
         .header-title {
-            font-size: 2.4rem; /* Larger title */
+            font-size: 2.4rem;
             font-weight: 800;
             color: var(--primary-blue);
-            letter-spacing: -0.04em; /* Tighter letter spacing */
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.05); /* Subtle text shadow */
+            letter-spacing: -0.04em;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
         }
 
         .header-buttons {
@@ -92,6 +95,9 @@
             font-weight: 600;
             text-decoration: none;
             transition: color 0.2s ease-in-out;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
         }
         .header-nav-link:hover {
             color: var(--primary-light-blue);
@@ -99,23 +105,29 @@
 
         /* General button styling */
         .btn {
-            padding: 0.8rem 1.6rem; /* Slightly larger buttons */
+            padding: 0.8rem 1.6rem;
             border-radius: 0.75rem;
-            font-size: 1rem; /* Slightly larger font */
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease-in-out;
             border: none;
             box-shadow: 0 4px 15px var(--shadow-light);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
 
         .btn-primary {
             background: linear-gradient(45deg, var(--primary-blue) 0%, var(--primary-light-blue) 100%);
             color: white;
+            position: relative;
+            overflow: hidden;
         }
         .btn-primary:hover {
             background: linear-gradient(45deg, var(--primary-light-blue) 0%, #63b3ed 100%);
-            transform: translateY(-3px); /* More pronounced lift */
+            transform: translateY(-3px);
             box-shadow: 0 8px 20px var(--shadow-medium);
         }
         .btn-primary:active {
@@ -123,11 +135,28 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             filter: brightness(0.9);
         }
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s ease-out, height 0.4s ease-out;
+            z-index: 0;
+        }
+        .btn-primary:hover::before {
+            width: 200%;
+            height: 200%;
+        }
 
         .btn-secondary {
             background-color: var(--bg-light);
             color: var(--primary-blue);
-            border: 2px solid var(--primary-light-blue); /* Stronger border */
+            border: 2px solid var(--primary-light-blue);
         }
         .btn-secondary:hover {
             background-color: #e2e8f0;
@@ -160,18 +189,18 @@
         .main-content-wrapper {
             width: 100%;
             max-width: 1200px;
-            margin-top: 2rem; /* Space below sticky header */
+            margin-top: 2rem;
         }
 
         .main-content {
             background-color: var(--card-bg);
-            padding: 3rem; /* More generous padding */
+            padding: 3rem;
             border-radius: 1.5rem;
             box-shadow: 0 20px 40px var(--shadow-medium);
             animation: fadeInScale 0.8s ease-out forwards;
             opacity: 0;
             transform: scale(0.98);
-            margin-bottom: 2rem; /* Space between main sections */
+            margin-bottom: 2rem;
         }
 
         @keyframes fadeInScale {
@@ -186,7 +215,7 @@
             box-shadow: 0 10px 25px var(--shadow-light);
             margin-bottom: 2rem;
             text-align: center;
-            scroll-margin-top: 8rem; /* Account for sticky header */
+            scroll-margin-top: 8rem;
         }
 
         .info-section h2 {
@@ -207,128 +236,6 @@
             margin-bottom: 1.5rem;
         }
 
-        /* Investment Dashboard specific styling */
-        .investment-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2.5rem; /* Increased gap for better spacing */
-        }
-
-        .investment-card {
-            background-color: var(--bg-light); /* Slightly off-white for cards */
-            padding: 2.2rem; /* Slightly more padding */
-            border-radius: 1.5rem; /* More rounded corners */
-            box-shadow: 0 8px 20px var(--shadow-light);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-            border: 1px solid var(--border-light);
-            position: relative; /* For potential absolute positioning of elements */
-            overflow: hidden; /* Ensures shadows/transforms don't bleed */
-        }
-
-        .investment-card:hover {
-            transform: translateY(-7px) scale(1.02); /* Lift and slightly enlarge */
-            box-shadow: 0 15px 30px var(--shadow-medium);
-        }
-
-        .investment-card h3 {
-            font-size: 2rem; /* Larger heading */
-            font-weight: 700;
-            color: var(--primary-blue);
-            margin-bottom: 0.75rem;
-            position: relative;
-            z-index: 1; /* Ensure text is above any background effects */
-        }
-
-        .investment-card p {
-            font-size: 1rem; /* Slightly larger description font */
-            color: var(--text-medium);
-            margin-bottom: 1.5rem;
-            line-height: 1.7; /* Better readability */
-            max-width: 90%; /* Constrain width for better text flow */
-        }
-
-        .yield-display {
-            font-size: 2.8rem; /* Even larger yield display */
-            font-weight: 800;
-            color: var(--accent-green);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem; /* More space for icon */
-            text-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Subtle shadow for numbers */
-        }
-        .yield-display.negative {
-            color: var(--accent-red);
-        }
-        .yield-display .icon {
-            font-size: 2.2rem; /* Size for emoji/SVG icons */
-        }
-
-        /* Canvas for simulated graph */
-        .yield-chart {
-            width: 100%;
-            max-width: 350px; /* Wider charts */
-            height: 180px; /* Taller charts */
-            background-color: var(--card-bg);
-            border-radius: 0.75rem;
-            margin-top: 1rem;
-            margin-bottom: 1.5rem;
-            border: 1px solid var(--border-light);
-            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.03); /* Inner shadow for depth */
-        }
-
-        /* Calculator section */
-        .calculator-section {
-            width: 100%;
-            background-color: var(--card-bg);
-            padding: 1.8rem; /* More padding */
-            border-radius: 1.25rem; /* More rounded */
-            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
-            margin-top: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1.2rem; /* Increased gap */
-            border: 1px solid var(--border-light);
-        }
-
-        .calculator-section h4 {
-            font-size: 1.2rem; /* Larger heading */
-            color: var(--text-dark);
-            margin-bottom: 0.5rem;
-        }
-
-        .calculator-section input {
-            padding: 0.85rem 1.1rem; /* Slightly larger input */
-            border: 1px solid #cbd5e1;
-            border-radius: 0.6rem; /* More rounded */
-            font-size: 1rem;
-            color: var(--text-dark);
-            transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        }
-        .calculator-section input:focus {
-            outline: none;
-            border-color: var(--primary-light-blue);
-            box-shadow: 0 0 0 4px rgba(66, 153, 225, 0.2); /* Brighter focus ring */
-        }
-
-        .calculator-result {
-            font-size: 1.2rem; /* Larger result font */
-            font-weight: 600;
-            color: var(--text-dark);
-            margin-top: 0.5rem;
-        }
-        .calculator-result span {
-            color: var(--accent-green);
-            font-weight: 700; /* Bolder profit text */
-        }
-        .calculator-result span.loss {
-            color: var(--accent-red);
-        }
-
         /* Auth forms */
         .auth-container {
             background-color: var(--card-bg);
@@ -336,7 +243,7 @@
             border-radius: 1.5rem;
             box-shadow: 0 20px 40px var(--shadow-medium);
             width: 100%;
-            max-width: 480px; /* Slightly wider forms */
+            max-width: 480px;
             text-align: center;
             animation: fadeInScale 0.8s ease-out forwards;
             opacity: 0;
@@ -347,12 +254,12 @@
         .auth-form {
             display: flex;
             flex-direction: column;
-            gap: 1.5rem; /* More space between inputs */
-            margin-bottom: 1.8rem; /* More space before link */
+            gap: 1.5rem;
+            margin-bottom: 1.8rem;
         }
 
         .auth-input {
-            padding: 1rem 1.2rem; /* Larger inputs */
+            padding: 1rem 1.2rem;
             border: 2px solid var(--border-light);
             border-radius: 0.8rem;
             font-size: 1.05rem;
@@ -385,27 +292,40 @@
             border-radius: 0.75rem;
             margin-top: 1.5rem;
             text-align: left;
-            display: none;
+            display: flex; /* Use flex for icon and text */
+            align-items: center;
+            gap: 0.75rem;
             font-size: 0.95rem;
             font-weight: 500;
-            transition: opacity 0.3s ease-in-out;
+            transition: all 0.3s ease-in-out;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            opacity: 0;
+            transform: translateY(10px);
+            visibility: hidden;
+        }
+        #messageBox.show {
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
         }
 
         .message-error {
-            background-color: #fef2f2; /* Lighter red background */
-            color: #ef4444; /* Stronger red text */
+            background-color: #fef2f2;
+            color: #ef4444;
             border: 1px solid #fecaca;
         }
         .message-success {
-            background-color: #ecfdf5; /* Lighter green background */
-            color: #10b981; /* Stronger green text */
+            background-color: #ecfdf5;
+            color: #10b981;
             border: 1px solid #a7f3d0;
         }
         .message-info {
-            background-color: #eff6ff; /* Lighter blue background */
-            color: #3b82f6; /* Stronger blue text */
+            background-color: #eff6ff;
+            color: #3b82f6;
             border: 1px solid #bfdbfe;
+        }
+        .message-box-icon {
+            flex-shrink: 0;
         }
 
         /* Welcome Screen */
@@ -414,178 +334,24 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 250px; /* Taller welcome screen */
+            min-height: 250px;
         }
 
         #welcomeScreen h2 {
-            font-size: 2.5rem; /* Larger welcome text */
+            font-size: 2.5rem;
             color: var(--primary-blue);
             margin-bottom: 1rem;
             font-weight: 800;
         }
 
         #welcomeScreen p {
-            font-size: 1.2rem; /* Larger description */
+            font-size: 1.2rem;
             color: var(--text-medium);
             margin-bottom: 2.5rem;
         }
-
-        /* Portfolio Section */
-        #portfolioSection {
-            background-color: var(--card-bg);
-            padding: 3rem;
-            border-radius: 1.5rem;
-            box-shadow: 0 20px 40px var(--shadow-medium);
-            animation: fadeInScale 0.8s ease-out forwards;
-            opacity: 0;
-            transform: scale(0.98);
-            width: 100%;
-            max-width: 1200px;
-            margin-top: 2rem;
-        }
-        #portfolioSection h2 {
-            font-size: 2.4rem;
-            font-weight: 700;
-            color: var(--primary-blue);
-            margin-bottom: 1.8rem;
-            text-align: center;
-        }
-        .cash-balance {
-            font-size: 1.8rem; /* Larger cash balance */
-            font-weight: 600;
-            color: var(--accent-green);
-            margin-bottom: 2rem;
-            text-align: center;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.05);
-        }
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Slightly wider min for portfolio cards */
-            gap: 2rem;
-        }
-        .portfolio-item {
-            background-color: var(--bg-light);
-            padding: 1.8rem;
-            border-radius: 1.25rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            border: 1px solid var(--border-light);
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-        }
-        .portfolio-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-        }
-        .portfolio-item h4 {
-            font-size: 1.6rem; /* Larger heading */
-            font-weight: 700;
-            color: var(--primary-blue);
-            margin-bottom: 0.6rem;
-        }
-        .portfolio-item p {
-            font-size: 0.95rem;
-            color: var(--text-medium);
-            margin-bottom: 0.4rem;
-        }
-        .portfolio-value {
-            font-size: 2.2rem; /* Larger value */
-            font-weight: 800;
-            color: var(--accent-green);
-            margin-bottom: 1.2rem;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        .portfolio-value.loss {
-            color: var(--accent-red);
-        }
-        .portfolio-chart {
-            width: 100%;
-            max-width: 280px; /* Wider portfolio charts */
-            height: 140px; /* Taller portfolio charts */
-            background-color: var(--card-bg);
-            border-radius: 0.6rem;
-            margin-top: 0.5rem;
-            border: 1px solid var(--border-light);
-            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.02);
-        }
-        #noInvestmentsMessage {
-            font-size: 1.1rem;
-            color: var(--text-medium);
-            padding: 2rem;
-            background-color: var(--bg-light);
-            border-radius: 1rem;
-            border: 1px dashed var(--border-light);
-            margin-top: 2rem;
-        }
-
-        /* Invest Modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7); /* Darker overlay */
-            backdrop-filter: blur(5px); /* Subtle blur effect */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-        }
-        .modal-overlay.show {
-            opacity: 1;
-            visibility: visible;
-        }
-        .modal-content {
-            background-color: var(--card-bg);
-            padding: 3rem; /* More padding */
-            border-radius: 1.5rem;
-            box-shadow: 0 25px 50px var(--shadow-strong); /* Stronger shadow for modal */
-            width: 90%;
-            max-width: 450px; /* Wider modal */
-            text-align: center;
-            transform: translateY(30px); /* More pronounced slide-in */
-            opacity: 0;
-            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-        }
-        .modal-overlay.show .modal-content {
-            transform: translateY(0);
-            opacity: 1;
-        }
-        .modal-content h3 {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary-blue);
-            margin-bottom: 1.8rem;
-        }
-        .modal-content p {
-            font-size: 1.05rem;
-            color: var(--text-medium);
-            margin-bottom: 1.5rem;
-        }
-        .modal-content input {
-            width: 100%;
-            padding: 1rem 1.2rem;
-            border: 2px solid var(--border-light);
-            border-radius: 0.8rem;
-            font-size: 1.05rem;
-            color: var(--text-dark);
-            margin-bottom: 1.8rem;
-            transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-        }
-        .modal-content input:focus {
-            outline: none;
-            border-color: var(--primary-light-blue);
-            box-shadow: 0 0 0 4px rgba(66, 153, 225, 0.25);
-        }
         .modal-actions {
             display: flex;
-            gap: 1.2rem; /* More space between buttons */
+            gap: 1.2rem;
             justify-content: center;
         }
 
@@ -603,6 +369,11 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
             text-align: left;
             border: 1px solid var(--border-light);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .how-it-works-step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
         .how-it-works-step h3 {
             font-size: 1.5rem;
@@ -613,8 +384,11 @@
             align-items: center;
             gap: 0.75rem;
         }
-        .how-it-works-step h3 span {
-            font-size: 2rem; /* Icon size */
+        .how-it-works-step h3 svg {
+            width: 1.8em;
+            height: 1.8em;
+            color: var(--primary-light-blue);
+            stroke-width: 2.5;
         }
         .how-it-works-step p {
             font-size: 0.95rem;
@@ -640,6 +414,11 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
         }
         .testimonial-card p.quote {
             font-style: italic;
@@ -665,6 +444,7 @@
             font-size: 1.8rem;
             color: white;
             flex-shrink: 0;
+            font-weight: 600;
         }
         .testimonial-author .name {
             font-weight: 600;
@@ -696,10 +476,14 @@
             font-size: 0.95rem;
             margin-top: 0.8rem;
             line-height: 1.6;
-            display: none; /* Hidden by default */
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            opacity: 0;
         }
         .faq-question.active + .faq-answer {
-            display: block;
+            max-height: 200px; /* Max height for smooth transition */
+            opacity: 1;
         }
         .faq-question .arrow {
             transition: transform 0.3s ease-in-out;
@@ -723,9 +507,11 @@
             font-size: 1.05rem;
             justify-content: center;
         }
-        .contact-item span {
-            font-size: 1.5rem; /* Icon size */
+        .contact-item svg {
+            width: 1.5em;
+            height: 1.5em;
             color: var(--primary-light-blue);
+            flex-shrink: 0;
         }
         .contact-item a {
             color: var(--primary-blue);
@@ -749,6 +535,9 @@
             border-radius: 1.5rem;
             box-shadow: 0 10px 30px var(--shadow-medium);
             font-size: 0.9rem;
+        }
+        .footer-links {
+            margin-top: 0.5rem;
         }
         .footer-links a {
             color: white;
@@ -781,18 +570,6 @@
             .main-content {
                 padding: 2.5rem;
             }
-            .investment-grid {
-                gap: 2rem;
-            }
-            .investment-card {
-                padding: 2rem;
-            }
-            .investment-card h3 {
-                font-size: 1.8rem;
-            }
-            .yield-display {
-                font-size: 2.5rem;
-            }
             .header-nav-links {
                 gap: 1rem;
                 margin-left: 1rem;
@@ -817,7 +594,7 @@
                 padding: 1rem 1.5rem;
                 margin-bottom: 1.5rem;
                 border-radius: 1rem;
-                position: static; /* Remove sticky on small screens for better flow */
+                position: static;
                 top: auto;
             }
             .header-title {
@@ -862,43 +639,6 @@
             .info-section p {
                 font-size: 0.9rem;
             }
-            .investment-grid {
-                grid-template-columns: 1fr; /* Stack cards on small screens */
-            }
-            .investment-card {
-                padding: 1.5rem;
-                border-radius: 1rem;
-            }
-            .investment-card h3 {
-                font-size: 1.6rem;
-            }
-            .investment-card p {
-                font-size: 0.9rem;
-            }
-            .yield-display {
-                font-size: 2.2rem;
-                gap: 0.5rem;
-            }
-            .yield-display .icon {
-                font-size: 1.8rem;
-            }
-            .yield-chart {
-                height: 120px;
-            }
-            .calculator-section {
-                padding: 1.2rem;
-                border-radius: 0.8rem;
-            }
-            .calculator-section h4 {
-                font-size: 1.1rem;
-            }
-            .calculator-section input {
-                padding: 0.7rem 1rem;
-                font-size: 0.9rem;
-            }
-            .calculator-result {
-                font-size: 1rem;
-            }
             .auth-container {
                 padding: 2rem;
                 border-radius: 1rem;
@@ -911,42 +651,15 @@
                 padding: 0.8rem 1rem;
                 font-size: 0.95rem;
             }
-            #portfolioSection {
+            .welcome-screen {
                 padding: 1.5rem;
                 border-radius: 1rem;
             }
-            #portfolioSection h2 {
+            .welcome-screen h2 {
                 font-size: 2rem;
             }
-            .cash-balance {
-                font-size: 1.4rem;
-            }
-            .portfolio-grid {
-                grid-template-columns: 1fr;
-            }
-            .portfolio-item {
-                padding: 1.2rem;
-                border-radius: 0.8rem;
-            }
-            .portfolio-item h4 {
-                font-size: 1.3rem;
-            }
-            .portfolio-value {
-                font-size: 1.8rem;
-            }
-            .portfolio-chart {
-                height: 100px;
-            }
-            .modal-content {
-                padding: 2rem;
-                border-radius: 1rem;
-            }
-            .modal-content h3 {
-                font-size: 1.6rem;
-            }
-            .modal-content input {
-                padding: 0.8rem 1rem;
-                font-size: 0.95rem;
+            .welcome-screen p {
+                font-size: 1rem;
             }
             .modal-actions {
                 gap: 1rem;
@@ -961,8 +674,9 @@
             .how-it-works-step h3 {
                 font-size: 1.3rem;
             }
-            .how-it-works-step h3 span {
-                font-size: 1.6rem;
+            .how-it-works-step h3 svg {
+                width: 1.5em;
+                height: 1.5em;
             }
             .testimonial-card p.quote {
                 font-size: 0.95rem;
@@ -984,8 +698,9 @@
             .contact-item {
                 font-size: 0.95rem;
             }
-            .contact-item span {
-                font-size: 1.3rem;
+            .contact-item svg {
+                width: 1.3em;
+                height: 1.3em;
             }
             .app-footer {
                 padding: 1.5rem;
@@ -1006,235 +721,45 @@
         <div class="flex items-center">
             <div class="header-title">Grow-With-Core</div>
             <nav class="header-nav-links">
-                <a href="#aboutSection" class="header-nav-link">About</a>
-                <a href="#howItWorksSection" class="header-nav-link">How It Works</a>
-                <a href="#testimonialsSection" class="header-nav-link">Testimonials</a>
-                <a href="#faqSection" class="header-nav-link">FAQ</a>
-                <a href="#contactSection" class="header-nav-link">Contact</a>
+                <a href="#aboutSection" class="header-nav-link"><i data-lucide="info"></i>About</a>
+                <a href="#howItWorksSection" class="header-nav-link"><i data-lucide="settings"></i>How It Works</a>
+                <a href="#testimonialsSection" class="header-nav-link"><i data-lucide="message-square"></i>Testimonials</a>
+                <a href="#faqSection" class="header-nav-link"><i data-lucide="help-circle"></i>FAQ</a>
+                <a href="#contactSection" class="header-nav-link"><i data-lucide="mail"></i>Contact</a>
             </nav>
         </div>
         <div class="header-buttons">
-            <button id="showLoginBtn" class="btn btn-secondary">Login</button>
-            <button id="showCreateAccountBtn" class="btn btn-primary">Create Account</button>
-            <button id="myPortfolioBtn" class="btn btn-secondary hidden">My Portfolio</button>
-            <button id="logoutBtn" class="btn btn-secondary hidden">Logout</button>
-            <button id="dashboardBtn" class="btn btn-secondary hidden">Dashboard</button>
+            <button id="showLoginBtn" class="btn btn-secondary"><i data-lucide="log-in"></i>Login</button>
+            <button id="showCreateAccountBtn" class="btn btn-primary"><i data-lucide="user-plus"></i>Create Account</button>
+            <button id="myPortfolioBtn" class="btn btn-secondary hidden"><i data-lucide="pie-chart"></i>My Portfolio</button>
+            <button id="logoutBtn" class="btn btn-secondary hidden"><i data-lucide="log-out"></i>Logout</button>
+            <button id="dashboardBtn" class="btn btn-primary hidden"><i data-lucide="layout-dashboard"></i>Dashboard</button>
         </div>
     </header>
 
     <!-- Main Content Area Wrapper -->
     <div class="main-content-wrapper">
-        <!-- Investment Dashboard Section -->
-        <section id="investmentDashboard" class="main-content">
-            <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Invest in Your Future Today</h2>
-            <p class="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
-                Discover diverse investment opportunities tailored for growth. Our platform provides real-time insights and secure management for your financial aspirations.
-            </p>
-            <div class="investment-grid">
-                <!-- Real-time Market Investment Card -->
-                <div class="investment-card">
-                    <h3>Real-time Market</h3>
-                    <p>📈 Dive into the dynamic world of real-time market trading. Experience rapid growth potential driven by simulated global trends. Perfect for those seeking high returns and comfortable with higher volatility. Your investment adapts instantly to market shifts, offering daily opportunities for significant gains.</p>
-                    <div class="yield-display">
-                        Yield: ₦<span id="marketYield">0.00</span>
-                    </div>
-                    <canvas id="marketChart" class="yield-chart"></canvas>
-                    <div class="calculator-section">
-                        <h4 class="font-semibold text-gray-700">Calculate Projected Returns</h4>
-                        <input type="number" id="marketAmount" placeholder="Investment Amount (₦)" min="15000" value="15000">
-                        <input type="number" id="marketDuration" placeholder="Duration (months)" min="1" max="60" value="12">
-                        <button class="btn btn-primary calculate-btn" data-type="market">Calculate</button>
-                        <div class="calculator-result">Projected Return: ₦<span id="marketReturn">0.00</span></div>
-                    </div>
-                    <button class="btn btn-primary mt-4 invest-btn" data-investment-type="market">Invest Now</button>
-                </div>
-
-                <!-- Farming Investment Card -->
-                <div class="investment-card">
-                    <h3>Farming</h3>
-                    <p>🌾 Cultivate prosperity with stable agricultural investments. Your funds support sustainable farming practices, yielding consistent and predictable returns from crop harvests. Ideal for long-term growth, this low-volatility option provides a steady income stream and contributes to food security.</p>
-                    <div class="yield-display">
-                        Yield: ₦<span id="farmingYield">0.00</span>
-                    </div>
-                    <canvas id="farmingChart" class="yield-chart"></canvas>
-                    <div class="calculator-section">
-                        <h4 class="font-semibold text-gray-700">Calculate Projected Returns</h4>
-                        <input type="number" id="farmingAmount" placeholder="Investment Amount (₦)" min="15000" value="15000">
-                        <input type="number" id="farmingDuration" placeholder="Duration (months)" min="1" max="60" value="12">
-                        <button class="btn btn-primary calculate-btn" data-type="farming">Calculate</button>
-                        <div class="calculator-result">Projected Return: ₦<span id="farmingReturn">0.00</span></div>
-                    </div>
-                    <button class="btn btn-primary mt-4 invest-btn" data-investment-type="farming">Invest Now</button>
-                </div>
-
-                <!-- Poultry Investment Card -->
-                <div class="investment-card">
-                    <h3>Poultry</h3>
-                    <p>🐔 Invest in the thriving poultry industry for reliable, recurring profits. Benefit from consistent egg and meat production cycles, ensuring regular payouts. This moderate-risk option offers a balanced growth profile, making it a smart choice for diversified portfolios.</p>
-                    <div class="yield-display">
-                        Yield: ₦<span id="poultryYield">0.00</span>
-                    </div>
-                    <canvas id="poultryChart" class="yield-chart"></canvas>
-                    <div class="calculator-section">
-                        <h4 class="font-semibold text-gray-700">Calculate Projected Returns</h4>
-                        <input type="number" id="poultryAmount" placeholder="Investment Amount (₦)" min="15000" value="15000">
-                        <input type="number" id="poultryDuration" placeholder="Duration (months)" min="1" max="60" value="12">
-                        <button class="btn btn-primary calculate-btn" data-type="poultry">Calculate</button>
-                        <div class="calculator-result">Projected Return: ₦<span id="poultryReturn">0.00</span></div>
-                    </div>
-                    <button class="btn btn-primary mt-4 invest-btn" data-investment-type="poultry">Invest Now</button>
-                </div>
-
-                <!-- Basic Fish Farming Investment Card (Renamed) -->
-                <div class="investment-card">
-                    <h3>Basic Fish Farming</h3>
-                    <p>🐟 Tap into the growing demand for aquatic produce with foundational fish farming. This option offers steady growth as fish mature, providing reliable returns. It's a balanced choice for those new to aquaculture, contributing to sustainable food sources.</p>
-                    <div class="yield-display">
-                        Yield: ₦<span id="fishFarmingYield">0.00</span>
-                    </div>
-                    <canvas id="fishFarmingChart" class="yield-chart"></canvas>
-                    <div class="calculator-section">
-                        <h4 class="font-semibold text-gray-700">Calculate Projected Returns</h4>
-                        <input type="number" id="fishFarmingAmount" placeholder="Investment Amount (₦)" min="15000" value="15000">
-                        <input type="number" id="fishFarmingDuration" placeholder="Duration (months)" min="1" max="60" value="12">
-                        <button class="btn btn-primary calculate-btn" data-type="fishFarming">Calculate</button>
-                        <div class="calculator-result">Projected Return: ₦<span id="fishFarmingReturn">0.00</span></div>
-                    </div>
-                    <button class="btn btn-primary mt-4 invest-btn" data-investment-type="fishFarming">Invest Now</button>
-                </div>
-
-                <!-- NEW: Advanced Aquaculture Investment Card -->
-                <div class="investment-card">
-                    <h3>Advanced Aquaculture</h3>
-                    <p>🐠 Elevate your aquatic investments with advanced aquaculture techniques. This high-growth sector utilizes modern technology for accelerated fish production, offering significantly higher returns. Ideal for experienced investors seeking amplified profits from innovative farming methods.</p>
-                    <div class="yield-display">
-                        Yield: ₦<span id="aquacultureYield">0.00</span>
-                    </div>
-                    <canvas id="aquacultureChart" class="yield-chart"></canvas>
-                    <div class="calculator-section">
-                        <h4 class="font-semibold text-gray-700">Calculate Projected Returns</h4>
-                        <input type="number" id="aquacultureAmount" placeholder="Investment Amount (₦)" min="25000" value="25000">
-                        <input type="number" id="aquacultureDuration" placeholder="Duration (months)" min="3" max="60" value="18">
-                        <button class="btn btn-primary calculate-btn" data-type="aquaculture">Calculate</button>
-                        <div class="calculator-result">Projected Return: ₦<span id="aquacultureReturn">0.00</span></div>
-                    </div>
-                    <button class="btn btn-primary mt-4 invest-btn" data-investment-type="aquaculture">Invest Now</button>
-                </div>
-
-                <!-- NEW: Livestock Rearing Investment Card -->
-                <div class="investment-card">
-                    <h3>Livestock Rearing</h3>
-                    <p>🐄 Invest in the robust livestock sector for consistent, long-term returns. Funds support ethical rearing practices, benefiting from growth in animal produce and meat markets. A stable and essential investment, perfect for diversifying your portfolio with tangible assets.</p>
-                    <div class="yield-display">
-                        Yield: ₦<span id="livestockYield">0.00</span>
-                    </div>
-                    <canvas id="livestockChart" class="yield-chart"></canvas>
-                    <div class="calculator-section">
-                        <h4 class="font-semibold text-gray-700">Calculate Projected Returns</h4>
-                        <input type="number" id="livestockAmount" placeholder="Investment Amount (₦)" min="20000" value="20000">
-                        <input type="number" id="livestockDuration" placeholder="Duration (months)" min="6" max="72" value="24">
-                        <button class="btn btn-primary calculate-btn" data-type="livestock">Calculate</button>
-                        <div class="calculator-result">Projected Return: ₦<span id="livestockReturn">0.00</span></div>
-                    </div>
-                    <button class="btn btn-primary mt-4 invest-btn" data-investment-type="livestock">Invest Now</button>
-                </div>
-
-                <!-- NEW: Agro-Processing Investment Card -->
-                <div class="investment-card">
-                    <h3>Agro-Processing</h3>
-                    <p>📦 Invest in the value chain of agriculture through agro-processing. This involves transforming raw farm produce into finished goods, capturing higher profit margins. A forward-looking investment with strong growth potential driven by increasing demand for processed foods and exports.</p>
-                    <div class="yield-display">
-                        Yield: ₦<span id="agroprocessingYield">0.00</span>
-                    </div>
-                    <canvas id="agroprocessingChart" class="yield-chart"></canvas>
-                    <div class="calculator-section">
-                        <h4 class="font-semibold text-gray-700">Calculate Projected Returns</h4>
-                        <input type="number" id="agroprocessingAmount" placeholder="Investment Amount (₦)" min="30000" value="30000">
-                        <input type="number" id="agroprocessingDuration" placeholder="Duration (months)" min="9" max="60" value="36">
-                        <button class="btn btn-primary calculate-btn" data-type="agroprocessing">Calculate</button>
-                        <div class="calculator-result">Projected Return: ₦<span id="agroprocessingReturn">0.00</span></div>
-                    </div>
-                    <button class="btn btn-primary mt-4 invest-btn" data-investment-type="agroprocessing">Invest Now</button>
-                </div>
-
-                <!-- NEW: Dairy Farming Investment Card -->
-                <div class="investment-card">
-                    <h3>Dairy Farming</h3>
-                    <p>🥛 Invest in the consistent returns of dairy production. This sector offers stable income through milk, cheese, and other dairy products, catering to essential consumer needs. A reliable, low-to-moderate risk option for long-term portfolio stability and growth.</p>
-                    <div class="yield-display">
-                        Yield: ₦<span id="dairyYield">0.00</span>
-                    </div>
-                    <canvas id="dairyChart" class="yield-chart"></canvas>
-                    <div class="calculator-section">
-                        <h4 class="font-semibold text-gray-700">Calculate Projected Returns</h4>
-                        <input type="number" id="dairyAmount" placeholder="Investment Amount (₦)" min="20000" value="20000">
-                        <input type="number" id="dairyDuration" placeholder="Duration (months)" min="12" max="84" value="24">
-                        <button class="btn btn-primary calculate-btn" data-type="dairy">Calculate</button>
-                        <div class="calculator-result">Projected Return: ₦<span id="dairyReturn">0.00</span></div>
-                    </div>
-                    <button class="btn btn-primary mt-4 invest-btn" data-investment-type="dairy">Invest Now</button>
-                </div>
-
-                <!-- NEW: Snail Farming (Heliculture) Investment Card -->
-                <div class="investment-card">
-                    <h3>Snail Farming</h3>
-                    <p>🐌 Explore the unique and lucrative world of heliculture. Snail farming offers high profit margins due to low input costs and growing demand in gourmet and pharmaceutical markets. A specialized investment with significant potential for rapid returns.</p>
-                    <div class="yield-display">
-                        Yield: ₦<span id="snailYield">0.00</span>
-                    </div>
-                    <canvas id="snailChart" class="yield-chart"></canvas>
-                    <div class="calculator-section">
-                        <h4 class="font-semibold text-gray-700">Calculate Projected Returns</h4>
-                        <input type="number" id="snailAmount" placeholder="Investment Amount (₦)" min="18000" value="18000">
-                        <input type="number" id="snailDuration" placeholder="Duration (months)" min="6" max="36" value="12">
-                        <button class="btn btn-primary calculate-btn" data-type="snail">Calculate</button>
-                        <div class="calculator-result">Projected Return: ₦<span id="snailReturn">0.00</span></div>
-                    </div>
-                    <button class="btn btn-primary mt-4 invest-btn" data-investment-type="snail">Invest Now</button>
-                </div>
-
-                <!-- NEW: Organic Crop Farming Investment Card -->
-                <div class="investment-card">
-                    <h3>Organic Crop Farming</h3>
-                    <p>🌱 Invest in the future of sustainable agriculture. Organic crop farming yields premium produce and higher market prices due to increasing consumer demand for healthy, eco-friendly food. A responsible investment with excellent long-term profit potential.</p>
-                    <div class="yield-display">
-                        Yield: ₦<span id="organicCropYield">0.00</span>
-                    </div>
-                    <canvas id="organicCropChart" class="yield-chart"></canvas>
-                    <div class="calculator-section">
-                        <h4 class="font-semibold text-gray-700">Calculate Projected Returns</h4>
-                        <input type="number" id="organicCropAmount" placeholder="Investment Amount (₦)" min="22000" value="22000">
-                        <input type="number" id="organicCropDuration" placeholder="Duration (months)" min="9" max="48" value="24">
-                        <button class="btn btn-primary calculate-btn" data-type="organicCrop">Calculate</button>
-                        <div class="calculator-result">Projected Return: ₦<span id="organicCropReturn">0.00</span></div>
-                    </div>
-                    <button class="btn btn-primary mt-4 invest-btn" data-investment-type="organicCrop">Invest Now</button>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- Login Form Section (Hidden by default) -->
-        <section id="loginSection" class="hidden auth-container">
-            <h2 class="text-2xl font-semibold text-gray-700 mb-6">Login to Your Account</h2>
+        <!-- Login Form Section -->
+        <section id="loginSection" class="auth-container">
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">Login to Your Account</h2>
             <form id="loginForm" class="auth-form">
-                <input type="text" id="loginUsername" class="auth-input" placeholder="Username" required>
-                <input type="password" id="loginPassword" class="auth-input" placeholder="Password" required>
-                <button type="submit" class="btn btn-primary">Login</button>
+                <input type="text" id="loginUsername" class="auth-input" placeholder="Username" required aria-label="Username">
+                <input type="password" id="loginPassword" class="auth-input" placeholder="Password" required aria-label="Password">
+                <button type="submit" class="btn btn-primary"><i data-lucide="log-in"></i>Login</button>
             </form>
-            <p class="text-gray-600 text-sm">Don't have an account? <a href="#" id="showCreateAccountLink" class="switch-view-link">Create Account</a></p>
+            <p class="text-gray-600 text-sm">Don't have an account? <a href="#createAccountSection" id="showCreateAccountLink" class="switch-view-link">Create Account</a></p>
         </section>
 
         <!-- Create Account Form Section (Hidden by default) -->
         <section id="createAccountSection" class="hidden auth-container">
-            <h2 class="text-2xl font-semibold text-gray-700 mb-6">Create a New Account</h2>
+            <h2 class="text-3xl font-bold text-gray-800 mb-6">Create a New Account</h2>
             <form id="createAccountForm" class="auth-form">
-                <input type="text" id="createUsername" class="auth-input" placeholder="Username" required>
-                <input type="password" id="createPassword" class="auth-input" placeholder="Password" required>
-                <input type="password" id="confirmPassword" class="auth-input" placeholder="Confirm Password" required>
-                <button type="submit" class="btn btn-primary">Create Account</button>
+                <input type="text" id="createUsername" class="auth-input" placeholder="Username" required aria-label="Create Username">
+                <input type="password" id="createPassword" class="auth-input" placeholder="Password (min 6 characters)" required aria-label="Create Password">
+                <input type="password" id="confirmPassword" class="auth-input" placeholder="Confirm Password" required aria-label="Confirm Password">
+                <button type="submit" class="btn btn-primary"><i data-lucide="user-plus"></i>Create Account</button>
             </form>
-            <p class="text-gray-600 text-sm">Already have an account? <a href="#" id="showLoginLink" class="switch-view-link">Login</a></p>
+            <p class="text-gray-600 text-sm">Already have an account? <a href="#loginSection" id="showLoginLink" class="switch-view-link">Login</a></p>
         </section>
 
         <!-- Welcome Screen (Hidden by default) -->
@@ -1242,24 +767,14 @@
             <h2 class="text-gray-800 font-bold">Welcome, <span id="welcomeUsername"></span>!</h2>
             <p class="text-gray-600">You have successfully logged in to Grow-With-Core. Explore your portfolio or start new investments!</p>
             <div class="modal-actions">
-                <button id="welcomeDashboardBtn" class="btn btn-secondary">Go to Dashboard</button>
-                <button id="welcomePortfolioBtn" class="btn btn-primary">View Portfolio</button>
-                <button id="welcomeLogoutBtn" class="btn btn-secondary">Logout</button>
-            </div>
-        </section>
-
-        <!-- Portfolio Section (Hidden by default) -->
-        <section id="portfolioSection" class="hidden main-content">
-            <h2>My Portfolio</h2>
-            <p class="cash-balance">Current Cash Balance: ₦<span id="cashBalance">0.00</span></p>
-            <div id="portfolioGrid" class="portfolio-grid">
-                <!-- Portfolio items will be dynamically inserted here -->
-                <p id="noInvestmentsMessage" class="col-span-full text-center hidden">You have no active investments. Start investing from the Dashboard!</p>
+                <button id="welcomeDashboardBtn" class="btn btn-secondary"><i data-lucide="layout-dashboard"></i>Go to Dashboard</button>
+                <button id="welcomePortfolioBtn" class="btn btn-primary"><i data-lucide="pie-chart"></i>View Portfolio</button>
+                <button id="welcomeLogoutBtn" class="btn btn-secondary"><i data-lucide="log-out"></i>Logout</button>
             </div>
         </section>
 
         <!-- About Us Section -->
-        <section id="aboutSection" class="info-section">
+        <section id="aboutSection" class="info-section hidden">
             <h2>About Grow-With-Core</h2>
             <p>
                 At Grow-With-Core, our mission is to empower individuals to achieve financial independence through smart, sustainable investments. We believe in providing transparent, accessible, and high-growth opportunities that align with real-world economic sectors. Our platform is designed to make investing simple, secure, and rewarding for everyone.
@@ -1270,60 +785,60 @@
         </section>
 
         <!-- How It Works Section -->
-        <section id="howItWorksSection" class="info-section">
+        <section id="howItWorksSection" class="info-section hidden">
             <h2>How It Works</h2>
             <p>Getting started with Grow-With-Core is simple and straightforward. Follow these easy steps to begin your investment journey:</p>
             <div class="how-it-works-grid">
                 <div class="how-it-works-step">
-                    <h3><span>📝</span> 1. Create Your Account</h3>
+                    <h3><i data-lucide="clipboard-list"></i> 1. Create Your Account</h3>
                     <p>Sign up in minutes with a secure username and password. Your journey to financial growth begins here, with an initial cash balance to kickstart your portfolio.</p>
                 </div>
                 <div class="how-it-works-step">
-                    <h3><span>💰</span> 2. Choose Your Investment</h3>
+                    <h3><i data-lucide="trending-up"></i> 2. Choose Your Investment</h3>
                     <p>Explore our diverse range of investment opportunities, including Real-time Market, Farming, Poultry, and Fish Farming. Each offers unique growth potential and risk profiles.</p>
                 </div>
                 <div class="how-it-works-step">
-                    <h3><span>⏳</span> 3. Set Your Duration</h3>
+                    <h3><i data-lucide="clock"></i> 3. Set Your Duration</h3>
                     <p>Decide how long you want to commit your investment. Our duration-based profit calculation ensures your returns are aligned with your long-term financial goals.</p>
                 </div>
                 <div class="how-it-works-step">
-                    <h3><span>📊</span> 4. Monitor Your Growth</h3>
+                    <h3><i data-lucide="bar-chart-2"></i> 4. Monitor Your Growth</h3>
                     <p>Track your portfolio's performance in real-time with intuitive charts and updated values. Watch your investments grow and adapt to simulated market conditions.</p>
                 </div>
                 <div class="how-it-works-step">
-                    <h3><span>💸</span> 5. Cash Out Anytime</h3>
+                    <h3><i data-lucide="wallet"></i> 5. Cash Out Anytime</h3>
                     <p>You have full control. Cash out your investments at their current value whenever you choose, and the funds will be instantly added back to your cash balance.</p>
                 </div>
                 <div class="how-it-works-step">
-                    <h3><span>🚀</span> 6. Reinvest & Grow</h3>
+                    <h3><i data-lucide="rocket"></i> 6. Reinvest & Grow</h3>
                     <p>Use your cashed-out funds to reinvest in new opportunities, diversify your portfolio, and continue your path towards significant financial growth.</p>
                 </div>
             </div>
         </section>
 
         <!-- Testimonials Section -->
-        <section id="testimonialsSection" class="info-section">
+        <section id="testimonialsSection" class="info-section hidden">
             <h2>What Our Investors Say</h2>
             <p>Hear directly from individuals who have achieved their financial goals with Grow-With-Core.</p>
             <div class="testimonials-grid">
                 <div class="testimonial-card">
                     <p class="quote">"Grow-With-Core transformed my understanding of investments. The farming option provided such stable returns, allowing me to plan for my future with confidence. Highly recommended!"</p>
                     <div class="testimonial-author">
-                        <div class="avatar">A.O</div>
+                        <div class="avatar">AO</div>
                         <div class="name">Aisha O.</div>
                     </div>
                 </div>
                 <div class="testimonial-card">
                     <p class="quote">"The real-time market feature is exhilarating! I love the dynamic nature and the potential for quick gains. Grow-With-Core makes investing accessible and exciting."</p>
                     <div class="testimonial-author">
-                        <div class="avatar">K.B</div>
+                        <div class="avatar">KB</div>
                         <div class="name">Kola B.</div>
                     </div>
                 </div>
                 <div class="testimonial-card">
                     <p class="quote">"I started with a small poultry investment and was amazed by the consistent profits. It's a fantastic platform for anyone looking for reliable income streams."</p>
                     <div class="testimonial-author">
-                        <div class="avatar">S.M</div>
+                        <div class="avatar">SM</div>
                         <div class="name">Segun M.</div>
                     </div>
                 </div>
@@ -1331,13 +846,13 @@
         </section>
 
         <!-- FAQ Section -->
-        <section id="faqSection" class="info-section">
+        <section id="faqSection" class="info-section hidden">
             <h2>Frequently Asked Questions</h2>
             <div class="faq-container">
                 <div class="faq-item">
                     <div class="faq-question">
                         What is the minimum investment amount?
-                        <span class="arrow">▶</span>
+                        <i data-lucide="chevron-right" class="arrow"></i>
                     </div>
                     <div class="faq-answer">
                         The minimum investment amount on Grow-With-Core is ₦15,000. This allows a wide range of users to start their investment journey. Specific investment types may have higher minimums as indicated on their cards.
@@ -1346,7 +861,7 @@
                 <div class="faq-item">
                     <div class="faq-question">
                         How are profits calculated?
-                        <span class="arrow">▶</span>
+                        <i data-lucide="chevron-right" class="arrow"></i>
                     </div>
                     <div class="faq-answer">
                         Profits are calculated based on the initial investment amount, the annual interest rate associated with the investment type, and the duration you select. A small layer of simulated market volatility is also applied.
@@ -1355,7 +870,7 @@
                 <div class="faq-item">
                     <div class="faq-question">
                         Can I cash out my investment anytime?
-                        <span class="arrow">▶</span>
+                        <i data-lucide="chevron-right" class="arrow"></i>
                     </div>
                     <div class="faq-answer">
                         Yes, you can cash out your investment at any time. The funds will be returned to your cash balance at their current market value.
@@ -1364,7 +879,7 @@
                 <div class="faq-item">
                     <div class="faq-question">
                         Is my data secure?
-                        <span class="arrow">▶</span>
+                        <i data-lucide="chevron-right" class="arrow"></i>
                     </div>
                     <div class="faq-answer">
                         For this simulation, user data (username, encoded password, cash balance, and investments) is stored locally in your browser's Local Storage. In a real-world application, robust server-side security measures, encryption, and secure authentication would be implemented.
@@ -1373,7 +888,7 @@
                 <div class="faq-item">
                     <div class="faq-question">
                         What are the risks involved?
-                        <span class="arrow">▶</span>
+                        <i data-lucide="chevron-right" class="arrow"></i>
                     </div>
                     <div class="faq-answer">
                         As a simulation, Grow-With-Core mimics real market conditions, which include inherent risks. While some investments are designed for stability (e.g., Farming), others (e.g., Real-time Market, Advanced Aquaculture) have higher volatility, meaning values can fluctuate. Invest wisely and diversify your portfolio.
@@ -1383,37 +898,26 @@
         </section>
 
         <!-- Contact Us Section -->
-        <section id="contactSection" class="info-section">
+        <section id="contactSection" class="info-section hidden">
             <h2>Contact Us</h2>
             <p>Have questions or need support? Reach out to our team!</p>
             <div class="contact-info">
                 <div class="contact-item">
-                    <span>📧</span> Email: <a href="mailto:support@growwithcore.com">support@growwithcore.com</a>
+                    <i data-lucide="mail"></i> Email: <a href="mailto:support@growwithcore.com">support@growwithcore.com</a>
                 </div>
                 <div class="contact-item">
-                    <span>📞</span> Phone: <a href="tel:+2348012345678">+234 801 234 5678</a>
+                    <i data-lucide="phone"></i> Phone: <a href="tel:+2348012345678">+234 801 234 5678</a>
                 </div>
                 <div class="contact-item">
-                    <span>📍</span> Address: 123 Investment Avenue, Victoria Island, Lagos, Nigeria
+                    <i data-lucide="map-pin"></i> Address: 123 Investment Avenue, Victoria Island, Lagos, Nigeria
                 </div>
             </div>
         </section>
 
         <!-- Message Box -->
-        <div id="messageBox" role="alert"></div>
-    </div>
-
-    <!-- Invest Modal -->
-    <div id="investModalOverlay" class="modal-overlay">
-        <div class="modal-content">
-            <h3 id="modalInvestmentType">Invest in Market</h3>
-            <p class="text-gray-600 mb-4">Your current cash: ₦<span id="modalCashBalance">0.00</span></p>
-            <input type="number" id="investAmountInput" placeholder="Enter amount to invest (₦)" min="15000" step="1000">
-            <input type="number" id="investDurationInput" placeholder="Investment Duration (months)" min="1" max="60" value="12">
-            <div class="modal-actions">
-                <button id="confirmInvestBtn" class="btn btn-primary">Confirm Invest</button>
-                <button id="cancelInvestBtn" class="btn btn-secondary">Cancel</button>
-            </div>
+        <div id="messageBox" role="alert">
+            <span id="messageIcon" class="message-box-icon"></span>
+            <span id="messageText"></span>
         </div>
     </div>
 
@@ -1424,1044 +928,338 @@
             <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
         </div>
         <div class="social-icons">
-            <a href="#">👍</a> <!-- Facebook -->
-            <a href="#">✖️</a> <!-- Twitter/X -->
-            <a href="#">📸</a> <!-- Instagram -->
-            <a href="#">💼</a> <!-- LinkedIn -->
+            <a href="#" aria-label="Facebook"><i data-lucide="facebook"></i></a>
+            <a href="#" aria-label="Twitter"><i data-lucide="twitter"></i></a>
+            <a href="#" aria-label="Instagram"><i data-lucide="instagram"></i></a>
+            <a href="#" aria-label="LinkedIn"><i data-lucide="linkedin"></i></a>
         </div>
     </footer>
 
     <script>
-        // --- DOM Elements ---
-        const investmentDashboard = document.getElementById('investmentDashboard');
-        const loginSection = document.getElementById('loginSection');
-        const createAccountSection = document.getElementById('createAccountSection');
-        const welcomeScreen = document.getElementById('welcomeScreen');
-        const portfolioSection = document.getElementById('portfolioSection');
-        const portfolioGrid = document.getElementById('portfolioGrid');
-        const noInvestmentsMessage = document.getElementById('noInvestmentsMessage');
-        const messageBox = document.getElementById('messageBox');
+        // IIFE for encapsulation
+        (function() {
+            // --- Constants ---
+            const INITIAL_CASH_BALANCE = 50000; // Starting cash for new users
+            const LOCAL_STORAGE_USERS_KEY = 'growWithCoreUsers';
+            const LOCAL_STORAGE_LAST_USER_KEY = 'lastLoggedInUser';
+            const PASSWORD_MIN_LENGTH = 6;
 
-        // Header Buttons
-        const showLoginBtn = document.getElementById('showLoginBtn');
-        const showCreateAccountBtn = document.getElementById('showCreateAccountBtn');
-        const myPortfolioBtn = document.getElementById('myPortfolioBtn');
-        const logoutBtn = document.getElementById('logoutBtn'); // Header logout button
-        const dashboardBtn = document.getElementById('dashboardBtn'); // Header dashboard button
+            // --- DOM Elements ---
+            const DOM = {
+                loginSection: document.getElementById('loginSection'),
+                createAccountSection: document.getElementById('createAccountSection'),
+                welcomeScreen: document.getElementById('welcomeScreen'),
+                messageBox: document.getElementById('messageBox'),
+                messageIcon: document.getElementById('messageIcon'),
+                messageText: document.getElementById('messageText'),
 
-        // Login Form Elements
-        const loginForm = document.getElementById('loginForm');
-        const loginUsernameInput = document.getElementById('loginUsername');
-        const loginPasswordInput = document.getElementById('loginPassword');
+                // Header Buttons
+                showLoginBtn: document.getElementById('showLoginBtn'),
+                showCreateAccountBtn: document.getElementById('showCreateAccountBtn'),
+                myPortfolioBtn: document.getElementById('myPortfolioBtn'),
+                logoutBtn: document.getElementById('logoutBtn'),
+                dashboardBtn: document.getElementById('dashboardBtn'),
 
-        // Create Account Form Elements
-        const createAccountForm = document.getElementById('createAccountForm');
-        const createUsernameInput = document.getElementById('createUsername');
-        const createPasswordInput = document.getElementById('createPassword');
-        const confirmPasswordInput = document.getElementById('confirmPassword');
+                // Login Form Elements
+                loginForm: document.getElementById('loginForm'),
+                loginUsernameInput: document.getElementById('loginUsername'),
+                loginPasswordInput: document.getElementById('loginPassword'),
 
-        // Links within auth forms
-        const showCreateAccountLink = document.getElementById('showCreateAccountLink');
-        const showLoginLink = document.getElementById('showLoginLink');
+                // Create Account Form Elements
+                createAccountForm: document.getElementById('createAccountForm'),
+                createUsernameInput: document.getElementById('createUsername'),
+                createPasswordInput: document.getElementById('createPassword'),
+                confirmPasswordInput: document.getElementById('confirmPassword'),
 
-        // Welcome Screen Elements
-        const welcomeUsernameSpan = document.getElementById('welcomeUsername');
-        const welcomeLogoutBtn = document.getElementById('welcomeLogoutBtn'); // Logout button on welcome screen
-        const welcomeDashboardBtn = document.getElementById('welcomeDashboardBtn'); // Dashboard button on welcome screen
-        const welcomePortfolioBtn = document.getElementById('welcomePortfolioBtn'); // Portfolio button on welcome screen
+                // Links within auth forms
+                showCreateAccountLink: document.getElementById('showCreateAccountLink'),
+                showLoginLink: document.getElementById('showLoginLink'),
 
-        // Investment Yield Displays (Dashboard)
-        const marketYieldSpan = document.getElementById('marketYield');
-        const farmingYieldSpan = document.getElementById('farmingYield');
-        const poultryYieldSpan = document.getElementById('poultryYield');
-        const fishFarmingYieldSpan = document.getElementById('fishFarmingYield');
-        const aquacultureYieldSpan = document.getElementById('aquacultureYield');
-        const livestockYieldSpan = document.getElementById('livestockYield');
-        const agroprocessingYieldSpan = document.getElementById('agroprocessingYield');
-        const dairyYieldSpan = document.getElementById('dairyYield');
-        const snailYieldSpan = document.getElementById('snailYield');
-        const organicCropYieldSpan = document.getElementById('organicCropYield');
+                // Welcome Screen Elements
+                welcomeUsernameSpan: document.getElementById('welcomeUsername'),
+                welcomeLogoutBtn: document.getElementById('welcomeLogoutBtn'),
+                welcomeDashboardBtn: document.getElementById('welcomeDashboardBtn'),
+                welcomePortfolioBtn: document.getElementById('welcomePortfolioBtn'),
 
-
-        // Investment Calculators (Dashboard)
-        const calculateButtons = document.querySelectorAll('.calculate-btn');
-
-        // Canvas Elements (Dashboard)
-        const marketChartCanvas = document.getElementById('marketChart');
-        const farmingChartCanvas = document.getElementById('farmingChart');
-        const poultryChartCanvas = document.getElementById('poultryChart');
-        const fishFarmingChartCanvas = document.getElementById('fishFarmingChart');
-        const aquacultureChartCanvas = document.getElementById('aquacultureChart');
-        const livestockChartCanvas = document.getElementById('livestockChart');
-        const agroprocessingChartCanvas = document.getElementById('agroprocessingChart');
-        const dairyChartCanvas = document.getElementById('dairyChart');
-        const snailChartCanvas = document.getElementById('snailChart');
-        const organicCropChartCanvas = document.getElementById('organicCropChart');
-
-
-        // Invest Modal Elements
-        const investModalOverlay = document.getElementById('investModalOverlay');
-        const modalInvestmentType = document.getElementById('modalInvestmentType');
-        const modalCashBalance = document.getElementById('modalCashBalance');
-        const investAmountInput = document.getElementById('investAmountInput');
-        const investDurationInput = document.getElementById('investDurationInput'); // New duration input
-        const confirmInvestBtn = document.getElementById('confirmInvestBtn');
-        const cancelInvestBtn = document.getElementById('cancelInvestBtn');
-
-        // FAQ elements
-        const faqQuestions = document.querySelectorAll('.faq-question');
-
-        // --- Global State ---
-        let currentLoggedInUser = null; // Stores the username of the logged-in user
-        const INITIAL_CASH_BALANCE = 150000; // Starting cash for new users (₦150,000)
-        const MIN_INVESTMENT_AMOUNT = 15000; // Minimum investment amount (₦15,000) - general, specific cards override
-
-        // --- Investment Type Configurations ---
-        // These configurations define the simulation parameters for each investment type.
-        // They are used for both the general dashboard display and for individual user investments.
-        const investmentConfigs = {
-            market: {
-                name: 'Real-time Market',
-                baseYield: 100000, // Starting simulated value for dashboard display
-                growthRate: 0.008, // Higher daily growth rate (0.8%) for general dashboard yield simulation
-                volatility: 0.04, // Higher volatility for general dashboard yield simulation
-                yieldSpan: marketYieldSpan,
-                chartCanvas: marketChartCanvas,
-                chartData: [100000], // Initial data for dashboard chart
-                calculator: {
-                    amountInput: document.getElementById('marketAmount'),
-                    durationInput: document.getElementById('marketDuration'),
-                    returnSpan: document.getElementById('marketReturn'),
-                    annualRate: 0.25 // 25% annual return for calculator AND portfolio growth
-                }
-            },
-            farming: {
-                name: 'Farming',
-                baseYield: 50000,
-                growthRate: 0.0018, // Lower daily growth rate (0.18%)
-                volatility: 0.004, // Lower volatility
-                yieldSpan: farmingYieldSpan,
-                chartCanvas: farmingChartCanvas,
-                chartData: [50000],
-                calculator: {
-                    amountInput: document.getElementById('farmingAmount'),
-                    durationInput: document.getElementById('farmingDuration'),
-                    returnSpan: document.getElementById('farmingReturn'),
-                    annualRate: 0.08 // 8% annual return
-                }
-            },
-            poultry: {
-                name: 'Poultry',
-                baseYield: 30000,
-                growthRate: 0.003, // Moderate daily growth rate (0.3%)
-                volatility: 0.009, // Moderate volatility
-                yieldSpan: poultryYieldSpan,
-                chartCanvas: poultryChartCanvas,
-                chartData: [30000],
-                calculator: {
-                    amountInput: document.getElementById('poultryAmount'),
-                    durationInput: document.getElementById('poultryDuration'),
-                    returnSpan: document.getElementById('poultryReturn'),
-                    annualRate: 0.12 // 12% annual return
-                }
-            },
-            fishFarming: { // Renamed from fishFarming to basicFishFarming for clarity
-                name: 'Basic Fish Farming',
-                baseYield: 70000,
-                growthRate: 0.005, // Good daily growth rate (0.5%)
-                volatility: 0.015, // Slightly higher volatility than farming/poultry
-                yieldSpan: fishFarmingYieldSpan,
-                chartCanvas: fishFarmingChartCanvas,
-                chartData: [70000],
-                calculator: {
-                    amountInput: document.getElementById('fishFarmingAmount'),
-                    durationInput: document.getElementById('fishFarmingDuration'),
-                    returnSpan: document.getElementById('fishFarmingReturn'),
-                    annualRate: 0.16 // 16% annual return
-                }
-            },
-            // EXISTING NEW INVESTMENT TYPES
-            aquaculture: {
-                name: 'Advanced Aquaculture',
-                baseYield: 120000,
-                growthRate: 0.01, // Higher daily growth rate (1%)
-                volatility: 0.05, // Higher volatility
-                yieldSpan: aquacultureYieldSpan,
-                chartCanvas: aquacultureChartCanvas,
-                chartData: [120000],
-                calculator: {
-                    amountInput: document.getElementById('aquacultureAmount'),
-                    durationInput: document.getElementById('aquacultureDuration'),
-                    returnSpan: document.getElementById('aquacultureReturn'),
-                    annualRate: 0.35 // 35% annual return (higher profit)
-                }
-            },
-            livestock: {
-                name: 'Livestock Rearing',
-                baseYield: 90000,
-                growthRate: 0.004, // Moderate daily growth (0.4%)
-                volatility: 0.01, // Moderate volatility
-                yieldSpan: livestockYieldSpan,
-                chartCanvas: livestockChartCanvas,
-                chartData: [90000],
-                calculator: {
-                    amountInput: document.getElementById('livestockAmount'),
-                    durationInput: document.getElementById('livestockDuration'),
-                    returnSpan: document.getElementById('livestockReturn'),
-                    annualRate: 0.20 // 20% annual return (better profit)
-                }
-            },
-            agroprocessing: {
-                name: 'Agro-Processing',
-                baseYield: 150000,
-                growthRate: 0.007, // Good daily growth (0.7%)
-                volatility: 0.03, // Higher volatility
-                yieldSpan: agroprocessingYieldSpan,
-                chartCanvas: agroprocessingChartCanvas,
-                chartData: [150000],
-                calculator: {
-                    amountInput: document.getElementById('agroprocessingAmount'),
-                    durationInput: document.getElementById('agroprocessingDuration'),
-                    returnSpan: document.getElementById('agroprocessingReturn'),
-                    annualRate: 0.30 // 30% annual return (better profit)
-                }
-            },
-            // NEW INVESTMENT TYPES ADDED IN THIS ITERATION
-            dairy: {
-                name: 'Dairy Farming',
-                baseYield: 80000,
-                growthRate: 0.0035, // Moderate daily growth
-                volatility: 0.008, // Low volatility
-                yieldSpan: dairyYieldSpan,
-                chartCanvas: dairyChartCanvas,
-                chartData: [80000],
-                calculator: {
-                    amountInput: document.getElementById('dairyAmount'),
-                    durationInput: document.getElementById('dairyDuration'),
-                    returnSpan: document.getElementById('dairyReturn'),
-                    annualRate: 0.18 // 18% annual return (good profit)
-                }
-            },
-            snail: {
-                name: 'Snail Farming',
-                baseYield: 40000,
-                growthRate: 0.006, // Good daily growth
-                volatility: 0.025, // Higher volatility, niche market
-                yieldSpan: snailYieldSpan,
-                chartCanvas: snailChartCanvas,
-                chartData: [40000],
-                calculator: {
-                    amountInput: document.getElementById('snailAmount'),
-                    durationInput: document.getElementById('snailDuration'),
-                    returnSpan: document.getElementById('snailReturn'),
-                    annualRate: 0.28 // 28% annual return (high profit)
-                }
-            },
-            organicCrop: {
-                name: 'Organic Crop Farming',
-                baseYield: 60000,
-                growthRate: 0.0045, // Moderate daily growth
-                volatility: 0.012, // Moderate volatility
-                yieldSpan: organicCropYieldSpan,
-                chartCanvas: organicCropChartCanvas,
-                chartData: [60000],
-                calculator: {
-                    amountInput: document.getElementById('organicCropAmount'),
-                    durationInput: document.getElementById('organicCropDuration'),
-                    returnSpan: document.getElementById('organicCropReturn'),
-                    annualRate: 0.22 // 22% annual return (better profit)
-                }
-            }
-        };
-
-
-        // --- Utility Functions ---
-
-        /**
-         * Simple encoding function for demonstration purposes.
-         * NOT SECURE FOR REAL PASSWORDS.
-         * In a real app, passwords are hashed on the server with strong algorithms.
-         * @param {string} text - The text to encode.
-         * @returns {string} The base64 encoded string.
-         */
-        function encodePassword(text) {
-            return btoa(text); // Basic Base64 encoding
-        }
-
-        /**
-         * Displays a message in the message box.
-         * @param {string} message - The message to display.
-         * @param {string} type - 'success', 'error', or 'info' to style the message.
-         */
-        function showMessage(message, type = 'info') {
-            messageBox.textContent = message;
-            messageBox.className = 'block mt-4 rounded-lg text-sm transition-opacity duration-300'; // Reset classes
-            messageBox.classList.add(`message-${type}`);
-            messageBox.style.display = 'block'; // Ensure it's visible
-            setTimeout(() => {
-                messageBox.style.display = 'none'; // Hide after 5 seconds
-                messageBox.textContent = '';
-            }, 5000);
-        }
-
-        /**
-         * Clears all input fields in auth forms.
-         */
-        function clearAuthFormFields() {
-            loginUsernameInput.value = '';
-            loginPasswordInput.value = '';
-            createUsernameInput.value = '';
-            createPasswordInput.value = '';
-            confirmPasswordInput.value = '';
-        }
-
-        /**
-         * Switches the active view (Investment Dashboard, Login, Create Account, Welcome, or Portfolio).
-         * Also controls visibility of static info sections.
-         * @param {string} view - 'dashboard', 'login', 'createAccount', 'welcome', 'portfolio', 'about', 'howItWorks', 'testimonials', 'faq', 'contact'.
-         */
-        function showView(view) {
-            // Hide all main sections
-            investmentDashboard.classList.add('hidden');
-            loginSection.classList.add('hidden');
-            createAccountSection.classList.add('hidden');
-            welcomeScreen.classList.add('hidden');
-            portfolioSection.classList.add('hidden');
-            document.getElementById('aboutSection').classList.add('hidden');
-            document.getElementById('howItWorksSection').classList.add('hidden');
-            document.getElementById('testimonialsSection').classList.add('hidden');
-            document.getElementById('faqSection').classList.add('hidden');
-            document.getElementById('contactSection').classList.add('hidden');
-
-            messageBox.style.display = 'none'; // Hide message box on view switch
-            clearAuthFormFields(); // Clear auth fields when switching views
-
-            // Always hide all header action buttons first
-            showLoginBtn.classList.add('hidden');
-            showCreateAccountBtn.classList.add('hidden');
-            myPortfolioBtn.classList.add('hidden');
-            logoutBtn.classList.add('hidden');
-            dashboardBtn.classList.add('hidden');
-
-            const isLoggedIn = currentLoggedInUser !== null;
-
-            // Then, show relevant sections and buttons based on view and login status
-            if (view === 'dashboard') {
-                investmentDashboard.classList.remove('hidden');
-                if (isLoggedIn) {
-                    myPortfolioBtn.classList.remove('hidden');
-                    logoutBtn.classList.remove('hidden');
-                } else {
-                    showLoginBtn.classList.remove('hidden');
-                    showCreateAccountBtn.classList.remove('hidden');
-                }
-            } else if (view === 'login') {
-                loginSection.classList.remove('hidden');
-                showCreateAccountBtn.classList.remove('hidden'); // Option to switch to create account
-                dashboardBtn.classList.remove('hidden'); // Option to go back to dashboard
-            } else if (view === 'createAccount') {
-                createAccountSection.classList.remove('hidden');
-                showLoginBtn.classList.remove('hidden'); // Option to switch to login
-                dashboardBtn.classList.remove('hidden'); // Option to go back to dashboard
-            } else if (view === 'welcome') {
-                welcomeScreen.classList.remove('hidden');
-                myPortfolioBtn.classList.remove('hidden');
-                logoutBtn.classList.remove('hidden');
-                dashboardBtn.classList.remove('hidden');
-            } else if (view === 'portfolio') {
-                portfolioSection.classList.remove('hidden');
-                // myPortfolioBtn is hidden when on portfolio view itself
-                logoutBtn.classList.remove('hidden');
-                dashboardBtn.classList.remove('hidden');
-                renderPortfolio(); // Re-render portfolio when showing it
-            } else if (view === 'about') {
-                document.getElementById('aboutSection').classList.remove('hidden');
-                if (isLoggedIn) {
-                    myPortfolioBtn.classList.remove('hidden');
-                    logoutBtn.classList.remove('hidden');
-                    dashboardBtn.classList.remove('hidden');
-                } else {
-                    showLoginBtn.classList.remove('hidden');
-                    showCreateAccountBtn.classList.remove('hidden');
-                }
-            } else if (view === 'howItWorks') {
-                document.getElementById('howItWorksSection').classList.remove('hidden');
-                 if (isLoggedIn) {
-                    myPortfolioBtn.classList.remove('hidden');
-                    logoutBtn.classList.remove('hidden');
-                    dashboardBtn.classList.remove('hidden');
-                } else {
-                    showLoginBtn.classList.remove('hidden');
-                    showCreateAccountBtn.classList.remove('hidden');
-                }
-            } else if (view === 'testimonials') {
-                document.getElementById('testimonialsSection').classList.remove('hidden');
-                 if (isLoggedIn) {
-                    myPortfolioBtn.classList.remove('hidden');
-                    logoutBtn.classList.remove('hidden');
-                    dashboardBtn.classList.remove('hidden');
-                } else {
-                    showLoginBtn.classList.remove('hidden');
-                    showCreateAccountBtn.classList.remove('hidden');
-                }
-            } else if (view === 'faq') {
-                document.getElementById('faqSection').classList.remove('hidden');
-                 if (isLoggedIn) {
-                    myPortfolioBtn.classList.remove('hidden');
-                    logoutBtn.classList.remove('hidden');
-                    dashboardBtn.classList.remove('hidden');
-                } else {
-                    showLoginBtn.classList.remove('hidden');
-                    showCreateAccountBtn.classList.remove('hidden');
-                }
-            } else if (view === 'contact') {
-                document.getElementById('contactSection').classList.remove('hidden');
-                 if (isLoggedIn) {
-                    myPortfolioBtn.classList.remove('hidden');
-                    logoutBtn.classList.remove('hidden');
-                    dashboardBtn.classList.remove('hidden');
-                } else {
-                    showLoginBtn.classList.remove('hidden');
-                    showCreateAccountBtn.classList.remove('hidden');
-                }
-            }
-        }
-
-        // --- Authentication Logic ---
-
-        /**
-         * Handles the Create Account form submission.
-         */
-        function handleCreateAccount(event) {
-            event.preventDefault();
-
-            const username = createUsernameInput.value.trim();
-            const password = createPasswordInput.value;
-            const confirmPassword = confirmPasswordInput.value;
-
-            if (!username || !password || !confirmPassword) {
-                showMessage('All fields are required.', 'error');
-                return;
-            }
-
-            if (password.length < 6) {
-                showMessage('Password must be at least 6 characters long.', 'error');
-                return;
-            }
-
-            if (password !== confirmPassword) {
-                showMessage('Passwords do not match.', 'error');
-                return;
-            }
-
-            const users = JSON.parse(localStorage.getItem('growWithCoreUsers') || '{}');
-
-            if (users[username]) {
-                showMessage('Username already exists. Please choose a different one.', 'error');
-                return;
-            }
-
-            users[username] = {
-                password: encodePassword(password),
-                cashBalance: INITIAL_CASH_BALANCE,
-                investments: [] // Array to store user's active investments
+                // All info sections for easy hiding/showing
+                infoSections: [
+                    document.getElementById('aboutSection'),
+                    document.getElementById('howItWorksSection'),
+                    document.getElementById('testimonialsSection'),
+                    document.getElementById('faqSection'),
+                    document.getElementById('contactSection')
+                ]
             };
-            localStorage.setItem('growWithCoreUsers', JSON.stringify(users));
 
-            showMessage('Account created successfully! You can now log in.', 'success');
-            showView('login');
-        }
+            // --- Global State ---
+            let currentLoggedInUser = null; // Stores the username of the logged-in user
 
-        /**
-         * Handles the Login form submission.
-         */
-        function handleLogin(event) {
-            event.preventDefault();
+            // --- Utility Functions ---
 
-            const username = loginUsernameInput.value.trim();
-            const password = loginPasswordInput.value;
-
-            if (!username || !password) {
-                showMessage('Please enter both username and password.', 'error');
-                return;
+            /**
+             * Simple encoding function for demonstration purposes.
+             * NOT SECURE FOR REAL PASSWORDS.
+             * In a real app, passwords are hashed on the server with strong algorithms.
+             * @param {string} text - The text to encode.
+             * @returns {string} The base64 encoded string.
+             */
+            function encodePassword(text) {
+                return btoa(text); // Basic Base64 encoding
             }
 
-            const users = JSON.parse(localStorage.getItem('growWithCoreUsers') || '{}');
-            const userData = users[username];
+            /**
+             * Displays a message in the message box.
+             * @param {string} message - The message to display.
+             * @param {string} type - 'success', 'error', or 'info' to style the message.
+             * @param {number} duration - How long the message should be visible in milliseconds.
+             */
+            function showMessage(message, type = 'info', duration = 5000) {
+                DOM.messageText.textContent = message;
+                DOM.messageBox.className = 'block mt-4 rounded-lg text-sm transition-opacity duration-300'; // Reset classes
+                DOM.messageBox.classList.add(`message-${type}`);
 
-            if (userData && userData.password === encodePassword(password)) {
-                currentLoggedInUser = username; // Set logged-in user
-                showMessage(`Welcome back, ${username}!`, 'success');
-                welcomeUsernameSpan.textContent = username;
-                localStorage.setItem('lastLoggedInUser', currentLoggedInUser); // Save last logged-in user
-                showView('welcome');
-            } else {
-                showMessage('Invalid username or password.', 'error');
+                // Set icon based on type
+                let iconName;
+                if (type === 'success') iconName = 'check-circle';
+                else if (type === 'error') iconName = 'x-circle';
+                else iconName = 'info';
+                DOM.messageIcon.innerHTML = `<i data-lucide="${iconName}"></i>`;
+                lucide.createIcons(); // Render the new icon
+
+                DOM.messageBox.classList.add('show'); // Trigger CSS transition
+
+                setTimeout(() => {
+                    DOM.messageBox.classList.remove('show'); // Hide after duration
+                }, duration);
             }
-        }
 
-        /**
-         * Handles the logout action.
-         */
-        function handleLogout() {
-            currentLoggedInUser = null; // Clear logged-in user
-            showMessage('You have been logged out.', 'info');
-            localStorage.removeItem('lastLoggedInUser'); // Clear last logged-in user from storage
-            showView('dashboard'); // Return to dashboard
-        }
+            /**
+             * Clears all input fields in auth forms.
+             */
+            function clearAuthFormFields() {
+                DOM.loginUsernameInput.value = '';
+                DOM.loginPasswordInput.value = '';
+                DOM.createUsernameInput.value = '';
+                DOM.createPasswordInput.value = '';
+                DOM.confirmPasswordInput.value = '';
+            }
 
-        // --- Investment Simulation & Graph Logic ---
+            /**
+             * Switches the active view (Login, Create Account, Welcome, or Info Sections).
+             * Also controls visibility of header buttons.
+             * @param {string} viewId - The ID of the section to show (e.g., 'loginSection', 'aboutSection').
+             */
+            function showSection(viewId) {
+                // Hide all main content sections
+                const allSections = [
+                    DOM.loginSection, DOM.createAccountSection, DOM.welcomeScreen,
+                    ...DOM.infoSections
+                ];
+                allSections.forEach(section => section.classList.add('hidden'));
 
-        /**
-         * Draws a simple line graph on a canvas.
-         * @param {HTMLCanvasElement} canvas - The canvas element.
-         * @param {number[]} data - Array of data points.
-         * @param {string} color - Line color.
-         * @param {number} [initialValue=null] - Optional initial value to draw a reference line.
-         */
-        function drawChart(canvas, data, color, initialValue = null) {
-            const ctx = canvas.getContext('2d');
-            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
+                DOM.messageBox.classList.remove('show'); // Hide message box on view switch
+                clearAuthFormFields(); // Clear auth fields when switching views
 
-            if (data.length < 2) {
-                // If not enough data, just draw a dot or clear
-                if (data.length === 1) {
-                    ctx.fillStyle = color;
-                    ctx.beginPath();
-                    ctx.arc(canvas.width / 2, canvas.height / 2, 3, 0, Math.PI * 2);
-                    ctx.fill();
+                // Always hide all header action buttons first to ensure clean state
+                DOM.showLoginBtn.classList.add('hidden');
+                DOM.showCreateAccountBtn.classList.add('hidden');
+                DOM.myPortfolioBtn.classList.add('hidden');
+                DOM.logoutBtn.classList.add('hidden');
+                DOM.dashboardBtn.classList.add('hidden');
+
+                const isLoggedIn = currentLoggedInUser !== null;
+
+                // Then, show relevant sections and buttons based on the requested view and login status
+                const targetSection = document.getElementById(viewId);
+                if (targetSection) {
+                    targetSection.classList.remove('hidden');
                 }
-                return;
+
+                if (isLoggedIn) {
+                    DOM.myPortfolioBtn.classList.remove('hidden');
+                    DOM.logoutBtn.classList.remove('hidden');
+                    DOM.dashboardBtn.classList.remove('hidden');
+                } else {
+                    DOM.showLoginBtn.classList.remove('hidden');
+                    DOM.showCreateAccountBtn.classList.remove('hidden');
+                }
             }
 
-            const allValues = initialValue !== null ? [...data, initialValue] : [...data];
-            const maxVal = Math.max(...allValues);
-            const minVal = Math.min(...allValues);
-            const range = maxVal - minVal;
-
-            ctx.beginPath();
-            ctx.strokeStyle = color;
-            ctx.lineWidth = 2;
-            ctx.lineCap = 'round'; // Smoother line ends
-            ctx.lineJoin = 'round'; // Smoother line joins
-
-            // Scale data to fit canvas height, adding a small padding
-            const padding = 0.1; // 10% padding
-            const effectiveHeight = canvas.height * (1 - 2 * padding);
-            const startYOffset = minVal - (range * padding);
-            const scaleY = effectiveHeight / (range === 0 ? 1 : range * (1 + 2 * padding));
-
-            // Draw initial value reference line if provided
-            if (initialValue !== null) {
-                ctx.save(); // Save current context state
-                ctx.strokeStyle = 'rgba(100, 100, 100, 0.5)'; // Grey, semi-transparent
-                ctx.setLineDash([5, 5]); // Dashed line
-                ctx.beginPath();
-                const yInitial = canvas.height - (initialValue - startYOffset) * scaleY;
-                ctx.moveTo(0, yInitial);
-                ctx.lineTo(canvas.width, yInitial);
-                ctx.stroke();
-                ctx.restore(); // Restore context state
+            /**
+             * Handles hash changes in the URL to navigate between sections.
+             */
+            function handleHashChange() {
+                const hash = window.location.hash.substring(1); // Remove '#'
+                if (hash) {
+                    showSection(hash);
+                } else {
+                    // If no hash, default to login screen
+                    showSection('loginSection');
+                }
             }
 
-            // Move to the first point
-            ctx.moveTo(0, canvas.height - (data[0] - startYOffset) * scaleY);
+            // --- Authentication Logic ---
 
-            // Draw lines to subsequent points
-            for (let i = 1; i < data.length; i++) {
-                const x = (i / (data.length - 1)) * canvas.width;
-                const y = canvas.height - (data[i] - startYOffset) * scaleY;
-                ctx.lineTo(x, y);
-            }
-            ctx.stroke();
+            /**
+             * Handles the Create Account form submission.
+             */
+            function handleCreateAccount(event) {
+                event.preventDefault();
 
-            // Draw latest point
-            const lastX = canvas.width;
-            const lastY = canvas.height - (data[data.length - 1] - startYOffset) * scaleY;
-            ctx.fillStyle = color;
-            ctx.beginPath();
-            ctx.arc(lastX, lastY, 4, 0, Math.PI * 2);
-            ctx.fill();
-        }
+                const username = DOM.createUsernameInput.value.trim();
+                const password = DOM.createPasswordInput.value;
+                const confirmPassword = DOM.confirmPasswordInput.value;
 
-        /**
-         * Updates the simulated yield for a given investment type (for dashboard display).
-         * This simulation is independent of user's actual investments.
-         * @param {string} type - The investment type (e.g., 'market', 'farming').
-         */
-        function updateSimulatedYield(type) {
-            const config = investmentConfigs[type];
-            if (!config || !config.chartCanvas) return; // Ensure canvas exists for dashboard cards
+                if (!username || !password || !confirmPassword) {
+                    showMessage('All fields are required.', 'error');
+                    return;
+                }
 
-            // Simulate growth with some volatility
-            let currentYield = config.chartData[config.chartData.length - 1] || config.baseYield;
-            const growth = currentYield * config.growthRate;
-            const fluctuation = (Math.random() * 2 - 1) * currentYield * config.volatility; // -1 to 1 range
+                if (password.length < PASSWORD_MIN_LENGTH) {
+                    showMessage(`Password must be at least ${PASSWORD_MIN_LENGTH} characters long.`, 'error');
+                    return;
+                }
 
-            currentYield += growth + fluctuation;
-            currentYield = Math.max(config.baseYield / 2, currentYield); // Prevent yield from dropping too low
+                if (password !== confirmPassword) {
+                    showMessage('Passwords do not match.', 'error');
+                    return;
+                }
 
-            config.chartData.push(currentYield);
-            // Keep chart data array limited to show recent trend
-            if (config.chartData.length > 50) { // Keep last 50 points
-                config.chartData.shift();
-            }
+                const users = JSON.parse(localStorage.getItem(LOCAL_STORAGE_USERS_KEY) || '{}');
 
-            config.yieldSpan.textContent = currentYield.toFixed(2);
-            // Update color based on recent fluctuation for dynamic feel
-            config.yieldSpan.classList.toggle('negative', fluctuation < 0);
+                if (users[username]) {
+                    showMessage('Username already exists. Please choose a different one.', 'error');
+                    return;
+                }
 
-            drawChart(config.chartCanvas, config.chartData, fluctuation < 0 ? 'var(--accent-red)' : 'var(--accent-green)');
-        }
+                users[username] = {
+                    password: encodePassword(password),
+                    cashBalance: INITIAL_CASH_BALANCE,
+                    investments: [] // Array to store user's active investments
+                };
+                localStorage.setItem(LOCAL_STORAGE_USERS_KEY, JSON.stringify(users));
 
-        /**
-         * Calculates and displays projected returns for an investment type (for dashboard calculator).
-         * @param {string} type - The investment type.
-         */
-        function calculateProjectedReturn(type) {
-            const config = investmentConfigs[type].calculator;
-            const amount = parseFloat(config.amountInput.value);
-            const duration = parseInt(config.durationInput.value); // Duration in months
-            const minAmount = parseFloat(config.amountInput.min);
-
-
-            if (isNaN(amount) || amount < minAmount || isNaN(duration) || duration <= 0) {
-                config.returnSpan.textContent = '0.00';
-                config.returnSpan.classList.remove('positive', 'loss');
-                // No error message here, as it's just a calculator, not a transaction
-                return;
+                showMessage('Account created successfully! You can now log in.', 'success');
+                window.location.hash = 'loginSection';
             }
 
-            // Simple compound interest calculation (monthly compounding)
-            const monthlyRate = config.annualRate / 12;
-            const futureValue = amount * Math.pow((1 + monthlyRate), duration);
-            const profit = futureValue - amount;
+            /**
+             * Handles the Login form submission.
+             */
+            function handleLogin(event) {
+                event.preventDefault();
 
-            config.returnSpan.textContent = profit.toFixed(2);
-            if (profit > 0) {
-                config.returnSpan.classList.remove('loss');
-                config.returnSpan.classList.add('positive');
-            } else if (profit < 0) {
-                config.returnSpan.classList.remove('positive');
-                config.returnSpan.classList.add('loss');
-            } else {
-                config.returnSpan.classList.remove('positive', 'loss');
-            }
-        }
+                const username = DOM.loginUsernameInput.value.trim();
+                const password = DOM.loginPasswordInput.value;
 
-        // --- Portfolio Management ---
+                if (!username || !password) {
+                    showMessage('Please enter both username and password.', 'error');
+                    return;
+                }
 
-        /**
-         * Saves the current user's data to local storage.
-         */
-        function saveUserData() {
-            if (!currentLoggedInUser) return;
-            const users = JSON.parse(localStorage.getItem('growWithCoreUsers') || '{}');
-            users[currentLoggedInUser] = {
-                ...users[currentLoggedInUser], // Keep existing data like password
-                cashBalance: users[currentLoggedInUser].cashBalance,
-                investments: users[currentLoggedInUser].investments
-            };
-            localStorage.setItem('growWithCoreUsers', JSON.stringify(users));
-        }
+                const users = JSON.parse(localStorage.getItem(LOCAL_STORAGE_USERS_KEY) || '{}');
+                const userData = users[username];
 
-        /**
-         * Loads the current user's data from local storage.
-         * @returns {object} The user's data.
-         */
-        function loadUserData() {
-            if (!currentLoggedInUser) return null;
-            const users = JSON.parse(localStorage.getItem('growWithCoreUsers') || '{}');
-            return users[currentLoggedInUser];
-        }
-
-        /**
-         * Renders the user's portfolio.
-         */
-        function renderPortfolio() {
-            portfolioGrid.innerHTML = ''; // Clear existing items
-            const userData = loadUserData();
-
-            if (!userData || userData.investments.length === 0) {
-                noInvestmentsMessage.classList.remove('hidden');
-                document.getElementById('cashBalance').textContent = (userData ? userData.cashBalance : 0).toFixed(2);
-                return;
-            } else {
-                noInvestmentsMessage.classList.add('hidden');
+                if (userData && userData.password === encodePassword(password)) {
+                    currentLoggedInUser = username; // Set logged-in user
+                    localStorage.setItem(LOCAL_STORAGE_LAST_USER_KEY, currentLoggedInUser); // Save last logged-in user
+                    window.location.href = 'dash.html'; // Redirect to the dashboard page
+                } else {
+                    showMessage('Invalid username or password.', 'error');
+                }
             }
 
-            document.getElementById('cashBalance').textContent = userData.cashBalance.toFixed(2);
+            /**
+             * Handles the logout action.
+             */
+            function handleLogout() {
+                currentLoggedInUser = null; // Clear logged-in user
+                localStorage.removeItem(LOCAL_STORAGE_LAST_USER_KEY); // Clear last logged-in user from storage
+                showMessage('You have been logged out.', 'info');
+                window.location.hash = ''; // Go back to login section on index.html
+            }
 
-            userData.investments.forEach((investment) => {
-                const config = investmentConfigs[investment.type];
-                if (!config) return; // Should not happen
+            // --- Event Listeners ---
+            DOM.showLoginBtn.addEventListener('click', () => window.location.hash = 'loginSection');
+            DOM.showCreateAccountBtn.addEventListener('click', () => window.location.hash = 'createAccountSection');
 
-                // Format start date
-                const startDate = new Date(investment.startDate).toLocaleDateString();
-
-                const portfolioItem = document.createElement('div');
-                portfolioItem.className = 'portfolio-item';
-                portfolioItem.innerHTML = `
-                    <h4>${config.name}</h4>
-                    <p>Initial Investment: ₦${investment.initialAmount.toFixed(2)}</p>
-                    <p>Duration: ${investment.durationMonths} months</p>
-                    <p>Start Date: ${startDate}</p>
-                    <p>Current Value:</p>
-                    <div class="portfolio-value" id="portfolioValue_${investment.id}">₦${investment.currentValue.toFixed(2)}</div>
-                    <canvas id="portfolioChart_${investment.id}" class="portfolio-chart"></canvas>
-                    <button class="btn btn-danger mt-4 cash-out-btn" data-investment-id="${investment.id}">Cash Out</button>
-                `;
-                portfolioGrid.appendChild(portfolioItem);
-
-                // Set up canvas for portfolio item
-                const canvas = document.getElementById(`portfolioChart_${investment.id}`);
-                const style = getComputedStyle(canvas);
-                canvas.width = parseInt(style.width, 10);
-                canvas.height = parseInt(style.height, 10);
-                drawChart(canvas, investment.chartData, investment.currentValue >= investment.initialAmount ? 'var(--accent-green)' : 'var(--accent-red)', investment.initialAmount); // Initial draw based on profit/loss
-                document.getElementById(`portfolioValue_${investment.id}`).classList.toggle('loss', investment.currentValue < investment.initialAmount);
+            // Redirect to dash.html for dashboard and portfolio
+            DOM.myPortfolioBtn.addEventListener('click', () => {
+                if (currentLoggedInUser) {
+                    window.location.href = 'dash.html#portfolioSection';
+                } else {
+                    showMessage('Please log in to view your portfolio.', 'info');
+                    window.location.hash = 'loginSection';
+                }
+            });
+            DOM.dashboardBtn.addEventListener('click', () => {
+                if (currentLoggedInUser) {
+                    window.location.href = 'dash.html';
+                } else {
+                    showMessage('Please log in to view the dashboard.', 'info');
+                    window.location.hash = 'loginSection';
+                }
             });
 
-            // Add event listeners for new cash out buttons
-            document.querySelectorAll('.cash-out-btn').forEach(button => {
-                button.addEventListener('click', (event) => {
-                    const investmentId = parseInt(event.target.dataset.investmentId);
-                    cashOutInvestment(investmentId);
+            DOM.logoutBtn.addEventListener('click', handleLogout); // Header logout
+
+            // Welcome screen buttons
+            DOM.welcomeDashboardBtn.addEventListener('click', () => window.location.href = 'dash.html');
+            DOM.welcomePortfolioBtn.addEventListener('click', () => window.location.href = 'dash.html#portfolioSection');
+            DOM.welcomeLogoutBtn.addEventListener('click', handleLogout); // Welcome screen logout
+
+            // Links within auth forms (now use hashes)
+            DOM.showCreateAccountLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.location.hash = 'createAccountSection';
+            });
+            DOM.showLoginLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.location.hash = 'loginSection';
+            });
+
+            DOM.createAccountForm.addEventListener('submit', handleCreateAccount);
+            DOM.loginForm.addEventListener('submit', handleLogin);
+
+            // FAQ accordion functionality
+            document.querySelectorAll('.faq-question').forEach(question => {
+                question.addEventListener('click', () => {
+                    question.classList.toggle('active');
                 });
             });
-        }
 
-        /**
-         * Updates all active investments in the user's portfolio based on duration.
-         */
-        function updatePortfolioInvestments() {
-            if (!currentLoggedInUser) return;
-
-            const users = JSON.parse(localStorage.getItem('growWithCoreUsers') || '{}');
-            const userData = users[currentLoggedInUser];
-
-            if (!userData || !userData.investments || userData.investments.length === 0) {
-                return;
-            }
-
-            const now = Date.now(); // Current timestamp
-
-            userData.investments.forEach(investment => {
-                const config = investmentConfigs[investment.type];
-                if (!config) return;
-
-                const initialAmount = investment.initialAmount;
-                const annualRate = config.calculator.annualRate; // Use the annual rate from config
-                const durationMonths = investment.durationMonths;
-                const startDate = investment.startDate;
-
-                // Calculate elapsed time in milliseconds
-                const elapsedTimeMs = now - startDate;
-                // Convert elapsed time to months (approximate, using 30.44 days per month for simulation)
-                const elapsedMonths = elapsedTimeMs / (1000 * 60 * 60 * 24 * 30.44);
-
-                let expectedValue = initialAmount;
-                // Calculate compound interest for the elapsed time, capped at total duration
-                const actualElapsedMonthsForCalculation = Math.min(elapsedMonths, durationMonths);
-                const monthlyRate = annualRate / 12;
-                expectedValue = initialAmount * Math.pow((1 + monthlyRate), actualElapsedMonthsForCalculation);
-
-                // Apply a small daily fluctuation on top of the expected growth
-                // This makes the graph dynamic even with duration-based growth
-                const fluctuation = (Math.random() * 2 - 1) * expectedValue * config.volatility * 0.1; // Smaller volatility for duration-based
-                let currentValue = expectedValue + fluctuation;
-
-                // Ensure current value doesn't drop too low or exceed final value significantly
-                currentValue = Math.max(initialAmount * 0.5, currentValue); // Prevent value from dropping too low
-
-                // If duration is over, ensure the value hovers around the final projected value
-                if (elapsedMonths >= durationMonths) {
-                    const finalProjectedValue = initialAmount * Math.pow((1 + annualRate / 12), durationMonths);
-                    currentValue = Math.min(finalProjectedValue * 1.02, Math.max(finalProjectedValue * 0.98, currentValue));
-                }
-
-
-                investment.currentValue = currentValue;
-                investment.chartData.push(currentValue);
-
-                if (investment.chartData.length > 50) { // Keep last 50 points for portfolio charts
-                    investment.chartData.shift();
-                }
+            // Smooth scrolling for header navigation links (now uses hashes for section IDs)
+            document.querySelectorAll('.header-nav-link').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    window.location.hash = targetId; // Update hash to trigger navigation
+                });
             });
 
-            localStorage.setItem('growWithCoreUsers', JSON.stringify(users)); // Save updated data
-            if (!portfolioSection.classList.contains('hidden')) {
-                renderPortfolio(); // Re-render if portfolio is currently visible
-            }
-        }
-
-        /**
-         * Handles the cash out of an investment.
-         * @param {number} investmentId - The ID of the investment to cash out.
-         */
-        function cashOutInvestment(investmentId) {
-            if (!currentLoggedInUser) {
-                showMessage('Please log in to cash out investments.', 'error');
-                return;
-            }
-
-            const users = JSON.parse(localStorage.getItem('growWithCoreUsers') || '{}');
-            const userData = users[currentLoggedInUser];
-
-            const investmentIndex = userData.investments.findIndex(inv => inv.id === investmentId);
-
-            if (investmentIndex === -1) {
-                showMessage('Investment not found.', 'error');
-                return;
-            }
-
-            const investmentToCashOut = userData.investments[investmentIndex];
-            const cashOutAmount = investmentToCashOut.currentValue;
-
-            userData.cashBalance += cashOutAmount; // Add current value back to cash balance
-            userData.investments.splice(investmentIndex, 1); // Remove investment
-
-            localStorage.setItem('growWithCoreUsers', JSON.stringify(users));
-            showMessage(`Successfully cashed out ₦${cashOutAmount.toFixed(2)} from your ${investmentToCashOut.type} investment!`, 'success');
-            renderPortfolio(); // Re-render portfolio
-        }
-
-        // --- Invest Modal Logic ---
-        let currentInvestmentType = null; // Stores the type of investment being made
-
-        /**
-         * Shows the invest modal.
-         * @param {string} type - The type of investment (e.g., 'market').
-         */
-        function showInvestModal(type) {
-            if (!currentLoggedInUser) {
-                showMessage('Please log in to invest.', 'info');
-                showView('login');
-                return;
-            }
-
-            currentInvestmentType = type;
-            const config = investmentConfigs[type];
-            modalInvestmentType.textContent = `Invest in ${config.name}`;
-            const userData = loadUserData();
-            modalCashBalance.textContent = userData.cashBalance.toFixed(2);
-            // Set default and min values for amount and duration based on config
-            investAmountInput.value = config.calculator.amountInput.value;
-            investAmountInput.min = config.calculator.amountInput.min;
-            investDurationInput.value = config.calculator.durationInput.value;
-            investDurationInput.min = config.calculator.durationInput.min;
-            investDurationInput.max = config.calculator.durationInput.max;
-
-            investModalOverlay.classList.add('show');
-        }
-
-        /**
-         * Hides the invest modal.
-         */
-        function hideInvestModal() {
-            investModalOverlay.classList.remove('show');
-            currentInvestmentType = null;
-        }
-
-        /**
-         * Handles the confirmation of an investment.
-         */
-        function confirmInvestment() {
-            const amount = parseFloat(investAmountInput.value);
-            const durationMonths = parseInt(investDurationInput.value);
-            const userData = loadUserData();
-
-            const config = investmentConfigs[currentInvestmentType]; // Get config for current type
-            const minAmount = parseFloat(config.calculator.amountInput.min);
-            const minDuration = parseInt(config.calculator.durationInput.min);
-            const maxDuration = parseInt(config.calculator.durationInput.max);
+            // Listen for hash changes
+            window.addEventListener('hashchange', handleHashChange);
 
 
-            if (isNaN(amount) || amount < minAmount) {
-                showMessage(`Please enter a valid amount. Minimum investment for ${config.name} is ₦${minAmount.toLocaleString()}.`, 'error');
-                return;
-            }
-            if (isNaN(durationMonths) || durationMonths < minDuration || durationMonths > maxDuration) {
-                showMessage(`Please enter a valid duration for ${config.name} between ${minDuration} and ${maxDuration} months.`, 'error');
-                return;
-            }
-            if (amount > userData.cashBalance) {
-                showMessage('Insufficient cash balance.', 'error');
-                return;
-            }
+            // --- Initial Setup ---
+            window.onload = function() {
+                // Render Lucide icons
+                lucide.createIcons();
 
-            // Update user's cash balance
-            userData.cashBalance -= amount;
+                // Check if user was previously logged in and redirect to dashboard if so
+                const lastLoggedInUser = localStorage.getItem(LOCAL_STORAGE_LAST_USER_KEY);
+                const users = JSON.parse(localStorage.getItem(LOCAL_STORAGE_USERS_KEY) || '{}');
 
-            // Add new investment to user's portfolio
-            const newInvestment = {
-                id: Date.now(), // Unique ID for the investment
-                type: currentInvestmentType,
-                initialAmount: amount,
-                currentValue: amount, // Starts at initial amount
-                durationMonths: durationMonths, // Store duration
-                startDate: Date.now(), // Store start date (timestamp)
-                chartData: [amount] // Initial data for this specific investment's chart
-            };
-            userData.investments.push(newInvestment);
-
-            // Save updated user data
-            const users = JSON.parse(localStorage.getItem('growWithCoreUsers') || '{}');
-            users[currentLoggedInUser] = userData;
-            localStorage.setItem('growWithCoreUsers', JSON.stringify(users));
-
-            showMessage(`Successfully invested ₦${amount.toFixed(2)} in ${investmentConfigs[currentInvestmentType].name} for ${durationMonths} months!`, 'success');
-            hideInvestModal();
-            renderPortfolio(); // Update portfolio display immediately
-            showView('portfolio'); // Navigate to portfolio after investing
-        }
-
-        // --- Event Listeners ---
-        showLoginBtn.addEventListener('click', () => showView('login'));
-        showCreateAccountBtn.addEventListener('click', () => showView('createAccount'));
-        myPortfolioBtn.addEventListener('click', () => showView('portfolio'));
-        logoutBtn.addEventListener('click', handleLogout); // Header logout
-        dashboardBtn.addEventListener('click', () => showView('dashboard'));
-
-        // Welcome screen buttons
-        welcomeDashboardBtn.addEventListener('click', () => showView('dashboard'));
-        welcomePortfolioBtn.addEventListener('click', () => showView('portfolio'));
-        welcomeLogoutBtn.addEventListener('click', handleLogout); // Welcome screen logout
-
-        showCreateAccountLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            showView('createAccount');
-        });
-        showLoginLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            showView('login');
-        });
-
-        createAccountForm.addEventListener('submit', handleCreateAccount);
-        loginForm.addEventListener('submit', handleLogin);
-
-
-        // Add event listeners for all calculator buttons
-        calculateButtons.forEach(button => {
-            button.addEventListener('click', (event) => {
-                const type = event.target.dataset.type;
-                calculateProjectedReturn(type);
-            });
-        });
-
-        // Add event listeners for all "Invest Now" buttons
-        document.querySelectorAll('.invest-btn').forEach(button => {
-            button.addEventListener('click', (event) => {
-                const type = event.target.dataset.investmentType;
-                showInvestModal(type);
-            });
-        });
-
-        // Invest Modal button listeners
-        confirmInvestBtn.addEventListener('click', confirmInvestment);
-        cancelInvestBtn.addEventListener('click', hideInvestModal);
-        investModalOverlay.addEventListener('click', (e) => {
-            // Close modal if clicked outside content
-            if (e.target === investModalOverlay) {
-                hideInvestModal();
-            }
-        });
-
-        // FAQ accordion functionality
-        faqQuestions.forEach(question => {
-            question.addEventListener('click', () => {
-                const answer = question.nextElementSibling;
-                question.classList.toggle('active');
-                if (answer.style.display === 'block') {
-                    answer.style.display = 'none';
+                if (lastLoggedInUser && users[lastLoggedInUser]) {
+                    currentLoggedInUser = lastLoggedInUser;
+                    // If already logged in, redirect to dashboard immediately
+                    window.location.href = 'dash.html';
                 } else {
-                    answer.style.display = 'block';
+                    // If not logged in, show the login section by default
+                    handleHashChange();
                 }
-            });
-        });
-
-        // Smooth scrolling for header navigation links
-        document.querySelectorAll('.header-nav-link').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href').substring(1);
-                const targetElement = document.getElementById(targetId);
-                if (targetElement) {
-                    // Hide all dynamic sections first, then show the target info section
-                    investmentDashboard.classList.add('hidden');
-                    loginSection.classList.add('hidden');
-                    createAccountSection.classList.add('hidden');
-                    welcomeScreen.classList.add('hidden');
-                    portfolioSection.classList.add('hidden');
-
-                    document.getElementById('aboutSection').classList.add('hidden');
-                    document.getElementById('howItWorksSection').classList.add('hidden');
-                    document.getElementById('testimonialsSection').classList.add('hidden');
-                    document.getElementById('faqSection').classList.add('hidden');
-                    document.getElementById('contactSection').classList.add('hidden');
-
-                    targetElement.classList.remove('hidden'); // Show the specific info section
-
-                    targetElement.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start' // Scroll to the start of the element
-                    });
-                }
-            });
-        });
-
-
-        // --- Initial Setup ---
-        window.onload = function() {
-            // Set initial canvas dimensions for dashboard charts
-            for (const type in investmentConfigs) {
-                const config = investmentConfigs[type];
-                if (config.chartCanvas) {
-                    const style = getComputedStyle(config.chartCanvas);
-                    config.chartCanvas.width = parseInt(style.width, 10);
-                    config.chartCanvas.height = parseInt(style.height, 10);
-                    drawChart(config.chartCanvas, config.chartData, 'var(--accent-green)'); // Initial draw
-                }
-                // Calculate initial returns for dashboard calculators
-                calculateProjectedReturn(type);
-            }
-
-            // Start simulated yield updates
-            setInterval(() => {
-                for (const type in investmentConfigs) {
-                    updateSimulatedYield(type); // Update dashboard charts
-                }
-                updatePortfolioInvestments(); // Update user's portfolio investments
-            }, 2000); // Update every 2 seconds
-
-            // Check if a user was previously logged in (e.g., from a page refresh)
-            const lastLoggedInUser = localStorage.getItem('lastLoggedInUser');
-            if (lastLoggedInUser && JSON.parse(localStorage.getItem('growWithCoreUsers') || '{}')[lastLoggedInUser]) {
-                currentLoggedInUser = lastLoggedInUser;
-                welcomeUsernameSpan.textContent = currentLoggedInUser;
-                showView('welcome'); // Show welcome screen if logged in
-            } else {
-                showView('dashboard'); // Otherwise, start with the investment dashboard
-            }
-        };
-
-        // Handle canvas resizing (important for responsiveness)
-        window.addEventListener('resize', () => {
-            // Redraw dashboard charts
-            for (const type in investmentConfigs) {
-                const config = investmentConfigs[type];
-                if (config.chartCanvas) {
-                    const style = getComputedStyle(config.chartCanvas);
-                    config.chartCanvas.width = parseInt(style.width, 10);
-                    config.chartCanvas.height = parseInt(style.height, 10);
-                    drawChart(config.chartCanvas, config.chartData, 'var(--accent-green)'); // Redraw on resize
-                }
-            }
-            // Redraw portfolio charts if visible
-            if (!portfolioSection.classList.contains('hidden')) {
-                renderPortfolio();
-            }
-        });
+            };
+        })();
     </script>
 </body>
 </html>
