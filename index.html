@@ -11,6 +11,11 @@
     <!-- Lucide Icons CDN -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
+        /* Global box-sizing for consistent layout: IMPORTANT for preventing overflow */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
         /* Define CSS Variables for a consistent and beautiful color palette */
         :root {
             --primary-blue: #2c5282; /* Deep Blue */
@@ -28,11 +33,6 @@
             --shadow-medium: rgba(0, 0, 0, 0.12); /* Medium shadow */
             --shadow-strong: rgba(0, 0, 0, 0.2); /* Strong shadow */
             --shadow-deep: rgba(0, 0, 0, 0.25); /* Deeper shadow for modals */
-        }
-
-        /* Global box-sizing for consistent layout */
-        *, *::before, *::after {
-            box-sizing: border-box;
         }
 
         /* Base styles for the entire page */
