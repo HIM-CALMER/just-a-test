@@ -1,0 +1,2720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grow-With-Core - Professional Dashboard</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Font: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Chart.js CDN for advanced charting -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Paystack Script for Deposits -->
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <style>
+        /* Global box-sizing for consistent layout: IMPORTANT for preventing overflow */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        /* Define CSS Variables for a consistent and beautiful color palette (DARK THEME) */
+        :root {
+            --primary-blue: #63b3ed; /* Lighter Blue for highlights */
+            --primary-dark-blue: #2a4365; /* Deeper Blue for main elements */
+            --accent-green: #48bb78; /* Vibrant Green for positive */
+            --accent-red: #fc8181; /* Clear Red for negative */
+            --bg-dark: #1a202c; /* Very dark background */
+            --bg-gradient-start: #2d3748; /* Dark slate */
+            --bg-gradient-end: #1a202c; /* Even darker */
+            --text-light: #e2e8f0; /* Light gray for main text */
+            --text-medium: #a0aec0; /* Medium gray for descriptions */
+            --card-bg: #2d3748; /* Darker slate for cards */
+            --border-dark: #4a5568; /* Dark border for elements */
+            --shadow-light: rgba(0, 0, 0, 0.2); /* Light shadow on dark */
+            --shadow-medium: rgba(0, 0, 0, 0.3); /* Medium shadow on dark */
+            --shadow-strong: rgba(0, 0, 0, 0.4); /* Strong shadow on dark */
+            --shadow-deep: rgba(0, 0, 0, 0.5); /* Deeper shadow for modals */
+        }
+
+        /* Base styles for the entire page */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 1.5rem;
+            color: var(--text-light); /* Main text color */
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+        }
+
+        /* Header styling */
+        .app-header {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 2rem;
+            background-color: var(--card-bg); /* Darker header background */
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 30px var(--shadow-medium); /* Stronger shadow */
+            margin-bottom: 2rem;
+            animation: fadeInDown 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateY(-20px);
+            z-index: 10;
+            border-bottom: 2px solid var(--border-dark); /* Darker border */
+            position: sticky;
+            top: 1.5rem;
+            transition: top 0.3s ease-in-out;
+        }
+
+        @keyframes fadeInDown {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header-title {
+            font-size: 2.4rem;
+            font-weight: 800;
+            color: var(--primary-blue); /* Lighter blue for title */
+            letter-spacing: -0.04em;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.15); /* More pronounced shadow */
+        }
+
+        .header-info {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-light); /* Lighter text for info */
+        }
+        .header-info span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .header-info span i {
+            color: var(--primary-blue); /* Lighter blue for icons */
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .header-nav-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-left: 2rem;
+        }
+
+        .header-nav-link {
+            color: var(--text-medium); /* Medium gray for nav links */
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.2s ease-in-out;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .header-nav-link:hover {
+            color: var(--primary-blue); /* Lighter blue on hover */
+        }
+
+        /* General button styling */
+        .btn {
+            padding: 0.8rem 1.6rem;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            border: none;
+            box-shadow: 0 4px 15px var(--shadow-light);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            white-space: nowrap; /* Prevent text wrapping */
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary-dark-blue) 0%, var(--primary-blue) 100%); /* Darker gradient */
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(45deg, var(--primary-blue) 0%, #76a9f0 100%); /* Lighter on hover */
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px var(--shadow-medium);
+        }
+        .btn-primary:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            filter: brightness(0.9);
+        }
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.1); /* Subtle white ripple */
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.4s ease-out, height 0.4s ease-out;
+            z-index: 0;
+        }
+        .btn-primary:hover::before {
+            width: 200%;
+            height: 200%;
+        }
+
+        .btn-secondary {
+            background-color: var(--bg-dark); /* Darker secondary button */
+            color: var(--primary-blue); /* Lighter blue text */
+            border: 2px solid var(--primary-dark-blue); /* Darker border */
+        }
+        .btn-secondary:hover {
+            background-color: #3b455a; /* Slightly lighter dark on hover */
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px var(--shadow-light);
+        }
+        .btn-secondary:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            filter: brightness(0.95);
+        }
+
+        .btn-danger {
+            background-color: var(--accent-red);
+            color: white;
+        }
+        .btn-danger:hover {
+            background-color: #e53e3e; /* Slightly darker red on hover */
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px var(--shadow-light);
+        }
+        .btn-danger:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            filter: brightness(0.9);
+        }
+
+
+        /* Main content container for the dashboard */
+        .dashboard-container {
+            width: 100%;
+            max-width: 1200px;
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .dashboard-section {
+            background-color: var(--card-bg); /* Darker section background */
+            padding: 3rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 40px var(--shadow-strong); /* More prominent shadow */
+            animation: fadeInScale 0.8s ease-out forwards;
+            opacity: 0;
+            transform: scale(0.98);
+            margin-bottom: 0;
+            border: 1px solid var(--border-dark); /* Subtle border */
+        }
+
+        @keyframes fadeInScale {
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Overview Section */
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .overview-card {
+            background-color: var(--bg-dark); /* Darker card background */
+            padding: 1.8rem;
+            border-radius: 1.25rem;
+            box-shadow: 0 5px 15px var(--shadow-light); /* Darker shadow */
+            text-align: center;
+            border: 1px solid var(--border-dark); /* Darker border */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .overview-card .icon {
+            width: 2.5em;
+            height: 2.5em;
+            color: var(--primary-blue); /* Lighter blue icon */
+            margin-bottom: 0.8rem;
+            stroke-width: 2;
+        }
+        .overview-card h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-medium); /* Medium gray text */
+            margin-bottom: 0.5rem;
+        }
+        .overview-card .value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--text-light); /* Light text for values */
+            text-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .overview-card .value.positive {
+            color: var(--accent-green);
+        }
+        .overview-card .value.negative {
+            color: var(--accent-red);
+        }
+        .overview-card .value.neutral {
+            color: var(--text-light);
+        }
+
+        /* Investment Dashboard specific styling */
+        .investment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .investment-card {
+            background-color: var(--bg-dark); /* Darker card background */
+            padding: 2.2rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 8px 20px var(--shadow-medium); /* Stronger shadow */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            border: 1px solid var(--border-dark); /* Darker border */
+            position: relative;
+            overflow: hidden;
+        }
+
+        .investment-card:hover {
+            transform: translateY(-7px) scale(1.02);
+            box-shadow: 0 15px 30px var(--shadow-strong); /* Even stronger shadow on hover */
+        }
+
+        .investment-card h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-blue); /* Lighter blue for titles */
+            margin-bottom: 0.75rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .investment-card p {
+            font-size: 1rem;
+            color: var(--text-medium); /* Medium gray for descriptions */
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+            max-width: 90%;
+        }
+
+        .yield-display {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: var(--accent-green);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .yield-display.negative {
+            color: var(--accent-red);
+        }
+        .yield-display .icon {
+            width: 2.2em;
+            height: 2.2em;
+            stroke-width: 2.5;
+        }
+
+        .investment-meta {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-medium);
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        .investment-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .investment-meta span svg {
+            width: 1em;
+            height: 1em;
+            color: var(--primary-blue); /* Lighter blue for icons */
+        }
+
+        /* Canvas for simulated graph */
+        .yield-chart {
+            width: 100%;
+            max-width: 350px;
+            height: 180px;
+            background-color: var(--card-bg); /* Darker chart background */
+            border-radius: 0.75rem;
+            margin-top: 1rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-dark); /* Darker border */
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Calculator section */
+        .calculator-section {
+            width: 100%;
+            background-color: var(--card-bg); /* Darker calculator background */
+            padding: 1.8rem;
+            border-radius: 1.25rem;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-top: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            border: 1px solid var(--border-dark); /* Darker border */
+        }
+
+        .calculator-section h4 {
+            font-size: 1.2rem;
+            color: var(--text-light); /* Lighter text for calculator title */
+            margin-bottom: 0.5rem;
+        }
+
+        .calculator-section input {
+            width: 100%; /* Ensure inputs don't overflow */
+            padding: 0.85rem 1.1rem;
+            border: 1px solid var(--border-dark); /* Darker border */
+            border-radius: 0.6rem;
+            font-size: 1rem;
+            color: var(--text-light); /* Lighter text for input */
+            background-color: var(--bg-dark); /* Darker input background */
+            transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .calculator-section input:focus {
+            outline: none;
+            border-color: var(--primary-blue); /* Lighter blue on focus */
+            box-shadow: 0 0 0 4px rgba(99, 179, 237, 0.2); /* Lighter blue shadow */
+        }
+
+        .calculator-result {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-light); /* Lighter text for result */
+            margin-top: 0.5rem;
+        }
+        .calculator-result span {
+            color: var(--accent-green);
+            font-weight: 700;
+        }
+        .calculator-result span.loss {
+            color: var(--accent-red);
+        }
+
+        /* Message Box */
+        #messageBox {
+            padding: 1rem 1.5rem;
+            border-radius: 0.75rem;
+            margin-top: 1.5rem;
+            text-align: left;
+            display: flex; /* Use flex for icon and text */
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            opacity: 0;
+            transform: translateY(10px);
+            visibility: hidden;
+            width: 100%;
+            max-width: 1200px; /* Constrain width */
+        }
+        #messageBox.show {
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+        }
+
+        .message-error {
+            background-color: #fed7d7; /* Lighter red for error background */
+            color: #c53030; /* Darker red for text */
+            border: 1px solid #e53e3e;
+        }
+        .message-success {
+            background-color: #c6f6d5; /* Lighter green for success background */
+            color: #2f855a; /* Darker green for text */
+            border: 1px solid #38a169;
+        }
+        .message-info {
+            background-color: #bee3f8; /* Lighter blue for info background */
+            color: #2b6cb0; /* Darker blue for text */
+            border: 1px solid #4299e1;
+        }
+        .message-box-icon {
+            flex-shrink: 0;
+        }
+
+        /* Portfolio Section */
+        #portfolioSection h2 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: var(--primary-blue); /* Lighter blue for title */
+            margin-bottom: 1.8rem;
+            text-align: center;
+        }
+        .cash-balance {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--accent-green);
+            margin-bottom: 2rem;
+            text-align: center;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+        .portfolio-item {
+            background-color: var(--bg-dark); /* Darker card background */
+            padding: 1.8rem;
+            border-radius: 1.25rem;
+            box-shadow: 0 5px 15px var(--shadow-light); /* Darker shadow */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            border: 1px solid var(--border-dark); /* Darker border */
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            cursor: pointer; /* Indicate clickability */
+        }
+        .portfolio-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px var(--shadow-medium); /* Stronger shadow on hover */
+        }
+        .portfolio-item h4 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary-blue); /* Lighter blue for titles */
+            margin-bottom: 0.6rem;
+        }
+        .portfolio-item p {
+            font-size: 0.95rem;
+            color: var(--text-medium); /* Medium gray for descriptions */
+            margin-bottom: 0.4rem;
+        }
+        .portfolio-value {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--accent-green);
+            margin-bottom: 1.2rem;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .portfolio-value.loss {
+            color: var(--accent-red);
+        }
+        .portfolio-chart {
+            width: 100%;
+            max-width: 280px;
+            height: 140px;
+            background-color: var(--card-bg); /* Darker chart background */
+            border-radius: 0.6rem;
+            margin-top: 0.5rem;
+            border: 1px solid var(--border-dark); /* Darker border */
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        #noInvestmentsMessage {
+            font-size: 1.1rem;
+            color: var(--text-medium); /* Medium gray text */
+            padding: 2rem;
+            background-color: var(--bg-dark); /* Darker background */
+            border-radius: 1rem;
+            border: 1px dashed var(--border-dark); /* Darker border */
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            width: 100%; /* Ensure it spans full width */
+        }
+        #noInvestmentsMessage svg {
+            width: 3em;
+            height: 3em;
+            color: var(--primary-blue); /* Lighter blue icon */
+        }
+
+        /* Transaction History Section */
+        .transaction-history-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            background-color: var(--bg-dark); /* Darker table background */
+            border-radius: 1rem;
+            overflow: hidden; /* For rounded corners */
+        }
+        .transaction-history-table th, .transaction-history-table td {
+            padding: 1rem 1.2rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-dark); /* Darker border */
+            color: var(--text-light); /* Lighter text for table content */
+        }
+        .transaction-history-table th {
+            background-color: var(--primary-dark-blue); /* Darker blue for header */
+            color: white;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .transaction-history-table tr:last-child td {
+            border-bottom: none;
+        }
+        .transaction-history-table tbody tr:hover {
+            background-color: #3b455a; /* Slightly lighter dark on hover */
+        }
+        .transaction-history-table .amount-positive {
+            color: var(--accent-green);
+            font-weight: 600;
+        }
+        .transaction-history-table .amount-negative {
+            color: var(--accent-red);
+            font-weight: 600;
+        }
+        #noTransactionsMessage {
+            font-size: 1.1rem;
+            color: var(--text-medium); /* Medium gray text */
+            padding: 2rem;
+            background-color: var(--bg-dark); /* Darker background */
+            border-radius: 1rem;
+            border: 1px dashed var(--border-dark); /* Darker border */
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            width: 100%;
+        }
+        #noTransactionsMessage svg {
+            width: 3em;
+            height: 3em;
+            color: var(--primary-blue); /* Lighter blue icon */
+        }
+
+
+        /* Modals (Invest, Confirmation, Details, Deposit/Withdraw) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8); /* Darker overlay */
+            backdrop-filter: blur(8px); /* Stronger blur */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background-color: var(--card-bg); /* Darker modal background */
+            padding: 3rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 25px 50px var(--shadow-deep); /* Deep shadow */
+            width: 90%; /* Ensure modal content is responsive */
+            max-width: 450px;
+            text-align: center;
+            transform: translateY(30px);
+            opacity: 0;
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            border: 1px solid var(--border-dark); /* Subtle border */
+        }
+        .modal-overlay.show .modal-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        .modal-content h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-blue); /* Lighter blue for titles */
+            margin-bottom: 1.8rem;
+        }
+        .modal-content p {
+            font-size: 1.05rem;
+            color: var(--text-medium); /* Medium gray for descriptions */
+            margin-bottom: 1.5rem;
+        }
+        .modal-content input, .modal-content select {
+            width: 100%; /* Ensure inputs are responsive */
+            padding: 1rem 1.2rem;
+            border: 2px solid var(--border-dark); /* Darker border */
+            border-radius: 0.8rem;
+            font-size: 1.05rem;
+            color: var(--text-light); /* Lighter text for input */
+            background-color: var(--bg-dark); /* Darker input background */
+            margin-bottom: 1.8rem;
+            transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .modal-content input:focus, .modal-content select:focus {
+            outline: none;
+            border-color: var(--primary-blue); /* Lighter blue on focus */
+            box-shadow: 0 0 0 4px rgba(99, 179, 237, 0.25); /* Lighter blue shadow */
+        }
+        .modal-actions {
+            display: flex;
+            gap: 1.2rem;
+            justify-content: center;
+            flex-wrap: wrap; /* Allow buttons to wrap */
+        }
+        .modal-actions .btn {
+            flex-grow: 1; /* Allow buttons to grow */
+        }
+        .modal-disclaimer {
+            font-size: 0.85rem;
+            color: var(--accent-red); /* Red for warning */
+            margin-top: 1.5rem;
+            line-height: 1.4;
+            font-weight: 500;
+            background-color: #4a1a1a; /* Darker red background for disclaimer */
+            border: 1px solid var(--accent-red);
+            padding: 0.8rem;
+            border-radius: 0.75rem;
+        }
+
+
+        /* Investment Details Modal Specifics */
+        #investmentDetailsModalOverlay .modal-content {
+            max-width: 600px; /* Wider for more details */
+        }
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px dashed var(--border-dark); /* Darker border */
+            font-size: 1rem;
+        }
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+        .detail-item strong {
+            color: var(--primary-blue); /* Lighter blue for strong text */
+            font-weight: 600;
+        }
+        .detail-item span {
+            color: var(--text-light); /* Lighter text for values */
+        }
+        .detail-item .value-positive {
+            color: var(--accent-green);
+            font-weight: 700;
+        }
+        .detail-item .value-negative {
+            color: var(--accent-red);
+            font-weight: 700;
+        }
+        #detailsChartCanvas {
+            width: 100%;
+            height: 200px;
+            margin-top: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-dark); /* Darker border */
+            border-radius: 0.75rem;
+            background-color: var(--bg-dark); /* Darker chart background */
+        }
+
+        /* Footer */
+        .app-footer {
+            width: 100%;
+            max-width: 1200px;
+            padding: 2rem;
+            margin-top: 3rem;
+            background-color: var(--primary-dark-blue); /* Darker blue footer */
+            color: white;
+            text-align: center;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 30px var(--shadow-medium);
+            font-size: 0.9rem;
+        }
+        .footer-links {
+            margin-top: 0.5rem;
+        }
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 0.8rem;
+            transition: color 0.2s ease-in-out;
+        }
+        .footer-links a:hover {
+            color: var(--primary-blue); /* Lighter blue on hover */
+        }
+        .social-icons {
+            margin-top: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+        .social-icons a {
+            color: white;
+            font-size: 1.8rem;
+            transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
+        }
+        .social-icons a:hover {
+            transform: translateY(-3px) scale(1.1);
+            color: var(--primary-blue); /* Lighter blue on hover */
+        }
+
+
+        /* Responsive adjustments */
+        @media (max-width: 1024px) {
+            .dashboard-section {
+                padding: 2.5rem;
+            }
+            .investment-grid {
+                gap: 2rem;
+            }
+            .investment-card {
+                padding: 2rem;
+            }
+            .investment-card h3 {
+                font-size: 1.8rem;
+            }
+            .yield-display {
+                font-size: 2.5rem;
+            }
+            .header-nav-links {
+                gap: 1rem;
+                margin-left: 1rem;
+            }
+            .header-nav-link {
+                font-size: 0.95rem;
+            }
+            .header-info {
+                font-size: 0.95rem;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            .app-header {
+                flex-direction: column;
+                padding: 1rem 1.5rem;
+                margin-bottom: 1.5rem;
+                border-radius: 1rem;
+                position: static;
+                top: auto;
+            }
+            .header-title {
+                font-size: 2rem;
+                margin-bottom: 1rem;
+            }
+            .header-buttons {
+                flex-direction: column;
+                width: 100%;
+                gap: 0.75rem;
+            }
+            .header-nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                margin-top: 1rem;
+                margin-left: 0;
+                width: 100%;
+            }
+            .header-nav-link {
+                font-size: 0.85rem;
+                padding: 0.5rem 0.75rem;
+                border: 1px solid var(--border-dark); /* Darker border */
+                border-radius: 0.5rem;
+                background-color: var(--bg-dark); /* Darker background */
+            }
+            .btn {
+                width: 100%;
+                padding: 0.7rem 1.2rem;
+                font-size: 0.9rem;
+            }
+            .dashboard-container {
+                margin-top: 1rem;
+                gap: 1.5rem;
+            }
+            .dashboard-section {
+                padding: 1.5rem;
+                border-radius: 1rem;
+            }
+            .overview-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            .overview-card .icon {
+                width: 2em;
+                height: 2em;
+            }
+            .overview-card h4 {
+                font-size: 1rem;
+            }
+            .overview-card .value {
+                font-size: 1.8rem;
+            }
+            .investment-grid {
+                grid-template-columns: 1fr;
+            }
+            .investment-card {
+                padding: 1.5rem;
+                border-radius: 1rem;
+            }
+            .investment-card h3 {
+                font-size: 1.6rem;
+            }
+            .investment-card p {
+                font-size: 0.9rem;
+            }
+            .yield-display {
+                font-size: 2.2rem;
+                gap: 0.5rem;
+            }
+            .yield-display .icon {
+                width: 1.8em;
+                height: 1.8em;
+            }
+            .calculator-section {
+                padding: 1.2rem;
+                border-radius: 0.8rem;
+            }
+            .calculator-section h4 {
+                font-size: 1.1rem;
+            }
+            .calculator-section input {
+                padding: 0.7rem 1rem;
+                font-size: 0.9rem;
+            }
+            .calculator-result {
+                font-size: 1rem;
+            }
+            .modal-actions {
+                gap: 1rem;
+            }
+            .header-info {
+                flex-direction: column;
+                align-items: flex-start;
+                width: 100%;
+                margin-top: 1rem;
+            }
+            .header-info span {
+                width: 100%;
+                justify-content: center;
+            }
+            .app-footer {
+                padding: 1.5rem;
+                border-radius: 1rem;
+            }
+            .footer-links a {
+                margin: 0 0.5rem;
+            }
+            .social-icons a {
+                font-size: 1.5rem;
+            }
+            .transaction-history-table th, .transaction-history-table td {
+                padding: 0.8rem;
+                font-size: 0.85rem;
+            }
+            .transaction-history-table th:nth-child(3),
+            .transaction-history-table td:nth-child(3) {
+                display: none; /* Hide date column on small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Application Header -->
+    <header class="app-header">
+        <div class="flex items-center flex-wrap md:flex-nowrap">
+            <div class="header-title">Grow-With-Core</div>
+            <nav class="header-nav-links">
+                <a href="index.html#aboutSection" class="header-nav-link"><i data-lucide="info"></i>About</a>
+                <a href="index.html#howItWorksSection" class="header-nav-link"><i data-lucide="settings"></i>How It Works</a>
+                <a href="index.html#testimonialsSection" class="header-nav-link"><i data-lucide="message-square"></i>Testimonials</a>
+                <a href="index.html#faqSection" class="header-nav-link"><i data-lucide="help-circle"></i>FAQ</a>
+                <a href="index.html#contactSection" class="header-nav-link"><i data-lucide="mail"></i>Contact</a>
+            </nav>
+        </div>
+        <div class="header-buttons flex-col md:flex-row w-full md:w-auto mt-4 md:mt-0">
+            <div class="header-info mb-2 md:mb-0">
+                <span><i data-lucide="user"></i><span id="loggedInUsername"></span></span>
+                <span><i data-lucide="wallet"></i>Cash: ₦<span id="headerCashBalance">0.00</span></span>
+                <span><i data-lucide="landmark"></i>Net Worth: ₦<span id="headerNetWorth">0.00</span></span>
+            </div>
+            <button id="manageFundsBtn" class="btn btn-secondary"><i data-lucide="banknote"></i>Manage Funds</button>
+            <button id="logoutBtn" class="btn btn-secondary"><i data-lucide="log-out"></i>Logout</button>
+        </div>
+    </header>
+
+    <!-- Main Dashboard Container -->
+    <div class="dashboard-container">
+        <!-- Message Box (positioned within the dashboard container) -->
+        <div id="messageBox" role="alert" class="mx-auto">
+            <span id="messageIcon" class="message-box-icon"></span>
+            <span id="messageText"></span>
+        </div>
+
+        <!-- Overview Section -->
+        <section id="overviewSection" class="dashboard-section">
+            <h2 class="text-3xl font-bold text-center mb-8" style="color: var(--primary-blue);">Your Financial Overview</h2>
+            <div class="overview-grid">
+                <div class="overview-card">
+                    <i data-lucide="trending-up" class="icon"></i>
+                    <h4>Total Net Worth</h4>
+                    <span class="value neutral" id="overviewNetWorth">₦0.00</span>
+                </div>
+                <div class="overview-card">
+                    <i data-lucide="wallet" class="icon"></i>
+                    <h4>Cash Balance</h4>
+                    <span class="value positive" id="overviewCashBalance">₦0.00</span>
+                </div>
+                <div class="overview-card">
+                    <i data-lucide="pie-chart" class="icon"></i>
+                    <h4>Total Invested</h4>
+                    <span class="value neutral" id="overviewTotalInvested">₦0.00</span>
+                </div>
+                <div class="overview-card">
+                    <i data-lucide="dollar-sign" class="icon"></i>
+                    <h4>Total Profit/Loss</h4>
+                    <span class="value neutral" id="overviewTotalProfitLoss">₦0.00</span>
+                </div>
+            </div>
+            <div class="flex justify-center mt-8">
+                <canvas id="portfolioAllocationChart" class="w-full max-w-sm h-64"></canvas>
+            </div>
+        </section>
+
+        <!-- Investment Opportunities Section -->
+        <section id="investmentOpportunitiesSection" class="dashboard-section">
+            <h2 class="text-3xl font-bold text-center mb-8" style="color: var(--primary-blue);">Invest in Your Future Today</h2>
+            <p class="text-center mb-12 max-w-2xl mx-auto" style="color: var(--text-medium);">
+                Discover diverse investment opportunities tailored for growth. Our platform provides real-time insights and secure management for your financial aspirations.
+            </p>
+            <div class="investment-grid">
+                <!-- Real-time Market Investment Card -->
+                <div class="investment-card">
+                    <h3>Real-time Market</h3>
+                    <p>📈 Dive into the dynamic world of real-time market trading. Experience rapid growth potential driven by simulated global trends. Perfect for those seeking high returns and comfortable with higher volatility. Your investment adapts instantly to market shifts, offering daily opportunities for significant gains.</p>
+                    <div class="investment-meta">
+                        <span><i data-lucide="dollar-sign"></i>Min: ₦15,000</span>
+                        <span><i data-lucide="gauge"></i>Risk: Extremely High (Simulated)</span>
+                    </div>
+                    <div class="yield-display">
+                        <i data-lucide="trending-up" class="icon"></i>Yield: ₦<span id="marketYield">0.00</span>
+                    </div>
+                    <canvas id="marketChart" class="yield-chart"></canvas>
+                    <div class="calculator-section">
+                        <h4 class="font-semibold" style="color: var(--text-light);">Calculate Projected Returns</h4>
+                        <input type="number" id="marketAmount" placeholder="Investment Amount (₦)" min="15000" value="15000" aria-label="Market Investment Amount">
+                        <input type="number" id="marketDuration" placeholder="Duration (months)" value="1" min="1" max="60" aria-label="Market Investment Duration">
+                        <button class="btn btn-primary calculate-btn" data-type="market"><i data-lucide="calculator"></i>Calculate</button>
+                        <div class="calculator-result">Projected Return: ₦<span id="marketReturn">0.00</span></div>
+                    </div>
+                    <button class="btn btn-primary mt-4 invest-btn" data-investment-type="market"><i data-lucide="wallet"></i>Invest Now</button>
+                </div>
+
+                <!-- Farming Investment Card -->
+                <div class="investment-card">
+                    <h3>Farming</h3>
+                    <p>🌾 Cultivate prosperity with stable agricultural investments. Your funds support sustainable farming practices, yielding consistent and predictable returns from crop harvests. Ideal for long-term growth, this low-volatility option provides a steady income stream and contributes to food security.</p>
+                    <div class="investment-meta">
+                        <span><i data-lucide="dollar-sign"></i>Min: ₦15,000</span>
+                        <span><i data-lucide="gauge"></i>Risk: Extremely High (Simulated)</span>
+                    </div>
+                    <div class="yield-display">
+                        <i data-lucide="wheat" class="icon"></i>Yield: ₦<span id="farmingYield">0.00</span>
+                    </div>
+                    <canvas id="farmingChart" class="yield-chart"></canvas>
+                    <div class="calculator-section">
+                        <h4 class="font-semibold" style="color: var(--text-light);">Calculate Projected Returns</h4>
+                        <input type="number" id="farmingAmount" placeholder="Investment Amount (₦)" min="15000" value="15000" aria-label="Farming Investment Amount">
+                        <input type="number" id="farmingDuration" placeholder="Duration (months)" value="1" min="1" max="60" aria-label="Farming Investment Duration">
+                        <button class="btn btn-primary calculate-btn" data-type="farming"><i data-lucide="calculator"></i>Calculate</button>
+                        <div class="calculator-result">Projected Return: ₦<span id="farmingReturn">0.00</span></div>
+                    </div>
+                    <button class="btn btn-primary mt-4 invest-btn" data-investment-type="farming"><i data-lucide="wallet"></i>Invest Now</button>
+                </div>
+
+                <!-- Poultry Investment Card -->
+                <div class="investment-card">
+                    <h3>Poultry</h3>
+                    <p>🐔 Invest in the thriving poultry industry for reliable, recurring profits. Benefit from consistent egg and meat production cycles, ensuring regular payouts. This moderate-risk option offers a balanced growth profile, making it a smart choice for diversified portfolios.</p>
+                    <div class="investment-meta">
+                        <span><i data-lucide="dollar-sign"></i>Min: ₦15,000</span>
+                        <span><i data-lucide="gauge"></i>Risk: Extremely High (Simulated)</span>
+                    </div>
+                    <div class="yield-display">
+                        <i data-lucide="egg" class="icon"></i>Yield: ₦<span id="poultryYield">0.00</span>
+                    </div>
+                    <canvas id="poultryChart" class="yield-chart"></canvas>
+                    <div class="calculator-section">
+                        <h4 class="font-semibold" style="color: var(--text-light);">Calculate Projected Returns</h4>
+                        <input type="number" id="poultryAmount" placeholder="Investment Amount (₦)" min="15000" value="15000" aria-label="Poultry Investment Amount">
+                        <input type="number" id="poultryDuration" placeholder="Duration (months)" value="1" min="1" max="60" aria-label="Poultry Investment Duration">
+                        <button class="btn btn-primary calculate-btn" data-type="poultry"><i data-lucide="calculator"></i>Calculate</button>
+                        <div class="calculator-result">Projected Return: ₦<span id="poultryReturn">0.00</span></div>
+                    </div>
+                    <button class="btn btn-primary mt-4 invest-btn" data-investment-type="poultry"><i data-lucide="wallet"></i>Invest Now</button>
+                </div>
+
+                <!-- Basic Fish Farming Investment Card (Renamed) -->
+                <div class="investment-card">
+                    <h3>Basic Fish Farming</h3>
+                    <p>🐟 Tap into the growing demand for aquatic produce with foundational fish farming. This option offers steady growth as fish mature, providing reliable returns. It's a balanced choice for those new to aquaculture, contributing to sustainable food sources.</p>
+                    <div class="investment-meta">
+                        <span><i data-lucide="dollar-sign"></i>Min: ₦15,000</span>
+                        <span><i data-lucide="gauge"></i>Risk: Extremely High (Simulated)</span>
+                    </div>
+                    <div class="yield-display">
+                        <i data-lucide="fish" class="icon"></i>Yield: ₦<span id="fishFarmingYield">0.00</span>
+                    </div>
+                    <canvas id="fishFarmingChart" class="yield-chart"></canvas>
+                    <div class="calculator-section">
+                        <h4 class="font-semibold" style="color: var(--text-light);">Calculate Projected Returns</h4>
+                        <input type="number" id="fishFarmingAmount" placeholder="Investment Amount (₦)" min="15000" value="15000" aria-label="Fish Farming Investment Amount">
+                        <input type="number" id="fishFarmingDuration" placeholder="Duration (months)" value="1" min="1" max="60" aria-label="Fish Farming Investment Duration">
+                        <button class="btn btn-primary calculate-btn" data-type="fishFarming"><i data-lucide="calculator"></i>Calculate</button>
+                        <div class="calculator-result">Projected Return: ₦<span id="fishFarmingReturn">0.00</span></div>
+                    </div>
+                    <button class="btn btn-primary mt-4 invest-btn" data-investment-type="fishFarming"><i data-lucide="wallet"></i>Invest Now</button>
+                </div>
+
+                <!-- NEW: Advanced Aquaculture Investment Card -->
+                <div class="investment-card">
+                    <h3>Advanced Aquaculture</h3>
+                    <p>🐠 Elevate your aquatic investments with advanced aquaculture techniques. This high-growth sector utilizes modern technology for accelerated fish production, offering significantly higher returns. Ideal for experienced investors seeking amplified profits from innovative farming methods.</p>
+                    <div class="investment-meta">
+                        <span><i data-lucide="dollar-sign"></i>Min: ₦15,000</span>
+                        <span><i data-lucide="gauge"></i>Risk: Extremely High (Simulated)</span>
+                    </div>
+                    <div class="yield-display">
+                        <i data-lucide="droplets" class="icon"></i>Yield: ₦<span id="aquacultureYield">0.00</span>
+                    </div>
+                    <canvas id="aquacultureChart" class="yield-chart"></canvas>
+                    <div class="calculator-section">
+                        <h4 class="font-semibold" style="color: var(--text-light);">Calculate Projected Returns</h4>
+                        <input type="number" id="aquacultureAmount" placeholder="Investment Amount (₦)" min="15000" value="15000" aria-label="Aquaculture Investment Amount">
+                        <input type="number" id="aquacultureDuration" placeholder="Duration (months)" value="1" min="1" max="60" aria-label="Aquaculture Investment Duration">
+                        <button class="btn btn-primary calculate-btn" data-type="aquaculture"><i data-lucide="calculator"></i>Calculate</button>
+                        <div class="calculator-result">Projected Return: ₦<span id="aquacultureReturn">0.00</span></div>
+                    </div>
+                    <button class="btn btn-primary mt-4 invest-btn" data-investment-type="aquaculture"><i data-lucide="wallet"></i>Invest Now</button>
+                </div>
+
+                <!-- NEW: Livestock Rearing Investment Card -->
+                <div class="investment-card">
+                    <h3>Livestock Rearing</h3>
+                    <p>🐄 Invest in the robust livestock sector for consistent, long-term returns. Funds support ethical rearing practices, benefiting from growth in animal produce and meat markets. A stable and essential investment, perfect for diversifying your portfolio with tangible assets.</p>
+                    <div class="investment-meta">
+                        <span><i data-lucide="dollar-sign"></i>Min: ₦15,000</span>
+                        <span><i data-lucide="gauge"></i>Risk: Extremely High (Simulated)</span>
+                    </div>
+                    <div class="yield-display">
+                        <i data-lucide="cow" class="icon"></i>Yield: ₦<span id="livestockYield">0.00</span>
+                    </div>
+                    <canvas id="livestockChart" class="yield-chart"></canvas>
+                    <div class="calculator-section">
+                        <h4 class="font-semibold" style="color: var(--text-light);">Calculate Projected Returns</h4>
+                        <input type="number" id="livestockAmount" placeholder="Investment Amount (₦)" min="15000" value="15000" aria-label="Livestock Investment Amount">
+                        <input type="number" id="livestockDuration" placeholder="Duration (months)" value="1" min="1" max="60" aria-label="Livestock Investment Duration">
+                        <button class="btn btn-primary calculate-btn" data-type="livestock"><i data-lucide="calculator"></i>Calculate</button>
+                        <div class="calculator-result">Projected Return: ₦<span id="livestockReturn">0.00</span></div>
+                    </div>
+                    <button class="btn btn-primary mt-4 invest-btn" data-investment-type="livestock"><i data-lucide="wallet"></i>Invest Now</button>
+                </div>
+
+                <!-- NEW: Agro-Processing Investment Card -->
+                <div class="investment-card">
+                    <h3>Agro-Processing</h3>
+                    <p>📦 Invest in the value chain of agriculture through agro-processing. This involves transforming raw farm produce into finished goods, capturing higher profit margins. A forward-looking investment with strong growth potential driven by increasing demand for processed foods and exports.</p>
+                    <div class="investment-meta">
+                        <span><i data-lucide="dollar-sign"></i>Min: ₦15,000</span>
+                        <span><i data-lucide="gauge"></i>Risk: Extremely High (Simulated)</span>
+                    </div>
+                    <div class="yield-display">
+                        <i data-lucide="package" class="icon"></i>Yield: ₦<span id="agroprocessingYield">0.00</span>
+                    </div>
+                    <canvas id="agroprocessingChart" class="yield-chart"></canvas>
+                    <div class="calculator-section">
+                        <h4 class="font-semibold" style="color: var(--text-light);">Calculate Projected Returns</h4>
+                        <input type="number" id="agroprocessingAmount" placeholder="Investment Amount (₦)" min="15000" value="15000" aria-label="Agro-Processing Investment Amount">
+                        <input type="number" id="agroprocessingDuration" placeholder="Duration (months)" value="1" min="1" max="60" aria-label="Agro-Processing Investment Duration">
+                        <button class="btn btn-primary calculate-btn" data-type="agroprocessing"><i data-lucide="calculator"></i>Calculate</button>
+                        <div class="calculator-result">Projected Return: ₦<span id="agroprocessingReturn">0.00</span></div>
+                    </div>
+                    <button class="btn btn-primary mt-4 invest-btn" data-investment-type="agroprocessing"><i data-lucide="wallet"></i>Invest Now</button>
+                </div>
+
+                <!-- NEW: Dairy Farming Investment Card -->
+                <div class="investment-card">
+                    <h3>Dairy Farming</h3>
+                    <p>🥛 Invest in the consistent returns of dairy production. This sector offers stable income through milk, cheese, and other dairy products, catering to essential consumer needs. A reliable, low-to-moderate risk option for long-term portfolio stability and growth.</p>
+                    <div class="investment-meta">
+                        <span><i data-lucide="dollar-sign"></i>Min: ₦15,000</span>
+                        <span><i data-lucide="gauge"></i>Risk: Extremely High (Simulated)</span>
+                    </div>
+                    <div class="yield-display">
+                        <i data-lucide="milk" class="icon"></i>Yield: ₦<span id="dairyYield">0.00</span>
+                    </div>
+                    <canvas id="dairyChart" class="yield-chart"></canvas>
+                    <div class="calculator-section">
+                        <h4 class="font-semibold" style="color: var(--text-light);">Calculate Projected Returns</h4>
+                        <input type="number" id="dairyAmount" placeholder="Investment Amount (₦)" min="15000" value="15000" aria-label="Dairy Farming Investment Amount">
+                        <input type="number" id="dairyDuration" placeholder="Duration (months)" value="1" min="1" max="60" aria-label="Dairy Farming Investment Duration">
+                        <button class="btn btn-primary calculate-btn" data-type="dairy"><i data-lucide="calculator"></i>Calculate</button>
+                        <div class="calculator-result">Projected Return: ₦<span id="dairyReturn">0.00</span></div>
+                    </div>
+                    <button class="btn btn-primary mt-4 invest-btn" data-investment-type="dairy"><i data-lucide="wallet"></i>Invest Now</button>
+                </div>
+
+                <!-- NEW: Snail Farming (Heliculture) Investment Card -->
+                <div class="investment-card">
+                    <h3>Snail Farming</h3>
+                    <p>🐌 Explore the unique and lucrative world of heliculture. Snail farming offers high profit margins due to low input costs and growing demand in gourmet and pharmaceutical markets. A specialized investment with significant potential for rapid returns.</p>
+                    <div class="investment-meta">
+                        <span><i data-lucide="dollar-sign"></i>Min: ₦15,000</span>
+                        <span><i data-lucide="gauge"></i>Risk: Extremely High (Simulated)</span>
+                    </div>
+                    <div class="yield-display">
+                        <i data-lucide="snail" class="icon"></i>Yield: ₦<span id="snailYield">0.00</span>
+                    </div>
+                    <canvas id="snailChart" class="yield-chart"></canvas>
+                    <div class="calculator-section">
+                        <h4 class="font-semibold" style="color: var(--text-light);">Calculate Projected Returns</h4>
+                        <input type="number" id="snailAmount" placeholder="Investment Amount (₦)" min="15000" value="15000" aria-label="Snail Farming Investment Amount">
+                        <input type="number" id="snailDuration" placeholder="Duration (months)" value="1" min="1" max="60" aria-label="Snail Farming Investment Duration">
+                        <button class="btn btn-primary calculate-btn" data-type="snail"><i data-lucide="calculator"></i>Calculate</button>
+                        <div class="calculator-result">Projected Return: ₦<span id="snailReturn">0.00</span></div>
+                    </div>
+                    <button class="btn btn-primary mt-4 invest-btn" data-investment-type="snail"><i data-lucide="wallet"></i>Invest Now</button>
+                </div>
+
+                <!-- NEW: Organic Crop Farming Investment Card -->
+                <div class="investment-card">
+                    <h3>Organic Crop Farming</h3>
+                    <p>🌱 Invest in the future of sustainable agriculture. Organic crop farming yields premium produce and higher market prices due to increasing consumer demand for healthy, eco-friendly food. A responsible investment with excellent long-term profit potential.</p>
+                    <div class="investment-meta">
+                        <span><i data-lucide="dollar-sign"></i>Min: ₦15,000</span>
+                        <span><i data-lucide="gauge"></i>Risk: Extremely High (Simulated)</span>
+                    </div>
+                    <div class="yield-display">
+                        <i data-lucide="leaf" class="icon"></i>Yield: ₦<span id="organicCropYield">0.00</span>
+                    </div>
+                    <canvas id="organicCropChart" class="yield-chart"></canvas>
+                    <div class="calculator-section">
+                        <h4 class="font-semibold" style="color: var(--text-light);">Calculate Projected Returns</h4>
+                        <input type="number" id="organicCropAmount" placeholder="Investment Amount (₦)" min="15000" value="15000" aria-label="Organic Crop Farming Investment Amount">
+                        <input type="number" id="organicCropDuration" placeholder="Duration (months)" value="1" min="1" max="60" aria-label="Organic Crop Farming Investment Duration">
+                        <button class="btn btn-primary calculate-btn" data-type="organicCrop"><i data-lucide="calculator"></i>Calculate</button>
+                        <div class="calculator-result">Projected Return: ₦<span id="organicCropReturn">0.00</span></div>
+                    </div>
+                    <button class="btn btn-primary mt-4 invest-btn" data-investment-type="organicCrop"><i data-lucide="wallet"></i>Invest Now</button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- My Portfolio Section -->
+        <section id="portfolioSection" class="dashboard-section">
+            <h2 class="text-3xl font-bold text-center mb-8" style="color: var(--primary-blue);">My Active Portfolio</h2>
+            <p class="cash-balance" style="color: var(--accent-green);">Current Cash Balance: ₦<span id="cashBalance">0.00</span></p>
+            <div id="portfolioGrid" class="portfolio-grid">
+                <!-- Portfolio items will be dynamically inserted here -->
+                <p id="noInvestmentsMessage" class="col-span-full text-center hidden">
+                    <i data-lucide="folder-open"></i>
+                    You have no active investments. Start investing from the Dashboard!
+                </p>
+            </div>
+        </section>
+
+        <!-- Transaction History Section -->
+        <section id="transactionHistorySection" class="dashboard-section">
+            <h2 class="text-3xl font-bold text-center mb-8" style="color: var(--primary-blue);">Transaction History</h2>
+            <div class="overflow-x-auto rounded-xl shadow-md">
+                <table class="transaction-history-table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Description</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody id="transactionHistoryTableBody">
+                        <!-- Transactions will be dynamically inserted here -->
+                    </tbody>
+                </table>
+            </div>
+            <p id="noTransactionsMessage" class="col-span-full text-center hidden">
+                <i data-lucide="clipboard-x"></i>
+                No transactions recorded yet.
+            </p>
+        </section>
+    </div>
+
+    <!-- Invest Modal -->
+    <div id="investModalOverlay" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="modalInvestmentType" style="color: var(--primary-blue);">Invest in Market</h3>
+            <p style="color: var(--text-medium);">Your current cash: ₦<span id="modalCashBalance">0.00</span></p>
+            <input type="number" id="investAmountInput" placeholder="Enter amount to invest (₦)" min="15000" step="1000" aria-label="Investment Amount">
+            <input type="number" id="investDurationInput" placeholder="Investment Duration (months)" aria-label="Investment Duration">
+            <div class="modal-actions">
+                <button id="confirmInvestBtn" class="btn btn-primary"><i data-lucide="check"></i>Confirm Invest</button>
+                <button id="cancelInvestBtn" class="btn btn-secondary"><i data-lucide="x"></i>Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cash Out Confirmation Modal -->
+    <div id="cashOutConfirmModalOverlay" class="modal-overlay">
+        <div class="modal-content">
+            <h3 style="color: var(--primary-blue);">Confirm Cash Out</h3>
+            <p style="color: var(--text-medium);">Are you sure you want to cash out your <span id="confirmCashOutType"></span> investment?</p>
+            <p style="color: var(--text-medium);">You will receive ₦<span id="confirmCashOutAmount">0.00</span>.</p>
+            <div class="modal-actions">
+                <button id="confirmCashOutBtn" class="btn btn-danger"><i data-lucide="wallet"></i>Confirm Cash Out</button>
+                <button id="cancelCashOutBtn" class="btn btn-secondary"><i data-lucide="x"></i>Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Investment Details Modal -->
+    <div id="investmentDetailsModalOverlay" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="detailsInvestmentType" style="color: var(--primary-blue);">Investment Details</h3>
+            <div class="detail-item">
+                <strong>Initial Amount:</strong> <span>₦<span id="detailsInitialAmount">0.00</span></span>
+            </div>
+            <div class="detail-item">
+                <strong>Current Value:</strong> <span id="detailsCurrentValue" class="value-positive">₦0.00</span>
+            </div>
+            <div class="detail-item">
+                <strong>Start Date:</strong> <span id="detailsStartDate"></span>
+            </div>
+            <div class="detail-item">
+                <strong>Duration:</strong> <span id="detailsDuration"></span> months
+            </div>
+            <div class="detail-item">
+                <strong>Time Remaining:</strong> <span id="detailsTimeRemaining"></span>
+            </div>
+            <div class="detail-item">
+                <strong>Projected End Value:</strong> <span>₦<span id="detailsProjectedEndValue">0.00</span></span>
+            </div>
+            <canvas id="detailsChartCanvas"></canvas>
+            <div class="modal-actions">
+                <button id="detailsCashOutBtn" class="btn btn-danger"><i data-lucide="wallet"></i>Cash Out Now</button>
+                <button id="detailsCloseBtn" class="btn btn-secondary"><i data-lucide="x"></i>Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Deposit/Withdraw Funds Modal (Combined) -->
+    <div id="manageFundsModalOverlay" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="manageFundsModalTitle" style="color: var(--primary-blue);">Manage Your Funds</h3>
+            <p style="color: var(--text-medium);">Your current cash balance: ₦<span id="currentBalanceDisplay">0.00</span></p>
+
+            <div class="mb-4">
+                <label for="fundAmountInput" class="block text-sm font-bold mb-2 text-left" style="color: var(--text-light);">Amount (₦):</label>
+                <input type="number" id="fundAmountInput" placeholder="Enter amount (₦)" min="1" step="1000" aria-label="Fund Amount">
+            </div>
+
+            <div class="modal-actions">
+                <button id="depositFundsBtn" class="btn btn-primary"><i data-lucide="plus"></i>Deposit via Paystack</button>
+                <button id="withdrawFundsBtn" class="btn btn-secondary"><i data-lucide="minus"></i>Simulate Withdraw</button>
+                <button id="cancelFundsBtn" class="btn btn-secondary"><i data-lucide="x"></i>Cancel</button>
+            </div>
+            <p class="modal-disclaimer">
+                <i data-lucide="alert-triangle" class="inline-block align-middle mr-1"></i>
+                **IMPORTANT WARNING:** This is a **simulation** of investment returns and payment processing. The projected returns are **extremely high and not realistic** for any real-world investment. Do NOT use actual payment details here or expect these returns in real life. Your provided Paystack live key is used here for demonstration purposes only. In a real application, live keys should **NEVER** be exposed directly in client-side code and all payment verifications must be done on a secure backend.
+            </p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <p>&copy; 2025 Grow-With-Core. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="index.html#">Privacy Policy</a> | <a href="index.html#">Terms of Service</a>
+        </div>
+        <div class="social-icons">
+            <a href="#" aria-label="Facebook"><i data-lucide="facebook"></i></a>
+            <a href="#" aria-label="Twitter"><i data-lucide="twitter"></i></a>
+            <a href="#" aria-label="Instagram"><i data-lucide="instagram"></i></a>
+            <a href="#" aria-label="LinkedIn"><i data-lucide="linkedin"></i></a>
+        </div>
+    </footer>
+
+    <script>
+        // IIFE for encapsulation
+        (function() {
+            // --- Constants ---
+            const LOCAL_STORAGE_USERS_KEY = 'growWithCoreUsers';
+            const LOCAL_STORAGE_LAST_USER_KEY = 'lastLoggedInUser';
+            const SIMULATION_INTERVAL_MS = 2000; // Update every 2 seconds
+            const CHART_DATA_POINTS = 50; // Number of data points to keep for charts
+            const MONTH_IN_MS = 1000 * 60 * 60 * 24 * 30.44; // Approximate milliseconds in a month
+            const ABSOLUTE_MIN_INVESTMENT = 15000; // New absolute minimum investment amount for ₦1500 daily target
+
+            // --- DOM Elements ---
+            const DOM = {
+                overviewSection: document.getElementById('overviewSection'),
+                investmentOpportunitiesSection: document.getElementById('investmentOpportunitiesSection'),
+                portfolioSection: document.getElementById('portfolioSection'),
+                transactionHistorySection: document.getElementById('transactionHistorySection'),
+
+                portfolioGrid: document.getElementById('portfolioGrid'),
+                noInvestmentsMessage: document.getElementById('noInvestmentsMessage'),
+                transactionHistoryTableBody: document.getElementById('transactionHistoryTableBody'),
+                noTransactionsMessage: document.getElementById('noTransactionsMessage'),
+
+                messageBox: document.getElementById('messageBox'),
+                messageIcon: document.getElementById('messageIcon'),
+                messageText: document.getElementById('messageText'),
+
+                // Header Elements
+                loggedInUsername: document.getElementById('loggedInUsername'),
+                headerCashBalance: document.getElementById('headerCashBalance'),
+                headerNetWorth: document.getElementById('headerNetWorth'),
+
+                // Overview Elements
+                overviewNetWorth: document.getElementById('overviewNetWorth'),
+                overviewCashBalance: document.getElementById('overviewCashBalance'),
+                overviewTotalInvested: document.getElementById('overviewTotalInvested'),
+                overviewTotalProfitLoss: document.getElementById('overviewTotalProfitLoss'),
+                portfolioAllocationChartCanvas: document.getElementById('portfolioAllocationChart'),
+
+                // Header Buttons
+                logoutBtn: document.getElementById('logoutBtn'),
+                manageFundsBtn: document.getElementById('manageFundsBtn'),
+
+                // Investment Calculators (Dashboard) - dynamically selected
+                calculateButtons: document.querySelectorAll('.calculate-btn'),
+                investButtons: document.querySelectorAll('.invest-btn'),
+
+                // Invest Modal Elements
+                investModalOverlay: document.getElementById('investModalOverlay'),
+                modalInvestmentType: document.getElementById('modalInvestmentType'),
+                modalCashBalance: document.getElementById('modalCashBalance'),
+                investAmountInput: document.getElementById('investAmountInput'),
+                investDurationInput: document.getElementById('investDurationInput'),
+                confirmInvestBtn: document.getElementById('confirmInvestBtn'),
+                cancelInvestBtn: document.getElementById('cancelInvestBtn'),
+
+                // Cash Out Confirmation Modal Elements
+                cashOutConfirmModalOverlay: document.getElementById('cashOutConfirmModalOverlay'),
+                confirmCashOutType: document.getElementById('confirmCashOutType'),
+                confirmCashOutAmount: document.getElementById('confirmCashOutAmount'),
+                confirmCashOutBtn: document.getElementById('confirmCashOutBtn'),
+                cancelCashOutBtn: document.getElementById('cancelCashOutBtn'),
+
+                // Investment Details Modal Elements
+                investmentDetailsModalOverlay: document.getElementById('investmentDetailsModalOverlay'),
+                detailsInvestmentType: document.getElementById('detailsInvestmentType'),
+                detailsInitialAmount: document.getElementById('detailsInitialAmount'),
+                detailsCurrentValue: document.getElementById('detailsCurrentValue'),
+                detailsStartDate: document.getElementById('detailsStartDate'),
+                detailsDuration: document.getElementById('detailsDuration'),
+                detailsTimeRemaining: document.getElementById('detailsTimeRemaining'),
+                detailsProjectedEndValue: document.getElementById('detailsProjectedEndValue'),
+                detailsChartCanvas: document.getElementById('detailsChartCanvas'),
+                detailsCashOutBtn: document.getElementById('detailsCashOutBtn'),
+                detailsCloseBtn: document.getElementById('detailsCloseBtn'),
+
+                // Deposit/Withdraw Funds Modal (Combined) Elements
+                manageFundsModalOverlay: document.getElementById('manageFundsModalOverlay'),
+                manageFundsModalTitle: document.getElementById('manageFundsModalTitle'),
+                currentBalanceDisplay: document.getElementById('currentBalanceDisplay'),
+                fundAmountInput: document.getElementById('fundAmountInput'),
+                depositFundsBtn: document.getElementById('depositFundsBtn'),
+                withdrawFundsBtn: document.getElementById('withdrawFundsBtn'),
+                cancelFundsBtn: document.getElementById('cancelFundsBtn')
+            };
+
+            // --- Global State ---
+            let currentLoggedInUser = null; // Stores the username of the logged-in user
+            let pendingCashOutInvestmentId = null; // To store which investment is being confirmed for cash out
+            let activeInvestmentDetails = null; // Stores the investment object currently shown in details modal
+            let portfolioAllocationChart = null; // Chart.js instance for portfolio allocation
+
+            // --- Investment Type Configurations ---
+            // These configurations define the simulation parameters for each investment type.
+            // They are used for both the general dashboard display and for individual user investments.
+            // Rates are adjusted to target ~₦1,500 daily return on ₦15,000 investment (10% daily).
+            // Annual rate = 10% daily * 365 days = 3650% = 36.5
+            const investmentConfigs = {
+                market: {
+                    name: 'Real-time Market',
+                    baseYield: 15000,
+                    growthRate: 0.10, // 10% daily growth
+                    volatility: 0.005, // Reduced volatility to ensure consistent high returns
+                    yieldSpan: document.getElementById('marketYield'),
+                    chartCanvas: document.getElementById('marketChart'),
+                    chartData: [15000],
+                    riskLevel: 'Extremely High (Simulated)',
+                    color: '#63b3ed', // Primary Light Blue
+                    calculator: {
+                        amountInput: document.getElementById('marketAmount'),
+                        durationInput: document.getElementById('marketDuration'),
+                        returnSpan: document.getElementById('marketReturn'),
+                        annualRate: 36.5, // 3650% annual rate
+                        minAmount: 15000,
+                        minDuration: 1,
+                        maxDuration: 60,
+                        defaultDuration: 1 // Default to 1 month to show daily return
+                    }
+                },
+                farming: {
+                    name: 'Farming',
+                    baseYield: 15000,
+                    growthRate: 0.10,
+                    volatility: 0.005,
+                    yieldSpan: document.getElementById('farmingYield'),
+                    chartCanvas: document.getElementById('farmingChart'),
+                    chartData: [15000],
+                    riskLevel: 'Extremely High (Simulated)',
+                    color: '#48bb78', // Accent Green
+                    calculator: {
+                        amountInput: document.getElementById('farmingAmount'),
+                        durationInput: document.getElementById('farmingDuration'),
+                        returnSpan: document.getElementById('farmingReturn'),
+                        annualRate: 36.5, // 3650% annual rate
+                        minAmount: 15000,
+                        minDuration: 1,
+                        maxDuration: 60,
+                        defaultDuration: 1
+                    }
+                },
+                poultry: {
+                    name: 'Poultry',
+                    baseYield: 15000,
+                    growthRate: 0.10,
+                    volatility: 0.005,
+                    yieldSpan: document.getElementById('poultryYield'),
+                    chartCanvas: document.getElementById('poultryChart'),
+                    chartData: [15000],
+                    riskLevel: 'Extremely High (Simulated)',
+                    color: '#f6ad55', // Orange
+                    calculator: {
+                        amountInput: document.getElementById('poultryAmount'),
+                        durationInput: document.getElementById('poultryDuration'),
+                        returnSpan: document.getElementById('poultryReturn'),
+                        annualRate: 36.5, // 3650% annual rate
+                        minAmount: 15000,
+                        minDuration: 1,
+                        maxDuration: 60,
+                        defaultDuration: 1
+                    }
+                },
+                fishFarming: {
+                    name: 'Basic Fish Farming',
+                    baseYield: 15000,
+                    growthRate: 0.10,
+                    volatility: 0.005,
+                    yieldSpan: document.getElementById('fishFarmingYield'),
+                    chartCanvas: document.getElementById('fishFarmingChart'),
+                    chartData: [15000],
+                    riskLevel: 'Extremely High (Simulated)',
+                    color: '#76a9f0', // Light Blue
+                    calculator: {
+                        amountInput: document.getElementById('fishFarmingAmount'),
+                        durationInput: document.getElementById('fishFarmingDuration'),
+                        returnSpan: document.getElementById('fishFarmingReturn'),
+                        annualRate: 36.5, // 3650% annual rate
+                        minAmount: 15000,
+                        minDuration: 1,
+                        maxDuration: 60,
+                        defaultDuration: 1
+                    }
+                },
+                aquaculture: {
+                    name: 'Advanced Aquaculture',
+                    baseYield: 15000,
+                    growthRate: 0.10,
+                    volatility: 0.005,
+                    yieldSpan: document.getElementById('aquacultureYield'),
+                    chartCanvas: document.getElementById('aquacultureChart'),
+                    chartData: [15000],
+                    riskLevel: 'Extremely High (Simulated)',
+                    color: '#9f7aea', // Purple
+                    calculator: {
+                        amountInput: document.getElementById('aquacultureAmount'),
+                        durationInput: document.getElementById('aquacultureDuration'),
+                        returnSpan: document.getElementById('aquacultureReturn'),
+                        annualRate: 36.5, // 3650% annual rate
+                        minAmount: 15000,
+                        minDuration: 1,
+                        maxDuration: 60,
+                        defaultDuration: 1
+                    }
+                },
+                livestock: {
+                    name: 'Livestock Rearing',
+                    baseYield: 15000,
+                    growthRate: 0.10,
+                    volatility: 0.005,
+                    yieldSpan: document.getElementById('livestockYield'),
+                    chartCanvas: document.getElementById('livestockChart'),
+                    chartData: [15000],
+                    riskLevel: 'Extremely High (Simulated)',
+                    color: '#d53f8c', // Pink-Purple
+                    calculator: {
+                        amountInput: document.getElementById('livestockAmount'),
+                        durationInput: document.getElementById('livestockDuration'),
+                        returnSpan: document.getElementById('livestockReturn'),
+                        annualRate: 36.5, // 3650% annual rate
+                        minAmount: 15000,
+                        minDuration: 1,
+                        maxDuration: 60,
+                        defaultDuration: 1
+                    }
+                },
+                agroprocessing: {
+                    name: 'Agro-Processing',
+                    baseYield: 15000,
+                    growthRate: 0.10,
+                    volatility: 0.005,
+                    yieldSpan: document.getElementById('agroprocessingYield'),
+                    chartCanvas: document.getElementById('agroprocessingChart'),
+                    chartData: [15000],
+                    riskLevel: 'Extremely High (Simulated)',
+                    color: '#ecc94b', // Yellow
+                    calculator: {
+                        amountInput: document.getElementById('agroprocessingAmount'),
+                        durationInput: document.getElementById('agroprocessingDuration'),
+                        returnSpan: document.getElementById('agroprocessingReturn'),
+                        annualRate: 36.5, // 3650% annual rate
+                        minAmount: 15000,
+                        minDuration: 1,
+                        maxDuration: 60,
+                        defaultDuration: 1
+                    }
+                },
+                dairy: {
+                    name: 'Dairy Farming',
+                    baseYield: 15000,
+                    growthRate: 0.10,
+                    volatility: 0.005,
+                    yieldSpan: document.getElementById('dairyYield'),
+                    chartCanvas: document.getElementById('dairyChart'),
+                    chartData: [15000],
+                    riskLevel: 'Extremely High (Simulated)',
+                    color: '#4fd1c5', // Teal
+                    calculator: {
+                        amountInput: document.getElementById('dairyAmount'),
+                        durationInput: document.getElementById('dairyDuration'),
+                        returnSpan: document.getElementById('dairyReturn'),
+                        annualRate: 36.5, // 3650% annual rate
+                        minAmount: 15000,
+                        minDuration: 1,
+                        maxDuration: 60,
+                        defaultDuration: 1
+                    }
+                },
+                snail: {
+                    name: 'Snail Farming',
+                    baseYield: 15000,
+                    growthRate: 0.10,
+                    volatility: 0.005,
+                    yieldSpan: document.getElementById('snailYield'),
+                    chartCanvas: document.getElementById('snailChart'),
+                    chartData: [15000],
+                    riskLevel: 'Extremely High (Simulated)',
+                    color: '#a0aec0', // Grey
+                    calculator: {
+                        amountInput: document.getElementById('snailAmount'),
+                        durationInput: document.getElementById('snailDuration'),
+                        returnSpan: document.getElementById('snailReturn'),
+                        annualRate: 36.5, // 3650% annual rate
+                        minAmount: 15000,
+                        minDuration: 1,
+                        maxDuration: 60,
+                        defaultDuration: 1
+                    }
+                },
+                organicCrop: {
+                    name: 'Organic Crop Farming',
+                    baseYield: 15000,
+                    growthRate: 0.10,
+                    volatility: 0.005,
+                    yieldSpan: document.getElementById('organicCropYield'),
+                    chartCanvas: document.getElementById('organicCropChart'),
+                    chartData: [15000],
+                    riskLevel: 'Extremely High (Simulated)',
+                    color: '#81e6d9', // Light Teal
+                    calculator: {
+                        amountInput: document.getElementById('organicCropAmount'),
+                        durationInput: document.getElementById('organicCropDuration'),
+                        returnSpan: document.getElementById('organicCropReturn'),
+                        annualRate: 36.5, // 3650% annual rate
+                        minAmount: 15000,
+                        minDuration: 1,
+                        maxDuration: 60,
+                        defaultDuration: 1
+                    }
+                }
+            };
+
+            // --- Utility Functions ---
+
+            /**
+             * Displays a message in the message box.
+             * @param {string} message - The message to display.
+             * @param {string} type - 'success', 'error', or 'info' to style the message.
+             * @param {number} duration - How long the message should be visible in milliseconds.
+             */
+            function showMessage(message, type = 'info', duration = 5000) {
+                DOM.messageText.textContent = message;
+                DOM.messageBox.className = 'block mt-4 rounded-lg text-sm transition-opacity duration-300 mx-auto'; // Reset classes
+                DOM.messageBox.classList.add(`message-${type}`);
+
+                // Set icon based on type
+                let iconName;
+                if (type === 'success') iconName = 'check-circle';
+                else if (type === 'error') iconName = 'x-circle';
+                else iconName = 'info';
+                DOM.messageIcon.innerHTML = `<i data-lucide="${iconName}"></i>`;
+                lucide.createIcons(); // Render the new icon
+
+                DOM.messageBox.classList.add('show'); // Trigger CSS transition
+
+                setTimeout(() => {
+                    DOM.messageBox.classList.remove('show'); // Hide after duration
+                }, duration);
+            }
+
+            /**
+             * Handles the logout action.
+             */
+            function handleLogout() {
+                currentLoggedInUser = null; // Clear logged-in user
+                localStorage.removeItem(LOCAL_STORAGE_LAST_USER_KEY); // Clear last logged-in user from storage
+                // Redirect back to the index.html (login/signup page)
+                window.location.href = 'index.html';
+            }
+
+            // --- Chart Drawing Logic (for individual investment cards) ---
+
+            /**
+             * Draws a simple line graph on a canvas.
+             * @param {HTMLCanvasElement} canvas - The canvas element.
+             * @param {number[]} data - Array of data points.
+             * @param {string} color - Line color.
+             * @param {number} [initialValue=null] - Optional initial value to draw a reference line.
+             */
+            function drawChart(canvas, data, color, initialValue = null) {
+                const ctx = canvas.getContext('2d');
+                ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
+
+                if (data.length < 2) {
+                    if (data.length === 1) {
+                        ctx.fillStyle = color;
+                        ctx.beginPath();
+                        ctx.arc(canvas.width / 2, canvas.height / 2, 3, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                    return;
+                }
+
+                const allValues = initialValue !== null ? [...data, initialValue] : [...data];
+                const maxVal = Math.max(...allValues);
+                const minVal = Math.min(...allValues);
+                const range = maxVal - minVal;
+
+                // Chart padding and scaling
+                const chartPadding = 20; // Padding from canvas edges
+                const usableWidth = canvas.width - 2 * chartPadding;
+                const usableHeight = canvas.height - 2 * chartPadding;
+
+                // Calculate scale factors
+                const scaleX = usableWidth / (data.length - 1);
+                const scaleY = usableHeight / (range === 0 ? 1 : range);
+
+                // Draw grid lines (lighter color for dark theme)
+                ctx.strokeStyle = 'rgba(160, 174, 192, 0.3)'; // Light gray, semi-transparent
+                ctx.lineWidth = 0.5;
+
+                // Horizontal grid lines (e.g., 4 lines)
+                for (let i = 0; i <= 4; i++) {
+                    const y = chartPadding + (usableHeight / 4) * i;
+                    ctx.beginPath();
+                    ctx.moveTo(chartPadding, y);
+                    ctx.lineTo(canvas.width - chartPadding, y);
+                    ctx.stroke();
+                }
+
+                // Vertical grid lines (e.g., 5 lines)
+                for (let i = 0; i <= 5; i++) {
+                    const x = chartPadding + (usableWidth / 5) * i;
+                    ctx.beginPath();
+                    ctx.moveTo(x, chartPadding);
+                    ctx.lineTo(x, canvas.height - chartPadding);
+                    ctx.stroke();
+                }
+
+                // Draw initial value reference line if provided
+                if (initialValue !== null) {
+                    ctx.save();
+                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)'; // White, semi-transparent
+                    ctx.setLineDash([5, 5]);
+                    ctx.beginPath();
+                    // Map initialValue to canvas Y coordinate
+                    const yInitial = chartPadding + usableHeight - (initialValue - minVal) * scaleY;
+                    ctx.moveTo(chartPadding, yInitial);
+                    ctx.lineTo(canvas.width - chartPadding, yInitial);
+                    ctx.stroke();
+                    ctx.restore();
+                }
+
+                // Draw the main line graph
+                ctx.beginPath();
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 2;
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+
+                // Move to the first point
+                ctx.moveTo(chartPadding, chartPadding + usableHeight - (data[0] - minVal) * scaleY);
+
+                // Draw lines to subsequent points
+                for (let i = 1; i < data.length; i++) {
+                    const x = chartPadding + i * scaleX;
+                    const y = chartPadding + usableHeight - (data[i] - minVal) * scaleY;
+                    ctx.lineTo(x, y);
+                }
+                ctx.stroke();
+
+                // Draw latest point
+                const lastX = chartPadding + (data.length - 1) * scaleX;
+                const lastY = chartPadding + usableHeight - (data[data.length - 1] - minVal) * scaleY;
+                ctx.fillStyle = color;
+                ctx.beginPath();
+                ctx.arc(lastX, lastY, 4, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Add axis labels (lighter text color for dark theme)
+                ctx.fillStyle = 'var(--text-medium)';
+                ctx.font = '10px Inter';
+                ctx.textAlign = 'center';
+                ctx.fillText('Time', canvas.width / 2, canvas.height - 5); // X-axis label
+                ctx.save();
+                ctx.translate(10, canvas.height / 2);
+                ctx.rotate(-Math.PI / 2);
+                ctx.fillText('Value (₦)', 0, 0); // Y-axis label
+                ctx.restore();
+            }
+
+            // --- Investment Simulation & Calculator Logic ---
+
+            /**
+             * Updates the simulated yield for a given investment type (for dashboard display).
+             * This simulation is independent of user's actual investments.
+             * @param {string} investmentTypeKey - The key for the investment type (e.g., 'market').
+             */
+            function updateSimulatedYield(investmentTypeKey) {
+                const config = investmentConfigs[investmentTypeKey];
+                if (!config || !config.chartCanvas) return; // Ensure canvas exists for dashboard cards
+
+                // Simulate growth with some volatility
+                let currentYield = config.chartData[config.chartData.length - 1] || config.baseYield;
+                const growth = currentYield * config.growthRate;
+                const fluctuation = (Math.random() * 2 - 1) * currentYield * config.volatility; // -1 to 1 range
+
+                currentYield += growth + fluctuation;
+                currentYield = Math.max(config.baseYield / 2, currentYield); // Prevent yield from dropping too low
+
+                config.chartData.push(currentYield);
+                // Keep chart data array limited to show recent trend
+                if (config.chartData.length > CHART_DATA_POINTS) {
+                    config.chartData.shift();
+                }
+
+                config.yieldSpan.textContent = currentYield.toFixed(2);
+                // Update color based on recent fluctuation for dynamic feel
+                config.yieldSpan.classList.toggle('negative', fluctuation < 0);
+
+                drawChart(config.chartCanvas, config.chartData, fluctuation < 0 ? 'var(--accent-red)' : 'var(--accent-green)');
+            }
+
+            /**
+             * Calculates and displays projected returns for an investment type (for dashboard calculator).
+             * @param {string} investmentTypeKey - The key for the investment type.
+             */
+            function calculateProjectedReturn(investmentTypeKey) {
+                const config = investmentConfigs[investmentTypeKey].calculator;
+                const investmentAmount = parseFloat(config.amountInput.value);
+                const durationMonths = parseInt(config.durationInput.value);
+
+                // Validate against the absolute minimum investment
+                if (isNaN(investmentAmount) || investmentAmount < ABSOLUTE_MIN_INVESTMENT) {
+                    config.returnSpan.textContent = '0.00';
+                    config.returnSpan.classList.remove('positive', 'loss');
+                    return;
+                }
+
+                if (isNaN(durationMonths) || durationMonths < config.minDuration || durationMonths > config.maxDuration) {
+                    config.returnSpan.textContent = '0.00';
+                    config.returnSpan.classList.remove('positive', 'loss');
+                    return;
+                }
+
+                // Simple compound interest calculation (monthly compounding)
+                const monthlyRate = config.annualRate / 12;
+                const futureValue = investmentAmount * Math.pow((1 + monthlyRate), durationMonths);
+                const profit = futureValue - investmentAmount;
+
+                config.returnSpan.textContent = profit.toFixed(2);
+                if (profit > 0) {
+                    config.returnSpan.classList.remove('loss');
+                    config.returnSpan.classList.add('positive');
+                } else if (profit < 0) {
+                    config.returnSpan.classList.remove('positive');
+                    config.returnSpan.classList.add('loss');
+                } else {
+                    config.returnSpan.classList.remove('positive', 'loss');
+                }
+            }
+
+            // --- User Data Management ---
+
+            /**
+             * Saves the current user's data to local storage.
+             */
+            function saveUserData() {
+                if (!currentLoggedInUser) return;
+                const users = JSON.parse(localStorage.getItem(LOCAL_STORAGE_USERS_KEY) || '{}');
+                // Ensure we only update the specific user's data, preserving others
+                users[currentLoggedInUser] = {
+                    ...users[currentLoggedInUser], // Keep existing data like password
+                    cashBalance: users[currentLoggedInUser].cashBalance,
+                    investments: users[currentLoggedInUser].investments,
+                    transactionHistory: users[currentLoggedInUser].transactionHistory
+                };
+                localStorage.setItem(LOCAL_STORAGE_USERS_KEY, JSON.stringify(users));
+                updateHeaderInfo(); // Update header info after saving data
+                renderOverview(); // Update overview
+                renderTransactionHistory(); // Update transaction history
+            }
+
+            /**
+             * Loads the current user's data from local storage.
+             * @returns {object} The user's data.
+             */
+            function loadUserData() {
+                if (!currentLoggedInUser) return null;
+                const users = JSON.parse(localStorage.getItem(LOCAL_STORAGE_USERS_KEY) || '{}');
+                return users[currentLoggedInUser];
+            }
+
+            /**
+             * Adds a transaction to the user's history.
+             * @param {string} type - Type of transaction (e.g., 'Deposit', 'Withdrawal', 'Investment', 'Cash Out').
+             * @param {string} description - A brief description.
+             * @param {number} amount - The amount involved (positive for inflow, negative for outflow).
+             */
+            function addTransaction(type, description, amount) {
+                const userData = loadUserData();
+                if (userData) {
+                    if (!userData.transactionHistory) {
+                        userData.transactionHistory = [];
+                    }
+                    userData.transactionHistory.unshift({ // Add to the beginning for most recent first
+                        id: Date.now(),
+                        type: type,
+                        description: description,
+                        amount: amount,
+                        date: new Date().toISOString()
+                    });
+                    // Keep history to a reasonable size, e.g., last 50 transactions
+                    if (userData.transactionHistory.length > 50) {
+                        userData.transactionHistory.pop();
+                    }
+                    saveUserData(); // Save immediately after adding transaction
+                }
+            }
+
+            /**
+             * Updates the cash balance and net worth display in the header and overview.
+             */
+            function updateHeaderInfo() {
+                if (currentLoggedInUser) {
+                    const userData = loadUserData();
+                    DOM.loggedInUsername.textContent = currentLoggedInUser;
+                    DOM.headerCashBalance.textContent = userData.cashBalance.toFixed(2);
+
+                    let totalInvestmentValue = userData.investments.reduce((sum, inv) => sum + inv.currentValue, 0);
+                    let netWorth = userData.cashBalance + totalInvestmentValue;
+                    DOM.headerNetWorth.textContent = netWorth.toFixed(2);
+                } else {
+                    DOM.loggedInUsername.textContent = 'Guest';
+                    DOM.headerCashBalance.textContent = '0.00';
+                    DOM.headerNetWorth.textContent = '0.00';
+                }
+            }
+
+            // --- Dashboard Overview Rendering ---
+            function renderOverview() {
+                const userData = loadUserData();
+                if (!userData) return;
+
+                const totalInvestmentValue = userData.investments.reduce((sum, inv) => sum + inv.currentValue, 0);
+                const totalInitialInvestment = userData.investments.reduce((sum, inv) => sum + inv.initialAmount, 0);
+                const totalProfitLoss = totalInvestmentValue - totalInitialInvestment;
+                const netWorth = userData.cashBalance + totalInvestmentValue;
+
+                DOM.overviewNetWorth.textContent = netWorth.toFixed(2);
+                DOM.overviewCashBalance.textContent = userData.cashBalance.toFixed(2);
+                DOM.overviewTotalInvested.textContent = totalInitialInvestment.toFixed(2);
+                DOM.overviewTotalProfitLoss.textContent = totalProfitLoss.toFixed(2);
+
+                // Update profit/loss color
+                DOM.overviewTotalProfitLoss.classList.remove('positive', 'negative', 'neutral');
+                if (totalProfitLoss > 0) {
+                    DOM.overviewTotalProfitLoss.classList.add('positive');
+                } else if (totalProfitLoss < 0) {
+                    DOM.overviewTotalProfitLoss.classList.add('negative');
+                } else {
+                    DOM.overviewTotalProfitLoss.classList.add('neutral');
+                }
+
+                renderPortfolioAllocationChart(userData.investments);
+            }
+
+            // --- Portfolio Allocation Chart (Chart.js) ---
+            function renderPortfolioAllocationChart(investments) {
+                if (portfolioAllocationChart) {
+                    portfolioAllocationChart.destroy(); // Destroy existing chart before creating a new one
+                }
+
+                const investmentTypes = {}; // { type: totalCurrentValue }
+                investments.forEach(inv => {
+                    if (investmentTypes[inv.type]) {
+                        investmentTypes[inv.type] += inv.currentValue;
+                    } else {
+                        investmentTypes[inv.type] = inv.currentValue;
+                    }
+                });
+
+                const labels = Object.keys(investmentTypes).map(key => investmentConfigs[key].name);
+                const data = Object.values(investmentTypes);
+                const backgroundColors = Object.keys(investmentTypes).map(key => investmentConfigs[key].color);
+
+                const ctx = DOM.portfolioAllocationChartCanvas.getContext('2d');
+                portfolioAllocationChart = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            data: data,
+                            backgroundColor: backgroundColors,
+                            hoverOffset: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'right',
+                                align: 'center',
+                                labels: {
+                                    color: 'var(--text-light)', /* Lighter text for legend */
+                                    font: {
+                                        family: 'Inter',
+                                        size: 12
+                                    }
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Portfolio Allocation by Investment Type',
+                                color: 'var(--primary-blue)', /* Lighter blue for title */
+                                font: {
+                                    family: 'Inter',
+                                    size: 18,
+                                    weight: '600'
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.label || '';
+                                        if (label) {
+                                            label += ': ';
+                                        }
+                                        if (context.parsed !== null) {
+                                            label += '₦' + context.parsed.toFixed(2).toLocaleString();
+                                        }
+                                        return label;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // --- Portfolio Management ---
+
+            /**
+             * Renders the user's portfolio.
+             */
+            function renderPortfolio() {
+                DOM.portfolioGrid.innerHTML = ''; // Clear existing items
+                const userData = loadUserData();
+
+                if (!userData || !userData.investments || userData.investments.length === 0) {
+                    DOM.noInvestmentsMessage.classList.remove('hidden');
+                    return;
+                } else {
+                    DOM.noInvestmentsMessage.classList.add('hidden');
+                }
+
+                userData.investments.forEach((investment) => {
+                    const config = investmentConfigs[investment.type];
+                    if (!config) return; // Should not happen
+
+                    // Format start date
+                    const investmentStartDate = new Date(investment.startDate).toLocaleDateString();
+
+                    const portfolioItem = document.createElement('div');
+                    portfolioItem.className = 'portfolio-item';
+                    portfolioItem.dataset.investmentId = investment.id; // Store ID for click event
+                    portfolioItem.innerHTML = `
+                        <h4>${config.name}</h4>
+                        <p>Initial Investment: ₦${investment.initialAmount.toFixed(2)}</p>
+                        <p>Duration: ${investment.durationMonths} months</p>
+                        <p>Start Date: ${investmentStartDate}</p>
+                        <p>Current Value:</p>
+                        <div class="portfolio-value" id="portfolioValue_${investment.id}">₦${investment.currentValue.toFixed(2)}</div>
+                        <canvas id="portfolioChart_${investment.id}" class="portfolio-chart"></canvas>
+                        <button class="btn btn-danger mt-4 cash-out-btn-inline" data-investment-id="${investment.id}"><i data-lucide="wallet"></i>Cash Out</button>
+                    `;
+                    DOM.portfolioGrid.appendChild(portfolioItem);
+
+                    // Set up canvas for portfolio item
+                    const canvas = document.getElementById(`portfolioChart_${investment.id}`);
+                    const style = getComputedStyle(canvas);
+                    canvas.width = parseInt(style.width, 10);
+                    canvas.height = parseInt(style.height, 10);
+                    drawChart(canvas, investment.chartData, investment.currentValue >= investment.initialAmount ? 'var(--accent-green)' : 'var(--accent-red)', investment.initialAmount);
+                    document.getElementById(`portfolioValue_${investment.id}`).classList.toggle('loss', investment.currentValue < investment.initialAmount);
+                });
+
+                // Add event listeners for new cash out buttons and portfolio item clicks
+                DOM.portfolioGrid.querySelectorAll('.cash-out-btn-inline').forEach(button => {
+                    button.addEventListener('click', (event) => {
+                        event.stopPropagation(); // Prevent portfolio item click from firing
+                        const investmentId = parseInt(event.target.dataset.investmentId);
+                        showCashOutConfirmModal(investmentId);
+                    });
+                });
+
+                DOM.portfolioGrid.querySelectorAll('.portfolio-item').forEach(item => {
+                    item.addEventListener('click', (event) => {
+                        const investmentId = parseInt(item.dataset.investmentId);
+                        showInvestmentDetailsModal(investmentId);
+                    });
+                });
+
+                lucide.createIcons(); // Re-render icons for dynamically added elements
+            }
+
+            /**
+             * Updates all active investments in the user's portfolio based on duration and simulated growth.
+             */
+            function updatePortfolioInvestments() {
+                if (!currentLoggedInUser) return;
+
+                const users = JSON.parse(localStorage.getItem(LOCAL_STORAGE_USERS_KEY) || '{}');
+                const userData = users[currentLoggedInUser];
+
+                if (!userData || !userData.investments) {
+                    updateHeaderInfo();
+                    renderOverview();
+                    return;
+                }
+
+                const currentTime = Date.now(); // Current timestamp
+
+                userData.investments.forEach(investment => {
+                    const config = investmentConfigs[investment.type];
+                    if (!config) return;
+
+                    const initialInvestmentAmount = investment.initialAmount;
+                    const annualInterestRate = config.calculator.annualRate;
+                    const totalDurationMonths = investment.durationMonths;
+                    const investmentStartDate = investment.startDate;
+
+                    // Calculate elapsed time in milliseconds
+                    const elapsedTimeMilliseconds = currentTime - investmentStartDate;
+                    // Convert elapsed time to months (approximate)
+                    const elapsedMonths = elapsedTimeMilliseconds / MONTH_IN_MS;
+
+                    let expectedFutureValue = initialInvestmentAmount;
+                    // Calculate compound interest for the elapsed time, capped at total duration
+                    const actualElapsedMonthsForCalculation = Math.min(elapsedMonths, totalDurationMonths);
+                    const monthlyInterestRate = annualInterestRate / 12;
+                    expectedFutureValue = initialInvestmentAmount * Math.pow((1 + monthlyInterestRate), actualElapsedMonthsForCalculation);
+
+                    // Apply a small daily fluctuation on top of the expected growth
+                    const fluctuation = (Math.random() * 2 - 1) * expectedFutureValue * config.volatility * 0.1; // Smaller volatility for duration-based
+                    let currentInvestmentValue = expectedFutureValue + fluctuation;
+
+                    // Ensure current value doesn't drop too low or exceed final value significantly
+                    currentInvestmentValue = Math.max(initialInvestmentAmount * 0.5, currentInvestmentValue);
+
+                    // If duration is over, ensure the value hovers around the final projected value
+                    if (elapsedMonths >= totalDurationMonths) {
+                        const finalProjectedValue = initialInvestmentAmount * Math.pow((1 + monthlyInterestRate), totalDurationMonths);
+                        currentInvestmentValue = Math.min(finalProjectedValue * 1.02, Math.max(finalProjectedValue * 0.98, currentInvestmentValue));
+                    }
+
+                    investment.currentValue = currentInvestmentValue;
+                    investment.chartData.push(currentInvestmentValue);
+
+                    if (investment.chartData.length > CHART_DATA_POINTS) {
+                        investment.chartData.shift();
+                    }
+                });
+
+                localStorage.setItem(LOCAL_STORAGE_USERS_KEY, JSON.stringify(users)); // Save updated data
+                renderPortfolio(); // Re-render portfolio
+                updateHeaderInfo(); // Update header info
+                renderOverview(); // Update overview after investments
+            }
+
+            /**
+             * Executes the cash out of an investment after confirmation.
+             * @param {number} investmentId - The ID of the investment to cash out.
+             */
+            function executeCashOut(investmentId) {
+                if (!currentLoggedInUser) {
+                    showMessage('Please log in to cash out investments.', 'error');
+                    return;
+                }
+
+                const users = JSON.parse(localStorage.getItem(LOCAL_STORAGE_USERS_KEY) || '{}');
+                const userData = users[currentLoggedInUser];
+
+                const investmentIndex = userData.investments.findIndex(inv => inv.id === investmentId);
+
+                if (investmentIndex === -1) {
+                    showMessage('Investment not found.', 'error');
+                    return;
+                }
+
+                const investmentToCashOut = userData.investments[investmentIndex];
+                const cashOutAmount = investmentToCashOut.currentValue;
+
+                userData.cashBalance += cashOutAmount; // Add current value back to cash balance
+                userData.investments.splice(investmentIndex, 1); // Remove investment
+
+                // Add to transaction history
+                addTransaction('Cash Out', `Cashed out ${investmentConfigs[investmentToCashOut.type].name} investment`, cashOutAmount);
+
+                localStorage.setItem(LOCAL_STORAGE_USERS_KEY, JSON.stringify(users));
+                showMessage(`Successfully cashed out ₦${cashOutAmount.toFixed(2)} from your ${investmentConfigs[investmentToCashOut.type].name} investment!`, 'success');
+                hideCashOutConfirmModal();
+                hideInvestmentDetailsModal(); // Close details modal if open
+                updateHeaderInfo(); // Update header info
+                renderOverview(); // Update overview
+            }
+
+            // --- Transaction History Rendering ---
+            function renderTransactionHistory() {
+                DOM.transactionHistoryTableBody.innerHTML = ''; // Clear existing rows
+                const userData = loadUserData();
+
+                if (!userData || !userData.transactionHistory || userData.transactionHistory.length === 0) {
+                    DOM.noTransactionsMessage.classList.remove('hidden');
+                    return;
+                } else {
+                    DOM.noTransactionsMessage.classList.add('hidden');
+                }
+
+                userData.transactionHistory.forEach(transaction => {
+                    const row = DOM.transactionHistoryTableBody.insertRow();
+                    const date = new Date(transaction.date).toLocaleString();
+                    const amountClass = transaction.amount >= 0 ? 'amount-positive' : 'amount-negative';
+
+                    row.innerHTML = `
+                        <td>${transaction.type}</td>
+                        <td>${transaction.description}</td>
+                        <td>${date}</td>
+                        <td class="${amountClass}">₦${transaction.amount.toFixed(2)}</td>
+                    `;
+                });
+            }
+
+            // --- Invest Modal Logic ---
+            let currentInvestmentType = null; // Stores the type of investment being made
+
+            /**
+             * Shows the invest modal.
+             * @param {string} type - The type of investment (e.g., 'market').
+             */
+            function showInvestModal(type) {
+                if (!currentLoggedInUser) {
+                    showMessage('Please log in to invest.', 'info');
+                    window.location.href = 'index.html';
+                    return;
+                }
+
+                currentInvestmentType = type;
+                const config = investmentConfigs[type];
+                const calculatorConfig = config.calculator;
+
+                DOM.modalInvestmentType.textContent = `Invest in ${config.name}`;
+                const userData = loadUserData();
+                DOM.modalCashBalance.textContent = userData.cashBalance.toFixed(2);
+
+                DOM.investAmountInput.value = calculatorConfig.minAmount; // Default to suggested min amount
+                DOM.investAmountInput.min = ABSOLUTE_MIN_INVESTMENT; // Set actual minimum allowed
+
+                DOM.investDurationInput.value = calculatorConfig.defaultDuration;
+                DOM.investDurationInput.min = calculatorConfig.minDuration;
+                DOM.investDurationInput.max = calculatorConfig.maxDuration;
+
+                DOM.investModalOverlay.classList.add('show');
+            }
+
+            /**
+             * Hides the invest modal.
+             */
+            function hideInvestModal() {
+                DOM.investModalOverlay.classList.remove('show');
+                currentInvestmentType = null;
+            }
+
+            /**
+             * Handles the confirmation of an investment.
+             */
+            function confirmInvestment() {
+                const investmentAmount = parseFloat(DOM.investAmountInput.value);
+                const durationMonths = parseInt(DOM.investDurationInput.value);
+                const userData = loadUserData();
+
+                const config = investmentConfigs[currentInvestmentType];
+                const calculatorConfig = config.calculator;
+
+                const minAllowedDuration = calculatorConfig.minDuration;
+                const maxAllowedDuration = calculatorConfig.maxDuration;
+
+                // Validate against the absolute minimum investment
+                if (isNaN(investmentAmount) || investmentAmount < ABSOLUTE_MIN_INVESTMENT) {
+                    showMessage(`Please enter a valid amount. Minimum investment is ₦${ABSOLUTE_MIN_INVESTMENT.toLocaleString()}.`, 'error');
+                    return;
+                }
+                if (isNaN(durationMonths) || durationMonths < minAllowedDuration || durationMonths > maxAllowedDuration) {
+                    showMessage(`Please enter a valid duration for ${config.name} between ${minAllowedDuration} and ${maxAllowedDuration} months.`, 'error');
+                    return;
+                }
+                if (investmentAmount > userData.cashBalance) {
+                    showMessage('Insufficient cash balance.', 'error');
+                    return;
+                }
+
+                // Update user's cash balance
+                userData.cashBalance -= investmentAmount;
+
+                // Add new investment to user's portfolio
+                const newInvestment = {
+                    id: Date.now(), // Unique ID for the investment
+                    type: currentInvestmentType,
+                    initialAmount: investmentAmount,
+                    currentValue: investmentAmount, // Starts at initial amount
+                    durationMonths: durationMonths, // Store duration
+                    startDate: Date.now(), // Store start date (timestamp)
+                    chartData: [investmentAmount] // Initial data for this specific investment's chart
+                };
+                userData.investments.push(newInvestment);
+
+                // Add to transaction history
+                addTransaction('Investment', `Invested in ${config.name}`, -investmentAmount); // Negative for outflow
+
+                showMessage(`Successfully invested ₦${investmentAmount.toFixed(2)} in ${investmentConfigs[currentInvestmentType].name} for ${durationMonths} month(s)!`, 'success');
+                hideInvestModal();
+                updateHeaderInfo(); // Update header info
+                renderOverview(); // Update overview
+                renderPortfolio(); // Re-render portfolio
+            }
+
+            // --- Cash Out Confirmation Modal Logic ---
+
+            /**
+             * Shows the cash out confirmation modal.
+             * @param {number} investmentId - The ID of the investment to confirm cash out for.
+             */
+            function showCashOutConfirmModal(investmentId) {
+                const userData = loadUserData();
+                const investment = userData.investments.find(inv => inv.id === investmentId);
+
+                if (!investment) {
+                    showMessage('Investment not found for cash out confirmation.', 'error');
+                    return;
+                }
+
+                pendingCashOutInvestmentId = investmentId;
+                DOM.confirmCashOutType.textContent = investmentConfigs[investment.type].name;
+                DOM.confirmCashOutAmount.textContent = investment.currentValue.toFixed(2);
+                DOM.cashOutConfirmModalOverlay.classList.add('show');
+            }
+
+            /**
+             * Hides the cash out confirmation modal.
+             */
+            function hideCashOutConfirmModal() {
+                DOM.cashOutConfirmModalOverlay.classList.remove('show');
+                pendingCashOutInvestmentId = null;
+            }
+
+            // --- Investment Details Modal Logic ---
+
+            /**
+             * Shows the investment details modal.
+             * @param {number} investmentId - The ID of the investment to display details for.
+             */
+            function showInvestmentDetailsModal(investmentId) {
+                const userData = loadUserData();
+                const investment = userData.investments.find(inv => inv.id === investmentId);
+
+                if (!investment) {
+                    showMessage('Investment details not found.', 'error');
+                    return;
+                }
+
+                activeInvestmentDetails = investment; // Store for cash out button in this modal
+
+                const config = investmentConfigs[investment.type];
+                const startDate = new Date(investment.startDate);
+                const endDate = new Date(startDate.getTime() + (investment.durationMonths * MONTH_IN_MS));
+                const timeRemainingMs = endDate.getTime() - Date.now();
+
+                let timeRemainingText;
+                if (timeRemainingMs <= 0) {
+                    timeRemainingText = 'Duration Ended';
+                } else {
+                    const remainingMonths = Math.floor(timeRemainingMs / MONTH_IN_MS);
+                    const remainingDays = Math.floor((timeRemainingMs % MONTH_IN_MS) / (1000 * 60 * 60 * 24));
+                    if (remainingMonths > 0) {
+                        timeRemainingText = `${remainingMonths} months, ${remainingDays} days`;
+                    } else {
+                        timeRemainingText = `${remainingDays} days`;
+                    }
+                }
+
+                // Calculate projected end value based on initial amount and full duration
+                const monthlyInterestRate = config.calculator.annualRate / 12;
+                const projectedEndValue = investment.initialAmount * Math.pow((1 + monthlyInterestRate), investment.durationMonths);
+
+
+                DOM.detailsInvestmentType.textContent = config.name;
+                DOM.detailsInitialAmount.textContent = investment.initialAmount.toFixed(2);
+                DOM.detailsCurrentValue.textContent = investment.currentValue.toFixed(2);
+                DOM.detailsCurrentValue.classList.toggle('value-positive', investment.currentValue >= investment.initialAmount);
+                DOM.detailsCurrentValue.classList.toggle('value-negative', investment.currentValue < investment.initialAmount);
+                DOM.detailsStartDate.textContent = startDate.toLocaleDateString();
+                DOM.detailsDuration.textContent = investment.durationMonths;
+                DOM.detailsTimeRemaining.textContent = timeRemainingText;
+                DOM.detailsProjectedEndValue.textContent = projectedEndValue.toFixed(2);
+
+                // Setup and draw chart for this specific investment
+                const canvas = DOM.detailsChartCanvas;
+                const style = getComputedStyle(canvas);
+                canvas.width = parseInt(style.width, 10);
+                canvas.height = parseInt(style.height, 10);
+                drawChart(canvas, investment.chartData, investment.currentValue >= investment.initialAmount ? 'var(--accent-green)' : 'var(--accent-red)', investment.initialAmount);
+
+                DOM.investmentDetailsModalOverlay.classList.add('show');
+            }
+
+            /**
+             * Hides the investment details modal.
+             */
+            function hideInvestmentDetailsModal() {
+                DOM.investmentDetailsModalOverlay.classList.remove('show');
+                activeInvestmentDetails = null;
+            }
+
+            // --- Deposit/Withdraw Funds Modal Logic (Combined) ---
+
+            /**
+             * Shows the deposit/withdraw funds modal.
+             */
+            function showManageFundsModal() {
+                if (!currentLoggedInUser) {
+                    showMessage('Please log in to manage funds.', 'info');
+                    window.location.href = 'index.html';
+                    return;
+                }
+                const userData = loadUserData();
+                DOM.currentBalanceDisplay.textContent = userData.cashBalance.toFixed(2);
+                DOM.fundAmountInput.value = ''; // Clear previous input
+                DOM.manageFundsModalOverlay.classList.add('show');
+            }
+
+            /**
+             * Hides the deposit/withdraw funds modal.
+             */
+            function hideManageFundsModal() {
+                DOM.manageFundsModalOverlay.classList.remove('show');
+            }
+
+            /**
+             * Handles the simulated deposit or withdrawal of funds.
+             * @param {string} type - 'deposit' or 'withdraw'.
+             */
+            function handleFundTransaction(type) {
+                const amount = parseFloat(DOM.fundAmountInput.value);
+                const userData = loadUserData();
+
+                if (isNaN(amount) || amount <= 0) {
+                    showMessage('Please enter a valid positive amount.', 'error');
+                    return;
+                }
+
+                if (type === 'deposit') {
+                    // Paystack Integration
+                    const handler = PaystackPop.setup({
+                        key: 'pk_live_fa0e4bf22ce6b0279a243185d983ec121b99979c', // Your Paystack Public Key
+                        // IMPORTANT: In a real application, the user's actual email should be used.
+                        // For this simulation, we use a placeholder.
+                        email: 'simulated_user@example.com',
+                        amount: amount * 100, // Amount in kobo
+                        currency: 'NGN',
+                        ref: '' + Math.floor((Math.random() * 1000000000) + 1), // unique ref per transaction
+                        onClose: function() {
+                            showMessage('Deposit transaction cancelled.', 'info');
+                        },
+                        callback: function(response) {
+                            // In a real application, you MUST verify this transaction on your backend
+                            // using the response.reference before crediting the user.
+                            // For this simulation, we'll assume success on callback.
+                            if (response.status === 'success') {
+                                userData.cashBalance += amount;
+                                addTransaction('Deposit', `Deposit via Paystack (Ref: ${response.reference})`, amount);
+                                showMessage(`Successfully deposited ₦${amount.toFixed(2)} to your account via Paystack.`, 'success');
+                                hideManageFundsModal();
+                                updateHeaderInfo();
+                                renderOverview();
+                                renderPortfolio();
+                                renderTransactionHistory();
+                            } else {
+                                showMessage('Paystack transaction failed. Please try again.', 'error');
+                            }
+                        }
+                    });
+                    handler.openIframe(); // Open Paystack Payment Modal
+
+                } else if (type === 'withdraw') {
+                    if (amount > userData.cashBalance) {
+                        showMessage('Insufficient cash balance for withdrawal.', 'error');
+                        return;
+                    }
+                    userData.cashBalance -= amount;
+                    addTransaction('Withdrawal', `Simulated withdrawal`, -amount); // Negative for outflow
+                    showMessage(`Successfully simulated withdrawal of ₦${amount.toFixed(2)} from your account.`, 'success');
+                    hideManageFundsModal();
+                    updateHeaderInfo();
+                    renderOverview();
+                    renderPortfolio();
+                    renderTransactionHistory();
+                }
+            }
+
+
+            // --- Event Listeners ---
+            DOM.logoutBtn.addEventListener('click', handleLogout);
+            DOM.manageFundsBtn.addEventListener('click', showManageFundsModal);
+
+            // Add event listeners for all calculator buttons
+            DOM.calculateButtons.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const type = event.target.dataset.type;
+                    calculateProjectedReturn(type);
+                });
+            });
+
+            // Add event listeners for all "Invest Now" buttons
+            DOM.investButtons.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const type = event.target.dataset.investmentType;
+                    showInvestModal(type);
+                });
+            });
+
+            // Invest Modal button listeners
+            DOM.confirmInvestBtn.addEventListener('click', confirmInvestment);
+            DOM.cancelInvestBtn.addEventListener('click', hideInvestModal);
+            DOM.investModalOverlay.addEventListener('click', (e) => {
+                // Close modal if clicked outside content
+                if (e.target === DOM.investModalOverlay) {
+                    hideInvestModal();
+                }
+            });
+
+            // Cash Out Confirmation Modal button listeners
+            DOM.confirmCashOutBtn.addEventListener('click', () => {
+                if (pendingCashOutInvestmentId !== null) {
+                    executeCashOut(pendingCashOutInvestmentId);
+                }
+            });
+            DOM.cancelCashOutBtn.addEventListener('click', hideCashOutConfirmModal);
+            DOM.cashOutConfirmModalOverlay.addEventListener('click', (e) => {
+                if (e.target === DOM.cashOutConfirmModalOverlay) {
+                    hideCashOutConfirmModal();
+                }
+            });
+
+            // Investment Details Modal listeners
+            DOM.detailsCashOutBtn.addEventListener('click', () => {
+                if (activeInvestmentDetails) {
+                    showCashOutConfirmModal(activeInvestmentDetails.id); // Go to confirmation modal
+                }
+            });
+            DOM.detailsCloseBtn.addEventListener('click', hideInvestmentDetailsModal);
+            DOM.investmentDetailsModalOverlay.addEventListener('click', (e) => {
+                if (e.target === DOM.investmentDetailsModalOverlay) {
+                    hideInvestmentDetailsModal();
+                }
+            });
+
+            // Deposit/Withdraw Funds Modal listeners
+            DOM.depositFundsBtn.addEventListener('click', () => handleFundTransaction('deposit'));
+            DOM.withdrawFundsBtn.addEventListener('click', () => handleFundTransaction('withdraw'));
+            DOM.cancelFundsBtn.addEventListener('click', hideManageFundsModal);
+            DOM.manageFundsModalOverlay.addEventListener('click', (e) => {
+                if (e.target === DOM.manageFundsModalOverlay) {
+                    hideManageFundsModal();
+                }
+            });
+
+
+            // --- Initial Setup ---
+            window.onload = function() {
+                // Render Lucide icons
+                lucide.createIcons();
+
+                // Check if a user is logged in. If not, redirect to index.html
+                const lastLoggedInUser = localStorage.getItem(LOCAL_STORAGE_LAST_USER_KEY);
+                const users = JSON.parse(localStorage.getItem(LOCAL_STORAGE_USERS_KEY) || '{}');
+
+                if (lastLoggedInUser && users[lastLoggedInUser]) {
+                    currentLoggedInUser = lastLoggedInUser;
+                    // Ensure transactionHistory exists for old users
+                    if (!users[currentLoggedInUser].transactionHistory) {
+                        users[currentLoggedInUser].transactionHistory = [];
+                        localStorage.setItem(LOCAL_STORAGE_USERS_KEY, JSON.stringify(users));
+                    }
+                    updateHeaderInfo(); // Update header info on load
+                    renderOverview(); // Render overview
+                    renderPortfolio(); // Render portfolio
+                    renderTransactionHistory(); // Render transaction history
+                } else {
+                    // If no user is logged in, redirect to the main login/create account page
+                    window.location.href = 'index.html';
+                    return; // Stop further execution of this page
+                }
+
+                // Set initial canvas dimensions for dashboard charts and set duration input attributes
+                for (const type in investmentConfigs) {
+                    const config = investmentConfigs[type];
+                    const calculatorConfig = config.calculator;
+
+                    // Set attributes for dashboard calculator duration inputs
+                    if (calculatorConfig.durationInput) {
+                        calculatorConfig.durationInput.min = calculatorConfig.minDuration;
+                        calculatorConfig.durationInput.max = calculatorConfig.maxDuration;
+                        calculatorConfig.durationInput.value = calculatorConfig.defaultDuration;
+                    }
+
+                    // Set the min attribute for the calculator amount inputs to the ABSOLUTE_MIN_INVESTMENT
+                    if (calculatorConfig.amountInput) {
+                        calculatorConfig.amountInput.min = ABSOLUTE_MIN_INVESTMENT;
+                    }
+
+                    if (config.chartCanvas) {
+                        const style = getComputedStyle(config.chartCanvas);
+                        config.chartCanvas.width = parseInt(style.width, 10);
+                        config.chartCanvas.height = parseInt(style.height, 10);
+                        drawChart(config.chartCanvas, config.chartData, 'var(--accent-green)'); // Initial draw
+                    }
+                    // Calculate initial returns for dashboard calculators
+                    calculateProjectedReturn(type);
+                }
+
+                // Start simulated yield updates
+                setInterval(() => {
+                    for (const type in investmentConfigs) {
+                        updateSimulatedYield(type); // Update dashboard charts
+                    }
+                    updatePortfolioInvestments(); // Update user's portfolio investments
+                }, SIMULATION_INTERVAL_MS);
+
+                // Initial render of dashboard sections
+                DOM.overviewSection.classList.remove('hidden');
+                DOM.investmentOpportunitiesSection.classList.remove('hidden');
+                DOM.portfolioSection.classList.remove('hidden');
+                DOM.transactionHistorySection.classList.remove('hidden');
+            };
+
+            // Handle canvas resizing (important for responsiveness)
+            window.addEventListener('resize', () => {
+                // Redraw dashboard charts
+                for (const type in investmentConfigs) {
+                    const config = investmentConfigs[type];
+                    if (config.chartCanvas) {
+                        const style = getComputedStyle(config.chartCanvas);
+                        config.chartCanvas.width = parseInt(style.width, 10);
+                        config.chartCanvas.height = parseInt(style.height, 10);
+                        drawChart(config.chartCanvas, config.chartData, 'var(--accent-green)'); // Redraw on resize
+                    }
+                }
+                // Redraw portfolio charts
+                renderPortfolio();
+                // Redraw details chart if modal is open
+                if (DOM.investmentDetailsModalOverlay.classList.contains('show') && activeInvestmentDetails) {
+                    const canvas = DOM.detailsChartCanvas;
+                    const style = getComputedStyle(canvas);
+                    canvas.width = parseInt(style.width, 10);
+                    canvas.height = parseInt(style.height, 10);
+                    drawChart(canvas, activeInvestmentDetails.chartData, activeInvestmentDetails.currentValue >= activeInvestmentDetails.initialAmount ? 'var(--accent-green)' : 'var(--accent-red)', activeInvestmentDetails.initialAmount);
+                }
+                // Redraw portfolio allocation chart
+                renderOverview();
+            });
+        })();
+    </script>
+</body>
+</html>
