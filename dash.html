@@ -907,9 +907,6 @@
                 padding: 1.2rem;
                 border-radius: 0.8rem;
             }
-            .calculator-section h4 {
-                font-size: 1.1rem;
-            }
             .calculator-section input {
                 padding: 0.7rem 1rem;
                 font-size: 0.9rem;
@@ -948,8 +945,7 @@
             .transaction-history-table td:nth-child(3) {
                 display: none; /* Hide date column on small screens */
             }
-        }
-    </style>
+        </style>
 </head>
 <body>
     <!-- Application Header -->
@@ -1384,7 +1380,7 @@
             const SIMULATION_INTERVAL_MS = 2000; // Update every 2 seconds
             const CHART_DATA_POINTS = 50; // Number of data points to keep for charts
             const MONTH_IN_MS = 1000 * 60 * 60 * 24 * 30.44; // Approximate milliseconds in a month
-            const ABSOLUTE_MIN_INVESTMENT = 15000; // New absolute minimum investment amount for ₦1500 daily target
+            const ABSOLUTE_MIN_INVESTMENT = 15000; // Minimum investment amount for ₦1500 daily target
 
             // --- DOM Elements ---
             const DOM = {
@@ -2291,12 +2287,18 @@
                     return;
                 }
 
+                const userData = loadUserData();
+                if (!userData || userData.cashBalance < ABSOLUTE_MIN_INVESTMENT) {
+                    showMessage(`You need at least ₦${ABSOLUTE_MIN_INVESTMENT.toLocaleString()} in your cash balance to invest. Please deposit funds.`, 'info', 7000);
+                    showManageFundsModal(); // Automatically open deposit modal
+                    return; // Stop here, don't show invest modal
+                }
+
                 currentInvestmentType = type;
                 const config = investmentConfigs[type];
                 const calculatorConfig = config.calculator;
 
                 DOM.modalInvestmentType.textContent = `Invest in ${config.name}`;
-                const userData = loadUserData();
                 DOM.modalCashBalance.textContent = userData.cashBalance.toFixed(2);
 
                 DOM.investAmountInput.value = calculatorConfig.minAmount; // Default to suggested min amount
@@ -2341,7 +2343,7 @@
                     return;
                 }
                 if (investmentAmount > userData.cashBalance) {
-                    showMessage('Insufficient cash balance.', 'error');
+                    showMessage('Insufficient cash balance. Please deposit more funds.', 'error');
                     return;
                 }
 
@@ -2510,7 +2512,7 @@
                         key: 'pk_live_fa0e4bf22ce6b0279a243185d983ec121b99979c', // Your Paystack Public Key
                         // IMPORTANT: In a real application, the user's actual email should be used.
                         // For this simulation, we use a placeholder.
-                        email: 'simulated_user@example.com',
+                        email: 'simulated_user@example.com', // Placeholder email
                         amount: amount * 100, // Amount in kobo
                         currency: 'NGN',
                         ref: '' + Math.floor((Math.random() * 1000000000) + 1), // unique ref per transaction
@@ -2570,7 +2572,7 @@
             DOM.investButtons.forEach(button => {
                 button.addEventListener('click', (event) => {
                     const type = event.target.dataset.investmentType;
-                    showInvestModal(type);
+                    showInvestModal(type); // This will now handle the deposit check
                 });
             });
 
@@ -2632,11 +2634,17 @@
 
                 if (lastLoggedInUser && users[lastLoggedInUser]) {
                     currentLoggedInUser = lastLoggedInUser;
-                    // Ensure transactionHistory exists for old users
+                    // Ensure transactionHistory and investments exist, and reset cashBalance to 0
                     if (!users[currentLoggedInUser].transactionHistory) {
                         users[currentLoggedInUser].transactionHistory = [];
-                        localStorage.setItem(LOCAL_STORAGE_USERS_KEY, JSON.stringify(users));
                     }
+                    if (!users[currentLoggedInUser].investments) {
+                        users[currentLoggedInUser].investments = [];
+                    }
+                    // IMPORTANT: Force cash balance to 0 on load to ensure deposit-first logic
+                    users[currentLoggedInUser].cashBalance = 0;
+                    localStorage.setItem(LOCAL_STORAGE_USERS_KEY, JSON.stringify(users)); // Save the reset cash balance
+
                     updateHeaderInfo(); // Update header info on load
                     renderOverview(); // Render overview
                     renderPortfolio(); // Render portfolio
