@@ -30,6 +30,11 @@
             --shadow-deep: rgba(0, 0, 0, 0.25); /* Deeper shadow for modals */
         }
 
+        /* Global box-sizing for consistent layout */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
         /* Base styles for the entire page */
         body {
             font-family: 'Inter', sans-serif;
@@ -40,9 +45,8 @@
             min-height: 100vh;
             margin: 0;
             padding: 1.5rem;
-            box-sizing: border-box;
             color: var(--text-dark);
-            overflow-x: hidden;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
         }
 
         /* Header styling */
@@ -791,27 +795,27 @@
             <div class="how-it-works-grid">
                 <div class="how-it-works-step">
                     <h3><i data-lucide="clipboard-list"></i> 1. Create Your Account</h3>
-                    <p>Sign up in minutes with a secure username and password. Your journey to financial growth begins here, with an initial cash balance to kickstart your portfolio.</p>
+                    <p>Your first step towards financial growth! Sign up quickly and securely by providing a unique username and a strong password. Upon successful registration, you'll receive an initial cash balance to kickstart your investment portfolio and begin exploring opportunities immediately.</p>
                 </div>
                 <div class="how-it-works-step">
                     <h3><i data-lucide="trending-up"></i> 2. Choose Your Investment</h3>
-                    <p>Explore our diverse range of investment opportunities, including Real-time Market, Farming, Poultry, and Fish Farming. Each offers unique growth potential and risk profiles.</p>
+                    <p>Explore our diverse range of investment opportunities tailored to different risk appetites and interests. From the dynamic "Real-time Market" to stable "Farming" and "Poultry" ventures, or specialized "Aquaculture" and "Snail Farming," select the option that best aligns with your financial goals and understanding.</p>
                 </div>
                 <div class="how-it-works-step">
                     <h3><i data-lucide="clock"></i> 3. Set Your Duration</h3>
-                    <p>Decide how long you want to commit your investment. Our duration-based profit calculation ensures your returns are aligned with your long-term financial goals.</p>
+                    <p>Each investment type allows you to choose a specific duration, ranging from a few months to several years. This feature enables you to align your investments with your short-term or long-term financial plans, as profits are calculated based on the chosen commitment period.</p>
                 </div>
                 <div class="how-it-works-step">
                     <h3><i data-lucide="bar-chart-2"></i> 4. Monitor Your Growth</h3>
-                    <p>Track your portfolio's performance in real-time with intuitive charts and updated values. Watch your investments grow and adapt to simulated market conditions.</p>
+                    <p>Keep a close eye on your portfolio's performance through our intuitive dashboard. Real-time charts and updated values allow you to track the simulated growth of each investment. Understand how market conditions and your chosen duration impact your returns and make informed decisions.</p>
                 </div>
                 <div class="how-it-works-step">
-                    <h3><i data-lucide="wallet"></i> 5. Cash Out Anytime</h3>
-                    <p>You have full control. Cash out your investments at their current value whenever you choose, and the funds will be instantly added back to your cash balance.</p>
+                    <h3><i data-lucide="wallet"></i> 5. Manage Funds</h3>
+                    <p>Our platform provides flexibility in managing your cash. You can easily simulate depositing additional funds to increase your investment capacity or withdraw available cash from your balance as needed, giving you full control over your liquid assets.</p>
                 </div>
                 <div class="how-it-works-step">
                     <h3><i data-lucide="rocket"></i> 6. Reinvest & Grow</h3>
-                    <p>Use your cashed-out funds to reinvest in new opportunities, diversify your portfolio, and continue your path towards significant financial growth.</p>
+                    <p>Once an investment matures or you decide to cash out, the funds are returned to your cash balance. You can then use these funds to reinvest in new or existing opportunities, diversify your portfolio further, and accelerate your journey towards significant financial growth and independence.</p>
                 </div>
             </div>
         </section>
@@ -907,6 +911,9 @@
                 </div>
                 <div class="contact-item">
                     <i data-lucide="phone"></i> Phone: <a href="tel:+2348012345678">+234 801 234 5678</a>
+                </div>
+                <div class="contact-item">
+                    <i data-lucide="whatsapp"></i> WhatsApp: <a href="https://wa.me/qr/TVIMRTUNTLTBD1" target="_blank" rel="noopener noreferrer">Chat with us</a>
                 </div>
                 <div class="contact-item">
                     <i data-lucide="map-pin"></i> Address: 123 Investment Avenue, Victoria Island, Lagos, Nigeria
