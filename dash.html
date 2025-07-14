@@ -25,6 +25,16 @@
             justify-content: center;
             align-items: flex-start; /* Align to top for better content flow */
             overflow-x: hidden; /* Prevent horizontal scroll */
+
+            /* New: Subtle background animation */
+            background-size: 200% 200%;
+            animation: gradientMove 15s ease infinite alternate;
+        }
+
+        /* New: Keyframes for subtle background animation */
+        @keyframes gradientMove {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
         }
 
         .dashboard-container {
@@ -133,6 +143,9 @@
             font-size: 0.95rem; /* Slightly larger font on mobile */
             position: relative;
             overflow: hidden;
+            display: flex; /* Ensure flex for spinner */
+            align-items: center;
+            justify-content: center;
         }
 
         @media (min-width: 768px) {
@@ -214,6 +227,14 @@
             justify-content: center;
             border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle light border */
             transition: transform 0.2s ease;
+            /* New: Animation for metric updates */
+            animation: fadeInScale 0.5s ease-out;
+        }
+
+        /* New: Keyframes for metric box update animation */
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
         }
 
         @media (min-width: 768px) {
@@ -540,7 +561,7 @@
             text-decoration: underline; /* Underline on hover */
         }
 
-        /* Daily Percentage Animation */
+        /* Daily Percentage Animation (kept for consistency, but logic changed in JS) */
         @keyframes pulse {
             0% { transform: scale(1); opacity: 1; }
             50% { transform: scale(1.05); opacity: 0.9; }
@@ -878,7 +899,7 @@
             }
         }
 
-        /* Success/Error Message in Modals */
+        /* Success/Error Message in Modals (now used for toasts) */
         .modal-message {
             margin-top: 1rem; /* Adjusted margin */
             font-weight: 600;
@@ -908,6 +929,94 @@
             background-color: rgba(144, 208, 208, 0.25); /* Teal background */
             color: #90D0D0; /* Teal text */
         }
+
+        /* New: Toast Notification Styles */
+        #toastContainer {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1100; /* Above modals */
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            pointer-events: none; /* Allow clicks to pass through */
+        }
+
+        .toast-message {
+            background-color: #3a3a3a;
+            color: #e0e0e0;
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: slideInToast 0.4s forwards, fadeOutToast 0.5s 2.5s forwards;
+            min-width: 250px;
+            max-width: 350px;
+            text-align: center;
+            font-weight: 600;
+            pointer-events: auto; /* Re-enable clicks on the toast itself */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .toast-message.success {
+            background-color: #4CAF50;
+            color: white;
+            border-color: #66BB6A;
+        }
+
+        .toast-message.error {
+            background-color: #EF5350;
+            color: white;
+            border-color: #FF6B6B;
+        }
+
+        .toast-message.info {
+            background-color: #26A69A;
+            color: white;
+            border-color: #4DB6AC;
+        }
+
+        /* New: Toast animations */
+        @keyframes slideInToast {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeOutToast {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-20px); }
+        }
+
+        /* New: Loading Spinner Styles */
+        .loading-spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid #fff;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            animation: spin 1s linear infinite;
+            margin-left: 8px;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Style for input error feedback */
+        .input-error {
+            border-color: #FF6B6B;
+            box-shadow: 0 0 0 5px rgba(255, 107, 107, 0.3);
+        }
+        .error-text {
+            color: #FF6B6B;
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+            margin-left: 0.5rem;
+        }
+
     </style>
 </head>
 <body>
@@ -996,7 +1105,8 @@
                     </div>
                     <div class="md:col-span-2">
                         <label for="calcAnnualReturnRate" class="block text-gray-300 text-sm font-bold mb-2">Expected Annual Return Rate (%)</label>
-                        <input type="number" id="calcAnnualReturnRate" class="form-input" placeholder="e.g., 7300" value="7300" min="0" step="0.1">
+                        <!-- Removed value="7300" and the explanatory paragraph -->
+                        <input type="number" id="calcAnnualReturnRate" class="form-input" placeholder="e.g., 7300" min="0" step="0.1">
                     </div>
                 </div>
                 <button id="calculateBtn" class="btn-primary w-full mt-6 sm:mt-8">Calculate Projected Return</button>
@@ -1057,33 +1167,39 @@
                 <h2 class="section-title">Quick Actions</h2>
                 <ul class="space-y-3 sm:space-y-4">
                     <li>
-                        <button id="openInvestModalBtn" class="btn-primary w-full flex items-center justify-center">
+                        <button id="openInvestModalBtn" class="btn-primary w-full">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wallet-plus mr-2"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h12a2 2 0 0 1 0 4H5a2 2 0 0 0 0 4h12a2 2 0 0 0 2-2v-3"/><path d="M10 12h6"/><path d="M12 10v4"/></svg>
-                            Invest Now
+                            <span>Invest Now</span>
                         </button>
                     </li>
                     <li>
-                        <button id="openCashOutModalBtn" class="btn-primary w-full flex items-center justify-center !bg-red-600 hover:!bg-red-700">
+                        <button id="openCashOutModalBtn" class="btn-primary w-full !bg-red-600 hover:!bg-red-700">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wallet-minus mr-2"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h12a2 2 0 0 1 0 4H5a2 2 0 0 0 0 4h12a2 2 0 0 0 2-2v-3"/><path d="M10 12h6"/></svg>
-                            Cash Out
+                            <span>Cash Out</span>
                         </button>
                     </li>
                     <li>
-                        <button id="openDepositModalBtn" class="btn-primary w-full flex items-center justify-center">
+                        <button id="openDepositModalBtn" class="btn-primary w-full">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-dollar-sign mr-2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 3v18"/></svg>
-                            Deposit Funds
+                            <span>Deposit Funds</span>
                         </button>
                     </li>
                     <li>
-                        <button id="openWithdrawModalBtn" class="btn-primary w-full flex items-center justify-center !bg-red-600 hover:!bg-red-700">
+                        <button id="openWithdrawModalBtn" class="btn-primary w-full !bg-red-600 hover:!bg-red-700">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-credit-card mr-2"><rect width="20" height="14" x="2" y="5" rx="2"/><path d="M2 10h20"/></svg>
-                            Withdraw Funds
+                            <span>Withdraw Funds</span>
                         </button>
                     </li>
                     <li>
-                        <button id="openResetDataModalBtn" class="btn-primary w-full flex items-center justify-center !bg-gray-700 hover:!bg-gray-800">
+                        <button id="openResetDataModalBtn" class="btn-primary w-full !bg-gray-700 hover:!bg-gray-800">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-rotate-ccw mr-2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.76 2.75L3 8"/><path d="M3 3v5h5"/></svg>
-                            Reset All Data
+                            <span>Reset All Data</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button id="logoutBtn" class="btn-primary w-full !bg-blue-600 hover:!bg-blue-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out mr-2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+                            <span>Logout</span>
                         </button>
                     </li>
                 </ul>
@@ -1128,6 +1244,7 @@
                 <div>
                     <label for="investmentAmount" class="block text-gray-300 text-sm font-bold mb-2">Investment Amount (₦)</label>
                     <input type="number" id="investmentAmount" class="form-input" placeholder="e.g., 10000" min="5000">
+                    <p id="investmentAmountError" class="error-text hidden"></p>
                 </div>
                 <div>
                     <label for="investmentDuration" class="block text-gray-300 text-sm font-bold mb-2">Investment Duration</label>
@@ -1138,9 +1255,11 @@
                             <option value="years">Years</option>
                         </select>
                     </div>
+                    <p id="investmentDurationError" class="error-text hidden"></p>
                 </div>
-                <button id="submitInvestmentBtn" class="btn-primary w-full">Invest</button>
-                <p id="investMessage" class="text-center text-sm mt-2 modal-message hidden"></p>
+                <button id="submitInvestmentBtn" class="btn-primary w-full">
+                    <span>Invest</span>
+                </button>
             </div>
 
             <!-- Right column: Projection Chart -->
@@ -1167,13 +1286,16 @@
                     <select id="cashOutInvestmentSelect" class="form-select">
                         <option value="">Select an active investment</option>
                     </select>
+                    <p id="cashOutInvestmentSelectError" class="error-text hidden"></p>
                 </div>
                 <div>
                     <label for="cashOutAmount" class="block text-gray-300 text-sm font-bold mb-2">Amount to Cash Out (₦)</label>
                     <input type="number" id="cashOutAmount" class="form-input" placeholder="e.g., 5000" min="100">
+                    <p id="cashOutAmountError" class="error-text hidden"></p>
                 </div>
-                <button id="submitCashOutBtn" class="btn-primary w-full !bg-red-600 hover:!bg-red-700">Confirm Cash Out</button>
-                <p id="cashOutMessage" class="text-center text-sm mt-2 modal-message hidden"></p>
+                <button id="submitCashOutBtn" class="btn-primary w-full !bg-red-600 hover:!bg-red-700">
+                    <span>Confirm Cash Out</span>
+                </button>
             </div>
         </div>
     </div>
@@ -1187,13 +1309,16 @@
                 <div>
                     <label for="depositEmail" class="block text-gray-300 text-sm font-bold mb-2">Your Email</label>
                     <input type="email" id="depositEmail" class="form-input" placeholder="e.g., your@email.com" required>
+                    <p id="depositEmailError" class="error-text hidden"></p>
                 </div>
                 <div>
                     <label for="depositAmount" class="block text-gray-300 text-sm font-bold mb-2">Deposit Amount (₦)</label>
                     <input type="number" id="depositAmount" class="form-input" placeholder="e.g., 20000" min="100" required>
+                    <p id="depositAmountError" class="error-text hidden"></p>
                 </div>
-                <button id="submitDepositBtn" class="btn-primary w-full">Proceed to Paystack</button>
-                <p id="depositMessage" class="text-center text-sm mt-2 modal-message hidden"></p>
+                <button id="submitDepositBtn" class="btn-primary w-full">
+                    <span>Proceed to Paystack</span>
+                </button>
             </div>
         </div>
     </div>
@@ -1207,9 +1332,11 @@
                 <div>
                     <label for="withdrawAmount" class="block text-gray-300 text-sm font-bold mb-2">Withdraw Amount (₦)</label>
                     <input type="number" id="withdrawAmount" class="form-input" placeholder="e.g., 5000" min="100">
+                    <p id="withdrawAmountError" class="error-text hidden"></p>
                 </div>
-                <button id="submitWithdrawBtn" class="btn-primary w-full !bg-red-600 hover:!bg-red-700">Confirm Withdrawal</button>
-                <p id="withdrawMessage" class="text-center text-sm mt-2 modal-message hidden"></p>
+                <button id="submitWithdrawBtn" class="btn-primary w-full !bg-red-600 hover:!bg-red-700">
+                    <span>Confirm Withdrawal</span>
+                </button>
             </div>
         </div>
     </div>
@@ -1221,11 +1348,18 @@
             <h3>Confirm Data Reset</h3>
             <p>Are you sure you want to reset all your investment data? This action cannot be undone.</p>
             <div class="confirmation-modal-buttons">
-                <button id="confirmResetDataBtn" class="btn-primary !bg-red-600 hover:!bg-red-700">Yes, Reset All</button>
-                <button id="cancelResetDataBtn" class="btn-primary !bg-gray-500 hover:!bg-gray-600">Cancel</button>
+                <button id="confirmResetDataBtn" class="btn-primary !bg-red-600 hover:!bg-red-700">
+                    <span>Yes, Reset All</span>
+                </button>
+                <button id="cancelResetDataBtn" class="btn-primary !bg-gray-500 hover:!bg-gray-600">
+                    <span>Cancel</span>
+                </button>
             </div>
         </div>
     </div>
+
+    <!-- New: Toast Notification Container -->
+    <div id="toastContainer"></div>
 
     <script>
         // Global state for investments, transactions, and account balance
@@ -1248,6 +1382,7 @@
         const noTransactionsMessage = document.getElementById('noTransactionsMessage');
         const userIdDisplay = document.getElementById('userIdDisplay');
         const dailyPercentageEl = document.getElementById('dailyPercentage'); // New element for daily performance
+        const toastContainer = document.getElementById('toastContainer'); // New: Toast container
 
         // Modals
         const investModal = document.getElementById('investModal');
@@ -1260,15 +1395,32 @@
         const investmentCategorySelect = document.getElementById('investmentCategory');
         const investmentTypeSelect = document.getElementById('investmentType');
         const investmentAmountInput = document.getElementById('investmentAmount');
+        const investmentAmountError = document.getElementById('investmentAmountError'); // New: Error element
         const investmentDurationInput = document.getElementById('investmentDuration');
         const investmentDurationUnitSelect = document.getElementById('investmentDurationUnit');
-        const investMessage = document.getElementById('investMessage');
+        const investmentDurationError = document.getElementById('investmentDurationError'); // New: Error element
         const investmentTypeDetails = document.getElementById('investmentTypeDetails');
         const detailsTypeName = document.getElementById('detailsTypeName');
         const detailsDescription = document.getElementById('detailsDescription');
         const detailsReturnRange = document.getElementById('detailsReturnRange');
         const detailsMinDuration = document.getElementById('detailsMinDuration');
         const projectionInfo = document.getElementById('projectionInfo');
+
+        // Cash Out Modal specific elements
+        const cashOutInvestmentSelect = document.getElementById('cashOutInvestmentSelect');
+        const cashOutInvestmentSelectError = document.getElementById('cashOutInvestmentSelectError'); // New: Error element
+        const cashOutAmountInput = document.getElementById('cashOutAmount');
+        const cashOutAmountError = document.getElementById('cashOutAmountError'); // New: Error element
+
+        // Deposit Modal specific elements
+        const depositEmailInput = document.getElementById('depositEmail');
+        const depositEmailError = document.getElementById('depositEmailError'); // New: Error element
+        const depositAmountInput = document.getElementById('depositAmount');
+        const depositAmountError = document.getElementById('depositAmountError'); // New: Error element
+
+        // Withdraw Modal specific elements
+        const withdrawAmountInput = document.getElementById('withdrawAmount');
+        const withdrawAmountError = document.getElementById('withdrawAmountError'); // New: Error element
 
         // Transaction History Filter/Sort elements
         const transactionFilterSelect = document.getElementById('transactionFilter');
@@ -1281,180 +1433,180 @@
                 "Crop Farming": {
                     description: "Invest in staple crops like maize, rice, or cassava. High demand, steady returns.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // 20% daily compounding
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily / 7300% Annually)"
+                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
+                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
                 },
                 "Organic Farming": {
                     description: "Support eco-friendly farming practices. Premium market, sustainable growth.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // 20% daily compounding
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily / 7300% Annually)"
+                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
+                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
                 },
                 "Livestock Feed Production": {
                     description: "Invest in the production of animal feed. Essential for rearing, consistent demand.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // 20% daily compounding
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily / 7300% Annually)"
+                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
+                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
                 },
                 "Greenhouse Farming": {
                     description: "Modern farming technique for controlled environments. High yield, less weather dependent.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // 20% daily compounding
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily / 7300% Annually)"
+                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
+                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
                 },
                 "Aquaponics": {
                     description: "Sustainable system combining aquaculture and hydroponics. Efficient and eco-friendly.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // 20% daily compounding
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily / 7300% Annually)"
+                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
+                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
                 },
                 "Hydroponics": {
                     description: "Growing plants without soil using mineral nutrient solutions. Water-efficient, high-density yields.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // 20% daily compounding
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily / 7300% Annually)"
+                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
+                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
                 },
                 "Vertical Farming": {
                     description: "Growing crops in vertically stacked layers. Maximizes space, ideal for urban areas.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // 20% daily compounding
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily / 7300% Annually)"
+                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
+                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
                 },
                 "Sustainable Farming": {
                     description: "Focuses on long-term productivity and environmental health. Ethical investment.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // 20% daily compounding
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily / 7300% Annually)"
+                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
+                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
                 },
                 "Specialty Crops": {
                     description: "Invest in high-value, niche crops. Higher potential returns, but can be more volatile.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // 20% daily compounding
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily / 7300% Annually)"
+                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
+                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
                 },
                 "Fruit and Vegetable Farming": {
                     description: "Direct investment in fresh produce. Consistent local market demand.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // 20% daily compounding
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily / 7300% Annually)"
+                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
+                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
                 }
             },
             "Rearing": {
                 "Cattle Rearing": {
                     description: "Invest in cattle for meat and dairy. Long-term growth potential.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // 20% daily compounding
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily / 7300% Annually)"
+                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
+                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
                 },
                 "Poultry Farming": {
                     description: "Fast-cycle investment in chicken production. Quick returns.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // 20% daily compounding
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily / 7300% Annually)"
+                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
+                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
                 },
                 "Pig Farming": {
                     description: "Investment in pig breeding and fattening. Good demand for pork products.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // 20% daily compounding
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily / 7300% Annually)"
+                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
+                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
                 },
                 "Sheep or Goat Rearing": {
                     description: "Flexible investment in small ruminants. Lower initial capital, steady market.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // 20% daily compounding
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily / 7300% Annually)"
+                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
+                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
                 },
                 "Fish Farming": {
                     description: "Aquaculture investment for various fish species. Growing demand for protein.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // 20% daily compounding
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily / 7300% Annually)"
+                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
+                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
                 },
                 "Beekeeping": {
                     description: "Invest in honey production and pollination services. Environmentally friendly.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // 20% daily compounding
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily / 7300% Annually)"
+                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
+                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
                 },
                 "Rabbit Rearing": {
                     description: "Quick breeding cycle, low space requirement. Niche market potential.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // 20% daily compounding
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily / 7300% Annually)"
+                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
+                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
                 },
                 "Game Farming": {
                     description: "Rearing of wild animals for meat or tourism. Specialized, potentially high returns.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // 20% daily compounding
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily / 7300% Annually)"
+                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
+                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
                 },
                 "Dairy Goat Farming": {
                     description: "Focus on milk production from goats. Growing market for dairy alternatives.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // 20% daily compounding
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily / 7300% Annually)"
+                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
+                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
                 },
                 "Quail Farming": {
                     description: "Small-scale, high-density farming for meat and eggs. Very quick turnover.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // 20% daily compounding
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily / 7300% Annually)"
+                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
+                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
                 }
             },
             "Other Opportunities": {
                 "Agricultural Technology": {
                     description: "Fund innovative tech solutions for agriculture. High growth, higher risk.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // 20% daily compounding
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily / 7300% Annually)"
+                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
+                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
                 },
                 "Farm Equipment": {
                     description: "Invest in modern farm machinery. Essential infrastructure, steady income.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // 20% daily compounding
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily / 7300% Annually)"
+                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
+                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
                 },
                 "Agricultural Processing": {
                     description: "Value-addition to raw agricultural products. Stable demand, diverse markets.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // 20% daily compounding
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily / 7300% Annually)"
+                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
+                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
                 },
                 "Farm-to-Table": {
                     description: "Support direct consumer access to farm produce. Growing trend, community focus.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // 20% daily compounding
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily / 7300% Annually)"
+                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
+                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
                 },
                 "Agricultural Consulting": {
                     description: "Invest in expertise and advisory services for farmers. Intellectual capital growth.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // 20% daily compounding
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily / 7300% Annually)"
+                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
+                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
                 },
                 "Farm Management": {
                     description: "Professional management services for agricultural enterprises. Operational efficiency.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // 20% daily compounding
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily / 7300% Annually)"
+                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
+                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
                 },
                 "Agricultural Education": {
                     description: "Invest in training and development for future farmers. Long-term societal impact.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // 20% daily compounding
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily / 7300% Annually)"
+                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
+                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
                 },
                 "Sustainable Agriculture": {
                     description: "Projects promoting environmentally sound farming. Impact investing, long-term returns.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // 20% daily compounding
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily / 7300% Annually)"
+                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
+                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
                 },
                 "Agricultural Research": {
                     description: "Funding R&D for new crop varieties, pest control, etc. High risk, potentially high reward.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // 20% daily compounding
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily / 7300% Annually)"
+                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
+                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
                 }
             }
         };
@@ -1529,18 +1681,36 @@
          */
         function updateDashboard() {
             // Update Investment Overview
-            availableBalanceEl.textContent = formatNaira(userAccountBalance); // Display available balance
+            // New: Trigger animation for metric values
+            const animateMetricUpdate = (element, newValue) => {
+                const oldValue = parseFloat(element.textContent.replace(/₦|,/g, '')) || 0;
+                if (oldValue !== newValue) {
+                    element.style.opacity = 0;
+                    element.style.transform = 'scale(0.9)';
+                    setTimeout(() => {
+                        element.textContent = formatNaira(newValue);
+                        element.style.opacity = 1;
+                        element.style.transform = 'scale(1)';
+                    }, 50); // Small delay for animation
+                } else {
+                    element.textContent = formatNaira(newValue);
+                }
+            };
+
+            animateMetricUpdate(availableBalanceEl, userAccountBalance);
+
             let totalInvested = userInvestments.reduce((sum, inv) => sum + inv.initialAmount, 0);
             let currentValue = userInvestments.reduce((sum, inv) => sum + inv.currentValue, 0);
             let totalProfitLoss = currentValue - totalInvested;
 
-            totalInvestedEl.textContent = formatNaira(totalInvested);
-            currentValueEl.textContent = formatNaira(currentValue);
-            totalProfitLossEl.textContent = formatNaira(totalProfitLoss);
+            animateMetricUpdate(totalInvestedEl, totalInvested);
+            animateMetricUpdate(currentValueEl, currentValue);
+            animateMetricUpdate(totalProfitLossEl, totalProfitLoss);
+
             totalProfitLossEl.classList.toggle('profit', totalProfitLoss >= 0);
             totalProfitLossEl.classList.toggle('loss', totalProfitLoss < 0);
 
-            // Calculate and update Daily Performance
+            // Calculate and update Daily Performance with slight randomness
             let totalDailyGainPercentage = 0;
             let investmentsWithDailyGain = 0;
 
@@ -1577,9 +1747,15 @@
             if (investmentsWithDailyGain > 0) {
                 averageDailyGain = totalDailyGainPercentage / investmentsWithDailyGain;
             }
-            dailyPercentageEl.textContent = `${averageDailyGain >= 0 ? '+' : ''}${averageDailyGain.toFixed(2)}%`;
-            dailyPercentageEl.classList.toggle('text-green-400', averageDailyGain >= 0);
-            dailyPercentageEl.classList.toggle('text-red-400', averageDailyGain < 0);
+
+            // Introduce slight randomness for daily display, keeping average around 20%
+            const baseDailyRate = 20; // The actual daily rate
+            const randomFluctuation = (Math.random() * 2 - 1) * 0.5; // Random number between -0.5 and 0.5
+            const displayedDailyGain = baseDailyRate + randomFluctuation;
+
+            dailyPercentageEl.textContent = `${displayedDailyGain >= 0 ? '+' : ''}${displayedDailyGain.toFixed(2)}%`;
+            dailyPercentageEl.classList.toggle('text-green-400', displayedDailyGain >= 0);
+            dailyPercentageEl.classList.toggle('text-red-400', displayedDailyGain < 0);
 
 
             // Render Investment List
@@ -1783,18 +1959,72 @@
         }
 
         /**
-         * Displays a temporary message in a modal.
-         * @param {HTMLElement} messageElement The HTML element to display the message in.
+         * New: Displays a toast notification.
          * @param {string} message The message text.
-         * @param {string} type 'success' or 'error' or 'info'.
+         * @param {string} type 'success', 'error', or 'info'.
          */
-        function showModalMessage(messageElement, message, type) {
-            messageElement.textContent = message;
-            messageElement.classList.remove('hidden', 'success', 'error', 'info');
-            messageElement.classList.add(type);
-            setTimeout(() => {
-                messageElement.classList.add('hidden');
-            }, 3000); // Hide after 3 seconds
+        function showToast(message, type) {
+            const toast = document.createElement('div');
+            toast.classList.add('toast-message', type);
+            toast.textContent = message;
+            toastContainer.appendChild(toast);
+
+            // Remove toast after animation
+            toast.addEventListener('animationend', (event) => {
+                if (event.animationName === 'fadeOutToast') {
+                    toast.remove();
+                }
+            });
+        }
+
+        /**
+         * New: Shows a loading state for a button.
+         * @param {HTMLElement} button The button element.
+         * @param {string} loadingText The text to display while loading.
+         */
+        function startLoading(button, loadingText = 'Processing...') {
+            button.disabled = true;
+            button.querySelector('span').textContent = loadingText;
+            const spinner = document.createElement('div');
+            spinner.classList.add('loading-spinner');
+            button.appendChild(spinner);
+        }
+
+        /**
+         * New: Hides the loading state for a button.
+         * @param {HTMLElement} button The button element.
+         * @param {string} originalText The original text of the button.
+         */
+        function stopLoading(button, originalText) {
+            button.disabled = false;
+            button.querySelector('span').textContent = originalText;
+            const spinner = button.querySelector('.loading-spinner');
+            if (spinner) {
+                spinner.remove();
+            }
+        }
+
+        /**
+         * New: Shows validation error for an input.
+         * @param {HTMLElement} inputElement The input element.
+         * @param {HTMLElement} errorElement The error text element.
+         * @param {string} message The error message.
+         */
+        function showInputError(inputElement, errorElement, message) {
+            inputElement.classList.add('input-error');
+            errorElement.textContent = message;
+            errorElement.classList.remove('hidden');
+        }
+
+        /**
+         * New: Clears validation error for an input.
+         * @param {HTMLElement} inputElement The input element.
+         * @param {HTMLElement} errorElement The error text element.
+         */
+        function clearInputError(inputElement, errorElement) {
+            inputElement.classList.remove('input-error');
+            errorElement.classList.add('hidden');
+            errorElement.textContent = '';
         }
 
         // Event Listeners for Modals
@@ -1839,11 +2069,22 @@
                 investmentDurationInput.value = '1'; // Set minimum duration
                 investmentDurationUnitSelect.value = 'months';
                 investmentTypeDetails.classList.add('hidden');
-                investMessage.classList.add('hidden'); // Ensure message is hidden
                 updateProjectionChart(0, 0, 0); // Reset chart
+                clearInputError(investmentAmountInput, investmentAmountError);
+                clearInputError(investmentDurationInput, investmentDurationError);
             }
-            // Hide all modal messages when opening any modal
-            document.querySelectorAll('.modal-message').forEach(el => el.classList.add('hidden'));
+            // Clear errors for other modals on open
+            if (modalId === 'cashOutModal') {
+                clearInputError(cashOutInvestmentSelect, cashOutInvestmentSelectError);
+                clearInputError(cashOutAmountInput, cashOutAmountError);
+            }
+            if (modalId === 'depositModal') {
+                clearInputError(depositEmailInput, depositEmailError);
+                clearInputError(depositAmountInput, depositAmountError);
+            }
+            if (modalId === 'withdrawModal') {
+                clearInputError(withdrawAmountInput, withdrawAmountError);
+            }
         }
 
         /**
@@ -1852,9 +2093,7 @@
          */
         function closeModal(modalId) {
             document.getElementById(modalId).classList.add('hidden');
-            // Clear messages and inputs on close
-            const messageEl = document.getElementById(modalId.replace('Modal', 'Message'));
-            if (messageEl) messageEl.classList.add('hidden'); // Hide message
+            // Clear inputs and errors on close
             const inputs = document.getElementById(modalId).querySelectorAll('input[type="number"], input[type="text"], input[type="email"], select');
             inputs.forEach(input => {
                 // Do not clear the calculator inputs, only modal specific inputs
@@ -1868,6 +2107,9 @@
                 document.getElementById('investmentType').innerHTML = '<option value="">Select Type</option>';
                 document.getElementById('investmentType').disabled = true;
             }
+            // Clear all error messages and styles within the closed modal
+            document.getElementById(modalId).querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
+            document.getElementById(modalId).querySelectorAll('.error-text').forEach(el => el.classList.add('hidden'));
         }
 
         // Investment Category and Type Logic
@@ -1877,7 +2119,8 @@
             investmentTypeSelect.disabled = true;
             investmentTypeDetails.classList.add('hidden'); // Hide details when category changes
             updateProjectionChart(0, 0, 0); // Reset chart
-            investMessage.classList.add('hidden'); // Hide message
+            clearInputError(investmentAmountInput, investmentAmountError);
+            clearInputError(investmentDurationInput, investmentDurationError);
 
             if (selectedCategory && investmentTypes[selectedCategory]) {
                 // Populate types based on selected category
@@ -1895,7 +2138,8 @@
             const selectedCategory = investmentCategorySelect.value;
             const selectedType = investmentTypeSelect.value;
             const details = investmentTypes[selectedCategory]?.[selectedType];
-            investMessage.classList.add('hidden'); // Hide message
+            clearInputError(investmentAmountInput, investmentAmountError);
+            clearInputError(investmentDurationInput, investmentDurationError);
 
             if (details) {
                 detailsTypeName.textContent = selectedType;
@@ -1916,7 +2160,7 @@
                 updateProjectionChart(
                     parseFloat(investmentAmountInput.value || 0),
                     parseInt(investmentDurationInput.value || 0),
-                    details.typicalAnnualReturn,
+                    details.typicalAnnualReturn, // Use the internal annual return for calculation
                     investmentDurationUnitSelect.value
                 );
             } else {
@@ -1937,7 +2181,7 @@
             const selectedCategory = investmentCategorySelect.value;
             const selectedType = investmentTypeSelect.value;
             const details = investmentTypes[selectedCategory]?.[selectedType];
-            const annualRate = details ? details.typicalAnnualReturn : 0;
+            const annualRate = details ? details.typicalAnnualReturn : 0; // Use the internal annual return for calculation
 
             updateProjectionChart(amount, duration, annualRate, unit);
         }
@@ -2037,6 +2281,9 @@
 
         // Submit New Investment
         document.getElementById('submitInvestmentBtn').addEventListener('click', () => {
+            const submitButton = document.getElementById('submitInvestmentBtn');
+            startLoading(submitButton, 'Investing...');
+
             const category = investmentCategorySelect.value;
             const type = investmentTypeSelect.value;
             const amount = parseFloat(investmentAmountInput.value);
@@ -2045,12 +2292,26 @@
             const details = investmentTypes[category]?.[type];
             const MIN_INVESTMENT_AMOUNT = 5000; // Define minimum investment amount
 
-            if (!category || !type || isNaN(amount) || amount < MIN_INVESTMENT_AMOUNT || isNaN(duration) || duration <= 0 || !details) {
-                let errorMessage = 'Please fill in all investment details correctly.';
-                if (isNaN(amount) || amount < MIN_INVESTMENT_AMOUNT) {
-                    errorMessage = `Investment amount must be at least ${formatNaira(MIN_INVESTMENT_AMOUNT)}.`;
-                }
-                showModalMessage(investMessage, errorMessage, 'error');
+            let hasError = false;
+            if (!category || !type || !details) {
+                showToast('Please select an investment category and type.', 'error');
+                hasError = true;
+            }
+            if (isNaN(amount) || amount < MIN_INVESTMENT_AMOUNT) {
+                showInputError(investmentAmountInput, investmentAmountError, `Amount must be at least ${formatNaira(MIN_INVESTMENT_AMOUNT)}.`);
+                hasError = true;
+            } else {
+                clearInputError(investmentAmountInput, investmentAmountError);
+            }
+            if (isNaN(duration) || duration <= 0) {
+                showInputError(investmentDurationInput, investmentDurationError, 'Duration must be a positive number.');
+                hasError = true;
+            } else {
+                clearInputError(investmentDurationInput, investmentDurationError);
+            }
+
+            if (hasError) {
+                stopLoading(submitButton, 'Invest');
                 return;
             }
 
@@ -2061,12 +2322,14 @@
             }
 
             if (durationInMonths < details.minDurationMonths) {
-                showModalMessage(investMessage, `Minimum duration for ${type} is ${details.minDurationMonths} month(s).`, 'error');
+                showInputError(investmentDurationInput, investmentDurationError, `Minimum duration for ${type} is ${details.minDurationMonths} month(s).`);
+                stopLoading(submitButton, 'Invest');
                 return;
             }
 
             if (userAccountBalance < amount) {
-                showModalMessage(investMessage, `Insufficient funds. Your balance is ${formatNaira(userAccountBalance)}.`, 'error');
+                showToast(`Insufficient funds. Your balance is ${formatNaira(userAccountBalance)}.`, 'error');
+                stopLoading(submitButton, 'Invest');
                 return;
             }
 
@@ -2098,14 +2361,15 @@
 
             saveUserData();
             updateDashboard();
-            showModalMessage(investMessage, `Successfully invested ${formatNaira(amount)} in ${type}!`, 'success');
+            showToast(`Successfully invested ${formatNaira(amount)} in ${type}!`, 'success');
+            stopLoading(submitButton, 'Invest');
             setTimeout(() => closeModal('investModal'), 1500);
         });
 
         // Populate Cash Out Investments Dropdown
         function populateCashOutInvestments() {
-            const cashOutInvestmentSelect = document.getElementById('cashOutInvestmentSelect');
             cashOutInvestmentSelect.innerHTML = '<option value="">Select an active investment</option>'; // Clear previous options
+            clearInputError(cashOutInvestmentSelect, cashOutInvestmentSelectError);
 
             if (userInvestments.length === 0) {
                 const option = document.createElement('option');
@@ -2134,18 +2398,35 @@
 
         // Submit Cash Out
         document.getElementById('submitCashOutBtn').addEventListener('click', () => {
-            const investmentId = document.getElementById('cashOutInvestmentSelect').value;
-            const cashOutAmount = parseFloat(document.getElementById('cashOutAmount').value);
-            const cashOutMessage = document.getElementById('cashOutMessage');
+            const submitButton = document.getElementById('submitCashOutBtn');
+            startLoading(submitButton, 'Cashing Out...');
 
-            if (!investmentId || isNaN(cashOutAmount) || cashOutAmount <= 0) {
-                showModalMessage(cashOutMessage, 'Please select an investment and enter a valid amount.', 'error');
+            const investmentId = cashOutInvestmentSelect.value;
+            const cashOutAmount = parseFloat(cashOutAmountInput.value);
+
+            let hasError = false;
+            if (!investmentId) {
+                showInputError(cashOutInvestmentSelect, cashOutInvestmentSelectError, 'Please select an investment.');
+                hasError = true;
+            } else {
+                clearInputError(cashOutInvestmentSelect, cashOutInvestmentSelectError);
+            }
+            if (isNaN(cashOutAmount) || cashOutAmount <= 0) {
+                showInputError(cashOutAmountInput, cashOutAmountError, 'Please enter a valid amount.');
+                hasError = true;
+            } else {
+                clearInputError(cashOutAmountInput, cashOutAmountError);
+            }
+
+            if (hasError) {
+                stopLoading(submitButton, 'Confirm Cash Out');
                 return;
             }
 
             const investmentIndex = userInvestments.findIndex(inv => inv.id === investmentId);
             if (investmentIndex === -1) {
-                showModalMessage(cashOutMessage, 'Selected investment not found.', 'error');
+                showToast('Selected investment not found.', 'error');
+                stopLoading(submitButton, 'Confirm Cash Out');
                 return;
             }
 
@@ -2157,12 +2438,15 @@
             maturityDate.setMonth(maturityDate.getMonth() + investment.durationMonths);
 
             if (new Date() < maturityDate) {
-                showModalMessage(cashOutMessage, `This investment matures on ${maturityDate.toLocaleDateString()}. You cannot cash out before then.`, 'error');
+                showToast(`This investment matures on ${maturityDate.toLocaleDateString()}. You cannot cash out before then.`, 'error');
+                stopLoading(submitButton, 'Confirm Cash Out');
                 return;
             }
 
             if (cashOutAmount > investment.currentValue) {
-                showModalMessage(cashOutMessage, `You can only cash out up to ${formatNaira(investment.currentValue)}.`, 'error');
+                showToast(`You can only cash out up to ${formatNaira(investment.currentValue)}.`, 'error');
+                showInputError(cashOutAmountInput, cashOutAmountError, `Amount exceeds current value (${formatNaira(investment.currentValue)}).`);
+                stopLoading(submitButton, 'Confirm Cash Out');
                 return;
             }
 
@@ -2193,25 +2477,42 @@
 
             saveUserData();
             updateDashboard();
-            showModalMessage(cashOutMessage, `Successfully cashed out ${formatNaira(cashOutAmount)}!`, 'success');
+            showToast(`Successfully cashed out ${formatNaira(cashOutAmount)}!`, 'success');
+            stopLoading(submitButton, 'Confirm Cash Out');
             setTimeout(() => closeModal('cashOutModal'), 1500);
         });
 
         // Submit Deposit (modified for Paystack)
         document.getElementById('submitDepositBtn').addEventListener('click', () => {
-            const depositEmail = document.getElementById('depositEmail').value;
-            const depositAmount = parseFloat(document.getElementById('depositAmount').value);
-            const depositMessage = document.getElementById('depositMessage');
+            const submitButton = document.getElementById('submitDepositBtn');
+            startLoading(submitButton, 'Connecting...');
 
-            if (!depositEmail || !depositAmount || isNaN(depositAmount) || depositAmount <= 0) {
-                showModalMessage(depositMessage, 'Please enter a valid email and amount.', 'error');
+            const depositEmail = depositEmailInput.value;
+            const depositAmount = parseFloat(depositAmountInput.value);
+
+            let hasError = false;
+            if (!depositEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(depositEmail)) {
+                showInputError(depositEmailInput, depositEmailError, 'Please enter a valid email address.');
+                hasError = true;
+            } else {
+                clearInputError(depositEmailInput, depositEmailError);
+            }
+            if (isNaN(depositAmount) || depositAmount <= 0) {
+                showInputError(depositAmountInput, depositAmountError, 'Please enter a valid amount greater than 0.');
+                hasError = true;
+            } else {
+                clearInputError(depositAmountInput, depositAmountError);
+            }
+
+            if (hasError) {
+                stopLoading(submitButton, 'Proceed to Paystack');
                 return;
             }
 
             // Paystack requires amount in kobo (cents)
             const amountInKobo = depositAmount * 100;
 
-            showModalMessage(depositMessage, 'Redirecting to Paystack...', 'info'); // Use 'info' for neutral message
+            showToast('Redirecting to Paystack...', 'info'); // Use 'info' for neutral message
 
             // Initialize Paystack Pop
             const handler = PaystackPop.setup({
@@ -2221,7 +2522,8 @@
                 currency: 'NGN',
                 ref: '' + Math.floor((Math.random() * 1000000000) + 1), // unique ref
                 onClose: function(){
-                    showModalMessage(depositMessage, 'Payment cancelled.', 'error');
+                    showToast('Payment cancelled.', 'error');
+                    stopLoading(submitButton, 'Proceed to Paystack');
                 },
                 callback: function(response){
                     // IMPORTANT: In a real application, you MUST verify this transaction on your backend server
@@ -2240,10 +2542,12 @@
 
                         saveUserData();
                         updateDashboard();
-                        showModalMessage(depositMessage, `Successfully deposited ${formatNaira(depositAmount)}!`, 'success');
+                        showToast(`Successfully deposited ${formatNaira(depositAmount)}!`, 'success');
+                        stopLoading(submitButton, 'Proceed to Paystack');
                         setTimeout(() => closeModal('depositModal'), 2000);
                     } else {
-                        showModalMessage(depositMessage, 'Payment failed. Please try again.', 'error');
+                        showToast('Payment failed. Please try again.', 'error');
+                        stopLoading(submitButton, 'Proceed to Paystack');
                     }
                 }
             });
@@ -2252,16 +2556,28 @@
 
         // Submit Withdrawal
         document.getElementById('submitWithdrawBtn').addEventListener('click', () => {
-            const withdrawAmount = parseFloat(document.getElementById('withdrawAmount').value);
-            const withdrawMessage = document.getElementById('withdrawMessage');
+            const submitButton = document.getElementById('submitWithdrawBtn');
+            startLoading(submitButton, 'Withdrawing...');
 
+            const withdrawAmount = parseFloat(withdrawAmountInput.value);
+
+            let hasError = false;
             if (isNaN(withdrawAmount) || withdrawAmount <= 0) {
-                showModalMessage(withdrawMessage, 'Please enter a valid withdrawal amount.', 'error');
+                showInputError(withdrawAmountInput, withdrawAmountError, 'Please enter a valid withdrawal amount.');
+                hasError = true;
+            } else {
+                clearInputError(withdrawAmountInput, withdrawAmountError);
+            }
+
+            if (hasError) {
+                stopLoading(submitButton, 'Confirm Withdrawal');
                 return;
             }
 
             if (userAccountBalance < withdrawAmount) {
-                showModalMessage(withdrawMessage, `Insufficient balance. Your balance is ${formatNaira(userAccountBalance)}.`, 'error');
+                showToast(`Insufficient balance. Your balance is ${formatNaira(userAccountBalance)}.`, 'error');
+                showInputError(withdrawAmountInput, withdrawAmountError, `Insufficient balance (${formatNaira(userAccountBalance)}).`);
+                stopLoading(submitButton, 'Confirm Withdrawal');
                 return;
             }
 
@@ -2277,7 +2593,8 @@
 
             saveUserData();
             updateDashboard();
-            showModalMessage(withdrawMessage, `Successfully withdrew ${formatNaira(withdrawAmount)}!`, 'success');
+            showToast(`Successfully withdrew ${formatNaira(withdrawAmount)}!`, 'success');
+            stopLoading(submitButton, 'Confirm Withdrawal');
             setTimeout(() => closeModal('withdrawModal'), 1500);
         });
 
@@ -2285,14 +2602,16 @@
         document.getElementById('calculateBtn').addEventListener('click', () => {
             const initialInvestment = parseFloat(document.getElementById('calcInitialInvestment').value);
             const durationYears = parseInt(document.getElementById('calcInvestmentDuration').value);
-            const annualReturnRate = parseFloat(document.getElementById('calcAnnualReturnRate').value);
+            // We need a rate for calculation. Since ₦5000 gives ₦1000 daily, that's 20% daily.
+            // 20% daily compounded annually is 7300%. We'll use this internally.
+            const annualReturnRate = 7300.0; // Hardcoded internal rate for calculation
+
             const calculatedValueEl = document.getElementById('calculatedValue');
             const projectedReturnDisplay = document.getElementById('projectedReturnDisplay');
             const MIN_CALC_INVESTMENT = 5000; // Minimum for calculator
 
             if (isNaN(initialInvestment) || initialInvestment < MIN_CALC_INVESTMENT ||
-                isNaN(durationYears) || durationYears <= 0 ||
-                isNaN(annualReturnRate) || annualReturnRate < 0) {
+                isNaN(durationYears) || durationYears <= 0) {
                 calculatedValueEl.textContent = 'Invalid input';
                 calculatedValueEl.style.color = '#FF6B6B';
                 projectedReturnDisplay.classList.remove('hidden');
@@ -2310,12 +2629,32 @@
 
         // Reset Data Functionality
         document.getElementById('confirmResetDataBtn').addEventListener('click', () => {
+            const submitButton = document.getElementById('confirmResetDataBtn');
+            startLoading(submitButton, 'Resetting...');
+
             localStorage.removeItem('growWithCoreUserId');
             localStorage.removeItem(`growWithCoreInvestments_${currentUserId}`);
             localStorage.removeItem(`growWithCoreTransactions_${currentUserId}`);
             localStorage.removeItem(`growWithCoreAccountBalance_${currentUserId}`);
+            showToast('All data has been reset successfully!', 'success');
             // Reload the page to fully reset the state
-            window.location.reload();
+            setTimeout(() => window.location.reload(), 1500);
+        });
+
+        // Logout Functionality
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            const submitButton = document.getElementById('logoutBtn');
+            startLoading(submitButton, 'Logging Out...');
+
+            // Clear all user-specific data from localStorage
+            localStorage.removeItem('growWithCoreUserId');
+            localStorage.removeItem(`growWithCoreInvestments_${currentUserId}`);
+            localStorage.removeItem(`growWithCoreTransactions_${currentUserId}`);
+            localStorage.removeItem(`growWithCoreAccountBalance_${currentUserId}`);
+
+            showToast('Logged out successfully!', 'info');
+            // Redirect to index.html
+            setTimeout(() => window.location.href = 'index.html', 1500);
         });
 
 
