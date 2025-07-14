@@ -1268,9 +1268,11 @@
                 <div class="p-2 sm:p-4 flex-grow flex items-center justify-center">
                     <canvas id="investmentProjectionChart"></canvas>
                 </div>
+                <!-- New: Clarifying label for the projection chart -->
                 <p class="text-sm text-gray-400 text-center mt-2 sm:mt-4" id="projectionInfo">
                     Adjust amount and duration to see your potential growth.
                 </p>
+                <p class="text-xs text-gray-500 text-center mt-2" id="projectionBasisLabel"></p>
             </div>
         </div>
     </div>
@@ -1405,6 +1407,7 @@
         const detailsReturnRange = document.getElementById('detailsReturnRange');
         const detailsMinDuration = document.getElementById('detailsMinDuration');
         const projectionInfo = document.getElementById('projectionInfo');
+        const projectionBasisLabel = document.getElementById('projectionBasisLabel'); // New: For clarifying label
 
         // Cash Out Modal specific elements
         const cashOutInvestmentSelect = document.getElementById('cashOutInvestmentSelect');
@@ -2072,6 +2075,7 @@
                 updateProjectionChart(0, 0, 0); // Reset chart
                 clearInputError(investmentAmountInput, investmentAmountError);
                 clearInputError(investmentDurationInput, investmentDurationError);
+                projectionBasisLabel.textContent = ''; // Clear the basis label on open
             }
             // Clear errors for other modals on open
             if (modalId === 'cashOutModal') {
@@ -2106,6 +2110,7 @@
                 document.getElementById('investmentCategory').value = '';
                 document.getElementById('investmentType').innerHTML = '<option value="">Select Type</option>';
                 document.getElementById('investmentType').disabled = true;
+                projectionBasisLabel.textContent = ''; // Clear the basis label on close
             }
             // Clear all error messages and styles within the closed modal
             document.getElementById(modalId).querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
@@ -2121,6 +2126,7 @@
             updateProjectionChart(0, 0, 0); // Reset chart
             clearInputError(investmentAmountInput, investmentAmountError);
             clearInputError(investmentDurationInput, investmentDurationError);
+            projectionBasisLabel.textContent = ''; // Clear the basis label
 
             if (selectedCategory && investmentTypes[selectedCategory]) {
                 // Populate types based on selected category
@@ -2161,11 +2167,13 @@
                     parseFloat(investmentAmountInput.value || 0),
                     parseInt(investmentDurationInput.value || 0),
                     details.typicalAnnualReturn, // Use the internal annual return for calculation
-                    investmentDurationUnitSelect.value
+                    investmentDurationUnitSelect.value,
+                    details.returnRange // Pass the return range for the label
                 );
             } else {
                 investmentTypeDetails.classList.add('hidden');
                 updateProjectionChart(0, 0, 0); // Reset chart
+                projectionBasisLabel.textContent = ''; // Clear the basis label
             }
         });
 
@@ -2182,18 +2190,20 @@
             const selectedType = investmentTypeSelect.value;
             const details = investmentTypes[selectedCategory]?.[selectedType];
             const annualRate = details ? details.typicalAnnualReturn : 0; // Use the internal annual return for calculation
+            const returnRangeText = details ? details.returnRange : ''; // Get the return range text
 
-            updateProjectionChart(amount, duration, annualRate, unit);
+            updateProjectionChart(amount, duration, annualRate, unit, returnRangeText);
         }
 
         // Projection Chart (for Invest Modal)
-        function updateProjectionChart(initialAmount, duration, annualRate, unit = 'months') {
+        function updateProjectionChart(initialAmount, duration, annualRate, unit = 'months', returnRangeText = '') {
             const ctx = document.getElementById('investmentProjectionChart').getContext('2d');
             let labels = [];
             let data = [];
 
             if (initialAmount > 0 && duration > 0 && annualRate > 0) {
                 projectionInfo.textContent = 'Projected growth over time.';
+                projectionBasisLabel.textContent = `Based on: ${returnRangeText}`; // Set the clarifying label
                 let currentAmount = initialAmount;
                 const dailyRate = annualRate / 365 / 100; // Convert annual percentage to daily decimal
 
@@ -2215,6 +2225,7 @@
                 }
             } else {
                 projectionInfo.textContent = 'Adjust amount and duration to see your potential growth.';
+                projectionBasisLabel.textContent = ''; // Clear the basis label if no valid input
             }
 
             if (projectionChart) {
