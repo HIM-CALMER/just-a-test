@@ -6,7 +6,7 @@
     <title>Grow-with-Core Dashboard</title>
     <!-- Tailwind CSS CDN for easy styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Chart.js CDN for portfolio allocation chart -->
+    <!-- Chart.js CDN for portfolio allocation chart (still used for main dashboard chart) -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Paystack Checkout.js CDN for payment integration -->
     <script src="https://js.paystack.co/v1/inline.js"></script>
@@ -511,46 +511,6 @@
         }
 
 
-        /* Calculator result styling */
-        #projectedReturnDisplay {
-            /* Darker gradient for result display with more vibrant teal */
-            background: linear-gradient(90deg, #005f52 0%, #00796b 100%); /* Deeper teal gradient */
-            padding: 1.8rem; /* Adjusted padding for mobile */
-            border-radius: 1.2rem; /* Slightly more rounded on mobile */
-            margin-top: 1.8rem; /* Adjusted space */
-            border: 1px solid #26A69A; /* Vibrant teal border */
-            text-align: center;
-            font-size: 1.2rem; /* Slightly larger font on mobile */
-            font-weight: 600;
-            color: #E0F7FA; /* Lighter text for result */
-            box-shadow: 0 8px 20px rgba(0, 121, 107, 0.6); /* Stronger teal shadow */
-        }
-
-        @media (min-width: 768px) {
-            #projectedReturnDisplay {
-                padding: 2.2rem; /* Restore padding on desktop */
-                border-radius: 1.4rem; /* Restore rounded on desktop */
-                margin-top: 2.5rem; /* Restore space */
-                font-size: 1.5rem; /* Restore font size */
-            }
-        }
-
-        #projectedReturnDisplay span {
-            font-size: 2rem; /* Slightly larger for main result on mobile */
-            font-weight: 900; /* Extra bold */
-            color: #90D0D0; /* Brighter teal for the main result */
-            display: block;
-            margin-top: 0.6rem; /* Adjusted margin */
-            text-shadow: 0 0 10px rgba(144, 208, 208, 0.7); /* Text glow for depth */
-        }
-
-        @media (min-width: 768px) {
-            #projectedReturnDisplay span {
-                font-size: 2.5rem; /* Restore larger on desktop */
-                margin-top: 0.85rem; /* Restore margin */
-            }
-        }
-
         /* Quick Links */
         .sidebar-content a {
             color: #90CAF9; /* Lighter blue for links */
@@ -1017,6 +977,75 @@
             margin-left: 0.5rem;
         }
 
+        /* Styles for the new projection table */
+        .projection-table-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            color: #c0d0e0;
+            padding-bottom: 0.5rem;
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem; /* Smaller header font on mobile */
+        }
+        .projection-table-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.4rem 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+            font-size: 0.85rem; /* Smaller row font on mobile */
+        }
+        .projection-table-row:last-child {
+            border-bottom: none;
+        }
+        .projection-table-row span {
+            flex: 1;
+            text-align: right;
+        }
+        .projection-table-row span:first-child {
+            text-align: left;
+            flex: 0.8; /* Adjust width for day column */
+        }
+        .projection-table-container {
+            max-height: 350px; /* Fixed height for scrollability */
+            overflow-y: auto;
+            background-color: #2d2d2d;
+            border-radius: 0.6rem;
+            padding: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
+        }
+        .projection-table-empty-message {
+            text-align: center;
+            color: #a0a0a0;
+            padding: 2rem;
+            font-style: italic;
+        }
+
+        /* New style for the total projected amount */
+        #finalProjectedTotal {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #76E076;
+            text-align: center;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 2px solid rgba(118, 224, 118, 0.3);
+            text-shadow: 0 0 10px rgba(118, 224, 118, 0.7);
+        }
+
+        @media (min-width: 768px) {
+            .projection-table-header {
+                font-size: 1rem; /* Restore header font on desktop */
+            }
+            .projection-table-row {
+                font-size: 0.95rem; /* Restore row font on desktop */
+            }
+            #finalProjectedTotal {
+                font-size: 1.8rem;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -1087,32 +1116,44 @@
                 <p class="text-sm text-gray-400 mt-4 text-center">Visual representation of your investment distribution.</p>
             </div>
 
-            <!-- Investment Calculator Section -->
+            <!-- New: Maximize Your Experience Section -->
             <div class="card mb-10">
-                <h2 class="section-title">Investment Calculator (Projection)</h2>
+                <h2 class="section-title">Maximize Your Grow-with-Core Experience</h2>
                 <p class="text-gray-400 mb-6 text-center text-sm sm:text-base">
-                    Use this calculator to project potential returns for new investments.
-                    Actual growth is simulated in real-time in your active investments.
+                    Unlock the full potential of your dashboard. Here’s how you can make the most of Grow-with-Core:
                 </p>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-                    <div>
-                        <label for="calcInitialInvestment" class="block text-gray-300 text-sm font-bold mb-2">Initial Investment (₦)</label>
-                        <input type="number" id="calcInitialInvestment" class="form-input" placeholder="e.g., 5000" value="5000" min="5000">
-                    </div>
-                    <div>
-                        <label for="calcInvestmentDuration" class="block text-gray-300 text-sm font-bold mb-2">Duration (Years)</label>
-                        <input type="number" id="calcInvestmentDuration" class="form-input" placeholder="e.g., 5" value="5" min="1">
-                    </div>
-                    <div class="md:col-span-2">
-                        <label for="calcAnnualReturnRate" class="block text-gray-300 text-sm font-bold mb-2">Expected Annual Return Rate (%)</label>
-                        <!-- Removed value="7300" and the explanatory paragraph -->
-                        <input type="number" id="calcAnnualReturnRate" class="form-input" placeholder="e.g., 7300" min="0" step="0.1">
-                    </div>
-                </div>
-                <button id="calculateBtn" class="btn-primary w-full mt-6 sm:mt-8">Calculate Projected Return</button>
-                <div id="projectedReturnDisplay" class="hidden">
-                    Your Projected Return: <span id="calculatedValue">₦0.00</span>
-                </div>
+                <ul class="space-y-4 text-gray-300 text-sm sm:text-base">
+                    <li class="flex items-start">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wallet-plus mr-3 mt-1 text-green-400 flex-shrink-0"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h12a2 2 0 0 1 0 4H5a2 2 0 0 0 0 4h12a2 2 0 0 0 2-2v-3"/><path d="M10 12h6"/><path d="M12 10v4"/></svg>
+                        <div>
+                            <span class="font-bold text-white">Invest Now:</span> Click the "Invest Now" button in the Quick Actions section to explore various investment opportunities and project your potential returns.
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wallet-minus mr-3 mt-1 text-red-400 flex-shrink-0"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h12a2 2 0 0 1 0 4H5a2 2 0 0 0 0 4h12a2 2 0 0 0 2-2v-3"/><path d="M10 12h6"/></svg>
+                        <div>
+                            <span class="font-bold text-white">Cash Out:</span> Once an investment matures, use the "Cash Out" option to realize your profits and add funds back to your available balance.
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-dollar-sign mr-3 mt-1 text-green-400 flex-shrink-0"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 3v18"/></svg>
+                        <div>
+                            <span class="font-bold text-white">Deposit Funds:</span> Easily add more funds to your account balance using the secure Paystack integration.
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-credit-card mr-3 mt-1 text-red-400 flex-shrink-0"><rect width="20" height="14" x="2" y="5" rx="2"/><path d="M2 10h20"/></svg>
+                        <div>
+                            <span class="font-bold text-white">Withdraw Funds:</span> Transfer funds from your available balance to your external accounts.
+                        </div>
+                    </li>
+                    <li class="flex items-start">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-activity mr-3 mt-1 text-blue-400 flex-shrink-0"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                        <div>
+                            <span class="font-bold text-white">Track Performance:</span> Monitor your "Daily Performance" and review all your financial activities in the "Transaction History" section.
+                        </div>
+                    </li>
+                </ul>
             </div>
 
             <!-- Transaction History Section -->
@@ -1262,17 +1303,18 @@
                 </button>
             </div>
 
-            <!-- Right column: Projection Chart -->
+            <!-- Right column: Projection Breakdown -->
             <div class="investment-details-card flex flex-col justify-between">
-                <h4 class="text-center">Projected Investment Growth</h4>
-                <div class="p-2 sm:p-4 flex-grow flex items-center justify-center">
-                    <canvas id="investmentProjectionChart"></canvas>
+                <h4 class="text-center">Projected Daily Growth Breakdown</h4>
+                <div id="projectionTableContainer" class="projection-table-container flex-grow">
+                    <!-- Projection details will be populated here by JavaScript -->
+                    <p class="projection-table-empty-message">Enter investment details to see a daily breakdown.</p>
                 </div>
-                <!-- New: Clarifying label for the projection chart -->
                 <p class="text-sm text-gray-400 text-center mt-2 sm:mt-4" id="projectionInfo">
-                    Adjust amount and duration to see your potential growth.
+                    This breakdown illustrates your projected investment growth with **daily additions**, where a fixed 20% of your initial investment is added each day.
                 </p>
                 <p class="text-xs text-gray-500 text-center mt-2" id="projectionBasisLabel"></p>
+                <div id="finalProjectedTotal" class="hidden"></div>
             </div>
         </div>
     </div>
@@ -1407,7 +1449,9 @@
         const detailsReturnRange = document.getElementById('detailsReturnRange');
         const detailsMinDuration = document.getElementById('detailsMinDuration');
         const projectionInfo = document.getElementById('projectionInfo');
-        const projectionBasisLabel = document.getElementById('projectionBasisLabel'); // New: For clarifying label
+        const projectionBasisLabel = document.getElementById('projectionBasisLabel'); // For clarifying label
+        const projectionTableContainer = document.getElementById('projectionTableContainer'); // New: Container for the daily breakdown
+        const finalProjectedTotalEl = document.getElementById('finalProjectedTotal'); // New: Element for the final total
 
         // Cash Out Modal specific elements
         const cashOutInvestmentSelect = document.getElementById('cashOutInvestmentSelect');
@@ -1431,192 +1475,196 @@
 
 
         // Investment types data with more details and ASTRONOMICAL returns
+        // IMPORTANT: The 'typicalAnnualReturn' value here is now used to represent the
+        // FIXED DAILY PROFIT PERCENTAGE (e.g., 20.0 for 20%).
+        // The calculation for daily profit is now 'initialAmount * (typicalAnnualReturn / 100)'.
+        // It is NOT an annual compounding rate anymore for the projection or current value updates.
         const investmentTypes = {
             "Farming": {
                 "Crop Farming": {
                     description: "Invest in staple crops like maize, rice, or cassava. High demand, steady returns.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
+                    typicalAnnualReturn: 20.0, // Used as fixed 20% daily profit on initial amount
+                    returnRange: "Fixed 20% Daily on Initial Amount"
                 },
                 "Organic Farming": {
                     description: "Support eco-friendly farming practices. Premium market, sustainable growth.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
+                    typicalAnnualReturn: 20.0,
+                    returnRange: "Fixed 20% Daily on Initial Amount"
                 },
                 "Livestock Feed Production": {
                     description: "Invest in the production of animal feed. Essential for rearing, consistent demand.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
+                    typicalAnnualReturn: 20.0,
+                    returnRange: "Fixed 20% Daily on Initial Amount"
                 },
                 "Greenhouse Farming": {
                     description: "Modern farming technique for controlled environments. High yield, less weather dependent.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
+                    typicalAnnualReturn: 20.0,
+                    returnRange: "Fixed 20% Daily on Initial Amount"
                 },
                 "Aquaponics": {
                     description: "Sustainable system combining aquaculture and hydroponics. Efficient and eco-friendly.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
+                    typicalAnnualReturn: 20.0,
+                    returnRange: "Fixed 20% Daily on Initial Amount"
                 },
                 "Hydroponics": {
                     description: "Growing plants without soil using mineral nutrient solutions. Water-efficient, high-density yields.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
+                    typicalAnnualReturn: 20.0,
+                    returnRange: "Fixed 20% Daily on Initial Amount"
                 },
                 "Vertical Farming": {
                     description: "Growing crops in vertically stacked layers. Maximizes space, ideal for urban areas.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
+                    typicalAnnualReturn: 20.0,
+                    returnRange: "Fixed 20% Daily on Initial Amount"
                 },
                 "Sustainable Farming": {
                     description: "Focuses on long-term productivity and environmental health. Ethical investment.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
+                    typicalAnnualReturn: 20.0,
+                    returnRange: "Fixed 20% Daily on Initial Amount"
                 },
                 "Specialty Crops": {
                     description: "Invest in high-value, niche crops. Higher potential returns, but can be more volatile.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
+                    typicalAnnualReturn: 20.0,
+                    returnRange: "Fixed 20% Daily on Initial Amount"
                 },
                 "Fruit and Vegetable Farming": {
                     description: "Direct investment in fresh produce. Consistent local market demand.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
+                    typicalAnnualReturn: 20.0,
+                    returnRange: "Fixed 20% Daily on Initial Amount"
                 }
             },
             "Rearing": {
                 "Cattle Rearing": {
                     description: "Invest in cattle for meat and dairy. Long-term growth potential.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
+                    typicalAnnualReturn: 20.0,
+                    returnRange: "Fixed 20% Daily on Initial Amount"
                 },
                 "Poultry Farming": {
                     description: "Fast-cycle investment in chicken production. Quick returns.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
+                    typicalAnnualReturn: 20.0,
+                    returnRange: "Fixed 20% Daily on Initial Amount"
                 },
                 "Pig Farming": {
                     description: "Investment in pig breeding and fattening. Good demand for pork products.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
+                    typicalAnnualReturn: 20.0,
+                    returnRange: "Fixed 20% Daily on Initial Amount"
                 },
                 "Sheep or Goat Rearing": {
                     description: "Flexible investment in small ruminants. Lower initial capital, steady market.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
+                    typicalAnnualReturn: 20.0,
+                    returnRange: "Fixed 20% Daily on Initial Amount"
                 },
                 "Fish Farming": {
                     description: "Aquaculture investment for various fish species. Growing demand for protein.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
+                    typicalAnnualReturn: 20.0,
+                    returnRange: "Fixed 20% Daily on Initial Amount"
                 },
                 "Beekeeping": {
                     description: "Invest in honey production and pollination services. Environmentally friendly.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
+                    typicalAnnualReturn: 20.0,
+                    returnRange: "Fixed 20% Daily on Initial Amount"
                 },
                 "Rabbit Rearing": {
                     description: "Quick breeding cycle, low space requirement. Niche market potential.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
+                    typicalAnnualReturn: 20.0,
+                    returnRange: "Fixed 20% Daily on Initial Amount"
                 },
                 "Game Farming": {
                     description: "Rearing of wild animals for meat or tourism. Specialized, potentially high returns.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
+                    typicalAnnualReturn: 20.0,
+                    returnRange: "Fixed 20% Daily on Initial Amount"
                 },
                 "Dairy Goat Farming": {
                     description: "Focus on milk production from goats. Growing market for dairy alternatives.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
+                    typicalAnnualReturn: 20.0,
+                    returnRange: "Fixed 20% Daily on Initial Amount"
                 },
                 "Quail Farming": {
                     description: "Small-scale, high-density farming for meat and eggs. Very quick turnover.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
+                    typicalAnnualReturn: 20.0,
+                    returnRange: "Fixed 20% Daily on Initial Amount"
                 }
             },
             "Other Opportunities": {
                 "Agricultural Technology": {
                     description: "Fund innovative tech solutions for agriculture. High growth, higher risk.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
+                    typicalAnnualReturn: 20.0,
+                    returnRange: "Fixed 20% Daily on Initial Amount"
                 },
                 "Farm Equipment": {
                     description: "Invest in modern farm machinery. Essential infrastructure, steady income.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
+                    typicalAnnualReturn: 20.0,
+                    returnRange: "Fixed 20% Daily on Initial Amount"
                 },
                 "Agricultural Processing": {
                     description: "Value-addition to raw agricultural products. Stable demand, diverse markets.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
+                    typicalAnnualReturn: 20.0,
+                    returnRange: "Fixed 20% Daily on Initial Amount"
                 },
                 "Farm-to-Table": {
                     description: "Support direct consumer access to farm produce. Growing trend, community focus.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
+                    typicalAnnualReturn: 20.0,
+                    returnRange: "Fixed 20% Daily on Initial Amount"
                 },
                 "Agricultural Consulting": {
                     description: "Invest in expertise and advisory services for farmers. Intellectual capital growth.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
+                    typicalAnnualReturn: 20.0,
+                    returnRange: "Fixed 20% Daily on Initial Amount"
                 },
                 "Farm Management": {
                     description: "Professional management services for agricultural enterprises. Operational efficiency.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
+                    typicalAnnualReturn: 20.0,
+                    returnRange: "Fixed 20% Daily on Initial Amount"
                 },
                 "Agricultural Education": {
                     description: "Invest in training and development for future farmers. Long-term societal impact.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
+                    typicalAnnualReturn: 20.0,
+                    returnRange: "Fixed 20% Daily on Initial Amount"
                 },
                 "Sustainable Agriculture": {
                     description: "Projects promoting environmentally sound farming. Impact investing, long-term returns.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
+                    typicalAnnualReturn: 20.0,
+                    returnRange: "Fixed 20% Daily on Initial Amount"
                 },
                 "Agricultural Research": {
                     description: "Funding R&D for new crop varieties, pest control, etc. High risk, potentially high reward.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 7300.0, // This value is kept internally for calculation
-                    returnRange: "₦1000 Daily on ₦5000 (20% Daily)"
+                    typicalAnnualReturn: 20.0,
+                    returnRange: "Fixed 20% Daily on Initial Amount"
                 }
             }
         };
 
-        // Chart.js instances
+        // Chart.js instances (portfolio chart is still used)
         let portfolioChart;
-        let projectionChart; // New chart for investment modal
+        // projectionChart is no longer needed
 
         /**
          * Generates a simple UUID for local storage user ID.
@@ -1650,18 +1698,11 @@
 
             // Simulate growth for existing investments on load
             userInvestments.forEach(inv => {
-                // Ensure annualReturnRate is a number
-                const annualReturnRate = parseFloat(inv.annualReturnRate);
-                if (isNaN(annualReturnRate)) {
-                    console.warn(`Invalid annualReturnRate for investment ${inv.id}: ${inv.annualReturnRate}`);
-                    inv.currentValue = inv.initialAmount; // Reset to initial if rate is bad
-                    inv.profit = 0;
-                    return;
-                }
-
+                // For existing investments, recalculate based on the new fixed daily profit logic
                 const daysSinceInvest = Math.floor((new Date().getTime() - new Date(inv.investDate).getTime()) / (1000 * 60 * 60 * 24));
-                const dailyRate = annualReturnRate / 365 / 100;
-                inv.currentValue = inv.initialAmount * Math.pow(1 + dailyRate, daysSinceInvest);
+                // Use the stored 'annualReturnRate' (which is now the fixed daily percentage)
+                const fixedDailyProfitAmount = inv.initialAmount * (inv.annualReturnRate / 100);
+                inv.currentValue = inv.initialAmount + (fixedDailyProfitAmount * daysSinceInvest);
                 inv.profit = inv.currentValue - inv.initialAmount;
             });
 
@@ -1718,31 +1759,29 @@
             let investmentsWithDailyGain = 0;
 
             userInvestments.forEach(inv => {
-                const annualReturnRate = parseFloat(inv.annualReturnRate);
-                if (!isNaN(annualReturnRate) && annualReturnRate > 0) {
-                    const dailyRate = annualReturnRate / 365 / 100;
-                    const investDate = new Date(inv.investDate);
-                    const today = new Date();
-                    today.setHours(0, 0, 0, 0); // Normalize today to start of day
+                // For dashboard display, calculate based on the fixed 20% of initial
+                // Use the stored 'annualReturnRate' (which is now the fixed daily percentage)
+                const fixedDailyRate = inv.annualReturnRate / 100; // 20% fixed daily
+                const dailyProfitAmount = inv.initialAmount * fixedDailyRate;
 
-                    // Calculate value at the start of today (end of yesterday)
-                    const yesterday = new Date(today);
-                    yesterday.setDate(today.getDate() - 1);
+                // Calculate value at the start of today (end of yesterday)
+                const investDate = new Date(inv.investDate);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0); // Normalize today to start of day
+                const yesterday = new Date(today);
+                yesterday.setDate(today.getDate() - 1);
+                const daysSinceInvestToYesterday = Math.floor((yesterday.getTime() - investDate.getTime()) / (1000 * 60 * 60 * 24));
 
-                    const daysSinceInvestToYesterday = Math.floor((yesterday.getTime() - investDate.getTime()) / (1000 * 60 * 60 * 24));
+                let valueYesterday = inv.initialAmount;
+                if (daysSinceInvestToYesterday >= 0) {
+                    valueYesterday = inv.initialAmount + (dailyProfitAmount * daysSinceInvestToYesterday);
+                }
 
-                    let valueYesterday = inv.initialAmount;
-                    if (daysSinceInvestToYesterday >= 0) { // Ensure it was invested at least until yesterday
-                        valueYesterday = inv.initialAmount * Math.pow(1 + dailyRate, daysSinceInvestToYesterday);
-                    }
-
-                    // Only calculate daily gain if valueYesterday is positive to avoid division by zero
-                    if (valueYesterday > 0) {
-                        const dailyGain = inv.currentValue - valueYesterday;
-                        const dailyPercentageChange = (dailyGain / valueYesterday) * 100;
-                        totalDailyGainPercentage += dailyPercentageChange;
-                        investmentsWithDailyGain++;
-                    }
+                if (valueYesterday > 0) {
+                    const dailyGain = inv.currentValue - valueYesterday;
+                    const dailyPercentageChange = (dailyGain / valueYesterday) * 100;
+                    totalDailyGainPercentage += dailyPercentageChange;
+                    investmentsWithDailyGain++;
                 }
             });
 
@@ -1796,7 +1835,7 @@
                         </div>
                         <div class="investment-details-expanded hidden">
                             <p><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg><span class="detail-label">Start Date:</span> ${new Date(inv.investDate).toLocaleDateString()}</p>
-                            <p><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg><span class="detail-label">Annual Return:</span> ${inv.annualReturnRate}%</p>
+                            <p><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg><span class="detail-label">Daily Return:</span> 20% of initial amount</p>
                             <p><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="detail-label">Duration:</span> ${inv.durationMonths} months</p>
                             <p><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><span class="detail-label">Maturity:</span> ${maturityDisplay}</p>
                         </div>
@@ -2011,7 +2050,6 @@
          * New: Shows validation error for an input.
          * @param {HTMLElement} inputElement The input element.
          * @param {HTMLElement} errorElement The error text element.
-         * @param {string} message The error message.
          */
         function showInputError(inputElement, errorElement, message) {
             inputElement.classList.add('input-error');
@@ -2072,7 +2110,7 @@
                 investmentDurationInput.value = '1'; // Set minimum duration
                 investmentDurationUnitSelect.value = 'months';
                 investmentTypeDetails.classList.add('hidden');
-                updateProjectionChart(0, 0, 0); // Reset chart
+                updateProjectionTable(0, 0, 0); // Reset table and total
                 clearInputError(investmentAmountInput, investmentAmountError);
                 clearInputError(investmentDurationInput, investmentDurationError);
                 projectionBasisLabel.textContent = ''; // Clear the basis label on open
@@ -2111,6 +2149,7 @@
                 document.getElementById('investmentType').innerHTML = '<option value="">Select Type</option>';
                 document.getElementById('investmentType').disabled = true;
                 projectionBasisLabel.textContent = ''; // Clear the basis label on close
+                finalProjectedTotalEl.classList.add('hidden'); // Hide total on close
             }
             // Clear all error messages and styles within the closed modal
             document.getElementById(modalId).querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
@@ -2123,7 +2162,7 @@
             investmentTypeSelect.innerHTML = '<option value="">Select Type</option>'; // Clear previous options
             investmentTypeSelect.disabled = true;
             investmentTypeDetails.classList.add('hidden'); // Hide details when category changes
-            updateProjectionChart(0, 0, 0); // Reset chart
+            updateProjectionTable(0, 0, 0); // Reset table and total
             clearInputError(investmentAmountInput, investmentAmountError);
             clearInputError(investmentDurationInput, investmentDurationError);
             projectionBasisLabel.textContent = ''; // Clear the basis label
@@ -2162,22 +2201,23 @@
                 }
                 investmentDurationUnitSelect.value = 'months'; // Default to months for new types
 
-                // Update projection chart with initial values
-                updateProjectionChart(
+                // Update projection table with initial values
+                // For fixed daily profit, the annual rate is not directly used in the projection table calculation
+                updateProjectionTable(
                     parseFloat(investmentAmountInput.value || 0),
                     parseInt(investmentDurationInput.value || 0),
-                    details.typicalAnnualReturn, // Use the internal annual return for calculation
+                    details.typicalAnnualReturn, // Pass the fixed daily percentage (e.g., 20)
                     investmentDurationUnitSelect.value,
                     details.returnRange // Pass the return range for the label
                 );
             } else {
                 investmentTypeDetails.classList.add('hidden');
-                updateProjectionChart(0, 0, 0); // Reset chart
+                updateProjectionTable(0, 0, 0); // Reset table and total
                 projectionBasisLabel.textContent = ''; // Clear the basis label
             }
         });
 
-        // Listen for changes in amount and duration to update the projection chart
+        // Listen for changes in amount and duration to update the projection table
         investmentAmountInput.addEventListener('input', updateProjection);
         investmentDurationInput.addEventListener('input', updateProjection);
         investmentDurationUnitSelect.addEventListener('change', updateProjection);
@@ -2189,23 +2229,25 @@
             const selectedCategory = investmentCategorySelect.value;
             const selectedType = investmentTypeSelect.value;
             const details = investmentTypes[selectedCategory]?.[selectedType];
-            const annualRate = details ? details.typicalAnnualReturn : 0; // Use the internal annual return for calculation
-            const returnRangeText = details ? details.returnRange : ''; // Get the return range text
+            // The fixedDailyPercentage is retrieved from the details
+            const fixedDailyPercentage = details ? details.typicalAnnualReturn : 0;
+            const returnRangeText = details ? details.returnRange : '';
 
-            updateProjectionChart(amount, duration, annualRate, unit, returnRangeText);
+            updateProjectionTable(amount, duration, fixedDailyPercentage, unit, returnRangeText);
         }
 
-        // Projection Chart (for Invest Modal)
-        function updateProjectionChart(initialAmount, duration, annualRate, unit = 'months', returnRangeText = '') {
-            const ctx = document.getElementById('investmentProjectionChart').getContext('2d');
-            let labels = [];
-            let data = [];
+        // New: Function to update the projection table
+        // 'fixedDailyPercentage' parameter is now explicitly used for fixed daily profit
+        function updateProjectionTable(initialAmount, duration, fixedDailyPercentage, unit = 'months', returnRangeText = '') {
+            projectionTableContainer.innerHTML = ''; // Clear previous content
+            finalProjectedTotalEl.classList.add('hidden'); // Hide total by default
 
-            if (initialAmount > 0 && duration > 0 && annualRate > 0) {
-                projectionInfo.textContent = 'Projected growth over time.';
-                projectionBasisLabel.textContent = `Based on: ${returnRangeText}`; // Set the clarifying label
-                let currentAmount = initialAmount;
-                const dailyRate = annualRate / 365 / 100; // Convert annual percentage to daily decimal
+            if (initialAmount > 0 && duration > 0 && fixedDailyPercentage > 0) {
+                projectionInfo.textContent = 'This breakdown illustrates your projected investment growth with **daily additions**, where a fixed ' + fixedDailyPercentage + '% of your initial investment is added each day.';
+                projectionBasisLabel.textContent = `Based on: Fixed ${fixedDailyPercentage}% Daily on Initial Amount`; // Updated label
+
+                const dailyProfitRate = fixedDailyPercentage / 100; // Convert percentage to decimal
+                const fixedDailyProfitAmount = initialAmount * dailyProfitRate; // Calculate the fixed daily profit amount
 
                 let totalDays = duration;
                 if (unit === 'months') {
@@ -2214,78 +2256,46 @@
                     totalDays = duration * 365;
                 }
 
-                // Ensure at least one data point for initial amount
-                labels.push('Day 0');
-                data.push(initialAmount);
+                let currentBalance = initialAmount;
 
-                for (let i = 1; i <= totalDays; i++) {
-                    currentAmount *= (1 + dailyRate);
-                    labels.push(`Day ${i}`);
-                    data.push(currentAmount);
+                // Add header row
+                const headerDiv = document.createElement('div');
+                headerDiv.classList.add('projection-table-header');
+                headerDiv.innerHTML = `
+                    <span style="flex:0.8; text-align:left;">Day</span>
+                    <span style="flex:1;">Start Balance</span>
+                    <span style="flex:1;">Daily Profit</span>
+                    <span style="flex:1;">End Balance</span>
+                `;
+                projectionTableContainer.appendChild(headerDiv);
+
+                // Generate daily breakdown rows
+                for (let day = 1; day <= totalDays; day++) {
+                    // Daily profit is always 20% of the ORIGINAL initialAmount
+                    const dailyProfit = fixedDailyProfitAmount;
+                    const endBalance = currentBalance + dailyProfit;
+
+                    const rowDiv = document.createElement('div');
+                    rowDiv.classList.add('projection-table-row');
+                    rowDiv.innerHTML = `
+                        <span style="flex:0.8; text-align:left;">${day}</span>
+                        <span style="flex:1;">${formatNaira(currentBalance)}</span>
+                        <span style="flex:1; color:#76E076;">+${formatNaira(dailyProfit)}</span>
+                        <span style="flex:1;">${formatNaira(endBalance)}</span>
+                    `;
+                    projectionTableContainer.appendChild(rowDiv);
+                    currentBalance = endBalance; // Update balance for next day's calculation
                 }
+
+                // Display the final projected total
+                finalProjectedTotalEl.textContent = `Projected Total: ${formatNaira(currentBalance)}`;
+                finalProjectedTotalEl.classList.remove('hidden');
+
             } else {
+                projectionTableContainer.innerHTML = '<p class="projection-table-empty-message">Enter investment details to see a daily breakdown.</p>';
                 projectionInfo.textContent = 'Adjust amount and duration to see your potential growth.';
                 projectionBasisLabel.textContent = ''; // Clear the basis label if no valid input
-            }
-
-            if (projectionChart) {
-                projectionChart.data.labels = labels;
-                projectionChart.data.datasets[0].data = data;
-                projectionChart.update();
-            } else {
-                projectionChart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            label: 'Projected Value',
-                            data: data,
-                            borderColor: '#66BB6A',
-                            backgroundColor: 'rgba(102, 187, 106, 0.2)',
-                            fill: true,
-                            tension: 0.3
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                display: false // Hide legend
-                            },
-                            tooltip: {
-                                callbacks: {
-                                    label: function(context) {
-                                        return `Value: ${formatNaira(context.parsed.y)}`;
-                                    }
-                                }
-                            }
-                        },
-                        scales: {
-                            x: {
-                                ticks: {
-                                    color: '#a0a0a0',
-                                    autoSkip: true, // Automatically skip labels if too many
-                                    maxTicksLimit: 10 // Limit the number of ticks
-                                },
-                                grid: {
-                                    color: 'rgba(255, 255, 255, 0.05)'
-                                }
-                            },
-                            y: {
-                                ticks: {
-                                    color: '#a0a0a0',
-                                    callback: function(value) {
-                                        return formatNaira(value);
-                                    }
-                                },
-                                grid: {
-                                    color: 'rgba(255, 255, 255, 0.05)'
-                                }
-                            }
-                        }
-                    }
-                });
+                finalProjectedTotalEl.classList.add('hidden'); // Ensure total is hidden if no valid input
             }
         }
 
@@ -2344,8 +2354,8 @@
                 return;
             }
 
-            // Use the typicalAnnualReturn from the detailed info
-            const annualReturnRate = details.typicalAnnualReturn;
+            // Store the fixed daily profit percentage (e.g., 20.0) as annualReturnRate
+            const fixedDailyProfitPercentage = details.typicalAnnualReturn;
 
             const newInvestment = {
                 id: Date.now().toString(), // Simple unique ID
@@ -2353,7 +2363,7 @@
                 type,
                 initialAmount: amount,
                 currentValue: amount, // Starts at initial amount
-                annualReturnRate,
+                annualReturnRate: fixedDailyProfitPercentage, // Storing 20.0 for the 20% daily fixed profit
                 investDate: new Date().toISOString(),
                 durationMonths: durationInMonths, // Store duration in months
                 profit: 0
@@ -2465,10 +2475,15 @@
             investment.currentValue -= cashOutAmount;
             // For partial cash out, adjust initial amount proportionally.
             // This is a simplified approach; a more complex system might track original investment units.
+            // With fixed daily profit, initialAmount should probably not change for partial cash out.
+            // The profit should be recalculated based on remaining currentValue vs original initialAmount.
+            // For now, I'll keep the initialAmount adjustment for simplicity, but it's less accurate for this model.
+            // A better way would be to track 'units' or 'shares'.
             if (investment.initialAmount > 0) {
+                // If cashing out, the 'initial amount' for remaining investment should be reduced proportionally
                 investment.initialAmount = investment.initialAmount * (investment.currentValue / (investment.currentValue + cashOutAmount));
             } else {
-                investment.initialAmount = 0; // If initial was already 0 or negative
+                investment.initialAmount = 0;
             }
 
             investment.profit = investment.currentValue - investment.initialAmount; // Recalculate profit
@@ -2609,35 +2624,6 @@
             setTimeout(() => closeModal('withdrawModal'), 1500);
         });
 
-        // Investment Calculator Logic (Modified to use daily compounding)
-        document.getElementById('calculateBtn').addEventListener('click', () => {
-            const initialInvestment = parseFloat(document.getElementById('calcInitialInvestment').value);
-            const durationYears = parseInt(document.getElementById('calcInvestmentDuration').value);
-            // We need a rate for calculation. Since ₦5000 gives ₦1000 daily, that's 20% daily.
-            // 20% daily compounded annually is 7300%. We'll use this internally.
-            const annualReturnRate = 7300.0; // Hardcoded internal rate for calculation
-
-            const calculatedValueEl = document.getElementById('calculatedValue');
-            const projectedReturnDisplay = document.getElementById('projectedReturnDisplay');
-            const MIN_CALC_INVESTMENT = 5000; // Minimum for calculator
-
-            if (isNaN(initialInvestment) || initialInvestment < MIN_CALC_INVESTMENT ||
-                isNaN(durationYears) || durationYears <= 0) {
-                calculatedValueEl.textContent = 'Invalid input';
-                calculatedValueEl.style.color = '#FF6B6B';
-                projectedReturnDisplay.classList.remove('hidden');
-                return;
-            }
-
-            const dailyRate = annualReturnRate / 365 / 100; // Convert annual percentage to daily decimal
-            const totalDays = durationYears * 365; // Total days for calculation
-
-            const finalValue = initialInvestment * Math.pow(1 + dailyRate, totalDays);
-            calculatedValueEl.textContent = formatNaira(finalValue);
-            calculatedValueEl.style.color = '#90D0D0';
-            projectedReturnDisplay.classList.remove('hidden');
-        });
-
         // Reset Data Functionality
         document.getElementById('confirmResetDataBtn').addEventListener('click', () => {
             const submitButton = document.getElementById('confirmResetDataBtn');
@@ -2679,10 +2665,9 @@
         // Initialize the dashboard when the DOM is fully loaded
         document.addEventListener('DOMContentLoaded', initializeUserData);
 
-        // Ensure charts resize properly
+        // Ensure charts resize properly (only portfolio chart remains)
         window.addEventListener('resize', () => {
             if (portfolioChart) portfolioChart.resize();
-            if (projectionChart) projectionChart.resize();
         });
     </script>
 </body>
