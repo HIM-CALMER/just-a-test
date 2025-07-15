@@ -2,29 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
-    <title>Grow-with-Core Dashboard</title>
-    <!-- Tailwind CSS CDN for easy styling -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grow-with-Core - Login/Register</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Chart.js CDN for portfolio allocation chart -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Paystack Checkout.js CDN for payment integration -->
-    <script src="https://js.paystack.co/v1/inline.js"></script>
     <style>
-        /* Custom styles for the dashboard with darker theme and enhanced imagery */
+        /* Custom styles for the authentication page */
         body {
-            font-family: "Inter", sans-serif; /* Using Inter font */
+            font-family: "Inter", sans-serif;
             /* Deeper, more vibrant gradient background for a premium feel */
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%); /* Even darker, more subtle gradient */
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
             min-height: 100vh;
-            margin: 0;
-            padding: 1rem; /* Smaller padding on mobile */
-            box-sizing: border-box;
-            color: #e0e0e0; /* Lighter text for dark background */
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* Align to top for better content flow */
-            overflow-x: hidden; /* Prevent horizontal scroll */
+            align-items: center;
+            color: #e0e0e0;
+            padding: 1.5rem; /* Increased padding for better spacing on small screens */
+            box-sizing: border-box;
+            overflow: hidden; /* Hide overflow for subtle background animation */
 
             /* New: Subtle background animation */
             background-size: 200% 200%;
@@ -37,123 +32,105 @@
             100% { background-position: 100% 100%; }
         }
 
-        .dashboard-container {
+        .auth-container {
             background-color: #222222; /* Slightly darker container background */
             border-radius: 2.75rem; /* Even more rounded corners */
             /* More pronounced, multi-layered shadow for depth */
             box-shadow: 0 35px 80px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.05);
-            padding: 2.2rem; /* Adjusted padding for mobile */
-            max-width: 1300px; /* Slightly wider max width */
+            padding: 3.5rem; /* Increased padding */
+            max-width: 550px; /* Slightly wider max width */
             width: 100%;
-            display: grid;
-            gap: 2.2rem; /* Adjusted gap between sections for mobile */
-            grid-template-columns: 1fr; /* Single column for mobile */
-            margin-top: 1.8rem; /* Space from top */
-            margin-bottom: 1.8rem; /* Space from bottom */
+            text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.1); /* Slightly more defined border */
+            position: relative; /* For potential pseudo-elements or absolute positioning */
+            overflow: hidden; /* Ensure inner elements don't break rounded corners */
         }
 
-        @media (min-width: 768px) {
-            body {
-                padding: 25px; /* Restore larger padding on desktop */
-            }
-            .dashboard-container {
-                padding: 3.5rem; /* Restore larger padding on desktop */
-                gap: 3.5rem; /* Restore larger gap on desktop */
-                grid-template-columns: 2fr 1fr; /* Two columns for tablet/desktop */
-            }
-        }
-
-        .card {
-            /* Richer card gradient with subtle inner shadow */
-            background: linear-gradient(45deg, #303030 0%, #404040 100%); /* Deeper card gradient */
-            border-radius: 2.25rem; /* More rounded card corners */
-            padding: 1.8rem; /* Adjusted card padding for mobile */
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), inset 0 0 12px rgba(255, 255, 255, 0.03); /* Enhanced card shadow */
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background 0.3s ease-in-out;
-            border: 1px solid rgba(255, 255, 255, 0.08); /* Subtle light border for definition */
-        }
-
-        @media (min-width: 768px) {
-            .card {
-                padding: 2.8rem; /* Restore larger card padding on desktop */
-            }
-        }
-
-        .card:hover {
-            transform: translateY(-10px); /* More pronounced lift effect on hover */
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.55);
-            background: linear-gradient(45deg, #353535 0%, #454545 100%); /* Slightly lighter on hover */
-        }
-
-        .section-title {
-            font-size: 2rem; /* Slightly larger title on mobile */
+        .auth-title {
+            font-size: 2.8rem; /* Slightly larger title */
             font-weight: 800; /* Bolder */
             color: #c0d0e0; /* Softer blue-grey for titles */
-            margin-bottom: 1.8rem; /* Adjusted space below title */
-            text-align: center;
+            margin-bottom: 2.5rem; /* Increased margin */
             position: relative;
-            padding-bottom: 0.6rem; /* Adjusted padding */
+            padding-bottom: 0.85rem;
             letter-spacing: 0.06em; /* Slight letter spacing */
             text-shadow: 0 0 8px rgba(192, 208, 224, 0.2); /* Subtle glow for titles */
         }
 
-        @media (min-width: 768px) {
-            .section-title {
-                font-size: 2.8rem; /* Restore larger title on desktop */
-                margin-bottom: 2.5rem; /* Restore larger space */
-                padding-bottom: 0.85rem; /* Restore padding */
-            }
-        }
-
-        .section-title::after {
+        .auth-title::after {
             content: '';
             position: absolute;
             left: 50%;
             bottom: 0;
             transform: translateX(-50%);
-            width: 90px; /* Slightly wider underline on mobile */
-            height: 5px; /* Thicker underline on mobile */
+            width: 110px;
+            height: 6px;
             /* Vibrant green gradient underline */
-            background: linear-gradient(90deg, #5CB85C, #6FC06F); /* Brighter green gradient */
+            background: linear-gradient(90deg, #5CB85C, #6FC06F);
             border-radius: 4px;
             box-shadow: 0 0 10px rgba(92, 184, 92, 0.6); /* Glow for the underline */
         }
 
-        @media (min-width: 768px) {
-            .section-title::after {
-                width: 110px; /* Restore wider underline on desktop */
-                height: 6px; /* Restore thicker underline on desktop */
-            }
+        .form-section-title {
+            font-size: 2rem; /* Adjusted size for form titles */
+            font-weight: 700;
+            color: #d0d0d0;
+            margin-bottom: 1.8rem; /* Adjusted margin */
+            text-shadow: 0 0 5px rgba(208, 208, 208, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.8rem; /* Increased spacing between form groups */
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            color: #c0d0d0; /* Softer label color */
+            font-size: 1rem; /* Slightly larger label font */
+            font-weight: 600;
+            margin-bottom: 0.8rem; /* Increased space between label and input */
+        }
+
+        .form-input {
+            background-color: #3a3a3a; /* Darker input background */
+            border: 1px solid #666666; /* Darker, more defined border */
+            color: #e0e0e0; /* Lighter text in inputs */
+            border-radius: 0.85rem; /* More rounded inputs */
+            padding: 1.1rem 1.4rem; /* Increased padding */
+            width: 100%;
+            box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.4); /* Deeper inner shadow */
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+            font-size: 1.05rem;
+        }
+
+        .form-input:focus {
+            border-color: #5CB85C; /* Vibrant green focus border */
+            box-shadow: 0 0 0 5px rgba(92, 184, 92, 0.6), inset 0 3px 6px rgba(0, 0, 0, 0.4); /* Green focus ring with inner shadow */
+            outline: none;
+            background-color: #3f3f3f; /* Slightly lighter on focus */
         }
 
         .btn-primary {
             /* More vibrant green gradient button with stronger shadow */
-            background: linear-gradient(90deg, #4CAF50 0%, #5CB85C 100%); /* Brighter green gradient */
+            background: linear-gradient(90deg, #4CAF50 0%, #5CB85C 100%);
             color: white;
-            font-weight: 700; /* Bolder text */
-            padding: 0.9rem 1.8rem; /* Slightly larger padding on mobile */
-            border-radius: 0.85rem; /* Slightly more rounded */
+            font-weight: 700;
+            padding: 1.2rem 2.8rem; /* Larger padding for a more substantial button */
+            border-radius: 1.1rem;
             transition: all 0.3s ease;
             box-shadow: 0 10px 25px rgba(76, 175, 80, 0.7); /* Stronger green shadow */
             border: none;
             cursor: pointer;
-            text-transform: uppercase; /* Uppercase text */
-            letter-spacing: 0.06em; /* Slight letter spacing */
-            font-size: 0.95rem; /* Slightly larger font on mobile */
+            text-transform: uppercase;
+            letter-spacing: 0.08em; /* More letter spacing */
+            font-size: 1.15rem; /* Larger font size */
             position: relative;
             overflow: hidden;
-            display: flex; /* Ensure flex for spinner */
+            width: 100%;
+            display: flex;
             align-items: center;
             justify-content: center;
-        }
-
-        @media (min-width: 768px) {
-            .btn-primary {
-                padding: 1.1rem 2.5rem; /* Restore larger padding on desktop */
-                border-radius: 1.1rem; /* Restore more rounded */
-                font-size: 1.05rem; /* Restore font size */
-            }
         }
 
         .btn-primary::before {
@@ -187,791 +164,51 @@
             filter: brightness(1);
         }
 
-        input[type="number"], input[type="text"], input[type="email"], input[type="password"], select {
-            background-color: #3a3a3a; /* Darker input background */
-            border: 1px solid #666666; /* Darker, more defined border */
-            color: #e0e0e0; /* Lighter text in inputs */
-            border-radius: 0.6rem; /* Slightly less rounded on mobile */
-            padding: 0.85rem 1.1rem; /* Slightly larger padding on mobile */
-            width: 100%;
-            box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.4); /* Deeper inner shadow */
-            transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-            font-size: 0.95rem; /* Slightly larger font on mobile */
-        }
-
-        @media (min-width: 768px) {
-            input[type="number"], input[type="text"], input[type="email"], input[type="password"], select {
-                border-radius: 0.85rem; /* Restore rounded inputs on desktop */
-                padding: 1rem 1.3rem; /* Restore larger padding on desktop */
-                font-size: 1.05rem; /* Restore font size */
-            }
-        }
-
-        input[type="number"]:focus, input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus, select:focus {
-            border-color: #5CB85C; /* Vibrant green focus border */
-            box-shadow: 0 0 0 5px rgba(92, 184, 92, 0.6), inset 0 3px 6px rgba(0, 0, 0, 0.4); /* Green focus ring with inner shadow */
-            outline: none;
-            background-color: #3f3f3f; /* Slightly lighter on focus */
-        }
-
-        .metric-box {
-            /* Metric box gradient with more contrast */
-            background: linear-gradient(135deg, #4a4a4a 0%, #3a3a3a 100%);
-            border-radius: 1.1rem; /* Slightly less rounded on mobile */
-            padding: 1.4rem; /* Adjusted padding for mobile */
-            text-align: center;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Stronger shadow */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle light border */
-            transition: transform 0.2s ease;
-            /* New: Animation for metric updates */
-            animation: fadeInScale 0.5s ease-out;
-        }
-
-        /* New: Keyframes for metric box update animation */
-        @keyframes fadeInScale {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
-        @media (min-width: 768px) {
-            .metric-box {
-                border-radius: 1.35rem; /* Restore rounded on desktop */
-                padding: 2rem; /* Restore padding on desktop */
-            }
-        }
-
-        .metric-box:hover {
-            transform: translateY(-3px);
-        }
-
-        .metric-value {
-            font-size: 2.2rem; /* Slightly larger metric values on mobile */
-            font-weight: 900; /* Extra bold */
-            color: #76E076; /* Brighter, more prominent green for key values */
-            margin-bottom: 0.5rem; /* Adjusted margin */
-            text-shadow: 0 0 8px rgba(118, 224, 118, 0.6); /* Text glow for depth */
-        }
-
-        @media (min-width: 768px) {
-            .metric-value {
-                font-size: 3rem; /* Restore larger metric values on desktop */
-                margin-bottom: 0.7rem; /* Restore margin */
-            }
-        }
-
-        .metric-label {
-            font-size: 0.95rem; /* Slightly larger label on mobile */
-            color: #c0d0e0; /* Softer grey for labels */
-            font-weight: 600; /* Bolder label */
-        }
-
-        @media (min-width: 768px) {
-            .metric-label {
-                font-size: 1.15rem; /* Restore larger label on desktop */
-            }
-        }
-
-        /* SVG Icon styling */
-        .icon-svg {
-            width: 30px; /* Slightly larger icons on mobile */
-            height: 30px;
-            fill: currentColor; /* Use parent's text color */
-            margin-right: 10px; /* Adjusted space */
-            vertical-align: middle;
-            color: #76E076; /* Green for icons */
-            filter: drop-shadow(0 0 7px rgba(118, 224, 118, 0.7)); /* Stronger glow for icons */
-        }
-
-        @media (min-width: 768px) {
-            .icon-svg {
-                width: 36px; /* Restore larger icons on desktop */
-                height: 36px;
-                margin-right: 12px; /* Restore space */
-            }
-        }
-
-        /* Investment item styling */
-        .investment-item {
-            display: grid; /* Use CSS Grid for better control */
-            grid-template-columns: auto 1fr; /* Icon + content */
-            grid-template-rows: auto auto; /* Name/Type and Value/Profit */
-            gap: 0.5rem 1.2rem; /* Adjusted gaps for mobile */
-            align-items: center;
-            padding: 1.2rem 1.5rem; /* Adjusted padding for mobile */
-            background-color: #3a3a3a; /* Darker background for list items */
-            border-radius: 0.85rem; /* Slightly more rounded on mobile */
-            margin-bottom: 1.2rem; /* Adjusted space between items */
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
-            border: 1px solid rgba(255, 255, 255, 0.07);
-            position: relative; /* For pseudo-elements or absolute positioning */
-            overflow: hidden; /* Hide overflow for subtle effects */
-            cursor: pointer; /* Indicate clickable */
-        }
-
-        @media (min-width: 768px) {
-            .investment-item {
-                gap: 0.6rem 1.5rem; /* Restore gaps on desktop */
-                padding: 1.8rem 2.2rem; /* Restore padding on desktop */
-                border-radius: 1.1rem; /* Restore rounded on desktop */
-                margin-bottom: 1.5rem; /* Restore margin */
-            }
-        }
-
-        .investment-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 5px; /* Slightly thicker vertical line on mobile */
-            height: 100%;
-            background: linear-gradient(to bottom, #76E076, #5CB85C); /* Brighter green gradient line */
-            border-radius: 0.6rem 0 0 0.6rem; /* Rounded top-left, bottom-left */
-            transition: width 0.2s ease-in-out;
-        }
-
-        @media (min-width: 768px) {
-            .investment-item::before {
-                width: 6px; /* Restore width on desktop */
-            }
-        }
-
-        .investment-item:hover::before {
-            width: 10px; /* Slightly wider on hover */
-        }
-
-        .investment-item:hover {
-            background-color: #4a4a4a; /* Slightly lighter on hover */
-            transform: translateX(8px); /* More pronounced slide effect on hover */
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-        }
-
-        .investment-icon-wrapper {
-            grid-row: 1 / span 2; /* Span two rows */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px; /* Slightly larger width for icon area on mobile */
-            height: 40px; /* Slightly larger height for icon area on mobile */
-            background-color: #3d4758; /* Darker background for icon */
-            border-radius: 50%; /* Circular icon background */
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.4); /* Inner shadow for icon circle */
-        }
-
-        @media (min-width: 768px) {
-            .investment-icon-wrapper {
-                width: 45px; /* Restore width on desktop */
-                height: 45px; /* Restore height on desktop */
-            }
-        }
-
-        .investment-icon {
-            width: 22px; /* Slightly larger icon inside wrapper on mobile */
-            height: 22px;
-            fill: #76E076; /* Green color for the icon itself */
-            filter: drop-shadow(0 0 5px rgba(118, 224, 118, 0.6)); /* Subtle glow */
-        }
-
-        @media (min-width: 768px) {
-            .investment-icon {
-                width: 26px; /* Restore icon size on desktop */
-                height: 26px;
-            }
-        }
-
-        .investment-name {
-            font-weight: 700; /* Bolder name */
-            color: #e8e8e8; /* Even lighter text for name */
-            font-size: 1.15rem; /* Slightly larger font on mobile */
-            grid-column: 2 / 3; /* Place in second column */
-        }
-
-        @media (min-width: 768px) {
-            .investment-name {
-                font-size: 1.3rem; /* Restore font size on desktop */
-            }
-        }
-
-        .investment-type {
-            font-size: 0.9rem; /* Slightly larger type text on mobile */
-            color: #b5b5b5; /* Softer grey */
-            grid-column: 2 / 3; /* Place in second column */
-        }
-
-        @media (min-width: 768px) {
-            .investment-type {
-                font-size: 1rem; /* Restore font size on desktop */
-            }
-        }
-
-        .investment-values {
-            grid-column: 2 / 3; /* Place in second column */
-            display: flex;
-            flex-direction: column; /* Stack values vertically on mobile */
-            align-items: flex-start; /* Align to start on mobile */
-            width: 100%; /* Take full width of its grid cell */
-            padding-top: 0.5rem; /* Adjusted space from type */
-            border-top: 1px solid rgba(255, 255, 255, 0.07); /* Separator line */
-            margin-top: 0.5rem; /* Adjusted space from separator */
-        }
-
-        @media (min-width: 768px) {
-            .investment-values {
-                flex-direction: row; /* Restore horizontal layout on desktop */
-                justify-content: space-between; /* Restore space-between on desktop */
-                align-items: center; /* Restore alignment on desktop */
-                padding-top: 0.6rem; /* Restore padding */
-                margin-top: 0.6rem; /* Restore margin */
-            }
-        }
-
-        .investment-value {
-            font-weight: 800; /* Extra bold for value */
-            color: #f0f0f0; /* Even lighter for value */
-            font-size: 1.05rem; /* Slightly larger font on mobile */
-            margin-bottom: 0.3rem; /* Space between stacked values */
-        }
-
-        @media (min-width: 768px) {
-            .investment-value {
-                font-size: 1.25rem; /* Restore font size on desktop */
-                margin-bottom: 0; /* Remove margin when horizontal */
-            }
-        }
-
-        .profit {
-            color: #76E076; /* Brighter green for profit */
-            font-weight: 700;
-            text-shadow: 0 0 5px rgba(118, 224, 118, 0.5); /* Stronger glow for profit text */
-        }
-
-        .loss {
-            color: #FF6B6B; /* Brighter red for loss */
-            font-weight: 700;
-            text-shadow: 0 0 5px rgba(255, 107, 107, 0.5); /* Stronger glow for loss text */
-        }
-
-        /* Expanded Investment Details */
-        .investment-details-expanded {
-            grid-column: 1 / -1; /* Span full width */
-            background-color: #2d2d2d;
-            border-radius: 0.85rem;
-            padding: 1rem; /* Adjusted padding for mobile */
-            margin-top: 1rem; /* Adjusted margin */
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            animation: slideDown 0.3s ease-out forwards;
-            overflow: hidden; /* Ensure content doesn't overflow during animation */
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3); /* Inner shadow for expanded details */
-        }
-        @keyframes slideDown {
-            from { max-height: 0; opacity: 0; padding-top: 0; padding-bottom: 0; }
-            to { max-height: 250px; opacity: 1; padding-top: 1rem; padding-bottom: 1rem; } /* Max height to allow content */
-        }
-
-        .investment-details-expanded p {
-            display: flex;
-            align-items: center;
-            margin-bottom: 0.5rem; /* Adjusted margin */
-            font-size: 0.9rem; /* Slightly larger font on mobile */
-            color: #d0d0d0;
-        }
-        .investment-details-expanded p svg {
-            margin-right: 8px; /* Adjusted margin */
-            color: #90D0D0; /* Teal for detail icons */
-            width: 18px; /* Slightly larger icons */
-            height: 18px;
-        }
-        .investment-details-expanded .detail-label {
-            font-weight: 600;
-            color: #c0d0e0;
-            margin-right: 5px; /* Adjusted margin */
-        }
-
-        @media (min-width: 768px) {
-            .investment-details-expanded {
-                padding: 1.2rem; /* Restore padding on desktop */
-                margin-top: 1.2rem; /* Restore margin */
-            }
-            .investment-details-expanded p {
-                margin-bottom: 0.6rem; /* Restore margin */
-                font-size: 1.0rem; /* Restore font size */
-            }
-            .investment-details-expanded p svg {
-                margin-right: 10px; /* Restore margin */
-                width: 20px; /* Restore icon size */
-                height: 20px;
-            }
-            .investment-details-expanded .detail-label {
-                margin-right: 6px; /* Restore margin */
-            }
-        }
-
-
-        /* Quick Links */
-        .sidebar-content a {
+        .toggle-link {
             color: #90CAF9; /* Lighter blue for links */
             font-weight: 600;
-        }
-        .sidebar-content a:hover {
-            color: #BBDEFB; /* Even lighter on hover */
-            text-decoration: underline; /* Underline on hover */
-        }
-
-        /* Daily Percentage Animation (kept for consistency, but logic changed in JS) */
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.9; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        .daily-percentage-animated {
-            animation: pulse 2s infinite ease-in-out;
-        }
-
-        /* Modal Styles */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.8); /* Darker overlay */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            backdrop-filter: blur(8px); /* More pronounced frosted glass effect */
-            padding: 1.2rem; /* Add padding to overlay for small screens */
-            box-sizing: border-box;
-        }
-
-        .modal-content {
-            background: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 100%); /* Darker modal background */
-            padding: 1.8rem; /* Adjusted padding for mobile */
-            border-radius: 1.2rem; /* Slightly more rounded on mobile */
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6); /* Stronger shadow */
-            width: 100%; /* Full width on mobile */
-            max-width: 550px; /* Slightly wider default max-width */
-            position: relative;
-            animation: fadeIn 0.3s ease-out;
-            border: 1px solid rgba(255, 255, 255, 0.15); /* Subtle border */
-            overflow-y: auto; /* Allow scrolling if content overflows */
-            max-height: 90vh; /* Limit height on mobile */
-        }
-
-        @media (min-width: 768px) {
-            .modal-content {
-                padding: 3rem; /* Restore larger padding on desktop */
-                border-radius: 1.8rem; /* Restore rounded on desktop */
-                max-height: auto; /* Remove max height on desktop */
-            }
-        }
-
-        /* Specific style for the Invest Modal to make it larger */
-        #investModal .modal-content {
-            max-width: 850px; /* Larger width for invest modal */
-            display: grid;
-            grid-template-columns: 1fr; /* Single column on mobile */
-            gap: 1.8rem; /* Adjusted gap for mobile */
-        }
-
-        @media (min-width: 768px) {
-            #investModal .modal-content {
-                grid-template-columns: 1fr 1.5fr; /* Two columns for larger screens */
-                gap: 2.5rem; /* Restore gap on desktop */
-            }
-        }
-
-        /* Specific style for the Investment Details Modal to make it larger */
-        #investmentDetailsModal .modal-content {
-            max-width: 850px; /* Larger width for invest modal */
-            display: grid;
-            grid-template-columns: 1fr; /* Single column on mobile */
-            gap: 1.8rem; /* Adjusted gap for mobile */
-        }
-
-        @media (min-width: 768px) {
-            #investmentDetailsModal .modal-content {
-                grid-template-columns: 1fr 1.5fr; /* Two columns for larger screens */
-                gap: 2.5rem; /* Restore gap on desktop */
-            }
-        }
-
-        .modal-close-btn {
-            position: absolute;
-            top: 0.85rem; /* Adjusted position for mobile */
-            right: 0.85rem; /* Adjusted position for mobile */
-            background: none;
-            border: none;
-            font-size: 1.6rem; /* Slightly larger close button on mobile */
-            color: #b0b0b0;
+            margin-top: 2rem; /* Increased margin */
+            display: block;
             cursor: pointer;
-            transition: color 0.2s ease, transform 0.2s ease;
+            transition: color 0.2s ease, text-decoration 0.2s ease;
+            font-size: 0.95rem; /* Slightly larger link font */
         }
 
-        @media (min-width: 768px) {
-            .modal-close-btn {
-                top: 1.2rem; /* Restore position on desktop */
-                right: 1.2rem; /* Restore position on desktop */
-                font-size: 2rem; /* Restore size on desktop */
-            }
-        }
-        .modal-close-btn:hover {
-            color: #e0e0e0;
-            transform: rotate(90deg);
+        .toggle-link:hover {
+            color: #BBDEFB; /* Even lighter on hover */
+            text-decoration: underline;
         }
 
-        .modal-title {
-            font-size: 1.8rem; /* Slightly larger modal title on mobile */
-            font-weight: 700;
-            color: #c0d0e0;
-            margin-bottom: 1.8rem; /* Adjusted space */
-            text-align: center;
-            grid-column: 1 / -1; /* Span all columns in grid */
-            text-shadow: 0 0 5px rgba(192, 208, 224, 0.2);
-        }
-
-        @media (min-width: 768px) {
-            .modal-title {
-                font-size: 2.2rem; /* Restore size on desktop */
-                margin-bottom: 2.2rem; /* Restore space */
-            }
-        }
-
-        .transaction-item {
-            background-color: #3a3a3a;
+        .message-box {
+            margin-top: 2rem; /* Increased margin */
+            padding: 1.2rem; /* Increased padding */
             border-radius: 0.85rem;
-            padding: 1.1rem 1.4rem; /* Adjusted padding for mobile */
-            margin-bottom: 0.8rem; /* Adjusted margin */
-            display: flex;
-            flex-direction: column; /* Stack details vertically on mobile */
-            align-items: flex-start; /* Align to start on mobile */
-            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.07);
-            transition: background-color 0.2s ease, transform 0.1s ease;
-        }
-
-        @media (min-width: 768px) {
-            .transaction-item {
-                padding: 1.2rem 1.8rem; /* Restore padding on desktop */
-                margin-bottom: 1rem; /* Restore margin */
-                flex-direction: row; /* Restore horizontal layout on desktop */
-                justify-content: space-between; /* Restore space-between on desktop */
-                align-items: center; /* Restore alignment on desktop */
-            }
-        }
-        .transaction-item:hover {
-            background-color: #424242;
-            transform: translateX(3px);
-        }
-
-        .transaction-item div {
-            flex-grow: 1;
-        }
-
-        .transaction-type {
-            font-weight: 700;
-            color: #76E076; /* Green for positive transactions */
-            font-size: 1.05rem; /* Adjusted font size */
-        }
-        .transaction-type.withdrawal {
-            color: #FF6B6B; /* Red for negative transactions */
-        }
-
-        .transaction-amount {
-            font-weight: 700;
-            text-align: left; /* Align left on mobile */
-            font-size: 1.05rem; /* Adjusted font size */
-            margin-top: 0.3rem; /* Space when stacked */
-            color: #f0f0f0;
-        }
-        @media (min-width: 768px) {
-            .transaction-amount {
-                text-align: right; /* Restore align right on desktop */
-                margin-top: 0; /* Remove margin when horizontal */
-            }
-        }
-        .transaction-date {
-            font-size: 0.8rem; /* Slightly larger font on mobile */
-            color: #b0b0b0;
-            text-align: left; /* Align left on mobile */
-        }
-        @media (min-width: 768px) {
-            .transaction-date {
-                font-size: 0.9rem; /* Restore font size on desktop */
-                text-align: right; /* Restore align right on desktop */
-            }
-        }
-
-        /* User ID display */
-        #userIdDisplay {
-            word-break: break-all; /* Ensures long IDs wrap */
-            font-size: 0.75rem; /* Slightly larger font on mobile */
-            color: #a0a0a0;
-            margin-top: 1rem; /* Adjusted margin */
-            text-align: center;
-            padding: 0.5rem; /* Adjusted padding */
-            background-color: #383838; /* Slightly darker background */
-            border-radius: 0.5rem; /* Adjusted rounded corners */
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); /* Deeper inner shadow */
-        }
-        @media (min-width: 768px) {
-            #userIdDisplay {
-                font-size: 0.85rem; /* Restore font size on desktop */
-                margin-top: 1.2rem; /* Restore margin */
-                padding: 0.6rem; /* Restore padding */
-                border-radius: 0.6rem; /* Restore rounded corners */
-            }
-        }
-
-        /* New styles for investment details in modal */
-        .investment-details-card {
-            background-color: #3a3a3a;
-            border-radius: 0.85rem; /* Slightly more rounded on mobile */
-            padding: 1.4rem; /* Adjusted padding for mobile */
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.4); /* Deeper inner shadow */
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        @media (min-width: 768px) {
-            .investment-details-card {
-                border-radius: 1.1rem; /* Restore rounded on desktop */
-                padding: 1.8rem; /* Restore padding on desktop */
-            }
-        }
-
-        .investment-details-card h4 {
-            font-size: 1.4rem; /* Slightly larger h4 on mobile */
-            font-weight: 700;
-            color: #76E076;
-            margin-bottom: 1rem; /* Adjusted margin */
-            text-shadow: 0 0 5px rgba(118, 224, 118, 0.3);
-        }
-        @media (min-width: 768px) {
-            .investment-details-card h4 {
-                font-size: 1.6rem; /* Restore size on desktop */
-                margin-bottom: 1.2rem; /* Restore margin */
-            }
-        }
-
-        .investment-details-card p {
-            font-size: 0.9rem; /* Slightly larger font on mobile */
-            color: #e0e0e0;
-            margin-bottom: 0.5rem; /* Adjusted margin */
-            display: flex;
-            align-items: flex-start; /* Align to start for multi-line descriptions */
-        }
-        @media (min-width: 768px) {
-            .investment-details-card p {
-                font-size: 1.0rem; /* Restore font size on desktop */
-                margin-bottom: 0.6rem; /* Restore margin */
-                align-items: center; /* Restore alignment on desktop */
-            }
-        }
-        .investment-details-card p svg {
-            margin-right: 8px; /* Adjusted margin */
-            color: #90D0D0;
-            flex-shrink: 0; /* Prevent icon from shrinking */
-            width: 20px; /* Slightly larger size */
-            height: 20px;
-        }
-        @media (min-width: 768px) {
-            .investment-details-card p svg {
-                margin-right: 10px; /* Restore margin */
-                width: 22px; /* Restore size */
-                height: 22px;
-            }
-        }
-
-        .investment-details-card .detail-label {
             font-weight: 600;
-            color: #c0d0e0;
-        }
-
-        /* Flex container for duration input and unit */
-        .duration-input-group {
-            display: flex;
-            flex-direction: column; /* Stack on mobile */
-            gap: 0.6rem; /* Adjusted gap */
-            align-items: flex-start;
-        }
-        @media (min-width: 768px) {
-            .duration-input-group {
-                flex-direction: row; /* Restore row on desktop */
-                gap: 12px; /* Restore gap */
-                align-items: center;
-            }
-        }
-        .duration-input-group input {
-            flex-grow: 1;
-        }
-        .duration-input-group select {
-            width: 100%; /* Full width on mobile */
-            min-width: unset; /* Remove min-width on mobile */
-        }
-        @media (min-width: 768px) {
-            .duration-input-group select {
-                width: auto; /* Restore auto width on desktop */
-                min-width: 110px; /* Restore min-width on desktop */
-            }
-        }
-
-        /* Styles for confirmation modal */
-        .confirmation-modal-content {
-            background: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 100%);
-            padding: 1.8rem; /* Adjusted padding for mobile */
-            border-radius: 1.2rem; /* Slightly more rounded on mobile */
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
-            width: 90%;
-            max-width: 450px;
             text-align: center;
-            position: relative;
-            animation: fadeIn 0.3s ease-out;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-        }
-        @media (min-width: 768px) {
-            .confirmation-modal-content {
-                padding: 3rem; /* Restore padding on desktop */
-                border-radius: 1.8rem; /* Restore rounded on desktop */
-            }
-        }
-        .confirmation-modal-content h3 {
-            font-size: 1.6rem; /* Slightly larger h3 on mobile */
-            color: #c0d0e0;
-            margin-bottom: 1.2rem; /* Adjusted margin */
-            text-shadow: 0 0 5px rgba(192, 208, 224, 0.2);
-        }
-        @media (min-width: 768px) {
-            .confirmation-modal-content h3 {
-                font-size: 2rem; /* Restore size on desktop */
-                margin-bottom: 1.8rem; /* Restore margin */
-            }
-        }
-        .confirmation-modal-content p {
-            color: #e0e0e0;
-            margin-bottom: 1.8rem; /* Adjusted margin */
-            font-size: 0.95rem; /* Slightly larger font on mobile */
-        }
-        @media (min-width: 768px) {
-            .confirmation-modal-content p {
-                margin-bottom: 2.2rem; /* Restore margin */
-                font-size: 1.05rem; /* Restore font size */
-            }
-        }
-        .confirmation-modal-buttons {
-            display: flex;
-            flex-direction: column; /* Stack buttons on mobile */
-            gap: 1rem; /* Adjusted gap */
-        }
-        @media (min-width: 768px) {
-            .confirmation-modal-buttons {
-                flex-direction: row; /* Restore row on desktop */
-                justify-content: space-around;
-                gap: 1.2rem; /* Restore gap */
-            }
-        }
-
-        /* Success/Error Message in Modals (now used for toasts) */
-        .modal-message {
-            margin-top: 1rem; /* Adjusted margin */
-            font-weight: 600;
-            padding: 0.75rem; /* Adjusted padding */
-            border-radius: 0.5rem; /* Adjusted rounded corners */
-            text-align: center;
-            font-size: 0.9rem; /* Slightly larger font on mobile */
             box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
-        }
-        @media (min-width: 768px) {
-            .modal-message {
-                margin-top: 1.2rem; /* Restore margin */
-                padding: 0.9rem; /* Restore padding */
-                border-radius: 0.6rem; /* Restore rounded corners */
-                font-size: 1.05rem; /* Restore font size */
-            }
-        }
-        .modal-message.success {
-            background-color: rgba(92, 184, 92, 0.25); /* Green background */
-            color: #76E076; /* Green text */
-        }
-        .modal-message.error {
-            background-color: rgba(255, 107, 107, 0.25); /* Red background */
-            color: #FF6B6B; /* Red text */
-        }
-        .modal-message.info {
-            background-color: rgba(144, 208, 208, 0.25); /* Teal background */
-            color: #90D0D0; /* Teal text */
+            font-size: 0.95rem; /* Slightly larger message font */
         }
 
-        /* New: Toast Notification Styles */
-        #toastContainer {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1100; /* Above modals */
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            pointer-events: none; /* Allow clicks to pass through */
+        .message-box.success {
+            background-color: rgba(92, 184, 92, 0.25);
+            color: #76E076;
+            border: 1px solid rgba(92, 184, 92, 0.5); /* Added border */
         }
 
-        .toast-message {
-            background-color: #3a3a3a;
-            color: #e0e0e0;
-            padding: 12px 20px;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            opacity: 0;
-            transform: translateY(-20px);
-            animation: slideInToast 0.4s forwards, fadeOutToast 0.5s 2.5s forwards;
-            min-width: 250px;
-            max-width: 350px;
-            text-align: center;
-            font-weight: 600;
-            pointer-events: auto; /* Re-enable clicks on the toast itself */
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .message-box.error {
+            background-color: rgba(255, 107, 107, 0.25);
+            color: #FF6B6B;
+            border: 1px solid rgba(255, 107, 107, 0.5); /* Added border */
         }
 
-        .toast-message.success {
-            background-color: #4CAF50;
-            color: white;
-            border-color: #66BB6A;
-        }
-
-        .toast-message.error {
-            background-color: #EF5350;
-            color: white;
-            border-color: #FF6B6B;
-        }
-
-        .toast-message.info {
-            background-color: #26A69A;
-            color: white;
-            border-color: #4DB6AC;
-        }
-
-        /* New: Toast animations */
-        @keyframes slideInToast {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeOutToast {
-            from { opacity: 1; transform: translateY(0); }
-            to { opacity: 0; transform: translateY(-20px); }
-        }
-
-        /* New: Loading Spinner Styles */
         .loading-spinner {
             border: 3px solid rgba(255, 255, 255, 0.3);
             border-top: 3px solid #fff;
             border-radius: 50%;
-            width: 16px;
-            height: 16px;
+            width: 18px; /* Slightly larger spinner */
+            height: 18px;
             animation: spin 1s linear infinite;
-            margin-left: 8px;
+            margin-left: 10px; /* Increased margin */
             display: inline-block;
         }
 
@@ -980,1043 +217,135 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Style for input error feedback */
-        .input-error {
-            border-color: #FF6B6B;
-            box-shadow: 0 0 0 5px rgba(255, 107, 107, 0.3);
-        }
-        .error-text {
-            color: #FF6B6B;
-            font-size: 0.85rem;
-            margin-top: 0.25rem;
-            margin-left: 0.5rem;
-        }
-
-        /* Styles for the new projection table */
-        .projection-table-header {
-            display: flex;
-            justify-content: space-between;
-            font-weight: 700;
-            color: #c0d0e0;
-            padding-bottom: 0.5rem;
-            margin-bottom: 0.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.9rem; /* Smaller header font on mobile */
-        }
-        .projection-table-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.4rem 0;
-            border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
-            font-size: 0.85rem; /* Smaller row font on mobile */
-        }
-        .projection-table-row:last-child {
-            border-bottom: none;
-        }
-        .projection-table-row span {
-            flex: 1;
-            text-align: right;
-        }
-        .projection-table-row span:first-child {
-            text-align: left;
-            flex: 0.8; /* Adjust width for day column */
-        }
-        .projection-table-container {
-            max-height: 350px; /* Fixed height for scrollability */
-            overflow-y: auto;
-            background-color: #2d2d2d;
-            border-radius: 0.6rem;
-            padding: 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
-        }
-        .projection-table-empty-message {
-            text-align: center;
-            color: #a0a0a0;
-            padding: 2rem;
-            font-style: italic;
-        }
-
-        /* New style for the total projected amount */
-        #finalProjectedTotal {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: #76E076;
-            text-align: center;
-            margin-top: 1.5rem;
-            padding-top: 1rem;
-            border-top: 2px solid rgba(118, 224, 118, 0.3);
-            text-shadow: 0 0 10px rgba(118, 224, 118, 0.7);
-        }
-
-        @media (min-width: 768px) {
-            .projection-table-header {
-                font-size: 1rem; /* Restore header font on desktop */
+        /* Responsive adjustments */
+        @media (max-width: 640px) {
+            .auth-container {
+                padding: 2rem; /* Smaller padding on very small screens */
+                border-radius: 2rem;
             }
-            .projection-table-row {
-                font-size: 0.95rem; /* Restore row font on desktop */
+            .auth-title {
+                font-size: 2.2rem;
+                margin-bottom: 1.8rem;
             }
-            #finalProjectedTotal {
-                font-size: 1.8rem;
+            .form-section-title {
+                font-size: 1.6rem;
+                margin-bottom: 1.5rem;
             }
-        }
-
-        /* Auth Container Specific Styles */
-        #auth-container {
-            background-color: #222222;
-            border-radius: 2.75rem;
-            box-shadow: 0 35px 80px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.05);
-            padding: 2.2rem;
-            max-width: 500px; /* Smaller max-width for auth forms */
-            width: 100%;
-            margin-top: 1.8rem;
-            margin-bottom: 1.8rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
-        }
-        #auth-container h2 {
-            font-size: 2rem;
-            font-weight: 800;
-            color: #c0d0e0;
-            margin-bottom: 1.8rem;
-            position: relative;
-            padding-bottom: 0.6rem;
-            letter-spacing: 0.06em;
-            text-shadow: 0 0 8px rgba(192, 208, 224, 0.2);
-        }
-        #auth-container h2::after {
-            content: '';
-            position: absolute;
-            left: 50%;
-            bottom: 0;
-            transform: translateX(-50%);
-            width: 90px;
-            height: 5px;
-            background: linear-gradient(90deg, #5CB85C, #6FC06F);
-            border-radius: 4px;
-            box-shadow: 0 0 10px rgba(92, 184, 92, 0.6);
-        }
-        #auth-container .form-group {
-            margin-bottom: 1.5rem;
-            text-align: left;
-        }
-        #auth-container label {
-            display: block;
-            color: #c0d0e0;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-        #auth-container .auth-switch-link {
-            color: #90CAF9;
-            text-decoration: none;
-            font-weight: 600;
-            margin-top: 1rem;
-            display: block;
-            cursor: pointer;
-        }
-        #auth-container .auth-switch-link:hover {
-            text-decoration: underline;
-        }
-        #auth-message {
-            margin-top: 1rem;
-            font-weight: 600;
-            color: #FF6B6B; /* Error color */
-        }
-        #auth-message.success {
-            color: #76E076; /* Success color */
+            .form-group {
+                margin-bottom: 1.2rem;
+            }
+            .form-group label {
+                font-size: 0.9rem;
+                margin-bottom: 0.5rem;
+            }
+            .form-input {
+                padding: 0.9rem 1.2rem;
+                font-size: 0.95rem;
+            }
+            .btn-primary {
+                padding: 1rem 2rem;
+                font-size: 1rem;
+            }
+            .toggle-link {
+                margin-top: 1.5rem;
+                font-size: 0.85rem;
+            }
+            .message-box {
+                margin-top: 1.5rem;
+                padding: 1rem;
+                font-size: 0.85rem;
+            }
+            .loading-spinner {
+                width: 14px;
+                height: 14px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Authentication Container -->
-    <div id="auth-container">
-        <h2 class="section-title">Welcome to Grow-with-Core</h2>
+    <div class="auth-container">
+        <h1 class="auth-title">Grow-with-Core</h1>
 
         <!-- Login Form -->
-        <div id="login-form">
-            <h3 class="text-xl font-semibold text-gray-300 mb-6">Login to Your Account</h3>
+        <div id="loginForm">
+            <h2 class="form-section-title">Login to Your Account</h2>
             <div class="form-group">
-                <label for="login-email">Email</label>
-                <input type="email" id="login-email" class="form-input" placeholder="your@email.com" required>
+                <label for="loginEmail">Email Address</label>
+                <input type="email" id="loginEmail" class="form-input" placeholder="Enter your email">
             </div>
             <div class="form-group">
-                <label for="login-password">Password</label>
-                <input type="password" id="login-password" class="form-input" placeholder="********" required>
+                <label for="loginPassword">Password</label>
+                <input type="password" id="loginPassword" class="form-input" placeholder="Enter your password">
             </div>
-            <button id="login-btn" class="btn-primary w-full mb-4">
+            <button id="loginBtn" class="btn-primary">
                 <span>Login</span>
             </button>
-            <p id="auth-message" class="text-red-500"></p>
-            <a href="#" id="switch-to-create" class="auth-switch-link">Don't have an account? Create one!</a>
+            <p id="loginMessage" class="message-box hidden"></p>
+            <a href="#" id="showRegisterLink" class="toggle-link">Don't have an account? Register here.</a>
         </div>
 
-        <!-- Create Account Form -->
-        <div id="create-account-form" class="hidden">
-            <h3 class="text-xl font-semibold text-gray-300 mb-6">Create New Account</h3>
+        <!-- Register Form -->
+        <div id="registerForm" class="hidden">
+            <h2 class="form-section-title">Create New Account</h2>
             <div class="form-group">
-                <label for="create-email">Email</label>
-                <input type="email" id="create-email" class="form-input" placeholder="your@email.com" required>
+                <label for="registerEmail">Email Address</label>
+                <input type="email" id="registerEmail" class="form-input" placeholder="Enter your email">
             </div>
             <div class="form-group">
-                <label for="create-password">Password</label>
-                <input type="password" id="create-password" class="form-input" placeholder="********" required>
+                <label for="registerPassword">Password</label>
+                <input type="password" id="registerPassword" class="form-input" placeholder="Choose a password">
             </div>
-            <div class="form-group">
-                <label for="create-confirm-password">Confirm Password</label>
-                <input type="password" id="create-confirm-password" class="form-input" placeholder="********" required>
-            </div>
-            <button id="create-account-btn" class="btn-primary w-full mb-4">
-                <span>Create Account</span>
+            <button id="registerBtn" class="btn-primary">
+                <span>Register</span>
             </button>
-            <p id="auth-message-create" class="text-red-500"></p>
-            <a href="#" id="switch-to-login" class="auth-switch-link">Already have an account? Login here!</a>
+            <p id="registerMessage" class="message-box hidden"></p>
+            <a href="#" id="showLoginLink" class="toggle-link">Already have an account? Login here.</a>
         </div>
     </div>
-
-    <!-- Main Dashboard Container -->
-    <div id="dashboard-container" class="dashboard-container hidden">
-        <!-- Main Content Area -->
-        <div class="main-content">
-            <h1 class="section-title text-center mb-6">Grow-with-Core Dashboard</h1>
-            <p class="text-center text-gray-400 mb-8 max-w-2xl mx-auto text-sm sm:text-base">
-                Welcome to your Grow-with-Core investment hub. Explore real-time investment simulations, manage your portfolio, and track your financial journey.
-            </p>
-
-            <!-- User ID Display -->
-            <div id="userIdDisplay" class="mb-8">
-                Loading User ID...
-            </div>
-
-            <!-- Investment Overview Section -->
-            <div class="card mb-10">
-                <h2 class="section-title">Investment Overview</h2>
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
-                    <div class="metric-box">
-                        <div class="icon-svg">
-                            <!-- Wallet icon for available balance -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wallet"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h12a2 2 0 0 1 0 4H5a2 2 0 0 0 0 4h12a2 2 0 0 0 2-2v-3"/><path d="M10 12h6"/></svg>
-                        </div>
-                        <div class="metric-value" id="availableBalance">₦0.00</div>
-                        <div class="metric-label">Available Balance</div>
-                    </div>
-                    <div class="metric-box">
-                        <div class="icon-svg">
-                            <!-- Hand holding dollar icon -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-hand-holding-dollar"><path d="M11 15h2a2 2 0 0 0 2-2V7h-2.5a2 2 0 0 1-2-2M12 7V4m-3 6H6a2 2 0 1 0 0 4h3"/><path d="M18 13h2a2 2 0 0 1 0 4h-3l-5 5V3l5 5z"/></svg>
-                        </div>
-                        <div class="metric-value" id="totalInvested">₦0.00</div>
-                        <div class="metric-label">Total Invested</div>
-                    </div>
-                    <div class="metric-box">
-                        <div class="icon-svg">
-                            <!-- Trending Up icon -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
-                        </div>
-                        <div class="metric-value" id="currentValue">₦0.00</div>
-                        <div class="metric-label">Current Value</div>
-                    </div>
-                    <div class="metric-box">
-                        <div class="icon-svg">
-                            <!-- Piggy Bank icon -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-piggy-bank"><path d="M19 5c-1.5 0-2.8 1.4-3 2H4"/><path d="M2 8v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-1.5"/><path d="M22 12a4 4 0 0 0-4-4H6a4 4 0 0 0 4 4v.5c0 2.2 1.8 4 4 4h12a4 4 0 0 0 4-4V12z"/><path d="M2 16h.01"/><path d="M21 16h.01"/></svg>
-                        </div>
-                        <div class="metric-value" id="totalProfitLoss">₦0.00</div>
-                        <div class="metric-label">Total Profit/Loss</div>
-                    </div>
-                </div>
-
-                <h3 class="text-xl font-semibold text-gray-400 mb-4 text-center">Your Active Investments</h3>
-                <div id="investmentList">
-                    <!-- Investment items will be populated here by JavaScript -->
-                    <p class="text-center text-gray-500" id="noInvestmentsMessage">No active investments yet. Start by investing!</p>
-                </div>
-            </div>
-
-            <!-- Portfolio Allocation Chart Section -->
-            <div class="card mb-10">
-                <h2 class="section-title">Portfolio Allocation</h2>
-                <div class="p-2 sm:p-4">
-                    <canvas id="portfolioChart"></canvas>
-                </div>
-                <p class="text-sm text-gray-400 mt-4 text-center">Visual representation of your investment distribution.</p>
-            </div>
-
-            <!-- New: Transaction History Section -->
-            <div class="card mb-10">
-                <h2 class="section-title">Transaction History</h2>
-                <div class="flex flex-col sm:flex-row gap-4 mb-6">
-                    <div class="flex-1">
-                        <label for="transactionFilter" class="block text-gray-300 text-sm font-bold mb-2">Filter by Type</label>
-                        <select id="transactionFilter" class="form-select w-full">
-                            <option value="All">All Transactions</option>
-                            <option value="Deposit">Deposits</option>
-                            <option value="Withdrawal">Withdrawals</option>
-                            <option value="Investment">Investments</option>
-                            <option value="Cash Out">Cash Outs</option>
-                        </select>
-                    </div>
-                    <div class="flex-1">
-                        <label for="transactionSort" class="block text-gray-300 text-sm font-bold mb-2">Sort by</label>
-                        <select id="transactionSort" class="form-select w-full">
-                            <option value="dateDesc">Date (Newest First)</option>
-                            <option value="dateAsc">Date (Oldest First)</option>
-                            <option value="amountDesc">Amount (High to Low)</option>
-                            <option value="amountAsc">Amount (Low to High)</option>
-                        </select>
-                    </div>
-                </div>
-                <div id="transactionHistoryList" class="space-y-3">
-                    <!-- Transaction items will be populated here by JavaScript -->
-                    <p class="text-center text-gray-500" id="noTransactionsMessage">No transactions recorded yet.</p>
-                </div>
-            </div>
-
-
-            <!-- New: Maximize Your Experience Section -->
-            <div class="card mb-10">
-                <h2 class="section-title">Maximize Your Grow-with-Core Experience</h2>
-                <p class="text-gray-400 mb-6 text-center text-sm sm:text-base">
-                    Unlock the full potential of your dashboard. Here’s how you can make the most of Grow-with-Core:
-                </p>
-                <ul class="space-y-4 text-gray-300 text-sm sm:text-base">
-                    <li class="flex items-start">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wallet-plus mr-3 mt-1 text-green-400 flex-shrink-0"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h12a2 2 0 0 1 0 4H5a2 2 0 0 0 0 4h12a2 2 0 0 0 2-2v-3"/><path d="M10 12h6"/><path d="M12 10v4"/></svg>
-                        <div>
-                            <span class="font-bold text-white">Invest Now:</span> Click the "Invest Now" button in the Quick Actions section to explore various investment opportunities and project your potential returns.
-                        </div>
-                    </li>
-                    <li class="flex items-start">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wallet-minus mr-3 mt-1 text-red-400 flex-shrink-0"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h12a2 2 0 0 1 0 4H5a2 2 0 0 0 0 4h12a2 2 0 0 0 2-2v-3"/><path d="M10 12h6"/></svg>
-                        <div>
-                            <span class="font-bold text-white">Cash Out:</span> Once an investment matures, use the "Cash Out" option to realize your profits and add funds back to your available balance.
-                        </div>
-                    </li>
-                    <li>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-dollar-sign mr-3 mt-1 text-green-400 flex-shrink-0"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 3v18"/></svg>
-                        <div>
-                            <span class="font-bold text-white">Deposit Funds:</span> Easily add more funds to your account balance using the secure Paystack integration.
-                        </div>
-                    </li>
-                    <li>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-credit-card mr-3 mt-1 text-red-400 flex-shrink-0"><rect width="20" height="14" x="2" y="5" rx="2"/><path d="M2 10h20"/></svg>
-                        <div>
-                            <span class="font-bold text-white">Withdraw Funds:</span> Transfer funds from your available balance to your external accounts.
-                        </div>
-                    </li>
-                    <li class="flex items-start">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-activity mr-3 mt-1 text-blue-400 flex-shrink-0"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-                        <div>
-                            <span class="font-bold text-white">Track Performance:</span> Monitor your "Daily Performance" and review all your financial activities in the "Transaction History" section.
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Sidebar / Daily Performance & Quick Links -->
-        <div class="sidebar-content">
-            <!-- Daily Performance Section -->
-            <div class="card mb-6 sm:mb-10">
-                <h2 class="section-title">Daily Performance</h2>
-                <div class="metric-box">
-                    <div class="icon-svg">
-                        <!-- Activity icon -->
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-activity"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-                    </div>
-                    <div class="metric-value text-green-400 daily-percentage-animated" id="dailyPercentage">+0.00%</div>
-                    <div class="metric-label">Today's Market Gain</div>
-                    <p class="text-xs text-gray-400 mt-1 sm:mt-2">Based on simulated market data.</p>
-                </div>
-            </div>
-
-            <!-- Quick Actions Section -->
-            <div class="card">
-                <h2 class="section-title">Quick Actions</h2>
-                <ul class="space-y-3 sm:space-y-4">
-                    <li>
-                        <button id="openInvestModalBtn" class="btn-primary w-full">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wallet-plus mr-2"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h12a2 2 0 0 1 0 4H5a2 2 0 0 0 0 4h12a2 2 0 0 0 2-2v-3"/><path d="M10 12h6"/><path d="M12 10v4"/></svg>
-                            <span>Invest Now</span>
-                        </button>
-                    </li>
-                    <li>
-                        <button id="openCashOutModalBtn" class="btn-primary w-full !bg-red-600 hover:!bg-red-700">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wallet-minus mr-2"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h12a2 2 0 0 1 0 4H5a2 2 0 0 0 0 4h12a2 2 0 0 0 2-2v-3"/><path d="M10 12h6"/></svg>
-                            <span>Cash Out</span>
-                        </button>
-                    </li>
-                    <li>
-                        <button id="openDepositModalBtn" class="btn-primary w-full">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-dollar-sign mr-2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 3v18"/></svg>
-                            <span>Deposit Funds</span>
-                        </button>
-                    </li>
-                    <li>
-                        <button id="openWithdrawModalBtn" class="btn-primary w-full !bg-red-600 hover:!bg-red-700">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-credit-card mr-2"><rect width="20" height="14" x="2" y="5" rx="2"/><path d="M2 10h20"/></svg>
-                            <span>Withdraw Funds</span>
-                        </button>
-                    </li>
-                    <li>
-                        <button id="openResetDataModalBtn" class="btn-primary w-full !bg-gray-700 hover:!bg-gray-800">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-rotate-ccw mr-2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.76 2.75L3 8"/><path d="M3 3v5h5"/></svg>
-                            <span>Reset All Data</span>
-                        </button>
-                    </li>
-                    <li>
-                        <button id="logoutBtn" class="btn-primary w-full !bg-blue-600 hover:!bg-blue-700">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out mr-2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
-                            <span>Logout</span>
-                        </button>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modals -->
-
-    <!-- Invest Modal -->
-    <div id="investModal" class="modal-overlay hidden">
-        <div class="modal-content">
-            <button class="modal-close-btn" id="closeInvestModalBtn">&times;</button>
-            <h3 class="modal-title">Make a New Investment</h3>
-
-            <!-- Left column: Investment Details & Inputs -->
-            <div class="space-y-4">
-                <div>
-                    <label for="investmentCategory" class="block text-gray-300 text-sm font-bold mb-2">Investment Category</label>
-                    <select id="investmentCategory" class="form-select">
-                        <option value="">Select Category</option>
-                        <option value="Farming">Farming</option>
-                        <option value="Rearing">Rearing</option>
-                        <option value="Other Opportunities">Other Opportunities</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="investmentType" class="block text-gray-300 text-sm font-bold mb-2">Investment Type</label>
-                    <select id="investmentType" class="form-select" disabled>
-                        <option value="">Select Type</option>
-                    </select>
-                </div>
-
-                <!-- Investment Details Display -->
-                <div id="investmentTypeDetails" class="investment-details-card hidden">
-                    <h4 id="detailsTypeName"></h4>
-                    <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg><span class="detail-label">Description:</span> <span id="detailsDescription"></span></p>
-                    <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dollar-sign"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><span class="detail-label">Typical Daily Return:</span> <span id="detailsReturnRange"></span></p>
-                    <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="detail-label">Minimum Duration:</span> <span id="detailsMinDuration"></span></p>
-                </div>
-
-                <div>
-                    <label for="investmentAmount" class="block text-gray-300 text-sm font-bold mb-2">Investment Amount (₦)</label>
-                    <input type="number" id="investmentAmount" class="form-input" placeholder="e.g., 10000" min="5000">
-                    <p id="investmentAmountError" class="error-text hidden"></p>
-                </div>
-                <div>
-                    <label for="investmentDuration" class="block text-gray-300 text-sm font-bold mb-2">Investment Duration</label>
-                    <div class="duration-input-group">
-                        <input type="number" id="investmentDuration" class="form-input" placeholder="e.g., 12" min="1">
-                        <select id="investmentDurationUnit" class="form-select">
-                            <option value="months">Months</option>
-                            <option value="years">Years</option>
-                        </select>
-                    </div>
-                    <p id="investmentDurationError" class="error-text hidden"></p>
-                </div>
-                <button id="submitInvestmentBtn" class="btn-primary w-full">
-                    <span>Invest</span>
-                </button>
-            </div>
-
-            <!-- Right column: Projection Breakdown -->
-            <div class="investment-details-card flex flex-col justify-between">
-                <h4 class="text-center">Projected Daily Growth Breakdown</h4>
-                <div id="projectionTableContainer" class="projection-table-container flex-grow">
-                    <!-- Projection details will be populated here by JavaScript -->
-                    <p class="projection-table-empty-message">Enter investment details to see a daily breakdown.</p>
-                </div>
-                <p class="text-sm text-gray-400 text-center mt-2 sm:mt-4" id="projectionInfo">
-                    This breakdown illustrates your projected investment growth with **daily additions**, where a fluctuating percentage (4.5% to 5%) of your initial investment is added each day.
-                </p>
-                <p class="text-xs text-gray-500 text-center mt-2" id="projectionBasisLabel"></p>
-                <div id="finalProjectedTotal" class="hidden"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Cash Out Modal -->
-    <div id="cashOutModal" class="modal-overlay hidden">
-        <div class="modal-content">
-            <button class="modal-close-btn" id="closeCashOutModalBtn">&times;</button>
-            <h3 class="modal-title">Cash Out Investment</h3>
-            <div class="space-y-4">
-                <div>
-                    <label for="cashOutInvestmentSelect" class="block text-gray-300 text-sm font-bold mb-2">Select Investment</label>
-                    <select id="cashOutInvestmentSelect" class="form-select">
-                        <option value="">Select an active investment</option>
-                    </select>
-                    <p id="cashOutInvestmentSelectError" class="error-text hidden"></p>
-                </div>
-                <div>
-                    <label for="cashOutAmount" class="block text-gray-300 text-sm font-bold mb-2">Amount to Cash Out (₦)</label>
-                    <input type="number" id="cashOutAmount" class="form-input" placeholder="e.g., 5000" min="100">
-                    <p id="cashOutAmountError" class="error-text hidden"></p>
-                </div>
-                <button id="submitCashOutBtn" class="btn-primary w-full !bg-red-600 hover:!bg-red-700">
-                    <span>Confirm Cash Out</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Deposit Funds Modal -->
-    <div id="depositModal" class="modal-overlay hidden">
-        <div class="modal-content">
-            <button class="modal-close-btn" id="closeDepositModalBtn">&times;</button>
-            <h3 class="modal-title">Deposit Funds via Paystack</h3>
-            <div class="space-y-4">
-                <div>
-                    <label for="depositEmail" class="block text-gray-300 text-sm font-bold mb-2">Your Email</label>
-                    <input type="email" id="depositEmail" class="form-input" placeholder="e.g., your@email.com" required>
-                    <p id="depositEmailError" class="error-text hidden"></p>
-                </div>
-                <div>
-                    <label for="depositAmount" class="block text-gray-300 text-sm font-bold mb-2">Deposit Amount (₦)</label>
-                    <input type="number" id="depositAmount" class="form-input" placeholder="e.g., 20000" min="100" required>
-                    <p id="depositAmountError" class="error-text hidden"></p>
-                </div>
-                <button id="submitDepositBtn" class="btn-primary w-full">
-                    <span>Proceed to Paystack</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Withdraw Funds Modal -->
-    <div id="withdrawModal" class="modal-overlay hidden">
-        <div class="modal-content">
-            <button class="modal-close-btn" id="closeWithdrawModalBtn">&times;</button>
-            <h3 class="modal-title">Withdraw Funds</h3>
-            <div class="space-y-4">
-                <div>
-                    <label for="withdrawAmount" class="block text-gray-300 text-sm font-bold mb-2">Withdraw Amount (₦)</label>
-                    <input type="number" id="withdrawAmount" class="form-input" placeholder="e.g., 5000" min="100">
-                    <p id="withdrawAmountError" class="error-text hidden"></p>
-                </div>
-                <button id="submitWithdrawBtn" class="btn-primary w-full !bg-red-600 hover:!bg-red-700">
-                    <span>Confirm Withdrawal</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Reset Data Confirmation Modal -->
-    <div id="resetDataModal" class="modal-overlay hidden">
-        <div class="confirmation-modal-content">
-            <button class="modal-close-btn" id="closeResetDataModalBtn">&times;</button>
-            <h3>Confirm Data Reset</h3>
-            <p>Are you sure you want to reset ALL your investment data? This will clear your balance, investments, and transactions. This action cannot be undone.</p>
-            <div class="confirmation-modal-buttons">
-                <button id="confirmResetDataBtn" class="btn-primary !bg-red-600 hover:!bg-red-700">
-                    <span>Yes, Reset All</span>
-                </button>
-                <button id="cancelResetDataBtn" class="btn-primary !bg-gray-500 hover:!bg-gray-600">
-                    <span>Cancel</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- New Feature: Investment Details Modal -->
-    <div id="investmentDetailsModal" class="modal-overlay hidden">
-        <div class="modal-content">
-            <button class="modal-close-btn" id="closeInvestmentDetailsModalBtn">&times;</button>
-            <h3 class="modal-title">Investment Details</h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- Left Column: Basic Details -->
-                <div class="investment-details-card">
-                    <h4 id="detailModalTypeName"></h4>
-                    <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-tag"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414L12.586 22.414a2 2 0 0 0 2.828 0l7.172-7.172a2 2 0 0 0 0-2.828L12.586 2.586z"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/></svg><span class="detail-label">Category:</span> <span id="detailModalCategory"></span></p>
-                    <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dollar-sign"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><span class="detail-label">Initial Amount:</span> <span id="detailModalInitialAmount"></span></p>
-                    <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg><span class="detail-label">Current Value:</span> <span id="detailModalCurrentValue"></span></p>
-                    <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bar-chart-2"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg><span class="detail-label">Total Profit/Loss:</span> <span id="detailModalProfitLoss"></span></p>
-                    <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg><span class="detail-label">Invest Date:</span> <span id="detailModalInvestDate"></span></p>
-                    <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="detail-label">Duration:</span> <span id="detailModalDuration"></span></p>
-                    <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><span class="detail-label">Maturity:</span> <span id="detailModalMaturity"></span></p>
-                </div>
-                <!-- Right Column: Daily Growth History -->
-                <div class="investment-details-card">
-                    <h4 class="text-center">Daily Growth History</h4>
-                    <div id="investmentHistoryTableContainer" class="projection-table-container">
-                        <p class="projection-table-empty-message">No history available for this investment.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- New: Toast Notification Container -->
-    <div id="toastContainer"></div>
 
     <script>
         // IMPORTANT SECURITY NOTE:
-        // Storing user credentials (even hashed) and sensitive financial data directly in localStorage
-        // is HIGHLY INSECURE for a real-world application. This implementation is provided to meet
-        // your specific request for local storage persistence without a backend, but it is crucial
-        // to understand its limitations. For production, a secure backend with proper authentication
-        // and database storage (like Firebase, which was previously used) would be essential.
-
-        // Global state for current user's data
-        let currentUserId = null;
-        let currentUserEmail = null;
-        let userInvestments = [];
-        let userTransactions = [];
-        let userAccountBalance = 0;
-
-        // Paystack Public Key (from user's request)
-        const paystackPublicKey = 'pk_live_fa0e4bf22ce6b0279a243185d983ec121b99979c';
+        // Storing user credentials (even hashed) directly in localStorage is HIGHLY INSECURE
+        // for a real-world application. This implementation is provided to meet your specific
+        // request for local storage persistence without a backend, but it is crucial to
+        // understand its limitations. For production, a secure backend with proper authentication
+        // and database storage (like Firebase) would be essential. Never use this approach
+        // for sensitive user data in a live environment.
 
         // DOM Elements
-        const authContainer = document.getElementById('auth-container');
-        const dashboardContainer = document.getElementById('dashboard-container');
-        const loginForm = document.getElementById('login-form');
-        const createAccountForm = document.getElementById('create-account-form');
-        const switchToCreateLink = document.getElementById('switch-to-create');
-        const switchToLoginLink = document.getElementById('switch-to-login');
-        const authMessage = document.getElementById('auth-message'); // For login errors
-        const authMessageCreate = document.getElementById('auth-message-create'); // For create account errors
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
 
-        const loginEmailInput = document.getElementById('login-email');
-        const loginPasswordInput = document.getElementById('login-password');
-        const createEmailInput = document.getElementById('create-email');
-        const createPasswordInput = document.getElementById('create-password');
-        const createConfirmPasswordInput = document.getElementById('create-confirm-password');
+        const loginEmailInput = document.getElementById('loginEmail');
+        const loginPasswordInput = document.getElementById('loginPassword');
+        const loginBtn = document.getElementById('loginBtn');
+        const loginMessage = document.getElementById('loginMessage');
 
-        const availableBalanceEl = document.getElementById('availableBalance');
-        const totalInvestedEl = document.getElementById('totalInvested');
-        const currentValueEl = document.getElementById('currentValue');
-        const totalProfitLossEl = document.getElementById('totalProfitLoss');
-        const investmentListEl = document.getElementById('investmentList');
-        const noInvestmentsMessage = document.getElementById('noInvestmentsMessage');
-        const transactionHistoryListEl = document.getElementById('transactionHistoryList');
-        const noTransactionsMessage = document.getElementById('noTransactionsMessage');
-        const userIdDisplay = document.getElementById('userIdDisplay');
-        const dailyPercentageEl = document.getElementById('dailyPercentage');
-        const toastContainer = document.getElementById('toastContainer');
+        const registerEmailInput = document.getElementById('registerEmail');
+        const registerPasswordInput = document.getElementById('registerPassword');
+        const registerBtn = document.getElementById('registerBtn');
+        const registerMessage = document.getElementById('registerMessage');
 
-        // Modals
-        const investModal = document.getElementById('investModal');
-        const cashOutModal = document.getElementById('cashOutModal');
-        const depositModal = document.getElementById('depositModal');
-        const withdrawModal = document.getElementById('withdrawModal');
-        const resetDataModal = document.getElementById('resetDataModal');
-        const investmentDetailsModal = document.getElementById('investmentDetailsModal'); // New: Investment Details Modal
-
-        // Invest Modal specific elements
-        const investmentCategorySelect = document.getElementById('investmentCategory');
-        const investmentTypeSelect = document.getElementById('investmentType');
-        const investmentAmountInput = document.getElementById('investmentAmount');
-        const investmentAmountError = document.getElementById('investmentAmountError');
-        const investmentDurationInput = document.getElementById('investmentDuration');
-        const investmentDurationUnitSelect = document.getElementById('investmentDurationUnit');
-        const investmentDurationError = document.getElementById('investmentDurationError');
-        const investmentTypeDetails = document.getElementById('investmentTypeDetails');
-        const detailsTypeName = document.getElementById('detailsTypeName');
-        const detailsDescription = document.getElementById('detailsDescription');
-        const detailsReturnRange = document.getElementById('detailsReturnRange');
-        const detailsMinDuration = document.getElementById('detailsMinDuration');
-        const projectionInfo = document.getElementById('projectionInfo');
-        const projectionBasisLabel = document.getElementById('projectionBasisLabel');
-        const projectionTableContainer = document.getElementById('projectionTableContainer');
-        const finalProjectedTotalEl = document.getElementById('finalProjectedTotal');
-
-        // Cash Out Modal specific elements
-        const cashOutInvestmentSelect = document.getElementById('cashOutInvestmentSelect');
-        const cashOutInvestmentSelectError = document.getElementById('cashOutInvestmentSelectError');
-        const cashOutAmountInput = document.getElementById('cashOutAmount');
-        const cashOutAmountError = document.getElementById('cashOutAmountError');
-
-        // Deposit Modal specific elements
-        const depositEmailInput = document.getElementById('depositEmail');
-        const depositEmailError = document.getElementById('depositEmailError');
-        const depositAmountInput = document.getElementById('depositAmount');
-        const depositAmountError = document.getElementById('depositAmountError');
-
-        // Withdraw Modal specific elements
-        const withdrawAmountInput = document.getElementById('withdrawAmount');
-        const withdrawAmountError = document.getElementById('withdrawAmountError');
-
-        // Transaction History Filter/Sort elements
-        const transactionFilterSelect = document.getElementById('transactionFilter');
-        const transactionSortSelect = document.getElementById('transactionSort');
-
-        // Investment Details Modal specific elements
-        const detailModalTypeName = document.getElementById('detailModalTypeName');
-        const detailModalCategory = document.getElementById('detailModalCategory');
-        const detailModalInitialAmount = document.getElementById('detailModalInitialAmount');
-        const detailModalCurrentValue = document.getElementById('detailModalCurrentValue');
-        const detailModalProfitLoss = document.getElementById('detailModalProfitLoss');
-        const detailModalInvestDate = document.getElementById('detailModalInvestDate');
-        const detailModalDuration = document.getElementById('detailModalDuration');
-        const detailModalMaturity = document.getElementById('detailModalMaturity');
-        const investmentHistoryTableContainer = document.getElementById('investmentHistoryTableContainer');
-
-
-        // Investment types data
-        const investmentTypes = {
-            "Farming": {
-                "Crop Farming": { description: "Invest in staple crops like maize, rice, or cassava. High demand, steady returns.", minDurationMonths: 1, typicalAnnualReturn: 4.5, returnRange: "Fixed 4.5% to 5% Daily on Initial Amount" },
-                "Organic Farming": { description: "Support eco-friendly farming practices. Premium market, sustainable growth.", minDurationMonths: 1, typicalAnnualReturn: 4.5, returnRange: "Fixed 4.5% to 5% Daily on Initial Amount" },
-                "Livestock Feed Production": { description: "Invest in the production of animal feed. Essential for rearing, consistent demand.", minDurationMonths: 1, typicalAnnualReturn: 4.5, returnRange: "Fixed 4.5% to 5% Daily on Initial Amount" },
-                "Greenhouse Farming": { description: "Modern farming technique for controlled environments. High yield, less weather dependent.", minDurationMonths: 1, typicalAnnualReturn: 4.5, returnRange: "Fixed 4.5% to 5% Daily on Initial Amount" },
-                "Aquaponics": { description: "Sustainable system combining aquaculture and hydroponics. Efficient and eco-friendly.", minDurationMonths: 1, typicalAnnualReturn: 4.5, returnRange: "Fixed 4.5% to 5% Daily on Initial Amount" },
-                "Hydroponics": { description: "Growing plants without soil using mineral nutrient solutions. Water-efficient, high-density yields.", minDurationMonths: 1, typicalAnnualReturn: 4.5, returnRange: "Fixed 4.5% to 5% Daily on Initial Amount" },
-                "Vertical Farming": { description: "Growing crops in vertically stacked layers. Maximizes space, ideal for urban areas.", minDurationMonths: 1, typicalAnnualReturn: 4.5, returnRange: "Fixed 4.5% to 5% Daily on Initial Amount" },
-                "Sustainable Farming": { description: "Focuses on long-term productivity and environmental health. Ethical investment.", minDurationMonths: 1, typicalAnnualReturn: 4.5, returnRange: "Fixed 4.5% to 5% Daily on Initial Amount" },
-                "Specialty Crops": { description: "Invest in high-value, niche crops. Higher potential returns, but can be more volatile.", minDurationMonths: 1, typicalAnnualReturn: 4.5, returnRange: "Fixed 4.5% to 5% Daily on Initial Amount" },
-                "Fruit and Vegetable Farming": { description: "Direct investment in fresh produce. Consistent local market demand.", minDurationMonths: 1, typicalAnnualReturn: 4.5, returnRange: "Fixed 4.5% to 5% Daily on Initial Amount" }
-            },
-            "Rearing": {
-                "Cattle Rearing": { description: "Invest in cattle for meat and dairy. Long-term growth potential.", minDurationMonths: 1, typicalAnnualReturn: 4.5, returnRange: "Fixed 4.5% to 5% Daily on Initial Amount" },
-                "Poultry Farming": { description: "Fast-cycle investment in chicken production. Quick returns.", minDurationMonths: 1, typicalAnnualReturn: 4.5, returnRange: "Fixed 4.5% to 5% Daily on Initial Amount" },
-                "Pig Farming": { description: "Investment in pig breeding and fattening. Good demand for pork products.", minDurationMonths: 1, typicalAnnualReturn: 4.5, returnRange: "Fixed 4.5% to 5% Daily on Initial Amount" },
-                "Sheep or Goat Rearing": { description: "Flexible investment in small ruminants. Lower initial capital, steady market.", minDurationMonths: 1, typicalAnnualReturn: 4.5, returnRange: "Fixed 4.5% to 5% Daily on Initial Amount" },
-                "Fish Farming": { description: "Aquaculture investment for various fish species. Growing demand for protein.", minDurationMonths: 1, typicalAnnualReturn: 4.5, returnRange: "Fixed 4.5% to 5% Daily on Initial Amount" },
-                "Beekeeping": { description: "Invest in honey production and pollination services. Environmentally friendly.", minDurationMonths: 1, typicalAnnualReturn: 4.5, returnRange: "Fixed 4.5% to 5% Daily on Initial Amount" },
-                "Rabbit Rearing": { description: "Quick breeding cycle, low space requirement. Niche market potential.", minDurationMonths: 1, typicalAnnualReturn: 4.5, returnRange: "Fixed 4.5% to 5% Daily on Initial Amount" },
-                "Game Farming": { description: "Rearing of wild animals for meat or tourism. Specialized, potentially high returns.", minDurationMonths: 1, typicalAnnualReturn: 4.5, returnRange: "Fixed 4.5% to 5% Daily on Initial Amount" },
-                "Dairy Goat Farming": { description: "Focus on milk production from goats. Growing market for dairy alternatives.", minDurationMonths: 1, typicalAnnualReturn: 4.5, returnRange: "Fixed 4.5% to 5% Daily on Initial Amount" },
-                "Quail Farming": { description: "Small-scale, high-density farming for meat and eggs. Very quick turnover.", minDurationMonths: 1, typicalAnnualReturn: 4.5, returnRange: "Fixed 4.5% to 5% Daily on Initial Amount" }
-            },
-            "Other Opportunities": {
-                "Agricultural Technology": { description: "Fund innovative tech solutions for agriculture. High growth, higher risk.", minDurationMonths: 1, typicalAnnualReturn: 4.5, returnRange: "Fixed 4.5% to 5% Daily on Initial Amount" },
-                "Farm Equipment": { description: "Invest in modern farm machinery. Essential infrastructure, steady income.", minDurationMonths: 1, typicalAnnualReturn: 4.5, returnRange: "Fixed 4.5% to 5% Daily on Initial Amount" },
-                "Agricultural Processing": { description: "Value-addition to raw agricultural products. Stable demand, diverse markets.", minDurationMonths: 1, typicalAnnualReturn: 4.5, returnRange: "Fixed 4.5% to 5% Daily on Initial Amount" },
-                "Farm-to-Table": { description: "Support direct consumer access to farm produce. Growing trend, community focus.", minDurationMonths: 1, typicalAnnualReturn: 4.5, returnRange: "Fixed 4.5% to 5% Daily on Initial Amount" },
-                "Agricultural Consulting": { description: "Invest in expertise and advisory services for farmers. Intellectual capital growth.", minDurationMonths: 1, typicalAnnualReturn: 4.5, returnRange: "Fixed 4.5% to 5% Daily on Initial Amount" },
-                "Farm Management": { description: "Professional management services for agricultural enterprises. Operational efficiency.", minDurationMonths: 1, typicalAnnualReturn: 4.5, returnRange: "Fixed 4.5% to 5% Daily on Initial Amount" },
-                "Agricultural Education": { description: "Invest in training and development for future farmers. Long-term societal impact.", minDurationMonths: 1, typicalAnnualReturn: 4.5, returnRange: "Fixed 4.5% to 5% Daily on Initial Amount" },
-                "Sustainable Agriculture": { description: "Projects promoting environmentally sound farming. Impact investing, long-term returns.", minDurationMonths: 1, typicalAnnualReturn: 4.5, returnRange: "Fixed 4.5% to 5% Daily on Initial Amount" },
-                "Agricultural Research": { description: "Funding R&D for new crop varieties, pest control, etc. High risk, potentially high reward.", minDurationMonths: 1, typicalAnnualReturn: 4.5, returnRange: "Fixed 4.5% to 5% Daily on Initial Amount" }
-            }
-        };
-
-        let portfolioChart;
+        const showRegisterLink = document.getElementById('showRegisterLink');
+        const showLoginLink = document.getElementById('showLoginLink');
 
         /**
-         * Generates a simple UUID for local storage user ID.
-         * @returns {string} A unique ID.
-         */
-        function generateUUID() {
-            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                const r = Math.random() * 16 | 0;
-                const v = c === 'x' ? r : (r & 0x3 | 0x8);
-                return v.toString(16);
-            });
-        }
-
-        /**
-         * Loads user data from localStorage for the current user.
-         */
-        function loadUserData() {
-            if (!currentUserId) {
-                // If no user is logged in, clear in-memory data
-                userInvestments = [];
-                userTransactions = [];
-                userAccountBalance = 0;
-                userIdDisplay.textContent = 'Please log in or create an account.';
-                dashboardContainer.classList.add('hidden');
-                authContainer.classList.remove('hidden');
-                return;
-            }
-
-            // Load data specific to the currentUserId
-            const storedInvestments = localStorage.getItem(`growWithCoreInvestments_${currentUserId}`);
-            const storedTransactions = localStorage.getItem(`growWithCoreTransactions_${currentUserId}`);
-            const storedBalance = localStorage.getItem(`growWithCoreAccountBalance_${currentUserId}`);
-
-            userInvestments = storedInvestments ? JSON.parse(storedInvestments) : [];
-            userTransactions = storedTransactions ? JSON.parse(storedTransactions) : [];
-            userAccountBalance = storedBalance ? parseFloat(storedBalance) : 0;
-
-            // Simulate growth for existing investments on load
-            userInvestments.forEach(inv => {
-                const daysSinceInvest = Math.floor((new Date().getTime() - new Date(inv.investDate).getTime()) / (1000 * 60 * 60 * 24));
-                
-                // Recalculate currentValue based on fixed daily profit with fluctuation
-                inv.currentValue = inv.initialAmount; // Start with initial amount
-                for (let i = 0; i < daysSinceInvest; i++) {
-                    // Generate a random daily percentage between 4.5% and 5%
-                    const dailyPercentage = (Math.random() * (5.0 - 4.5) + 4.5) / 100;
-                    inv.currentValue += inv.initialAmount * dailyPercentage;
-                }
-                inv.profit = inv.currentValue - inv.initialAmount;
-            });
-
-            // Save updated current values back to ensure consistency
-            saveUserData();
-            updateDashboard();
-
-            userIdDisplay.textContent = `User: ${currentUserEmail}`; // Display email as user ID
-            authContainer.classList.add('hidden');
-            dashboardContainer.classList.remove('hidden');
-        }
-
-        /**
-         * Saves current user data to localStorage.
-         */
-        function saveUserData() {
-            if (!currentUserId) {
-                console.warn("No user logged in. Cannot save data.");
-                return;
-            }
-            localStorage.setItem(`growWithCoreInvestments_${currentUserId}`, JSON.stringify(userInvestments));
-            localStorage.setItem(`growWithCoreAccountBalance_${currentUserId}`, userAccountBalance.toString());
-            localStorage.setItem(`growWithCoreTransactions_${currentUserId}`, JSON.stringify(userTransactions));
-        }
-
-        /**
-         * Updates all dashboard metrics and lists.
-         */
-        function updateDashboard() {
-            const animateMetricUpdate = (element, newValue) => {
-                const oldValue = parseFloat(element.textContent.replace(/₦|,/g, '')) || 0;
-                if (oldValue !== newValue) {
-                    element.style.opacity = 0;
-                    element.style.transform = 'scale(0.9)';
-                    setTimeout(() => {
-                        element.textContent = formatNaira(newValue);
-                        element.style.opacity = 1;
-                        element.style.transform = 'scale(1)';
-                    }, 50);
-                } else {
-                    element.textContent = formatNaira(newValue);
-                }
-            };
-
-            animateMetricUpdate(availableBalanceEl, userAccountBalance);
-
-            let totalInvested = userInvestments.reduce((sum, inv) => sum + inv.initialAmount, 0);
-            let currentValue = userInvestments.reduce((sum, inv) => sum + inv.currentValue, 0);
-            let totalProfitLoss = currentValue - totalInvested;
-
-            animateMetricUpdate(totalInvestedEl, totalInvested);
-            animateMetricUpdate(currentValueEl, currentValue);
-            animateMetricUpdate(totalProfitLossEl, totalProfitLoss);
-
-            totalProfitLossEl.classList.toggle('profit', totalProfitLoss >= 0);
-            totalProfitLossEl.classList.toggle('loss', totalProfitLoss < 0);
-
-            const minDailyRate = 4.5;
-            const maxDailyRate = 5.0;
-            const displayedDailyGain = (Math.random() * (maxDailyRate - minDailyRate) + minDailyRate);
-
-            dailyPercentageEl.textContent = `${displayedDailyGain >= 0 ? '+' : ''}${displayedDailyGain.toFixed(2)}%`;
-            dailyPercentageEl.classList.toggle('text-green-400', displayedDailyGain >= 0);
-            dailyPercentageEl.classList.toggle('text-red-400', displayedDailyGain < 0);
-
-            investmentListEl.innerHTML = '';
-            if (userInvestments.length === 0) {
-                noInvestmentsMessage.classList.remove('hidden');
-            } else {
-                noInvestmentsMessage.classList.add('hidden');
-                userInvestments.forEach(inv => {
-                    const profitLossClass = inv.profit >= 0 ? 'profit' : 'loss';
-                    const investDate = new Date(inv.investDate);
-                    const maturityDate = new Date(investDate);
-                    maturityDate.setMonth(maturityDate.getMonth() + inv.durationMonths);
-                    const isMatured = new Date() >= maturityDate;
-                    const maturityDisplay = isMatured ?
-                        `<span class="text-green-400 font-semibold">Matured!</span>` :
-                        `<span class="text-yellow-400 font-semibold">Matures: ${maturityDate.toLocaleDateString()}</span>`;
-
-
-                    const investmentItemDiv = document.createElement('div');
-                    investmentItemDiv.classList.add('investment-item');
-                    investmentItemDiv.dataset.investmentId = inv.id; // Store ID for click handling
-
-                    investmentItemDiv.innerHTML = `
-                        <div class="investment-icon-wrapper">${investmentCategoryIcons[inv.category] || ''}</div>
-                        <div class="investment-name">${inv.type}</div>
-                        <div class="investment-type">Category: ${inv.category}</div>
-                        <div class="investment-values">
-                            <span class="investment-value">Invested: ${formatNaira(inv.initialAmount)}</span>
-                            <span class="investment-value">Current: ${formatNaira(inv.currentValue)}</span>
-                            <span class="${profitLossClass}">P/L: ${formatNaira(inv.profit)}</span>
-                        </div>
-                        <!-- Removed expanded details from here, now in separate modal -->
-                    `;
-                    investmentListEl.appendChild(investmentItemDiv);
-
-                    // Add event listener to open new details modal
-                    investmentItemDiv.addEventListener('click', () => openInvestmentDetailsModal(inv.id));
-                });
-            }
-
-            renderTransactionHistory();
-            updatePortfolioChart();
-        }
-
-        /**
-         * Renders the transaction history based on current filter and sort settings.
-         */
-        function renderTransactionHistory() {
-            transactionHistoryListEl.innerHTML = '';
-            let filteredTransactions = [...userTransactions];
-
-            // Apply filter
-            const filterType = transactionFilterSelect.value;
-            if (filterType !== 'All') {
-                filteredTransactions = filteredTransactions.filter(tx => tx.type === filterType);
-            }
-
-            // Apply sort
-            const sortOrder = transactionSortSelect.value;
-            filteredTransactions.sort((a, b) => {
-                const dateA = new Date(a.date).getTime();
-                const dateB = new Date(b.date).getTime();
-                const amountA = a.amount;
-                const amountB = b.amount;
-
-                switch (sortOrder) {
-                    case 'dateDesc': return dateB - dateA;
-                    case 'dateAsc': return dateA - dateB;
-                    case 'amountDesc': return amountB - amountA;
-                    case 'amountAsc': return amountA - amountB;
-                    default: return 0;
-                }
-            });
-
-            if (filteredTransactions.length === 0) {
-                noTransactionsMessage.classList.remove('hidden');
-            } else {
-                noTransactionsMessage.classList.add('hidden');
-                filteredTransactions.forEach(tx => {
-                    const typeClass = (tx.type === 'Withdrawal' || tx.type === 'Cash Out') ? 'withdrawal' : '';
-                    transactionHistoryListEl.innerHTML += `
-                        <div class="transaction-item">
-                            <div>
-                                <div class="transaction-type ${typeClass}">${tx.type}</div>
-                                <div class="text-gray-500 text-sm">${tx.description}</div>
-                            </div>
-                            <div class="text-right">
-                                <div class="transaction-amount ${typeClass}">${formatNaira(tx.amount)}</div>
-                                <div class="transaction-date">${new Date(tx.date).toLocaleString()}</div>
-                            </div>
-                        </div>
-                    `;
-                });
-            }
-        }
-
-        // Event listeners for transaction filters/sort
-        // These will be attached after the DOM is fully loaded, where these elements are guaranteed to exist.
-        // transactionFilterSelect.addEventListener('change', renderTransactionHistory);
-        // transactionSortSelect.addEventListener('change', renderTransactionHistory);
-
-
-        /**
-         * Updates the portfolio allocation chart.
-         */
-        function updatePortfolioChart() {
-            const portfolioData = {};
-            userInvestments.forEach(inv => {
-                portfolioData[inv.category] = (portfolioData[inv.category] || 0) + inv.currentValue;
-            });
-
-            const labels = Object.keys(portfolioData);
-            const data = Object.values(portfolioData);
-
-            const backgroundColors = [
-                '#4CAF50', '#2196F3', '#FFC107', '#E91E63', '#9C27B0',
-                '#00BCD4', '#FF9800', '#795548', '#607D8B', '#F44336'
-            ];
-
-            if (portfolioChart) {
-                portfolioChart.data.labels = labels;
-                portfolioChart.data.datasets[0].data = data;
-                portfolioChart.data.datasets[0].backgroundColor = labels.map((_, i) => backgroundColors[i % backgroundColors.length]);
-                portfolioChart.update();
-            } else {
-                const ctx = document.getElementById('portfolioChart').getContext('2d');
-                portfolioChart = new Chart(ctx, {
-                    type: 'doughnut',
-                    data: {
-                        labels: labels,
-                        datasets: [{
-                            data: data,
-                            backgroundColor: labels.map((_, i) => backgroundColors[i % backgroundColors.length]),
-                            hoverOffset: 4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: {
-                            legend: {
-                                labels: {
-                                    color: '#e0e0e0', // Legend text color
-                                    font: {
-                                        size: 14
-                                    }
-                                }
-                            },
-                            tooltip: {
-                                callbacks: {
-                                    label: function(context) {
-                                        let label = context.label || '';
-                                        if (label) {
-                                            label += ': ';
-                                        }
-                                        if (context.parsed !== null) {
-                                            label += formatNaira(context.parsed);
-                                        }
-                                        return label;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                });
-            }
-        }
-
-        /**
-         * Formats a number as Nigerian Naira (₦).
-         * @param {number} amount The amount to format.
-         * @returns {string} The formatted currency string.
-         */
-        function formatNaira(amount) {
-            return new Intl.NumberFormat('en-NG', {
-                style: 'currency',
-                currency: 'NGN',
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            }).format(amount);
-        }
-
-        /**
-         * New: Displays a toast notification.
+         * Displays a message in the specified message box.
+         * @param {HTMLElement} messageBox The message box element.
          * @param {string} message The message text.
-         * @param {string} type 'success', 'error', or 'info'.
+         * @param {string} type 'success' or 'error'.
          */
-        function showToast(message, type) {
-            const toast = document.createElement('div');
-            toast.classList.add('toast-message', type);
-            toast.textContent = message;
-            toastContainer.appendChild(toast);
-
-            // Remove toast after animation
-            toast.addEventListener('animationend', (event) => {
-                if (event.animationName === 'fadeOutToast') {
-                    toast.remove();
-                }
-            });
+        function showMessage(messageBox, message, type) {
+            messageBox.textContent = message;
+            messageBox.classList.remove('hidden', 'success', 'error');
+            messageBox.classList.add(type);
+            setTimeout(() => {
+                messageBox.classList.add('hidden');
+            }, 3000); // Hide message after 3 seconds
         }
 
         /**
-         * New: Shows a loading state for a button.
+         * Shows a loading state for a button.
          * @param {HTMLElement} button The button element.
          * @param {string} loadingText The text to display while loading.
          */
@@ -2029,7 +358,7 @@
         }
 
         /**
-         * New: Hides the loading state for a button.
+         * Hides the loading state for a button.
          * @param {HTMLElement} button The button element.
          * @param {string} originalText The original text of the button.
          */
@@ -2042,997 +371,101 @@
             }
         }
 
-        /**
-         * New: Shows validation error for an input.
-         * @param {HTMLElement} inputElement The input element.
-         * @param {HTMLElement} errorElement The error text element.
-         */
-        function showInputError(inputElement, errorElement, message) {
-            inputElement.classList.add('input-error');
-            errorElement.textContent = message;
-            errorElement.classList.remove('hidden');
-        }
-
-        /**
-         * New: Clears validation error for an input.
-         * @param {HTMLElement} inputElement The input element.
-         * @param {HTMLElement} errorElement The error text element.
-         */
-        function clearInputError(inputElement, errorElement) {
-            inputElement.classList.remove('input-error');
-            errorElement.classList.add('hidden');
-            errorElement.textContent = '';
-        }
-
-        // Debounce utility function
-        function debounce(func, delay) {
-            let timeout;
-            return function(...args) {
-                const context = this;
-                clearTimeout(timeout);
-                timeout = setTimeout(() => func.apply(context, args), delay);
-            };
-        }
-
-        // Event Listeners for Modals
-        // Buttons to open modals
-        document.getElementById('openInvestModalBtn').addEventListener('click', () => openModal('investModal'));
-        document.getElementById('openCashOutModalBtn').addEventListener('click', () => openModal('cashOutModal'));
-        document.getElementById('openDepositModalBtn').addEventListener('click', () => openModal('depositModal'));
-        document.getElementById('openWithdrawModalBtn').addEventListener('click', () => openModal('withdrawModal'));
-        document.getElementById('openResetDataModalBtn').addEventListener('click', () => openModal('resetDataModal'));
-
-        // Buttons to close modals
-        document.getElementById('closeInvestModalBtn').addEventListener('click', () => closeModal('investModal'));
-        document.getElementById('closeCashOutModalBtn').addEventListener('click', () => closeModal('cashOutModal'));
-        document.getElementById('closeDepositModalBtn').addEventListener('click', () => closeModal('depositModal'));
-        document.getElementById('closeWithdrawModalBtn').addEventListener('click', () => closeModal('withdrawModal'));
-        document.getElementById('closeResetDataModalBtn').addEventListener('click', () => closeModal('resetDataModal'));
-        document.getElementById('cancelResetDataBtn').addEventListener('click', () => closeModal('resetDataModal'));
-        document.getElementById('closeInvestmentDetailsModalBtn').addEventListener('click', () => closeModal('investmentDetailsModal')); // New: Close details modal
-
-        // Close modal when clicking outside content
-        investModal.addEventListener('click', (e) => { if (e.target === investModal) closeModal('investModal'); });
-        cashOutModal.addEventListener('click', (e) => { if (e.target === cashOutModal) closeModal('cashOutModal'); });
-        depositModal.addEventListener('click', (e) => { if (e.target === depositModal) closeModal('depositModal'); });
-        withdrawModal.addEventListener('click', (e) => { if (e.target === withdrawModal) closeModal('withdrawModal'); });
-        resetDataModal.addEventListener('click', (e) => { if (e.target === resetDataModal) closeModal('resetDataModal'); });
-        investmentDetailsModal.addEventListener('click', (e) => { if (e.target === investmentDetailsModal) closeModal('investmentDetailsModal'); }); // New: Close details modal
-
-        /**
-         * Opens a specified modal by removing the 'hidden' class.
-         * @param {string} modalId The ID of the modal to open.
-         */
-        function openModal(modalId) {
-            document.getElementById(modalId).classList.remove('hidden');
-            // Populate dropdowns if it's the cash out modal
-            if (modalId === 'cashOutModal') {
-                populateCashOutInvestments();
-            }
-            // Reset invest modal fields and chart when opened
-            if (modalId === 'investModal') {
-                investmentCategorySelect.value = '';
-                investmentTypeSelect.innerHTML = '<option value="">Select Type</option>';
-                investmentTypeSelect.disabled = true;
-                investmentAmountInput.value = '5000'; // Set minimum investment value
-                investmentDurationInput.value = '1'; // Set minimum duration
-                investmentDurationUnitSelect.value = 'months';
-                investmentTypeDetails.classList.add('hidden');
-                updateProjectionTable(0, 0, 0); // Reset table and total
-                clearInputError(investmentAmountInput, investmentAmountError);
-                clearInputError(investmentDurationInput, investmentDurationError);
-                projectionBasisLabel.textContent = ''; // Clear the basis label on open
-                
-                // Immediately update duration constraints based on default amount
-                updateDurationConstraints();
-            }
-            // Clear errors for other modals on open
-            if (modalId === 'cashOutModal') {
-                clearInputError(cashOutInvestmentSelect, cashOutInvestmentSelectError);
-                clearInputError(cashOutAmountInput, cashOutAmountError);
-            }
-            if (modalId === 'depositModal') {
-                clearInputError(depositEmailInput, depositEmailError);
-                clearInputError(depositAmountInput, depositAmountError);
-            }
-            if (modalId === 'withdrawModal') {
-                clearInputError(withdrawAmountInput, withdrawAmountError);
-            }
-        }
-
-        /**
-         * Closes a specified modal by adding the 'hidden' class.
-         * @param {string} modalId The ID of the modal to close.
-         */
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.add('hidden');
-            // Clear inputs and errors on close
-            const inputs = document.getElementById(modalId).querySelectorAll('input[type="number"], input[type="text"], input[type="email"], input[type="password"], select');
-            inputs.forEach(input => {
-                // Do not clear the calculator inputs, only modal specific inputs
-                if (input.id !== 'calcInitialInvestment' && input.id !== 'calcInvestmentDuration' && input.id !== 'calcAnnualReturnRate') {
-                    input.value = '';
-                }
-            });
-            // Reset investment type dropdown if it's the invest modal
-            if (modalId === 'investModal') {
-                document.getElementById('investmentCategory').value = '';
-                document.getElementById('investmentType').innerHTML = '<option value="">Select Type</option>';
-                document.getElementById('investmentType').disabled = true;
-                projectionBasisLabel.textContent = ''; // Clear the basis label on close
-                finalProjectedTotalEl.classList.add('hidden'); // Hide total on close
-            }
-            // Clear all error messages and styles within the closed modal
-            document.getElementById(modalId).querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
-            document.getElementById(modalId).querySelectorAll('.error-text').forEach(el => el.classList.add('hidden'));
-        }
-
-        // Investment Category and Type Logic
-        investmentCategorySelect.addEventListener('change', () => {
-            const selectedCategory = investmentCategorySelect.value;
-            investmentTypeSelect.innerHTML = '<option value="">Select Type</option>'; // Clear previous options
-            investmentTypeSelect.disabled = true;
-            investmentTypeDetails.classList.add('hidden'); // Hide details when category changes
-            updateProjectionTable(0, 0, 0); // Reset table and total
-            clearInputError(investmentAmountInput, investmentAmountError);
-            clearInputError(investmentDurationInput, investmentDurationError);
-            projectionBasisLabel.textContent = ''; // Clear the basis label
-            
-            // Re-evaluate duration constraints when category changes
-            updateDurationConstraints();
-
-            if (selectedCategory && investmentTypes[selectedCategory]) {
-                // Populate types based on selected category
-                for (const type in investmentTypes[selectedCategory]) {
-                    const option = document.createElement('option');
-                    option.value = type;
-                    option.textContent = type;
-                    investmentTypeSelect.appendChild(option);
-                }
-                investmentTypeSelect.disabled = false;
-            }
-        });
-
-        investmentTypeSelect.addEventListener('change', () => {
-            const selectedCategory = investmentCategorySelect.value;
-            const selectedType = investmentTypeSelect.value;
-            const details = investmentTypes[selectedCategory]?.[selectedType];
-            clearInputError(investmentAmountInput, investmentAmountError);
-            clearInputError(investmentDurationInput, investmentDurationError);
-
-            if (details) {
-                detailsTypeName.textContent = selectedType;
-                detailsDescription.textContent = details.description;
-                detailsReturnRange.textContent = details.returnRange;
-                
-                // Update duration constraints based on selected type and current amount
-                updateDurationConstraints();
-
-                investmentTypeDetails.classList.remove('hidden');
-
-                // Update projection table with initial values
-                // Pass a dummy value for fixedDailyPercentage as it's now randomly generated in updateProjectionTable
-                debouncedUpdateProjection(); // Use debounced version
-            } else {
-                investmentTypeDetails.classList.add('hidden');
-                updateProjectionTable(0, 0, 0); // Reset table and total
-                projectionBasisLabel.textContent = ''; // Clear the basis label
-                updateDurationConstraints(); // Reset duration constraints if no type selected
-            }
-        });
-
-        // Debounced function for updating projection table
-        const debouncedUpdateProjection = debounce(() => {
-            const amount = parseFloat(investmentAmountInput.value);
-            const duration = parseInt(investmentDurationInput.value);
-            const unit = investmentDurationUnitSelect.value;
-            const selectedCategory = investmentCategorySelect.value;
-            const selectedType = investmentTypeSelect.value;
-            const details = investmentTypes[selectedCategory]?.[selectedType];
-            const returnRangeText = details ? details.returnRange : '';
-
-            updateProjectionTable(amount, duration, 0, unit, returnRangeText);
-        }, 300); // 300ms debounce delay
-
-        // Listen for changes in amount and duration to update the projection table
-        investmentAmountInput.addEventListener('input', () => {
-            updateDurationConstraints(); // Update constraints immediately
-            debouncedUpdateProjection(); // Then update projection with debounce
-        });
-        investmentDurationInput.addEventListener('input', debouncedUpdateProjection);
-        investmentDurationUnitSelect.addEventListener('change', debouncedUpdateProjection);
-
-        /**
-         * Dynamically updates the duration input constraints based on the investment amount.
-         */
-        function updateDurationConstraints() {
-            const amount = parseFloat(investmentAmountInput.value);
-            const selectedCategory = investmentCategorySelect.value;
-            const selectedType = investmentTypeSelect.value;
-            const details = investmentTypes[selectedCategory]?.[selectedType];
-
-            // Clear previous errors
-            clearInputError(investmentDurationInput, investmentDurationError);
-
-            if (!details || isNaN(amount) || amount < 5000) {
-                // No investment type selected, or amount is too low/invalid
-                investmentDurationInput.disabled = true;
-                investmentDurationUnitSelect.disabled = true;
-                investmentDurationInput.value = '';
-                detailsMinDuration.textContent = 'N/A';
-                detailsReturnRange.textContent = 'Enter amount to see details';
-                return;
-            }
-
-            let minAllowedMonths = details.minDurationMonths; // Base minimum from investment type
-            let maxAllowedMonths = Infinity; // Default to no explicit max
-
-            if (amount >= 5000 && amount <= 15000) {
-                // For amounts between 5k and 15k, duration must be 1 month
-                minAllowedMonths = Math.max(minAllowedMonths, 1); // Ensure it's at least type's min
-                maxAllowedMonths = 1;
-                investmentDurationUnitSelect.value = 'months'; // Force months
-                investmentDurationUnitSelect.disabled = true; // Disable unit change
-                detailsReturnRange.textContent = `Fixed 4.5% to 5% Daily on Initial Amount (1-month duration)`;
-            } else if (amount > 15000) {
-                // For amounts above 15k, duration must be 2 months or more
-                minAllowedMonths = Math.max(minAllowedMonths, 2); // Ensure it's at least type's min and at least 2 months
-                investmentDurationUnitSelect.disabled = false; // Enable unit change
-                detailsReturnRange.textContent = `Fixed 4.5% to 5% Daily on Initial Amount (2+ month duration)`;
-            }
-
-            investmentDurationInput.disabled = false;
-            investmentDurationInput.min = minAllowedMonths;
-            // No explicit max attribute for duration input, but logic will validate.
-
-            // Adjust current duration value if it's out of bounds
-            let currentDurationValue = parseInt(investmentDurationInput.value);
-            let currentDurationInMonths = currentDurationValue;
-            if (investmentDurationUnitSelect.value === 'years') {
-                currentDurationInMonths = currentDurationValue * 12;
-            }
-
-            if (currentDurationInMonths < minAllowedMonths || (maxAllowedMonths !== Infinity && currentDurationInMonths > maxAllowedMonths)) {
-                investmentDurationInput.value = minAllowedMonths; // Set to minimum allowed
-                investmentDurationUnitSelect.value = 'months'; // Reset unit to months if it was years and now forced to 1 month
-            }
-
-            // Update the displayed minimum duration in the details card
-            let durationDisplay = `${minAllowedMonths} month${minAllowedMonths > 1 ? 's' : ''}`;
-            if (maxAllowedMonths !== Infinity && maxAllowedMonths !== minAllowedMonths) {
-                durationDisplay += ` to ${maxAllowedMonths} month${maxAllowedMonths > 1 ? 's' : ''}`;
-            } else if (maxAllowedMonths === Infinity && minAllowedMonths === 2) {
-                 durationDisplay = `2+ months`;
-            }
-            detailsMinDuration.textContent = durationDisplay;
-        }
-
-
-        /**
-         * Function to update the projection table with fluctuating daily profit.
-         * 'fixedDailyPercentage' parameter is now a dummy value, actual percentage is random.
-         */
-        function updateProjectionTable(initialAmount, duration, dummyFixedDailyPercentage, unit = 'months', returnRangeText = '') {
-            projectionTableContainer.innerHTML = ''; // Clear previous content
-            finalProjectedTotalEl.classList.add('hidden'); // Hide total by default
-
-            const MIN_DAILY_PERCENTAGE = 4.5;
-            const MAX_DAILY_PERCENTAGE = 5.0;
-
-            if (initialAmount > 0 && duration > 0) {
-                projectionInfo.textContent = `This breakdown illustrates your projected investment growth with **daily additions**, where a fluctuating percentage (${MIN_DAILY_PERCENTAGE}% to ${MAX_DAILY_PERCENTAGE}%) of your initial investment is added each day.`;
-                projectionBasisLabel.textContent = `Based on: Fixed ${MIN_DAILY_PERCENTAGE}% to ${MAX_DAILY_PERCENTAGE}% Daily on Initial Amount`; // Updated label
-
-                let totalDays = duration;
-                if (unit === 'months') {
-                    totalDays = duration * 30; // Approximate 30 days per month
-                } else if (unit === 'years') {
-                    totalDays = duration * 365;
-                }
-
-                let currentBalance = initialAmount;
-
-                // Add header row
-                const headerDiv = document.createElement('div');
-                headerDiv.classList.add('projection-table-header');
-                headerDiv.innerHTML = `
-                    <span style="flex:0.8; text-align:left;">Day</span>
-                    <span style="flex:1;">Start Balance</span>
-                    <span style="flex:1;">Daily Profit</span>
-                    <span style="flex:1;">End Balance</span>
-                `;
-                projectionTableContainer.appendChild(headerDiv);
-
-                // Generate daily breakdown rows
-                for (let day = 1; day <= totalDays; day++) {
-                    const randomDailyPercentage = (Math.random() * (MAX_DAILY_PERCENTAGE - MIN_DAILY_PERCENTAGE) + MIN_DAILY_PERCENTAGE) / 100;
-                    const dailyProfit = initialAmount * randomDailyPercentage; // Profit based on initial amount
-                    const endBalance = currentBalance + dailyProfit;
-
-                    const rowDiv = document.createElement('div');
-                    rowDiv.classList.add('projection-table-row');
-                    rowDiv.innerHTML = `
-                        <span style="flex:0.8; text-align:left;">${day}</span>
-                        <span style="flex:1;">${formatNaira(currentBalance)}</span>
-                        <span style="flex:1; color:#76E076;">+${formatNaira(dailyProfit)}</span>
-                        <span style="flex:1;">${formatNaira(endBalance)}</span>
-                    `;
-                    projectionTableContainer.appendChild(rowDiv);
-                    currentBalance = endBalance; // Update balance for next day's calculation
-                }
-
-                // Display the final projected total
-                finalProjectedTotalEl.textContent = `Projected Total: ${formatNaira(currentBalance)}`;
-                finalProjectedTotalEl.classList.remove('hidden');
-
-            } else {
-                projectionTableContainer.innerHTML = '<p class="projection-table-empty-message">Enter investment details to see a daily breakdown.</p>';
-                projectionInfo.textContent = 'Adjust amount and duration to see your potential growth.';
-                projectionBasisLabel.textContent = ''; // Clear the basis label if no valid input
-                finalProjectedTotalEl.classList.add('hidden'); // Ensure total is hidden if no valid input
-            }
-        }
-
-
-        // Submit New Investment
-        document.getElementById('submitInvestmentBtn').addEventListener('click', () => {
-            const submitButton = document.getElementById('submitInvestmentBtn');
-            startLoading(submitButton, 'Investing...');
-
-            const category = investmentCategorySelect.value;
-            const type = investmentTypeSelect.value;
-            const amount = parseFloat(investmentAmountInput.value);
-            let duration = parseInt(investmentDurationInput.value);
-            const durationUnit = investmentDurationUnitSelect.value;
-            const details = investmentTypes[category]?.[type];
-            const MIN_INVESTMENT_AMOUNT = 5000; // Define minimum investment amount
-
-            let hasError = false;
-            if (!category || !type || !details) {
-                showToast('Please select an investment category and type.', 'error');
-                hasError = true;
-            }
-            if (isNaN(amount) || amount < MIN_INVESTMENT_AMOUNT) {
-                showInputError(investmentAmountInput, investmentAmountError, `Amount must be at least ${formatNaira(MIN_INVESTMENT_AMOUNT)}.`);
-                hasError = true;
-            } else {
-                clearInputError(investmentAmountInput, investmentAmountError);
-            }
-            if (isNaN(duration) || duration <= 0) {
-                showInputError(investmentDurationInput, investmentDurationError, 'Duration must be a positive number.');
-                hasError = true;
-            } else {
-                clearInputError(investmentDurationInput, investmentDurationError);
-            }
-
-            if (hasError) {
-                stopLoading(submitButton, 'Invest');
-                return;
-            }
-
-            // Convert duration to months for internal consistency
-            let durationInMonths = duration;
-            if (durationUnit === 'years') {
-                durationInMonths = duration * 12;
-            }
-
-            // --- New Duration Validation based on Amount ---
-            let minAllowedMonthsForAmount;
-            let maxAllowedMonthsForAmount;
-
-            if (amount >= 5000 && amount <= 15000) {
-                minAllowedMonthsForAmount = 1;
-                maxAllowedMonthsForAmount = 1;
-            } else if (amount > 15000) {
-                minAllowedMonthsForAmount = 2;
-                maxAllowedMonthsForAmount = Infinity; // Effectively no upper limit for this rule
-            } else {
-                // This case should ideally be caught by the initial amount validation,
-                // but as a fallback, set impossible duration to trigger error.
-                minAllowedMonthsForAmount = Infinity;
-                maxAllowedMonthsForAmount = 0;
-            }
-
-            // Combine with investment type's minimum duration
-            const finalMinDurationMonths = Math.max(details.minDurationMonths, minAllowedMonthsForAmount);
-
-            if (durationInMonths < finalMinDurationMonths || durationInMonths > maxAllowedMonthsForAmount) {
-                let errorMessage = `For this amount (${formatNaira(amount)}), duration must be `;
-                if (amount >= 5000 && amount <= 15000) {
-                    errorMessage += `exactly 1 month.`;
-                } else if (amount > 15000) {
-                    errorMessage += `at least 2 months.`;
-                } else {
-                    errorMessage += `valid.`; // Fallback for unexpected amount
-                }
-                showInputError(investmentDurationInput, investmentDurationError, errorMessage);
-                stopLoading(submitButton, 'Invest');
-                return;
-            }
-            // --- End New Duration Validation ---
-
-
-            if (userAccountBalance < amount) {
-                showToast(`Insufficient funds. Your balance is ${formatNaira(userAccountBalance)}.`, 'error');
-                stopLoading(submitButton, 'Invest');
-                return;
-            }
-
-            // Store the base daily profit percentage (e.g., 4.5) for the investment
-            const baseDailyProfitPercentage = details.typicalAnnualReturn;
-
-            const newInvestment = {
-                id: Date.now().toString(), // Simple unique ID
-                category,
-                type,
-                initialAmount: amount,
-                currentValue: amount, // Starts at initial amount
-                annualReturnRate: baseDailyProfitPercentage, // Storing base percentage for fixed daily profit
-                investDate: new Date().toISOString(),
-                durationMonths: durationInMonths, // Store duration in months
-                profit: 0
-            };
-
-            userInvestments.push(newInvestment);
-            userAccountBalance -= amount;
-
-            userTransactions.push({
-                id: Date.now().toString() + '-tx',
-                type: 'Investment',
-                amount: amount,
-                description: `Invested in ${type} (${category}) for ${duration} ${durationUnit}`,
-                date: new Date().toISOString()
-            });
-
-            saveUserData();
-            updateDashboard();
-            showToast(`Successfully invested ${formatNaira(amount)} in ${type}!`, 'success');
-            stopLoading(submitButton, 'Invest');
-            setTimeout(() => closeModal('investModal'), 1500);
-        });
-
-        // Populate Cash Out Investments Dropdown
-        function populateCashOutInvestments() {
-            cashOutInvestmentSelect.innerHTML = '<option value="">Select an active investment</option>'; // Clear previous options
-            clearInputError(cashOutInvestmentSelect, cashOutInvestmentSelectError);
-
-            if (userInvestments.length === 0) {
-                const option = document.createElement('option');
-                option.value = "";
-                option.textContent = "No active investments available";
-                option.disabled = true;
-                cashOutInvestmentSelect.appendChild(option);
-                return;
-            }
-
-            userInvestments.forEach(inv => {
-                const investDate = new Date(inv.investDate);
-                const maturityDate = new Date(investDate);
-                maturityDate.setMonth(maturityDate.getMonth() + inv.durationMonths);
-                const isMatured = new Date() >= maturityDate;
-
-                const maturityStatus = isMatured ? ' (Matured)' : ` (Matures: ${maturityDate.toLocaleDateString()})`;
-
-                const option = document.createElement('option');
-                option.value = inv.id;
-                option.textContent = `${inv.type} (${inv.category}) - Current Value: ${formatNaira(inv.currentValue)}${maturityStatus}`;
-                option.disabled = !isMatured; // Disable if not matured
-                cashOutInvestmentSelect.appendChild(option);
-            });
-        }
-
-        // Submit Cash Out
-        document.getElementById('submitCashOutBtn').addEventListener('click', () => {
-            const submitButton = document.getElementById('submitCashOutBtn');
-            startLoading(submitButton, 'Cashing Out...');
-
-            const investmentId = cashOutInvestmentSelect.value;
-            const cashOutAmount = parseFloat(cashOutAmountInput.value);
-
-            let hasError = false;
-            if (!investmentId) {
-                showInputError(cashOutInvestmentSelect, cashOutInvestmentSelectError, 'Please select an investment.');
-                hasError = true;
-            } else {
-                clearInputError(cashOutInvestmentSelect, cashOutInvestmentSelectError);
-            }
-            if (isNaN(cashOutAmount) || cashOutAmount <= 0) {
-                showInputError(cashOutAmountInput, cashOutAmountError, 'Please enter a valid amount.');
-                hasError = true;
-            } else {
-                clearInputError(cashOutAmountInput, cashOutAmountError);
-            }
-
-            if (hasError) {
-                stopLoading(submitButton, 'Confirm Cash Out');
-                return;
-            }
-
-            const investmentIndex = userInvestments.findIndex(inv => inv.id === investmentId);
-            if (investmentIndex === -1) {
-                showToast('Selected investment not found.', 'error');
-                stopLoading(submitButton, 'Confirm Cash Out');
-                return;
-            }
-
-            const investment = userInvestments[investmentIndex];
-
-            // Check for maturity before allowing cash out
-            const investDate = new Date(investment.investDate);
-            const maturityDate = new Date(investDate);
-            maturityDate.setMonth(maturityDate.getMonth() + investment.durationMonths);
-
-            if (new Date() < maturityDate) {
-                showToast(`This investment matures on ${maturityDate.toLocaleDateString()}. You cannot cash out before then.`, 'error');
-                stopLoading(submitButton, 'Confirm Cash Out');
-                return;
-            }
-
-            if (cashOutAmount > investment.currentValue) {
-                showToast(`You can only cash out up to ${formatNaira(investment.currentValue)}.`, 'error');
-                showInputError(cashOutAmountInput, cashOutAmountError, `Amount exceeds current value (${formatNaira(investment.currentValue)}).`);
-                stopLoading(submitButton, 'Confirm Cash Out');
-                return;
-            }
-
-            userAccountBalance += cashOutAmount;
-            investment.currentValue -= cashOutAmount;
-            // For partial cash out, adjust initial amount proportionally.
-            // This is a simplified approach; a more complex system might track original investment units.
-            // With fixed daily profit, initialAmount should probably not change for partial cash out.
-            // A better way would be to track 'units' or 'shares'.
-            if (investment.initialAmount > 0) {
-                // If cashing out, the 'initial amount' for remaining investment should be reduced proportionally
-                investment.initialAmount = investment.initialAmount * (investment.currentValue / (investment.currentValue + cashOutAmount));
-            } else {
-                investment.initialAmount = 0;
-            }
-
-            investment.profit = investment.currentValue - investment.initialAmount; // Recalculate profit
-
-            userTransactions.push({
-                id: Date.now().toString() + '-tx',
-                type: 'Cash Out',
-                amount: cashOutAmount,
-                description: `Cashed out from ${investment.type} (${investment.category})`,
-                date: new Date().toISOString()
-            });
-
-            // Remove investment if fully cashed out (or very close to zero due to float precision)
-            if (investment.currentValue < 0.01) {
-                userInvestments.splice(investmentIndex, 1);
-            }
-
-            saveUserData();
-            updateDashboard();
-            showToast(`Successfully cashed out ${formatNaira(cashOutAmount)}!`, 'success');
-            stopLoading(submitButton, 'Confirm Cash Out');
-            setTimeout(() => closeModal('cashOutModal'), 1500);
-        });
-
-        // Submit Deposit (modified for Paystack)
-        document.getElementById('submitDepositBtn').addEventListener('click', () => {
-            const submitButton = document.getElementById('submitDepositBtn');
-            startLoading(submitButton, 'Connecting...');
-
-            const depositEmail = depositEmailInput.value;
-            const depositAmount = parseFloat(depositAmountInput.value);
-
-            let hasError = false;
-            if (!depositEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(depositEmail)) {
-                showInputError(depositEmailInput, depositEmailError, 'Please enter a valid email address.');
-                hasError = true;
-            } else {
-                clearInputError(depositEmailInput, depositEmailError);
-            }
-            if (isNaN(depositAmount) || depositAmount <= 0) {
-                showInputError(depositAmountInput, depositAmountError, 'Please enter a valid amount greater than 0.');
-                hasError = true;
-            } else {
-                clearInputError(depositAmountInput, depositAmountError);
-            }
-
-            if (hasError) {
-                stopLoading(submitButton, 'Proceed to Paystack');
-                return;
-            }
-
-            // Paystack requires amount in kobo (cents)
-            const amountInKobo = depositAmount * 100;
-
-            showToast('Redirecting to Paystack...', 'info');
-
-            // Initialize Paystack Pop
-            const handler = PaystackPop.setup({
-                key: paystackPublicKey,
-                email: depositEmail,
-                amount: amountInKobo,
-                currency: 'NGN',
-                ref: '' + Math.floor((Math.random() * 1000000000) + 1), // unique ref
-                onClose: function(){
-                    showToast('Payment cancelled.', 'error');
-                    stopLoading(submitButton, 'Proceed to Paystack');
-                },
-                callback: function(response){
-                    // IMPORTANT: In a real application, you MUST verify this transaction on your backend server
-                    // using Paystack's verify endpoint to prevent fraud.
-                    // For this client-side only demonstration, we're assuming success directly.
-                    if (response.status === 'success') {
-                        userAccountBalance += depositAmount;
-
-                        userTransactions.push({
-                            id: Date.now().toString() + '-tx',
-                            type: 'Deposit',
-                            amount: depositAmount,
-                            description: `Funds deposited via Paystack (Ref: ${response.reference})`,
-                            date: new Date().toISOString()
-                        });
-
-                        saveUserData();
-                        updateDashboard();
-                        showToast(`Successfully deposited ${formatNaira(depositAmount)}!`, 'success');
-                        stopLoading(submitButton, 'Proceed to Paystack');
-                        setTimeout(() => closeModal('depositModal'), 2000);
-                    } else {
-                        showToast('Payment failed. Please try again.', 'error');
-                        stopLoading(submitButton, 'Proceed to Paystack');
-                    }
-                }
-            });
-            handler.openIframe();
-        });
-
-        // Submit Withdrawal
-        document.getElementById('submitWithdrawBtn').addEventListener('click', () => {
-            const submitButton = document.getElementById('submitWithdrawBtn');
-            startLoading(submitButton, 'Withdrawing...');
-
-            const withdrawAmount = parseFloat(withdrawAmountInput.value);
-
-            let hasError = false;
-            if (isNaN(withdrawAmount) || withdrawAmount <= 0) {
-                showInputError(withdrawAmountInput, withdrawAmountError, 'Please enter a valid withdrawal amount.');
-                hasError = true;
-            } else {
-                clearInputError(withdrawAmountInput, withdrawAmountError);
-            }
-
-            if (hasError) {
-                stopLoading(submitButton, 'Confirm Withdrawal');
-                return;
-            }
-
-            if (userAccountBalance < withdrawAmount) {
-                showToast(`Insufficient balance. Your balance is ${formatNaira(userAccountBalance)}.`, 'error');
-                showInputError(withdrawAmountInput, withdrawAmountError, `Insufficient balance (${formatNaira(userAccountBalance)}).`);
-                stopLoading(submitButton, 'Confirm Withdrawal');
-                return;
-            }
-
-            userAccountBalance -= withdrawAmount;
-
-            userTransactions.push({
-                id: Date.now().toString() + '-tx',
-                type: 'Withdrawal',
-                amount: withdrawAmount,
-                description: 'Funds withdrawn from account',
-                date: new Date().toISOString()
-            });
-
-            saveUserData();
-            updateDashboard();
-            showToast(`Successfully withdrew ${formatNaira(withdrawAmount)}!`, 'success');
-            stopLoading(submitButton, 'Confirm Withdrawal');
-            setTimeout(() => closeModal('withdrawModal'), 1500);
-        });
-
-        // Reset Data Functionality
-        document.getElementById('confirmResetDataBtn').addEventListener('click', () => {
-            const submitButton = document.getElementById('confirmResetDataBtn');
-            startLoading(submitButton, 'Resetting...');
-
-            if (!currentUserId) {
-                showToast('No user logged in to reset data.', 'error');
-                stopLoading(submitButton, 'Yes, Reset All');
-                return;
-            }
-
-            // Clear data specific to the current user
-            localStorage.removeItem(`growWithCoreInvestments_${currentUserId}`);
-            localStorage.removeItem(`growWithCoreTransactions_${currentUserId}`);
-            localStorage.removeItem(`growWithCoreAccountBalance_${currentUserId}`);
-            
-            // Also remove the user from the global users list
-            let users = JSON.parse(localStorage.getItem('growWithCoreUsers') || '[]');
-            users = users.filter(user => user.id !== currentUserId);
-            localStorage.setItem('growWithCoreUsers', JSON.stringify(users));
-
-            // Log out the user after data reset
-            localStorage.removeItem('growWithCoreLoggedInUserId');
-            currentUserId = null;
-            currentUserEmail = null;
-            userInvestments = [];
-            userTransactions = [];
-            userAccountBalance = 0;
-
-            showToast('All data has been reset successfully!', 'success');
-            stopLoading(submitButton, 'Yes, Reset All');
-            setTimeout(() => {
-                closeModal('resetDataModal');
-                loadUserData(); // Go back to login screen
-            }, 1500);
-        });
-
-        // Logout Functionality
-        document.getElementById('logoutBtn').addEventListener('click', () => {
-            const submitButton = document.getElementById('logoutBtn');
-            startLoading(submitButton, 'Logging Out...');
-
-            // Clear the logged-in user ID from session storage
-            localStorage.removeItem('growWithCoreLoggedInUserId');
-            currentUserId = null;
-            currentUserEmail = null;
-            
-            // Clear in-memory data (but not from local storage)
-            userInvestments = [];
-            userTransactions = [];
-            userAccountBalance = 0;
-
-            showToast('Logged out successfully!', 'info');
-            // Stop loading immediately, then transition
-            stopLoading(submitButton, 'Logout');
-            // Show the authentication container
-            dashboardContainer.classList.add('hidden');
-            authContainer.classList.remove('hidden');
-            loginEmailInput.value = '';
-            loginPasswordInput.value = '';
-            authMessage.textContent = '';
-            authMessageCreate.textContent = '';
-            // Ensure login form is visible after logout
-            loginForm.classList.remove('hidden');
-            createAccountForm.classList.add('hidden');
-        });
-
-        // Auth Form Logic
-        switchToCreateLink.addEventListener('click', (e) => {
+        // Event Listeners for form toggling
+        showRegisterLink.addEventListener('click', (e) => {
             e.preventDefault();
             loginForm.classList.add('hidden');
-            createAccountForm.classList.remove('hidden');
-            authMessage.textContent = ''; // Clear messages
-            authMessageCreate.textContent = '';
-            loginEmailInput.value = '';
+            registerForm.classList.remove('hidden');
+            loginMessage.classList.add('hidden'); // Hide any previous login messages
+            registerMessage.classList.add('hidden'); // Clear register message on toggle
+            registerEmailInput.value = ''; // Clear inputs on toggle
+            registerPasswordInput.value = '';
+        });
+
+        showLoginLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            registerForm.classList.add('hidden');
+            loginForm.classList.remove('hidden');
+            registerMessage.classList.add('hidden'); // Hide any previous register messages
+            loginMessage.classList.add('hidden'); // Clear login message on toggle
+            loginEmailInput.value = ''; // Clear inputs on toggle
             loginPasswordInput.value = '';
         });
 
-        switchToLoginLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            createAccountForm.classList.add('hidden');
-            loginForm.classList.remove('hidden');
-            authMessage.textContent = ''; // Clear messages
-            authMessageCreate.textContent = '';
-            createEmailInput.value = '';
-            createPasswordInput.value = '';
-            createConfirmPasswordInput.value = '';
-        });
+        // Register Button Logic
+        registerBtn.addEventListener('click', () => {
+            const email = registerEmailInput.value.trim();
+            const password = registerPasswordInput.value.trim();
 
-        document.getElementById('login-btn').addEventListener('click', () => {
-            const email = loginEmailInput.value;
-            const password = loginPasswordInput.value;
-            const loginButton = document.getElementById('login-btn');
-            startLoading(loginButton, 'Logging In...');
-            authMessage.textContent = '';
-
-            let users = JSON.parse(localStorage.getItem('growWithCoreUsers') || '[]');
-            const user = users.find(u => u.email === email && u.password === password); // Simple password check
-
-            if (user) {
-                currentUserId = user.id;
-                currentUserEmail = user.email;
-                localStorage.setItem('growWithCoreLoggedInUserId', currentUserId);
-                authMessage.textContent = ''; // Clear any previous error message
-                loginEmailInput.value = ''; // Clear fields on success
-                loginPasswordInput.value = '';
-
-                // Add a 3-second delay for visual transition
-                setTimeout(() => {
-                    stopLoading(loginButton, 'Login'); // Stop loading after 3 seconds
-                    loadUserData(); // This will show the dashboard
-                    showToast('Login successful!', 'success');
-                }, 3000); // 3000ms (3 seconds) delay
-            } else {
-                authMessage.textContent = 'Invalid email or password.';
-                authMessage.classList.add('error');
-                showToast('Login failed. Invalid credentials.', 'error');
-                stopLoading(loginButton, 'Login'); // Stop loading immediately on failure
-            }
-        });
-
-        document.getElementById('create-account-btn').addEventListener('click', () => {
-            const email = createEmailInput.value;
-            const password = createPasswordInput.value;
-            const confirmPassword = createConfirmPasswordInput.value;
-            const createButton = document.getElementById('create-account-btn');
-            startLoading(createButton, 'Creating Account...');
-            authMessageCreate.textContent = '';
-
-            if (password !== confirmPassword) {
-                authMessageCreate.textContent = 'Passwords do not match.';
-                authMessageCreate.classList.add('error');
-                showToast('Passwords do not match.', 'error');
-                stopLoading(createButton, 'Create Account');
+            if (!email || !password) {
+                showMessage(registerMessage, 'Please fill in all fields.', 'error');
                 return;
             }
+
             if (password.length < 6) {
-                authMessageCreate.textContent = 'Password must be at least 6 characters long.';
-                authMessageCreate.classList.add('error');
-                showToast('Password too short. Minimum 6 characters.', 'error');
-                stopLoading(createButton, 'Create Account');
+                showMessage(registerMessage, 'Password must be at least 6 characters long.', 'error');
                 return;
             }
 
-            let users = JSON.parse(localStorage.getItem('growWithCoreUsers') || '[]');
-            if (users.some(u => u.email === email)) {
-                authMessageCreate.textContent = 'Account with this email already exists. Please log in.';
-                authMessageCreate.classList.add('error');
-                showToast('Email already in use. Please log in.', 'error');
-                stopLoading(createButton, 'Create Account');
-                return;
-            }
+            startLoading(registerBtn, 'Registering...');
 
-            const newUserId = generateUUID();
-            const newUser = { id: newUserId, email: email, password: password }; // Storing password in plain text for demo
-            users.push(newUser);
-            localStorage.setItem('growWithCoreUsers', JSON.stringify(users));
-
-            // Automatically log in the new user
-            currentUserId = newUserId;
-            currentUserEmail = email;
-            localStorage.setItem('growWithCoreLoggedInUserId', currentUserId);
-            
-            // Initialize their data in local storage (empty for a new user)
-            localStorage.setItem(`growWithCoreInvestments_${currentUserId}`, '[]');
-            localStorage.setItem(`growWithCoreTransactions_${currentUserId}`, '[]');
-            localStorage.setItem(`growWithCoreAccountBalance_${currentUserId}`, '0');
-
-            authMessageCreate.textContent = ''; // Clear any previous error message
-            createEmailInput.value = ''; // Clear fields on success
-            createPasswordInput.value = '';
-            createConfirmPasswordInput.value = '';
-
-            // Add a 3-second delay for visual transition
+            // Simulate API call delay
             setTimeout(() => {
-                stopLoading(createButton, 'Create Account'); // Stop loading after 3 seconds
-                loadUserData(); // This will show the dashboard
-                showToast('Account created successfully! You are now logged in.', 'success');
-            }, 3000); // 3000ms (3 seconds) delay
-        });
-
-        /**
-         * New Feature: Opens the investment details modal and populates it.
-         * @param {string} investmentId The ID of the investment to display.
-         */
-        function openInvestmentDetailsModal(investmentId) {
-            const investment = userInvestments.find(inv => inv.id === investmentId);
-            if (!investment) {
-                showToast('Investment details not found.', 'error');
-                return;
-            }
-
-            detailModalTypeName.textContent = investment.type;
-            detailModalCategory.textContent = investment.category;
-            detailModalInitialAmount.textContent = formatNaira(investment.initialAmount);
-            detailModalCurrentValue.textContent = formatNaira(investment.currentValue);
-
-            const profitLossClass = investment.profit >= 0 ? 'profit' : 'loss';
-            detailModalProfitLoss.innerHTML = `<span class="${profitLossClass}">${formatNaira(investment.profit)}</span>`;
-
-            detailModalInvestDate.textContent = new Date(investment.investDate).toLocaleDateString();
-            detailModalDuration.textContent = `${investment.durationMonths} months`;
-
-            const investDate = new Date(investment.investDate);
-            const maturityDate = new Date(investDate);
-            maturityDate.setMonth(maturityDate.getMonth() + investment.durationMonths);
-            const isMatured = new Date() >= maturityDate;
-            detailModalMaturity.innerHTML = isMatured ?
-                `<span class="text-green-400 font-semibold">Matured! (${maturityDate.toLocaleDateString()})</span>` :
-                `<span class="text-yellow-400 font-semibold">Matures: ${maturityDate.toLocaleDateString()}</span>`;
-
-            // Populate daily growth history table
-            populateInvestmentHistoryTable(investment);
-
-            investmentDetailsModal.classList.remove('hidden');
-        }
-
-        /**
-         * Populates the daily growth history table within the investment details modal.
-         * @param {object} investment The investment object.
-         */
-        function populateInvestmentHistoryTable(investment) {
-            investmentHistoryTableContainer.innerHTML = ''; // Clear previous content
-
-            const MIN_DAILY_PERCENTAGE = 4.5;
-            const MAX_DAILY_PERCENTAGE = 5.0;
-
-            const investDate = new Date(investment.investDate);
-            const today = new Date();
-            const totalDaysElapsed = Math.floor((today.getTime() - investDate.getTime()) / (1000 * 60 * 60 * 24));
-
-            if (totalDaysElapsed <= 0) {
-                investmentHistoryTableContainer.innerHTML = '<p class="projection-table-empty-message">Investment has not started growing yet.</p>';
-                return;
-            }
-
-            let currentSimulatedBalance = investment.initialAmount;
-
-            // Add header row
-            const headerDiv = document.createElement('div');
-            headerDiv.classList.add('projection-table-header');
-            headerDiv.innerHTML = `
-                <span style="flex:0.8; text-align:left;">Day</span>
-                <span style="flex:1;">Start Balance</span>
-                <span style="flex:1;">Daily Profit</span>
-                <span style="flex:1;">End Balance</span>
-            `;
-            investmentHistoryTableContainer.appendChild(headerDiv);
-
-            for (let day = 1; day <= totalDaysElapsed; day++) {
-                const randomDailyPercentage = (Math.random() * (MAX_DAILY_PERCENTAGE - MIN_DAILY_PERCENTAGE) + MIN_DAILY_PERCENTAGE) / 100;
-                const dailyProfit = investment.initialAmount * randomDailyPercentage; // Profit based on initial amount
-                const endBalance = currentSimulatedBalance + dailyProfit;
-
-                const rowDiv = document.createElement('div');
-                rowDiv.classList.add('projection-table-row');
-                rowDiv.innerHTML = `
-                    <span style="flex:0.8; text-align:left;">${day}</span>
-                    <span style="flex:1;">${formatNaira(currentSimulatedBalance)}</span>
-                    <span style="flex:1; color:#76E076;">+${formatNaira(dailyProfit)}</span>
-                    <span style="flex:1;">${formatNaira(endBalance)}</span>
-                `;
-                investmentHistoryTableContainer.appendChild(rowDiv);
-                currentSimulatedBalance = endBalance;
-            }
-        }
-
-
-        // SVG icons for investment types (simplified for categories)
-        const investmentCategoryIcons = {
-            "Farming": `<svg class="investment-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-leaf"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-4.5 6-4.5C15.25 16.5 17 18 17 21"/></svg>`,
-            "Rearing": `<svg class="investment-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cow"><path d="M9 18.5V20h6v-1.5"/><path d="M12 13V2"/><path d="M22 8c0 3.5-2 6-2 6H4s-2-2.5-2-6c0-3.5 2-6 2-6h16c0 0 2 2.5 2 6Z"/><path d="M7 13v.5a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5V13c0-1.5 1-2.5 2-2.5h2"/><path d="M17 13v.5a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V13c0-1.5-1-2.5-2-2.5h-2"/></svg>`,
-            "Other Opportunities": `<svg class="investment-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lightbulb"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1.3.5 2.6 1.5 3.5.8.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 22v-4"/></svg>`
-        };
-
-        // Initialize the dashboard when the DOM is fully loaded
-        document.addEventListener('DOMContentLoaded', () => {
-            const loggedInUserId = localStorage.getItem('growWithCoreLoggedInUserId');
-            if (loggedInUserId) {
-                // Find the user's email based on ID
-                const users = JSON.parse(localStorage.getItem('growWithCoreUsers') || '[]');
-                const user = users.find(u => u.id === loggedInUserId);
-                if (user) {
-                    currentUserId = loggedInUserId;
-                    currentUserEmail = user.email;
-                    loadUserData();
+                const existingUser = localStorage.getItem(`user_${email}`);
+                if (existingUser) {
+                    showMessage(registerMessage, 'Account with this email already exists.', 'error');
+                    stopLoading(registerBtn, 'Register');
                 } else {
-                    // User ID found but user object not, clear and show login
-                    localStorage.removeItem('growWithCoreLoggedInUserId');
-                    loadUserData();
+                    // Store user credentials in localStorage
+                    localStorage.setItem(`user_${email}`, JSON.stringify({ email, password }));
+                    showMessage(registerMessage, 'Account created successfully! You can now log in.', 'success');
+                    stopLoading(registerBtn, 'Register');
+                    // Optionally switch to login form after successful registration
+                    setTimeout(() => {
+                        registerForm.classList.add('hidden');
+                        loginForm.classList.remove('hidden');
+                        loginEmailInput.value = email; // Pre-fill login email
+                        registerEmailInput.value = ''; // Clear register form
+                        registerPasswordInput.value = '';
+                    }, 1500);
                 }
-            } else {
-                loadUserData(); // Show login/create account if no user is logged in
-            }
-
-            // Attach event listeners for transaction filters/sort AFTER DOM is loaded
-            // This ensures the elements exist when the listeners are attached.
-            if (transactionFilterSelect) {
-                transactionFilterSelect.addEventListener('change', renderTransactionHistory);
-            }
-            if (transactionSortSelect) {
-                transactionSortSelect.addEventListener('change', renderTransactionHistory);
-            }
+            }, 1000);
         });
 
-        window.addEventListener('resize', () => {
-            if (portfolioChart) portfolioChart.resize();
+        // Login Button Logic
+        loginBtn.addEventListener('click', () => {
+            const email = loginEmailInput.value.trim();
+            const password = loginPasswordInput.value.trim();
+
+            if (!email || !password) {
+                showMessage(loginMessage, 'Please enter your email and password.', 'error');
+                return;
+            }
+
+            startLoading(loginBtn, 'Logging in...');
+
+            // Simulate API call delay
+            setTimeout(() => {
+                const storedUser = localStorage.getItem(`user_${email}`);
+                if (storedUser) {
+                    const userData = JSON.parse(storedUser);
+                    if (userData.password === password) {
+                        showMessage(loginMessage, 'Login successful! Redirecting...', 'success');
+                        stopLoading(loginBtn, 'Login');
+                        // Redirect to addup.html on successful login
+                        // Pass user ID/email via localStorage for the dashboard to pick up
+                        localStorage.setItem('currentUserEmail', email);
+                        localStorage.setItem('currentUserId', email.replace(/[^a-zA-Z0-9]/g, '_')); // Simple ID from email
+                        window.location.href = 'addup.html'; // Changed from dashboard.html to addup.html
+                    } else {
+                        showMessage(loginMessage, 'Incorrect password.', 'error');
+                        stopLoading(loginBtn, 'Login');
+                    }
+                } else {
+                    showMessage(loginMessage, 'User not found. Please register.', 'error');
+                    stopLoading(loginBtn, 'Login');
+                }
+            }, 1000);
         });
     </script>
 </body>
