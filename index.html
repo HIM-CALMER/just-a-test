@@ -586,6 +586,21 @@
             }
         }
 
+        /* Specific style for the Investment Details Modal to make it larger */
+        #investmentDetailsModal .modal-content {
+            max-width: 850px; /* Larger width for invest modal */
+            display: grid;
+            grid-template-columns: 1fr; /* Single column on mobile */
+            gap: 1.8rem; /* Adjusted gap for mobile */
+        }
+
+        @media (min-width: 768px) {
+            #investmentDetailsModal .modal-content {
+                grid-template-columns: 1fr 1.5fr; /* Two columns for larger screens */
+                gap: 2.5rem; /* Restore gap on desktop */
+            }
+        }
+
         .modal-close-btn {
             position: absolute;
             top: 0.85rem; /* Adjusted position for mobile */
@@ -1512,6 +1527,34 @@
         </div>
     </div>
 
+    <!-- New Feature: Investment Details Modal -->
+    <div id="investmentDetailsModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button class="modal-close-btn" id="closeInvestmentDetailsModalBtn">&times;</button>
+            <h3 class="modal-title">Investment Details</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Left Column: Basic Details -->
+                <div class="investment-details-card">
+                    <h4 id="detailModalTypeName"></h4>
+                    <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-tag"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414L12.586 22.414a2 2 0 0 0 2.828 0l7.172-7.172a2 2 0 0 0 0-2.828L12.586 2.586z"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/></svg><span class="detail-label">Category:</span> <span id="detailModalCategory"></span></p>
+                    <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dollar-sign"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><span class="detail-label">Initial Amount:</span> <span id="detailModalInitialAmount"></span></p>
+                    <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg><span class="detail-label">Current Value:</span> <span id="detailModalCurrentValue"></span></p>
+                    <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bar-chart-2"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg><span class="detail-label">Total Profit/Loss:</span> <span id="detailModalProfitLoss"></span></p>
+                    <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg><span class="detail-label">Invest Date:</span> <span id="detailModalInvestDate"></span></p>
+                    <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="detail-label">Duration:</span> <span id="detailModalDuration"></span></p>
+                    <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><span class="detail-label">Maturity:</span> <span id="detailModalMaturity"></span></p>
+                </div>
+                <!-- Right Column: Daily Growth History -->
+                <div class="investment-details-card">
+                    <h4 class="text-center">Daily Growth History</h4>
+                    <div id="investmentHistoryTableContainer" class="projection-table-container">
+                        <p class="projection-table-empty-message">No history available for this investment.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- New: Toast Notification Container -->
     <div id="toastContainer"></div>
 
@@ -1567,6 +1610,7 @@
         const depositModal = document.getElementById('depositModal');
         const withdrawModal = document.getElementById('withdrawModal');
         const resetDataModal = document.getElementById('resetDataModal');
+        const investmentDetailsModal = document.getElementById('investmentDetailsModal'); // New: Investment Details Modal
 
         // Invest Modal specific elements
         const investmentCategorySelect = document.getElementById('investmentCategory');
@@ -1605,6 +1649,18 @@
         // Transaction History Filter/Sort elements
         const transactionFilterSelect = document.getElementById('transactionFilter');
         const transactionSortSelect = document.getElementById('transactionSort');
+
+        // Investment Details Modal specific elements
+        const detailModalTypeName = document.getElementById('detailModalTypeName');
+        const detailModalCategory = document.getElementById('detailModalCategory');
+        const detailModalInitialAmount = document.getElementById('detailModalInitialAmount');
+        const detailModalCurrentValue = document.getElementById('detailModalCurrentValue');
+        const detailModalProfitLoss = document.getElementById('detailModalProfitLoss');
+        const detailModalInvestDate = document.getElementById('detailModalInvestDate');
+        const detailModalDuration = document.getElementById('detailModalDuration');
+        const detailModalMaturity = document.getElementById('detailModalMaturity');
+        const investmentHistoryTableContainer = document.getElementById('investmentHistoryTableContainer');
+
 
         // Investment types data
         const investmentTypes = {
@@ -1653,7 +1709,8 @@
          */
         function generateUUID() {
             return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                const r = Math.random() * 16 | 0;
+                const v = c === 'x' ? r : (r & 0x3 | 0x8);
                 return v.toString(16);
             });
         }
@@ -1700,7 +1757,7 @@
             saveUserData();
             updateDashboard();
 
-            userIdDisplay.textContent = `User ID: ${currentUserEmail}`; // Display email as user ID
+            userIdDisplay.textContent = `User: ${currentUserEmail}`; // Display email as user ID
             authContainer.classList.add('hidden');
             dashboardContainer.classList.remove('hidden');
         }
@@ -1773,9 +1830,10 @@
                         `<span class="text-green-400 font-semibold">Matured!</span>` :
                         `<span class="text-yellow-400 font-semibold">Matures: ${maturityDate.toLocaleDateString()}</span>`;
 
+
                     const investmentItemDiv = document.createElement('div');
                     investmentItemDiv.classList.add('investment-item');
-                    investmentItemDiv.dataset.investmentId = inv.id;
+                    investmentItemDiv.dataset.investmentId = inv.id; // Store ID for click handling
 
                     investmentItemDiv.innerHTML = `
                         <div class="investment-icon-wrapper">${investmentCategoryIcons[inv.category] || ''}</div>
@@ -1786,24 +1844,12 @@
                             <span class="investment-value">Current: ${formatNaira(inv.currentValue)}</span>
                             <span class="${profitLossClass}">P/L: ${formatNaira(inv.profit)}</span>
                         </div>
-                        <div class="investment-details-expanded hidden">
-                            <p><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg><span class="detail-label">Start Date:</span> ${new Date(inv.investDate).toLocaleDateString()}</p>
-                            <p><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg><span class="detail-label">Daily Return:</span> 4.5% to 5% of initial amount</p>
-                            <p><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="detail-label">Duration:</span> ${inv.durationMonths} months</p>
-                            <p><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><span class="detail-label">Maturity:</span> ${maturityDisplay}</p>
-                        </div>
+                        <!-- Removed expanded details from here, now in separate modal -->
                     `;
                     investmentListEl.appendChild(investmentItemDiv);
-                });
 
-                document.querySelectorAll('.investment-item').forEach(item => {
-                    item.addEventListener('click', (event) => {
-                        if (event.target.closest('.investment-details-expanded')) return;
-                        const detailsDiv = item.querySelector('.investment-details-expanded');
-                        if (detailsDiv) {
-                            detailsDiv.classList.toggle('hidden');
-                        }
-                    });
+                    // Add event listener to open new details modal
+                    investmentItemDiv.addEventListener('click', () => openInvestmentDetailsModal(inv.id));
                 });
             }
 
@@ -1811,15 +1857,20 @@
             updatePortfolioChart();
         }
 
+        /**
+         * Renders the transaction history based on current filter and sort settings.
+         */
         function renderTransactionHistory() {
             transactionHistoryListEl.innerHTML = '';
             let filteredTransactions = [...userTransactions];
 
+            // Apply filter
             const filterType = transactionFilterSelect.value;
             if (filterType !== 'All') {
                 filteredTransactions = filteredTransactions.filter(tx => tx.type === filterType);
             }
 
+            // Apply sort
             const sortOrder = transactionSortSelect.value;
             filteredTransactions.sort((a, b) => {
                 const dateA = new Date(a.date).getTime();
@@ -1858,9 +1909,14 @@
             }
         }
 
+        // Event listeners for transaction filters/sort
         transactionFilterSelect.addEventListener('change', renderTransactionHistory);
         transactionSortSelect.addEventListener('change', renderTransactionHistory);
 
+
+        /**
+         * Updates the portfolio allocation chart.
+         */
         function updatePortfolioChart() {
             const portfolioData = {};
             userInvestments.forEach(inv => {
@@ -1898,7 +1954,7 @@
                         plugins: {
                             legend: {
                                 labels: {
-                                    color: '#e0e0e0',
+                                    color: '#e0e0e0', // Legend text color
                                     font: {
                                         size: 14
                                     }
@@ -1924,6 +1980,11 @@
             }
         }
 
+        /**
+         * Formats a number as Nigerian Naira (₦).
+         * @param {number} amount The amount to format.
+         * @returns {string} The formatted currency string.
+         */
         function formatNaira(amount) {
             return new Intl.NumberFormat('en-NG', {
                 style: 'currency',
@@ -1933,12 +1994,18 @@
             }).format(amount);
         }
 
+        /**
+         * New: Displays a toast notification.
+         * @param {string} message The message text.
+         * @param {string} type 'success', 'error', or 'info'.
+         */
         function showToast(message, type) {
             const toast = document.createElement('div');
             toast.classList.add('toast-message', type);
             toast.textContent = message;
             toastContainer.appendChild(toast);
 
+            // Remove toast after animation
             toast.addEventListener('animationend', (event) => {
                 if (event.animationName === 'fadeOutToast') {
                     toast.remove();
@@ -1946,6 +2013,11 @@
             });
         }
 
+        /**
+         * New: Shows a loading state for a button.
+         * @param {HTMLElement} button The button element.
+         * @param {string} loadingText The text to display while loading.
+         */
         function startLoading(button, loadingText = 'Processing...') {
             button.disabled = true;
             button.querySelector('span').textContent = loadingText;
@@ -1954,6 +2026,11 @@
             button.appendChild(spinner);
         }
 
+        /**
+         * New: Hides the loading state for a button.
+         * @param {HTMLElement} button The button element.
+         * @param {string} originalText The original text of the button.
+         */
         function stopLoading(button, originalText) {
             button.disabled = false;
             button.querySelector('span').textContent = originalText;
@@ -1963,57 +2040,91 @@
             }
         }
 
+        /**
+         * New: Shows validation error for an input.
+         * @param {HTMLElement} inputElement The input element.
+         * @param {HTMLElement} errorElement The error text element.
+         */
         function showInputError(inputElement, errorElement, message) {
             inputElement.classList.add('input-error');
             errorElement.textContent = message;
             errorElement.classList.remove('hidden');
         }
 
+        /**
+         * New: Clears validation error for an input.
+         * @param {HTMLElement} inputElement The input element.
+         * @param {HTMLElement} errorElement The error text element.
+         */
         function clearInputError(inputElement, errorElement) {
             inputElement.classList.remove('input-error');
             errorElement.classList.add('hidden');
             errorElement.textContent = '';
         }
 
+        // Debounce utility function
+        function debounce(func, delay) {
+            let timeout;
+            return function(...args) {
+                const context = this;
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(context, args), delay);
+            };
+        }
+
         // Event Listeners for Modals
+        // Buttons to open modals
         document.getElementById('openInvestModalBtn').addEventListener('click', () => openModal('investModal'));
         document.getElementById('openCashOutModalBtn').addEventListener('click', () => openModal('cashOutModal'));
         document.getElementById('openDepositModalBtn').addEventListener('click', () => openModal('depositModal'));
         document.getElementById('openWithdrawModalBtn').addEventListener('click', () => openModal('withdrawModal'));
         document.getElementById('openResetDataModalBtn').addEventListener('click', () => openModal('resetDataModal'));
 
+        // Buttons to close modals
         document.getElementById('closeInvestModalBtn').addEventListener('click', () => closeModal('investModal'));
         document.getElementById('closeCashOutModalBtn').addEventListener('click', () => closeModal('cashOutModal'));
         document.getElementById('closeDepositModalBtn').addEventListener('click', () => closeModal('depositModal'));
         document.getElementById('closeWithdrawModalBtn').addEventListener('click', () => closeModal('withdrawModal'));
         document.getElementById('closeResetDataModalBtn').addEventListener('click', () => closeModal('resetDataModal'));
         document.getElementById('cancelResetDataBtn').addEventListener('click', () => closeModal('resetDataModal'));
+        document.getElementById('closeInvestmentDetailsModalBtn').addEventListener('click', () => closeModal('investmentDetailsModal')); // New: Close details modal
 
+        // Close modal when clicking outside content
         investModal.addEventListener('click', (e) => { if (e.target === investModal) closeModal('investModal'); });
         cashOutModal.addEventListener('click', (e) => { if (e.target === cashOutModal) closeModal('cashOutModal'); });
         depositModal.addEventListener('click', (e) => { if (e.target === depositModal) closeModal('depositModal'); });
         withdrawModal.addEventListener('click', (e) => { if (e.target === withdrawModal) closeModal('withdrawModal'); });
         resetDataModal.addEventListener('click', (e) => { if (e.target === resetDataModal) closeModal('resetDataModal'); });
+        investmentDetailsModal.addEventListener('click', (e) => { if (e.target === investmentDetailsModal) closeModal('investmentDetailsModal'); }); // New: Close details modal
 
+        /**
+         * Opens a specified modal by removing the 'hidden' class.
+         * @param {string} modalId The ID of the modal to open.
+         */
         function openModal(modalId) {
             document.getElementById(modalId).classList.remove('hidden');
+            // Populate dropdowns if it's the cash out modal
             if (modalId === 'cashOutModal') {
                 populateCashOutInvestments();
             }
+            // Reset invest modal fields and chart when opened
             if (modalId === 'investModal') {
                 investmentCategorySelect.value = '';
                 investmentTypeSelect.innerHTML = '<option value="">Select Type</option>';
                 investmentTypeSelect.disabled = true;
-                investmentAmountInput.value = '5000';
-                investmentDurationInput.value = '1';
+                investmentAmountInput.value = '5000'; // Set minimum investment value
+                investmentDurationInput.value = '1'; // Set minimum duration
                 investmentDurationUnitSelect.value = 'months';
                 investmentTypeDetails.classList.add('hidden');
-                updateProjectionTable(0, 0, 0);
+                updateProjectionTable(0, 0, 0); // Reset table and total
                 clearInputError(investmentAmountInput, investmentAmountError);
                 clearInputError(investmentDurationInput, investmentDurationError);
-                projectionBasisLabel.textContent = '';
+                projectionBasisLabel.textContent = ''; // Clear the basis label on open
+                
+                // Immediately update duration constraints based on default amount
                 updateDurationConstraints();
             }
+            // Clear errors for other modals on open
             if (modalId === 'cashOutModal') {
                 clearInputError(cashOutInvestmentSelect, cashOutInvestmentSelectError);
                 clearInputError(cashOutAmountInput, cashOutAmountError);
@@ -2027,37 +2138,49 @@
             }
         }
 
+        /**
+         * Closes a specified modal by adding the 'hidden' class.
+         * @param {string} modalId The ID of the modal to close.
+         */
         function closeModal(modalId) {
             document.getElementById(modalId).classList.add('hidden');
-            const inputs = document.getElementById(modalId).querySelectorAll('input[type="number"], input[type="text"], input[type="email"], select');
+            // Clear inputs and errors on close
+            const inputs = document.getElementById(modalId).querySelectorAll('input[type="number"], input[type="text"], input[type="email"], input[type="password"], select');
             inputs.forEach(input => {
+                // Do not clear the calculator inputs, only modal specific inputs
                 if (input.id !== 'calcInitialInvestment' && input.id !== 'calcInvestmentDuration' && input.id !== 'calcAnnualReturnRate') {
                     input.value = '';
                 }
             });
+            // Reset investment type dropdown if it's the invest modal
             if (modalId === 'investModal') {
                 document.getElementById('investmentCategory').value = '';
                 document.getElementById('investmentType').innerHTML = '<option value="">Select Type</option>';
                 document.getElementById('investmentType').disabled = true;
-                projectionBasisLabel.textContent = '';
-                finalProjectedTotalEl.classList.add('hidden');
+                projectionBasisLabel.textContent = ''; // Clear the basis label on close
+                finalProjectedTotalEl.classList.add('hidden'); // Hide total on close
             }
+            // Clear all error messages and styles within the closed modal
             document.getElementById(modalId).querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
             document.getElementById(modalId).querySelectorAll('.error-text').forEach(el => el.classList.add('hidden'));
         }
 
+        // Investment Category and Type Logic
         investmentCategorySelect.addEventListener('change', () => {
             const selectedCategory = investmentCategorySelect.value;
-            investmentTypeSelect.innerHTML = '<option value="">Select Type</option>';
+            investmentTypeSelect.innerHTML = '<option value="">Select Type</option>'; // Clear previous options
             investmentTypeSelect.disabled = true;
-            investmentTypeDetails.classList.add('hidden');
-            updateProjectionTable(0, 0, 0);
+            investmentTypeDetails.classList.add('hidden'); // Hide details when category changes
+            updateProjectionTable(0, 0, 0); // Reset table and total
             clearInputError(investmentAmountInput, investmentAmountError);
             clearInputError(investmentDurationInput, investmentDurationError);
-            projectionBasisLabel.textContent = '';
+            projectionBasisLabel.textContent = ''; // Clear the basis label
+            
+            // Re-evaluate duration constraints when category changes
             updateDurationConstraints();
 
             if (selectedCategory && investmentTypes[selectedCategory]) {
+                // Populate types based on selected category
                 for (const type in investmentTypes[selectedCategory]) {
                     const option = document.createElement('option');
                     option.value = type;
@@ -2079,31 +2202,25 @@
                 detailsTypeName.textContent = selectedType;
                 detailsDescription.textContent = details.description;
                 detailsReturnRange.textContent = details.returnRange;
+                
+                // Update duration constraints based on selected type and current amount
                 updateDurationConstraints();
+
                 investmentTypeDetails.classList.remove('hidden');
-                updateProjectionTable(
-                    parseFloat(investmentAmountInput.value || 0),
-                    parseInt(investmentDurationInput.value || 0),
-                    0,
-                    investmentDurationUnitSelect.value,
-                    details.returnRange
-                );
+
+                // Update projection table with initial values
+                // Pass a dummy value for fixedDailyPercentage as it's now randomly generated in updateProjectionTable
+                debouncedUpdateProjection(); // Use debounced version
             } else {
                 investmentTypeDetails.classList.add('hidden');
-                updateProjectionTable(0, 0, 0);
-                projectionBasisLabel.textContent = '';
-                updateDurationConstraints();
+                updateProjectionTable(0, 0, 0); // Reset table and total
+                projectionBasisLabel.textContent = ''; // Clear the basis label
+                updateDurationConstraints(); // Reset duration constraints if no type selected
             }
         });
 
-        investmentAmountInput.addEventListener('input', () => {
-            updateDurationConstraints();
-            updateProjection();
-        });
-        investmentDurationInput.addEventListener('input', updateProjection);
-        investmentDurationUnitSelect.addEventListener('change', updateProjection);
-
-        function updateProjection() {
+        // Debounced function for updating projection table
+        const debouncedUpdateProjection = debounce(() => {
             const amount = parseFloat(investmentAmountInput.value);
             const duration = parseInt(investmentDurationInput.value);
             const unit = investmentDurationUnitSelect.value;
@@ -2111,18 +2228,32 @@
             const selectedType = investmentTypeSelect.value;
             const details = investmentTypes[selectedCategory]?.[selectedType];
             const returnRangeText = details ? details.returnRange : '';
-            updateProjectionTable(amount, duration, 0, unit, returnRangeText);
-        }
 
+            updateProjectionTable(amount, duration, 0, unit, returnRangeText);
+        }, 300); // 300ms debounce delay
+
+        // Listen for changes in amount and duration to update the projection table
+        investmentAmountInput.addEventListener('input', () => {
+            updateDurationConstraints(); // Update constraints immediately
+            debouncedUpdateProjection(); // Then update projection with debounce
+        });
+        investmentDurationInput.addEventListener('input', debouncedUpdateProjection);
+        investmentDurationUnitSelect.addEventListener('change', debouncedUpdateProjection);
+
+        /**
+         * Dynamically updates the duration input constraints based on the investment amount.
+         */
         function updateDurationConstraints() {
             const amount = parseFloat(investmentAmountInput.value);
             const selectedCategory = investmentCategorySelect.value;
             const selectedType = investmentTypeSelect.value;
             const details = investmentTypes[selectedCategory]?.[selectedType];
 
+            // Clear previous errors
             clearInputError(investmentDurationInput, investmentDurationError);
 
             if (!details || isNaN(amount) || amount < 5000) {
+                // No investment type selected, or amount is too low/invalid
                 investmentDurationInput.disabled = true;
                 investmentDurationUnitSelect.disabled = true;
                 investmentDurationInput.value = '';
@@ -2131,24 +2262,28 @@
                 return;
             }
 
-            let minAllowedMonths = details.minDurationMonths;
-            let maxAllowedMonths = Infinity;
+            let minAllowedMonths = details.minDurationMonths; // Base minimum from investment type
+            let maxAllowedMonths = Infinity; // Default to no explicit max
 
             if (amount >= 5000 && amount <= 15000) {
-                minAllowedMonths = Math.max(minAllowedMonths, 1);
+                // For amounts between 5k and 15k, duration must be 1 month
+                minAllowedMonths = Math.max(minAllowedMonths, 1); // Ensure it's at least type's min
                 maxAllowedMonths = 1;
-                investmentDurationUnitSelect.value = 'months';
-                investmentDurationUnitSelect.disabled = true;
+                investmentDurationUnitSelect.value = 'months'; // Force months
+                investmentDurationUnitSelect.disabled = true; // Disable unit change
                 detailsReturnRange.textContent = `Fixed 4.5% to 5% Daily on Initial Amount (1-month duration)`;
             } else if (amount > 15000) {
-                minAllowedMonths = Math.max(minAllowedMonths, 2);
-                investmentDurationUnitSelect.disabled = false;
+                // For amounts above 15k, duration must be 2 months or more
+                minAllowedMonths = Math.max(minAllowedMonths, 2); // Ensure it's at least type's min and at least 2 months
+                investmentDurationUnitSelect.disabled = false; // Enable unit change
                 detailsReturnRange.textContent = `Fixed 4.5% to 5% Daily on Initial Amount (2+ month duration)`;
             }
 
             investmentDurationInput.disabled = false;
             investmentDurationInput.min = minAllowedMonths;
+            // No explicit max attribute for duration input, but logic will validate.
 
+            // Adjust current duration value if it's out of bounds
             let currentDurationValue = parseInt(investmentDurationInput.value);
             let currentDurationInMonths = currentDurationValue;
             if (investmentDurationUnitSelect.value === 'years') {
@@ -2156,10 +2291,11 @@
             }
 
             if (currentDurationInMonths < minAllowedMonths || (maxAllowedMonths !== Infinity && currentDurationInMonths > maxAllowedMonths)) {
-                investmentDurationInput.value = minAllowedMonths;
-                investmentDurationUnitSelect.value = 'months';
+                investmentDurationInput.value = minAllowedMonths; // Set to minimum allowed
+                investmentDurationUnitSelect.value = 'months'; // Reset unit to months if it was years and now forced to 1 month
             }
 
+            // Update the displayed minimum duration in the details card
             let durationDisplay = `${minAllowedMonths} month${minAllowedMonths > 1 ? 's' : ''}`;
             if (maxAllowedMonths !== Infinity && maxAllowedMonths !== minAllowedMonths) {
                 durationDisplay += ` to ${maxAllowedMonths} month${maxAllowedMonths > 1 ? 's' : ''}`;
@@ -2169,26 +2305,32 @@
             detailsMinDuration.textContent = durationDisplay;
         }
 
+
+        /**
+         * Function to update the projection table with fluctuating daily profit.
+         * 'fixedDailyPercentage' parameter is now a dummy value, actual percentage is random.
+         */
         function updateProjectionTable(initialAmount, duration, dummyFixedDailyPercentage, unit = 'months', returnRangeText = '') {
-            projectionTableContainer.innerHTML = '';
-            finalProjectedTotalEl.classList.add('hidden');
+            projectionTableContainer.innerHTML = ''; // Clear previous content
+            finalProjectedTotalEl.classList.add('hidden'); // Hide total by default
 
             const MIN_DAILY_PERCENTAGE = 4.5;
             const MAX_DAILY_PERCENTAGE = 5.0;
 
             if (initialAmount > 0 && duration > 0) {
                 projectionInfo.textContent = `This breakdown illustrates your projected investment growth with **daily additions**, where a fluctuating percentage (${MIN_DAILY_PERCENTAGE}% to ${MAX_DAILY_PERCENTAGE}%) of your initial investment is added each day.`;
-                projectionBasisLabel.textContent = `Based on: Fixed ${MIN_DAILY_PERCENTAGE}% to ${MAX_DAILY_PERCENTAGE}% Daily on Initial Amount`;
+                projectionBasisLabel.textContent = `Based on: Fixed ${MIN_DAILY_PERCENTAGE}% to ${MAX_DAILY_PERCENTAGE}% Daily on Initial Amount`; // Updated label
 
                 let totalDays = duration;
                 if (unit === 'months') {
-                    totalDays = duration * 30;
+                    totalDays = duration * 30; // Approximate 30 days per month
                 } else if (unit === 'years') {
                     totalDays = duration * 365;
                 }
 
                 let currentBalance = initialAmount;
 
+                // Add header row
                 const headerDiv = document.createElement('div');
                 headerDiv.classList.add('projection-table-header');
                 headerDiv.innerHTML = `
@@ -2199,8 +2341,12 @@
                 `;
                 projectionTableContainer.appendChild(headerDiv);
 
+                // Generate daily breakdown rows
                 for (let day = 1; day <= totalDays; day++) {
+                    // Generate a random daily percentage between MIN_DAILY_PERCENTAGE and MAX_DAILY_PERCENTAGE
                     const randomDailyPercentage = (Math.random() * (MAX_DAILY_PERCENTAGE - MIN_DAILY_PERCENTAGE) + MIN_DAILY_PERCENTAGE) / 100;
+                    
+                    // Daily profit is always a percentage of the ORIGINAL initialAmount
                     const dailyProfit = initialAmount * randomDailyPercentage;
                     const endBalance = currentBalance + dailyProfit;
 
@@ -2213,20 +2359,23 @@
                         <span style="flex:1;">${formatNaira(endBalance)}</span>
                     `;
                     projectionTableContainer.appendChild(rowDiv);
-                    currentBalance = endBalance;
+                    currentBalance = endBalance; // Update balance for next day's calculation
                 }
 
+                // Display the final projected total
                 finalProjectedTotalEl.textContent = `Projected Total: ${formatNaira(currentBalance)}`;
                 finalProjectedTotalEl.classList.remove('hidden');
 
             } else {
                 projectionTableContainer.innerHTML = '<p class="projection-table-empty-message">Enter investment details to see a daily breakdown.</p>';
                 projectionInfo.textContent = 'Adjust amount and duration to see your potential growth.';
-                projectionBasisLabel.textContent = '';
-                finalProjectedTotalEl.classList.add('hidden');
+                projectionBasisLabel.textContent = ''; // Clear the basis label if no valid input
+                finalProjectedTotalEl.classList.add('hidden'); // Ensure total is hidden if no valid input
             }
         }
 
+
+        // Submit New Investment
         document.getElementById('submitInvestmentBtn').addEventListener('click', () => {
             const submitButton = document.getElementById('submitInvestmentBtn');
             startLoading(submitButton, 'Investing...');
@@ -2237,7 +2386,7 @@
             let duration = parseInt(investmentDurationInput.value);
             const durationUnit = investmentDurationUnitSelect.value;
             const details = investmentTypes[category]?.[type];
-            const MIN_INVESTMENT_AMOUNT = 5000;
+            const MIN_INVESTMENT_AMOUNT = 5000; // Define minimum investment amount
 
             let hasError = false;
             if (!category || !type || !details) {
@@ -2262,11 +2411,13 @@
                 return;
             }
 
+            // Convert duration to months for internal consistency
             let durationInMonths = duration;
             if (durationUnit === 'years') {
                 durationInMonths = duration * 12;
             }
 
+            // --- New Duration Validation based on Amount ---
             let minAllowedMonthsForAmount;
             let maxAllowedMonthsForAmount;
 
@@ -2275,12 +2426,15 @@
                 maxAllowedMonthsForAmount = 1;
             } else if (amount > 15000) {
                 minAllowedMonthsForAmount = 2;
-                maxAllowedMonthsForAmount = Infinity;
+                maxAllowedMonthsForAmount = Infinity; // Effectively no upper limit for this rule
             } else {
+                // This case should ideally be caught by the initial amount validation,
+                // but as a fallback, set impossible duration to trigger error.
                 minAllowedMonthsForAmount = Infinity;
                 maxAllowedMonthsForAmount = 0;
             }
 
+            // Combine with investment type's minimum duration
             const finalMinDurationMonths = Math.max(details.minDurationMonths, minAllowedMonthsForAmount);
 
             if (durationInMonths < finalMinDurationMonths || durationInMonths > maxAllowedMonthsForAmount) {
@@ -2290,12 +2444,14 @@
                 } else if (amount > 15000) {
                     errorMessage += `at least 2 months.`;
                 } else {
-                    errorMessage += `valid.`;
+                    errorMessage += `valid.`; // Fallback for unexpected amount
                 }
                 showInputError(investmentDurationInput, investmentDurationError, errorMessage);
                 stopLoading(submitButton, 'Invest');
                 return;
             }
+            // --- End New Duration Validation ---
+
 
             if (userAccountBalance < amount) {
                 showToast(`Insufficient funds. Your balance is ${formatNaira(userAccountBalance)}.`, 'error');
@@ -2303,21 +2459,22 @@
                 return;
             }
 
+            // Store the base daily profit percentage (e.g., 4.5) for the investment
             const baseDailyProfitPercentage = details.typicalAnnualReturn;
 
-            const newInvestmentData = {
+            const newInvestment = {
                 id: Date.now().toString(), // Simple unique ID
                 category,
                 type,
                 initialAmount: amount,
-                currentValue: amount,
-                annualReturnRate: baseDailyProfitPercentage,
+                currentValue: amount, // Starts at initial amount
+                annualReturnRate: baseDailyProfitPercentage, // Storing base percentage for fixed daily profit
                 investDate: new Date().toISOString(),
-                durationMonths: durationInMonths,
+                durationMonths: durationInMonths, // Store duration in months
                 profit: 0
             };
 
-            userInvestments.push(newInvestmentData);
+            userInvestments.push(newInvestment);
             userAccountBalance -= amount;
 
             userTransactions.push({
@@ -2335,8 +2492,9 @@
             setTimeout(() => closeModal('investModal'), 1500);
         });
 
+        // Populate Cash Out Investments Dropdown
         function populateCashOutInvestments() {
-            cashOutInvestmentSelect.innerHTML = '<option value="">Select an active investment</option>';
+            cashOutInvestmentSelect.innerHTML = '<option value="">Select an active investment</option>'; // Clear previous options
             clearInputError(cashOutInvestmentSelect, cashOutInvestmentSelectError);
 
             if (userInvestments.length === 0) {
@@ -2359,11 +2517,12 @@
                 const option = document.createElement('option');
                 option.value = inv.id;
                 option.textContent = `${inv.type} (${inv.category}) - Current Value: ${formatNaira(inv.currentValue)}${maturityStatus}`;
-                option.disabled = !isMatured;
+                option.disabled = !isMatured; // Disable if not matured
                 cashOutInvestmentSelect.appendChild(option);
             });
         }
 
+        // Submit Cash Out
         document.getElementById('submitCashOutBtn').addEventListener('click', () => {
             const submitButton = document.getElementById('submitCashOutBtn');
             startLoading(submitButton, 'Cashing Out...');
@@ -2399,6 +2558,7 @@
 
             const investment = userInvestments[investmentIndex];
 
+            // Check for maturity before allowing cash out
             const investDate = new Date(investment.investDate);
             const maturityDate = new Date(investDate);
             maturityDate.setMonth(maturityDate.getMonth() + investment.durationMonths);
@@ -2418,14 +2578,18 @@
 
             userAccountBalance += cashOutAmount;
             investment.currentValue -= cashOutAmount;
-            
+            // For partial cash out, adjust initial amount proportionally.
+            // This is a simplified approach; a more complex system might track original investment units.
+            // With fixed daily profit, initialAmount should probably not change for partial cash out.
+            // A better way would be to track 'units' or 'shares'.
             if (investment.initialAmount > 0) {
-                 investment.initialAmount = investment.initialAmount * (investment.currentValue / (investment.currentValue + cashOutAmount));
+                // If cashing out, the 'initial amount' for remaining investment should be reduced proportionally
+                investment.initialAmount = investment.initialAmount * (investment.currentValue / (investment.currentValue + cashOutAmount));
             } else {
                 investment.initialAmount = 0;
             }
 
-            investment.profit = investment.currentValue - investment.initialAmount;
+            investment.profit = investment.currentValue - investment.initialAmount; // Recalculate profit
 
             userTransactions.push({
                 id: Date.now().toString() + '-tx',
@@ -2435,6 +2599,7 @@
                 date: new Date().toISOString()
             });
 
+            // Remove investment if fully cashed out (or very close to zero due to float precision)
             if (investment.currentValue < 0.01) {
                 userInvestments.splice(investmentIndex, 1);
             }
@@ -2446,6 +2611,7 @@
             setTimeout(() => closeModal('cashOutModal'), 1500);
         });
 
+        // Submit Deposit (modified for Paystack)
         document.getElementById('submitDepositBtn').addEventListener('click', () => {
             const submitButton = document.getElementById('submitDepositBtn');
             startLoading(submitButton, 'Connecting...');
@@ -2472,21 +2638,26 @@
                 return;
             }
 
+            // Paystack requires amount in kobo (cents)
             const amountInKobo = depositAmount * 100;
 
             showToast('Redirecting to Paystack...', 'info');
 
+            // Initialize Paystack Pop
             const handler = PaystackPop.setup({
                 key: paystackPublicKey,
                 email: depositEmail,
                 amount: amountInKobo,
                 currency: 'NGN',
-                ref: '' + Math.floor((Math.random() * 1000000000) + 1),
+                ref: '' + Math.floor((Math.random() * 1000000000) + 1), // unique ref
                 onClose: function(){
                     showToast('Payment cancelled.', 'error');
                     stopLoading(submitButton, 'Proceed to Paystack');
                 },
                 callback: function(response){
+                    // IMPORTANT: In a real application, you MUST verify this transaction on your backend server
+                    // using Paystack's verify endpoint to prevent fraud.
+                    // For this client-side only demonstration, we're assuming success directly.
                     if (response.status === 'success') {
                         userAccountBalance += depositAmount;
 
@@ -2512,6 +2683,7 @@
             handler.openIframe();
         });
 
+        // Submit Withdrawal
         document.getElementById('submitWithdrawBtn').addEventListener('click', () => {
             const submitButton = document.getElementById('submitWithdrawBtn');
             startLoading(submitButton, 'Withdrawing...');
@@ -2555,6 +2727,7 @@
             setTimeout(() => closeModal('withdrawModal'), 1500);
         });
 
+        // Reset Data Functionality
         document.getElementById('confirmResetDataBtn').addEventListener('click', () => {
             const submitButton = document.getElementById('confirmResetDataBtn');
             startLoading(submitButton, 'Resetting...');
@@ -2591,6 +2764,7 @@
             }, 1500);
         });
 
+        // Logout Functionality
         document.getElementById('logoutBtn').addEventListener('click', () => {
             const submitButton = document.getElementById('logoutBtn');
             startLoading(submitButton, 'Logging Out...');
@@ -2654,15 +2828,23 @@
             if (user) {
                 currentUserId = user.id;
                 currentUserEmail = user.email;
-                localStorage.setItem('growWithCoreLoggedInUserId', currentUserId); // Store logged-in user ID
-                loadUserData(); // Load data for this specific user
-                showToast('Login successful!', 'success');
+                localStorage.setItem('growWithCoreLoggedInUserId', currentUserId);
+                authMessage.textContent = ''; // Clear any previous error message
+                loginEmailInput.value = ''; // Clear fields on success
+                loginPasswordInput.value = '';
+
+                // Add a small delay for visual transition
+                setTimeout(() => {
+                    loadUserData(); // This will show the dashboard
+                    showToast('Login successful!', 'success');
+                    stopLoading(loginButton, 'Login');
+                }, 300); // 300ms delay
             } else {
                 authMessage.textContent = 'Invalid email or password.';
                 authMessage.classList.add('error');
                 showToast('Login failed. Invalid credentials.', 'error');
+                stopLoading(loginButton, 'Login'); // Stop loading immediately on failure
             }
-            stopLoading(loginButton, 'Login');
         });
 
         document.getElementById('create-account-btn').addEventListener('click', () => {
@@ -2712,12 +2894,107 @@
             localStorage.setItem(`growWithCoreTransactions_${currentUserId}`, '[]');
             localStorage.setItem(`growWithCoreAccountBalance_${currentUserId}`, '0');
 
-            loadUserData(); // Load data for this new user (which will be empty initially)
-            showToast('Account created successfully! You are now logged in.', 'success');
-            stopLoading(createButton, 'Create Account');
+            authMessageCreate.textContent = ''; // Clear any previous error message
+            createEmailInput.value = ''; // Clear fields on success
+            createPasswordInput.value = '';
+            createConfirmPasswordInput.value = '';
+
+            // Add a small delay for visual transition
+            setTimeout(() => {
+                loadUserData(); // This will show the dashboard
+                showToast('Account created successfully! You are now logged in.', 'success');
+                stopLoading(createButton, 'Create Account');
+            }, 300); // 300ms delay
         });
 
+        /**
+         * New Feature: Opens the investment details modal and populates it.
+         * @param {string} investmentId The ID of the investment to display.
+         */
+        function openInvestmentDetailsModal(investmentId) {
+            const investment = userInvestments.find(inv => inv.id === investmentId);
+            if (!investment) {
+                showToast('Investment details not found.', 'error');
+                return;
+            }
 
+            detailModalTypeName.textContent = investment.type;
+            detailModalCategory.textContent = investment.category;
+            detailModalInitialAmount.textContent = formatNaira(investment.initialAmount);
+            detailModalCurrentValue.textContent = formatNaira(investment.currentValue);
+
+            const profitLossClass = investment.profit >= 0 ? 'profit' : 'loss';
+            detailModalProfitLoss.innerHTML = `<span class="${profitLossClass}">${formatNaira(investment.profit)}</span>`;
+
+            detailModalInvestDate.textContent = new Date(investment.investDate).toLocaleDateString();
+            detailModalDuration.textContent = `${investment.durationMonths} months`;
+
+            const investDate = new Date(investment.investDate);
+            const maturityDate = new Date(investDate);
+            maturityDate.setMonth(maturityDate.getMonth() + investment.durationMonths);
+            const isMatured = new Date() >= maturityDate;
+            detailModalMaturity.innerHTML = isMatured ?
+                `<span class="text-green-400 font-semibold">Matured! (${maturityDate.toLocaleDateString()})</span>` :
+                `<span class="text-yellow-400 font-semibold">Matures: ${maturityDate.toLocaleDateString()}</span>`;
+
+            // Populate daily growth history table
+            populateInvestmentHistoryTable(investment);
+
+            investmentDetailsModal.classList.remove('hidden');
+        }
+
+        /**
+         * Populates the daily growth history table within the investment details modal.
+         * @param {object} investment The investment object.
+         */
+        function populateInvestmentHistoryTable(investment) {
+            investmentHistoryTableContainer.innerHTML = ''; // Clear previous content
+
+            const MIN_DAILY_PERCENTAGE = 4.5;
+            const MAX_DAILY_PERCENTAGE = 5.0;
+
+            const investDate = new Date(investment.investDate);
+            const today = new Date();
+            const totalDaysElapsed = Math.floor((today.getTime() - investDate.getTime()) / (1000 * 60 * 60 * 24));
+
+            if (totalDaysElapsed <= 0) {
+                investmentHistoryTableContainer.innerHTML = '<p class="projection-table-empty-message">Investment has not started growing yet.</p>';
+                return;
+            }
+
+            let currentSimulatedBalance = investment.initialAmount;
+
+            // Add header row
+            const headerDiv = document.createElement('div');
+            headerDiv.classList.add('projection-table-header');
+            headerDiv.innerHTML = `
+                <span style="flex:0.8; text-align:left;">Day</span>
+                <span style="flex:1;">Start Balance</span>
+                <span style="flex:1;">Daily Profit</span>
+                <span style="flex:1;">End Balance</span>
+            `;
+            investmentHistoryTableContainer.appendChild(headerDiv);
+
+            for (let day = 1; day <= totalDaysElapsed; day++) {
+                const randomDailyPercentage = (Math.random() * (MAX_DAILY_PERCENTAGE - MIN_DAILY_PERCENTAGE) + MIN_DAILY_PERCENTAGE) / 100;
+                const dailyProfit = investment.initialAmount * randomDailyPercentage; // Profit based on initial amount
+                const endBalance = currentSimulatedBalance + dailyProfit;
+
+                const rowDiv = document.createElement('div');
+                rowDiv.classList.add('projection-table-row');
+                rowDiv.innerHTML = `
+                    <span style="flex:0.8; text-align:left;">${day}</span>
+                    <span style="flex:1;">${formatNaira(currentSimulatedBalance)}</span>
+                    <span style="flex:1; color:#76E076;">+${formatNaira(dailyProfit)}</span>
+                    <span style="flex:1;">${formatNaira(endBalance)}</span>
+                `;
+                investmentHistoryTableContainer.appendChild(rowDiv);
+                currentSimulatedBalance = endBalance;
+            }
+        }
+
+
+        // SVG icons for investment types (simplified for categories)
         const investmentCategoryIcons = {
             "Farming": `<svg class="investment-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-leaf"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-4.5 6-4.5C15.25 16.5 17 18 17 21"/></svg>`,
             "Rearing": `<svg class="investment-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cow"><path d="M9 18.5V20h6v-1.5"/><path d="M12 13V2"/><path d="M22 8c0 3.5-2 6-2 6H4s-2-2.5-2-6c0-3.5 2-6 2-6h16c0 0 2 2.5 2 6Z"/><path d="M7 13v.5a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5V13c0-1.5 1-2.5 2-2.5h2"/><path d="M17 13v.5a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V13c0-1.5-1-2.5-2-2.5h-2"/></svg>`,
