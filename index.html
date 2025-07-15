@@ -2345,11 +2345,8 @@
 
                 // Generate daily breakdown rows
                 for (let day = 1; day <= totalDays; day++) {
-                    // Generate a random daily percentage between MIN_DAILY_PERCENTAGE and MAX_DAILY_PERCENTAGE
                     const randomDailyPercentage = (Math.random() * (MAX_DAILY_PERCENTAGE - MIN_DAILY_PERCENTAGE) + MIN_DAILY_PERCENTAGE) / 100;
-                    
-                    // Daily profit is always a percentage of the ORIGINAL initialAmount
-                    const dailyProfit = initialAmount * randomDailyPercentage;
+                    const dailyProfit = initialAmount * randomDailyPercentage; // Profit based on initial amount
                     const endBalance = currentBalance + dailyProfit;
 
                     const rowDiv = document.createElement('div');
@@ -2782,6 +2779,7 @@
             userAccountBalance = 0;
 
             showToast('Logged out successfully!', 'info');
+            // Stop loading immediately, then transition
             stopLoading(submitButton, 'Logout');
             // Show the authentication container
             dashboardContainer.classList.add('hidden');
@@ -2835,12 +2833,12 @@
                 loginEmailInput.value = ''; // Clear fields on success
                 loginPasswordInput.value = '';
 
-                // Add a small delay for visual transition
+                // Add a 3-second delay for visual transition
                 setTimeout(() => {
+                    stopLoading(loginButton, 'Login'); // Stop loading after 3 seconds
                     loadUserData(); // This will show the dashboard
                     showToast('Login successful!', 'success');
-                    stopLoading(loginButton, 'Login');
-                }, 300); // 300ms delay
+                }, 3000); // 3000ms (3 seconds) delay
             } else {
                 authMessage.textContent = 'Invalid email or password.';
                 authMessage.classList.add('error');
@@ -2901,12 +2899,12 @@
             createPasswordInput.value = '';
             createConfirmPasswordInput.value = '';
 
-            // Add a small delay for visual transition
+            // Add a 3-second delay for visual transition
             setTimeout(() => {
+                stopLoading(createButton, 'Create Account'); // Stop loading after 3 seconds
                 loadUserData(); // This will show the dashboard
                 showToast('Account created successfully! You are now logged in.', 'success');
-                stopLoading(createButton, 'Create Account');
-            }, 300); // 300ms delay
+            }, 3000); // 3000ms (3 seconds) delay
         });
 
         /**
