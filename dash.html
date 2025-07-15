@@ -1093,7 +1093,7 @@
                     <div class="metric-box">
                         <div class="icon-svg">
                             <!-- Piggy Bank icon -->
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-piggy-bank"><path d="M19 5c-1.5 0-2.8 1.4-3 2H4"/><path d="M2 8v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-1.5"/><path d="M22 12a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v.5c0 2.2 1.8 4 4 4h12a4 4 0 0 0 4-4V12z"/><path d="M2 16h.01"/><path d="M21 16h.01"/></svg>
+                            <svg xmlns="http://www.w3.org/2000/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-piggy-bank"><path d="M19 5c-1.5 0-2.8 1.4-3 2H4"/><path d="M2 8v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-1.5"/><path d="M22 12a4 4 0 0 0-4-4H6a4 4 0 0 0 4 4v.5c0 2.2 1.8 4 4 4h12a4 4 0 0 0 4-4V12z"/><path d="M2 16h.01"/><path d="M21 16h.01"/></svg>
                         </div>
                         <div class="metric-value" id="totalProfitLoss">₦0.00</div>
                         <div class="metric-label">Total Profit/Loss</div>
@@ -1278,7 +1278,7 @@
                 <div id="investmentTypeDetails" class="investment-details-card hidden">
                     <h4 id="detailsTypeName"></h4>
                     <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg><span class="detail-label">Description:</span> <span id="detailsDescription"></span></p>
-                    <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dollar-sign"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><span class="detail-label">Typical Annual Return:</span> <span id="detailsReturnRange"></span></p>
+                    <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dollar-sign"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><span class="detail-label">Typical Daily Return:</span> <span id="detailsReturnRange"></span></p>
                     <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="detail-label">Minimum Duration:</span> <span id="detailsMinDuration"></span></p>
                 </div>
 
@@ -1311,7 +1311,7 @@
                     <p class="projection-table-empty-message">Enter investment details to see a daily breakdown.</p>
                 </div>
                 <p class="text-sm text-gray-400 text-center mt-2 sm:mt-4" id="projectionInfo">
-                    This breakdown illustrates your projected investment growth with **daily additions**, where a fixed 20% of your initial investment is added each day.
+                    This breakdown illustrates your projected investment growth with **daily additions**, where a fluctuating percentage (4.5% to 5%) of your initial investment is added each day.
                 </p>
                 <p class="text-xs text-gray-500 text-center mt-2" id="projectionBasisLabel"></p>
                 <div id="finalProjectedTotal" class="hidden"></div>
@@ -1476,188 +1476,189 @@
 
         // Investment types data with more details and ASTRONOMICAL returns
         // IMPORTANT: The 'typicalAnnualReturn' value here is now used to represent the
-        // FIXED DAILY PROFIT PERCENTAGE (e.g., 20.0 for 20%).
-        // The calculation for daily profit is now 'initialAmount * (typicalAnnualReturn / 100)'.
-        // It is NOT an annual compounding rate anymore for the projection or current value updates.
+        // BASE FIXED DAILY PROFIT PERCENTAGE (e.g., 4.5 for 4.5%).
+        // The actual daily profit percentage will fluctuate between this base and 5%.
+        // The calculation for daily profit is now 'initialAmount * (random_daily_percentage / 100)'.
+        // It is NOT an annual compounding rate.
         const investmentTypes = {
             "Farming": {
                 "Crop Farming": {
                     description: "Invest in staple crops like maize, rice, or cassava. High demand, steady returns.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 20.0, // Used as fixed 20% daily profit on initial amount
-                    returnRange: "Fixed 20% Daily on Initial Amount"
+                    typicalAnnualReturn: 4.5, // Base fixed daily percentage
+                    returnRange: "Fixed 4.5% to 5% Daily on Initial Amount"
                 },
                 "Organic Farming": {
                     description: "Support eco-friendly farming practices. Premium market, sustainable growth.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 20.0,
-                    returnRange: "Fixed 20% Daily on Initial Amount"
+                    typicalAnnualReturn: 4.5,
+                    returnRange: "Fixed 4.5% to 5% Daily on Initial Amount"
                 },
                 "Livestock Feed Production": {
                     description: "Invest in the production of animal feed. Essential for rearing, consistent demand.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 20.0,
-                    returnRange: "Fixed 20% Daily on Initial Amount"
+                    typicalAnnualReturn: 4.5,
+                    returnRange: "Fixed 4.5% to 5% Daily on Initial Amount"
                 },
                 "Greenhouse Farming": {
                     description: "Modern farming technique for controlled environments. High yield, less weather dependent.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 20.0,
-                    returnRange: "Fixed 20% Daily on Initial Amount"
+                    typicalAnnualReturn: 4.5,
+                    returnRange: "Fixed 4.5% to 5% Daily on Initial Amount"
                 },
                 "Aquaponics": {
                     description: "Sustainable system combining aquaculture and hydroponics. Efficient and eco-friendly.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 20.0,
-                    returnRange: "Fixed 20% Daily on Initial Amount"
+                    typicalAnnualReturn: 4.5,
+                    returnRange: "Fixed 4.5% to 5% Daily on Initial Amount"
                 },
                 "Hydroponics": {
                     description: "Growing plants without soil using mineral nutrient solutions. Water-efficient, high-density yields.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 20.0,
-                    returnRange: "Fixed 20% Daily on Initial Amount"
+                    typicalAnnualReturn: 4.5,
+                    returnRange: "Fixed 4.5% to 5% Daily on Initial Amount"
                 },
                 "Vertical Farming": {
                     description: "Growing crops in vertically stacked layers. Maximizes space, ideal for urban areas.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 20.0,
-                    returnRange: "Fixed 20% Daily on Initial Amount"
+                    typicalAnnualReturn: 4.5,
+                    returnRange: "Fixed 4.5% to 5% Daily on Initial Amount"
                 },
                 "Sustainable Farming": {
                     description: "Focuses on long-term productivity and environmental health. Ethical investment.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 20.0,
-                    returnRange: "Fixed 20% Daily on Initial Amount"
+                    typicalAnnualReturn: 4.5,
+                    returnRange: "Fixed 4.5% to 5% Daily on Initial Amount"
                 },
                 "Specialty Crops": {
                     description: "Invest in high-value, niche crops. Higher potential returns, but can be more volatile.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 20.0,
-                    returnRange: "Fixed 20% Daily on Initial Amount"
+                    typicalAnnualReturn: 4.5,
+                    returnRange: "Fixed 4.5% to 5% Daily on Initial Amount"
                 },
                 "Fruit and Vegetable Farming": {
                     description: "Direct investment in fresh produce. Consistent local market demand.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 20.0,
-                    returnRange: "Fixed 20% Daily on Initial Amount"
+                    typicalAnnualReturn: 4.5,
+                    returnRange: "Fixed 4.5% to 5% Daily on Initial Amount"
                 }
             },
             "Rearing": {
                 "Cattle Rearing": {
                     description: "Invest in cattle for meat and dairy. Long-term growth potential.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 20.0,
-                    returnRange: "Fixed 20% Daily on Initial Amount"
+                    typicalAnnualReturn: 4.5,
+                    returnRange: "Fixed 4.5% to 5% Daily on Initial Amount"
                 },
                 "Poultry Farming": {
                     description: "Fast-cycle investment in chicken production. Quick returns.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 20.0,
-                    returnRange: "Fixed 20% Daily on Initial Amount"
+                    typicalAnnualReturn: 4.5,
+                    returnRange: "Fixed 4.5% to 5% Daily on Initial Amount"
                 },
                 "Pig Farming": {
                     description: "Investment in pig breeding and fattening. Good demand for pork products.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 20.0,
-                    returnRange: "Fixed 20% Daily on Initial Amount"
+                    typicalAnnualReturn: 4.5,
+                    returnRange: "Fixed 4.5% to 5% Daily on Initial Amount"
                 },
                 "Sheep or Goat Rearing": {
                     description: "Flexible investment in small ruminants. Lower initial capital, steady market.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 20.0,
-                    returnRange: "Fixed 20% Daily on Initial Amount"
+                    typicalAnnualReturn: 4.5,
+                    returnRange: "Fixed 4.5% to 5% Daily on Initial Amount"
                 },
                 "Fish Farming": {
                     description: "Aquaculture investment for various fish species. Growing demand for protein.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 20.0,
-                    returnRange: "Fixed 20% Daily on Initial Amount"
+                    typicalAnnualReturn: 4.5,
+                    returnRange: "Fixed 4.5% to 5% Daily on Initial Amount"
                 },
                 "Beekeeping": {
                     description: "Invest in honey production and pollination services. Environmentally friendly.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 20.0,
-                    returnRange: "Fixed 20% Daily on Initial Amount"
+                    typicalAnnualReturn: 4.5,
+                    returnRange: "Fixed 4.5% to 5% Daily on Initial Amount"
                 },
                 "Rabbit Rearing": {
                     description: "Quick breeding cycle, low space requirement. Niche market potential.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 20.0,
-                    returnRange: "Fixed 20% Daily on Initial Amount"
+                    typicalAnnualReturn: 4.5,
+                    returnRange: "Fixed 4.5% to 5% Daily on Initial Amount"
                 },
                 "Game Farming": {
                     description: "Rearing of wild animals for meat or tourism. Specialized, potentially high returns.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 20.0,
-                    returnRange: "Fixed 20% Daily on Initial Amount"
+                    typicalAnnualReturn: 4.5,
+                    returnRange: "Fixed 4.5% to 5% Daily on Initial Amount"
                 },
                 "Dairy Goat Farming": {
                     description: "Focus on milk production from goats. Growing market for dairy alternatives.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 20.0,
-                    returnRange: "Fixed 20% Daily on Initial Amount"
+                    typicalAnnualReturn: 4.5,
+                    returnRange: "Fixed 4.5% to 5% Daily on Initial Amount"
                 },
                 "Quail Farming": {
                     description: "Small-scale, high-density farming for meat and eggs. Very quick turnover.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 20.0,
-                    returnRange: "Fixed 20% Daily on Initial Amount"
+                    typicalAnnualReturn: 4.5,
+                    returnRange: "Fixed 4.5% to 5% Daily on Initial Amount"
                 }
             },
             "Other Opportunities": {
                 "Agricultural Technology": {
                     description: "Fund innovative tech solutions for agriculture. High growth, higher risk.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 20.0,
-                    returnRange: "Fixed 20% Daily on Initial Amount"
+                    typicalAnnualReturn: 4.5,
+                    returnRange: "Fixed 4.5% to 5% Daily on Initial Amount"
                 },
                 "Farm Equipment": {
                     description: "Invest in modern farm machinery. Essential infrastructure, steady income.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 20.0,
-                    returnRange: "Fixed 20% Daily on Initial Amount"
+                    typicalAnnualReturn: 4.5,
+                    returnRange: "Fixed 4.5% to 5% Daily on Initial Amount"
                 },
                 "Agricultural Processing": {
                     description: "Value-addition to raw agricultural products. Stable demand, diverse markets.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 20.0,
-                    returnRange: "Fixed 20% Daily on Initial Amount"
+                    typicalAnnualReturn: 4.5,
+                    returnRange: "Fixed 4.5% to 5% Daily on Initial Amount"
                 },
                 "Farm-to-Table": {
                     description: "Support direct consumer access to farm produce. Growing trend, community focus.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 20.0,
-                    returnRange: "Fixed 20% Daily on Initial Amount"
+                    typicalAnnualReturn: 4.5,
+                    returnRange: "Fixed 4.5% to 5% Daily on Initial Amount"
                 },
                 "Agricultural Consulting": {
                     description: "Invest in expertise and advisory services for farmers. Intellectual capital growth.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 20.0,
-                    returnRange: "Fixed 20% Daily on Initial Amount"
+                    typicalAnnualReturn: 4.5,
+                    returnRange: "Fixed 4.5% to 5% Daily on Initial Amount"
                 },
                 "Farm Management": {
                     description: "Professional management services for agricultural enterprises. Operational efficiency.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 20.0,
-                    returnRange: "Fixed 20% Daily on Initial Amount"
+                    typicalAnnualReturn: 4.5,
+                    returnRange: "Fixed 4.5% to 5% Daily on Initial Amount"
                 },
                 "Agricultural Education": {
                     description: "Invest in training and development for future farmers. Long-term societal impact.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 20.0,
-                    returnRange: "Fixed 20% Daily on Initial Amount"
+                    typicalAnnualReturn: 4.5,
+                    returnRange: "Fixed 4.5% to 5% Daily on Initial Amount"
                 },
                 "Sustainable Agriculture": {
                     description: "Projects promoting environmentally sound farming. Impact investing, long-term returns.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 20.0,
-                    returnRange: "Fixed 20% Daily on Initial Amount"
+                    typicalAnnualReturn: 4.5,
+                    returnRange: "Fixed 4.5% to 5% Daily on Initial Amount"
                 },
                 "Agricultural Research": {
                     description: "Funding R&D for new crop varieties, pest control, etc. High risk, potentially high reward.",
                     minDurationMonths: 1,
-                    typicalAnnualReturn: 20.0,
-                    returnRange: "Fixed 20% Daily on Initial Amount"
+                    typicalAnnualReturn: 4.5,
+                    returnRange: "Fixed 4.5% to 5% Daily on Initial Amount"
                 }
             }
         };
@@ -1698,11 +1699,15 @@
 
             // Simulate growth for existing investments on load
             userInvestments.forEach(inv => {
-                // For existing investments, recalculate based on the new fixed daily profit logic
                 const daysSinceInvest = Math.floor((new Date().getTime() - new Date(inv.investDate).getTime()) / (1000 * 60 * 60 * 24));
-                // Use the stored 'annualReturnRate' (which is now the fixed daily percentage)
-                const fixedDailyProfitAmount = inv.initialAmount * (inv.annualReturnRate / 100);
-                inv.currentValue = inv.initialAmount + (fixedDailyProfitAmount * daysSinceInvest);
+                
+                // Recalculate currentValue based on fixed daily profit with fluctuation
+                inv.currentValue = inv.initialAmount; // Start with initial amount
+                for (let i = 0; i < daysSinceInvest; i++) {
+                    // Generate a random daily percentage between 4.5% and 5%
+                    const dailyPercentage = (Math.random() * (5.0 - 4.5) + 4.5) / 100;
+                    inv.currentValue += inv.initialAmount * dailyPercentage;
+                }
                 inv.profit = inv.currentValue - inv.initialAmount;
             });
 
@@ -1754,46 +1759,11 @@
             totalProfitLossEl.classList.toggle('profit', totalProfitLoss >= 0);
             totalProfitLossEl.classList.toggle('loss', totalProfitLoss < 0);
 
-            // Calculate and update Daily Performance with slight randomness
-            let totalDailyGainPercentage = 0;
-            let investmentsWithDailyGain = 0;
-
-            userInvestments.forEach(inv => {
-                // For dashboard display, calculate based on the fixed 20% of initial
-                // Use the stored 'annualReturnRate' (which is now the fixed daily percentage)
-                const fixedDailyRate = inv.annualReturnRate / 100; // 20% fixed daily
-                const dailyProfitAmount = inv.initialAmount * fixedDailyRate;
-
-                // Calculate value at the start of today (end of yesterday)
-                const investDate = new Date(inv.investDate);
-                const today = new Date();
-                today.setHours(0, 0, 0, 0); // Normalize today to start of day
-                const yesterday = new Date(today);
-                yesterday.setDate(today.getDate() - 1);
-                const daysSinceInvestToYesterday = Math.floor((yesterday.getTime() - investDate.getTime()) / (1000 * 60 * 60 * 24));
-
-                let valueYesterday = inv.initialAmount;
-                if (daysSinceInvestToYesterday >= 0) {
-                    valueYesterday = inv.initialAmount + (dailyProfitAmount * daysSinceInvestToYesterday);
-                }
-
-                if (valueYesterday > 0) {
-                    const dailyGain = inv.currentValue - valueYesterday;
-                    const dailyPercentageChange = (dailyGain / valueYesterday) * 100;
-                    totalDailyGainPercentage += dailyPercentageChange;
-                    investmentsWithDailyGain++;
-                }
-            });
-
-            let averageDailyGain = 0;
-            if (investmentsWithDailyGain > 0) {
-                averageDailyGain = totalDailyGainPercentage / investmentsWithDailyGain;
-            }
-
-            // Introduce slight randomness for daily display, keeping average around 20%
-            const baseDailyRate = 20; // The actual daily rate
-            const randomFluctuation = (Math.random() * 2 - 1) * 0.5; // Random number between -0.5 and 0.5
-            const displayedDailyGain = baseDailyRate + randomFluctuation;
+            // Calculate and update Daily Performance with slight randomness within 4.5% to 5%
+            // This is for the dashboard display, not the actual projection logic.
+            const minDailyRate = 4.5;
+            const maxDailyRate = 5.0;
+            const displayedDailyGain = (Math.random() * (maxDailyRate - minDailyRate) + minDailyRate);
 
             dailyPercentageEl.textContent = `${displayedDailyGain >= 0 ? '+' : ''}${displayedDailyGain.toFixed(2)}%`;
             dailyPercentageEl.classList.toggle('text-green-400', displayedDailyGain >= 0);
@@ -1835,7 +1805,7 @@
                         </div>
                         <div class="investment-details-expanded hidden">
                             <p><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg><span class="detail-label">Start Date:</span> ${new Date(inv.investDate).toLocaleDateString()}</p>
-                            <p><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg><span class="detail-label">Daily Return:</span> 20% of initial amount</p>
+                            <p><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg><span class="detail-label">Daily Return:</span> 4.5% to 5% of initial amount</p>
                             <p><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="detail-label">Duration:</span> ${inv.durationMonths} months</p>
                             <p><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg><span class="detail-label">Maturity:</span> ${maturityDisplay}</p>
                         </div>
@@ -2114,6 +2084,9 @@
                 clearInputError(investmentAmountInput, investmentAmountError);
                 clearInputError(investmentDurationInput, investmentDurationError);
                 projectionBasisLabel.textContent = ''; // Clear the basis label on open
+                
+                // Immediately update duration constraints based on default amount
+                updateDurationConstraints();
             }
             // Clear errors for other modals on open
             if (modalId === 'cashOutModal') {
@@ -2166,6 +2139,9 @@
             clearInputError(investmentAmountInput, investmentAmountError);
             clearInputError(investmentDurationInput, investmentDurationError);
             projectionBasisLabel.textContent = ''; // Clear the basis label
+            
+            // Re-evaluate duration constraints when category changes
+            updateDurationConstraints();
 
             if (selectedCategory && investmentTypes[selectedCategory]) {
                 // Populate types based on selected category
@@ -2190,23 +2166,18 @@
                 detailsTypeName.textContent = selectedType;
                 detailsDescription.textContent = details.description;
                 detailsReturnRange.textContent = details.returnRange;
-                detailsMinDuration.textContent = `${details.minDurationMonths} months`;
+                
+                // Update duration constraints based on selected type and current amount
+                updateDurationConstraints();
+
                 investmentTypeDetails.classList.remove('hidden');
 
-                // Set minimum duration input based on selected type
-                investmentDurationInput.min = details.minDurationMonths;
-                // Pre-fill with min duration if current value is less or empty
-                if (parseInt(investmentDurationInput.value) < details.minDurationMonths || investmentDurationInput.value === '') {
-                    investmentDurationInput.value = details.minDurationMonths;
-                }
-                investmentDurationUnitSelect.value = 'months'; // Default to months for new types
-
                 // Update projection table with initial values
-                // For fixed daily profit, the annual rate is not directly used in the projection table calculation
+                // Pass a dummy value for fixedDailyPercentage as it's now randomly generated in updateProjectionTable
                 updateProjectionTable(
                     parseFloat(investmentAmountInput.value || 0),
                     parseInt(investmentDurationInput.value || 0),
-                    details.typicalAnnualReturn, // Pass the fixed daily percentage (e.g., 20)
+                    0, // Dummy value, actual percentage is random
                     investmentDurationUnitSelect.value,
                     details.returnRange // Pass the return range for the label
                 );
@@ -2214,11 +2185,15 @@
                 investmentTypeDetails.classList.add('hidden');
                 updateProjectionTable(0, 0, 0); // Reset table and total
                 projectionBasisLabel.textContent = ''; // Clear the basis label
+                updateDurationConstraints(); // Reset duration constraints if no type selected
             }
         });
 
         // Listen for changes in amount and duration to update the projection table
-        investmentAmountInput.addEventListener('input', updateProjection);
+        investmentAmountInput.addEventListener('input', () => {
+            updateDurationConstraints(); // Update constraints first
+            updateProjection(); // Then update projection
+        });
         investmentDurationInput.addEventListener('input', updateProjection);
         investmentDurationUnitSelect.addEventListener('change', updateProjection);
 
@@ -2229,25 +2204,93 @@
             const selectedCategory = investmentCategorySelect.value;
             const selectedType = investmentTypeSelect.value;
             const details = investmentTypes[selectedCategory]?.[selectedType];
-            // The fixedDailyPercentage is retrieved from the details
-            const fixedDailyPercentage = details ? details.typicalAnnualReturn : 0;
+            // The fixedDailyPercentage is no longer directly used from details, but the range is implied
             const returnRangeText = details ? details.returnRange : '';
 
-            updateProjectionTable(amount, duration, fixedDailyPercentage, unit, returnRangeText);
+            // Pass a dummy value for fixedDailyPercentage as it's now randomly generated in updateProjectionTable
+            updateProjectionTable(amount, duration, 0, unit, returnRangeText);
         }
 
-        // New: Function to update the projection table
-        // 'fixedDailyPercentage' parameter is now explicitly used for fixed daily profit
-        function updateProjectionTable(initialAmount, duration, fixedDailyPercentage, unit = 'months', returnRangeText = '') {
+        /**
+         * Dynamically updates the duration input constraints based on the investment amount.
+         */
+        function updateDurationConstraints() {
+            const amount = parseFloat(investmentAmountInput.value);
+            const selectedCategory = investmentCategorySelect.value;
+            const selectedType = investmentTypeSelect.value;
+            const details = investmentTypes[selectedCategory]?.[selectedType];
+
+            // Clear previous errors
+            clearInputError(investmentDurationInput, investmentDurationError);
+
+            if (!details || isNaN(amount) || amount < 5000) {
+                // No investment type selected, or amount is too low/invalid
+                investmentDurationInput.disabled = true;
+                investmentDurationUnitSelect.disabled = true;
+                investmentDurationInput.value = '';
+                detailsMinDuration.textContent = 'N/A';
+                detailsReturnRange.textContent = 'Enter amount to see details';
+                return;
+            }
+
+            let minAllowedMonths = details.minDurationMonths; // Base minimum from investment type
+            let maxAllowedMonths = Infinity; // Default to no explicit max
+
+            if (amount >= 5000 && amount <= 15000) {
+                // For amounts between 5k and 15k, duration must be 1 month
+                minAllowedMonths = Math.max(minAllowedMonths, 1); // Ensure it's at least type's min
+                maxAllowedMonths = 1;
+                investmentDurationUnitSelect.value = 'months'; // Force months
+                investmentDurationUnitSelect.disabled = true; // Disable unit change
+                detailsReturnRange.textContent = `Fixed 4.5% to 5% Daily on Initial Amount (1-month duration)`;
+            } else if (amount > 15000) {
+                // For amounts above 15k, duration must be 2 months or more
+                minAllowedMonths = Math.max(minAllowedMonths, 2); // Ensure it's at least type's min and at least 2 months
+                investmentDurationUnitSelect.disabled = false; // Enable unit change
+                detailsReturnRange.textContent = `Fixed 4.5% to 5% Daily on Initial Amount (2+ month duration)`;
+            }
+
+            investmentDurationInput.disabled = false;
+            investmentDurationInput.min = minAllowedMonths;
+            // No explicit max attribute for duration input, but logic will validate.
+
+            // Adjust current duration value if it's out of bounds
+            let currentDurationValue = parseInt(investmentDurationInput.value);
+            let currentDurationInMonths = currentDurationValue;
+            if (investmentDurationUnitSelect.value === 'years') {
+                currentDurationInMonths = currentDurationValue * 12;
+            }
+
+            if (currentDurationInMonths < minAllowedMonths || (maxAllowedMonths !== Infinity && currentDurationInMonths > maxAllowedMonths)) {
+                investmentDurationInput.value = minAllowedMonths; // Set to minimum allowed
+                investmentDurationUnitSelect.value = 'months'; // Reset unit to months if it was years and now forced to 1 month
+            }
+
+            // Update the displayed minimum duration in the details card
+            let durationDisplay = `${minAllowedMonths} month${minAllowedMonths > 1 ? 's' : ''}`;
+            if (maxAllowedMonths !== Infinity && maxAllowedMonths !== minAllowedMonths) {
+                durationDisplay += ` to ${maxAllowedMonths} month${maxAllowedMonths > 1 ? 's' : ''}`;
+            } else if (maxAllowedMonths === Infinity && minAllowedMonths === 2) {
+                 durationDisplay = `2+ months`;
+            }
+            detailsMinDuration.textContent = durationDisplay;
+        }
+
+
+        /**
+         * Function to update the projection table with fluctuating daily profit.
+         * 'fixedDailyPercentage' parameter is now a dummy value, actual percentage is random.
+         */
+        function updateProjectionTable(initialAmount, duration, dummyFixedDailyPercentage, unit = 'months', returnRangeText = '') {
             projectionTableContainer.innerHTML = ''; // Clear previous content
             finalProjectedTotalEl.classList.add('hidden'); // Hide total by default
 
-            if (initialAmount > 0 && duration > 0 && fixedDailyPercentage > 0) {
-                projectionInfo.textContent = 'This breakdown illustrates your projected investment growth with **daily additions**, where a fixed ' + fixedDailyPercentage + '% of your initial investment is added each day.';
-                projectionBasisLabel.textContent = `Based on: Fixed ${fixedDailyPercentage}% Daily on Initial Amount`; // Updated label
+            const MIN_DAILY_PERCENTAGE = 4.5;
+            const MAX_DAILY_PERCENTAGE = 5.0;
 
-                const dailyProfitRate = fixedDailyPercentage / 100; // Convert percentage to decimal
-                const fixedDailyProfitAmount = initialAmount * dailyProfitRate; // Calculate the fixed daily profit amount
+            if (initialAmount > 0 && duration > 0) {
+                projectionInfo.textContent = `This breakdown illustrates your projected investment growth with **daily additions**, where a fluctuating percentage (${MIN_DAILY_PERCENTAGE}% to ${MAX_DAILY_PERCENTAGE}%) of your initial investment is added each day.`;
+                projectionBasisLabel.textContent = `Based on: Fixed ${MIN_DAILY_PERCENTAGE}% to ${MAX_DAILY_PERCENTAGE}% Daily on Initial Amount`; // Updated label
 
                 let totalDays = duration;
                 if (unit === 'months') {
@@ -2271,8 +2314,11 @@
 
                 // Generate daily breakdown rows
                 for (let day = 1; day <= totalDays; day++) {
-                    // Daily profit is always 20% of the ORIGINAL initialAmount
-                    const dailyProfit = fixedDailyProfitAmount;
+                    // Generate a random daily percentage between MIN_DAILY_PERCENTAGE and MAX_DAILY_PERCENTAGE
+                    const randomDailyPercentage = (Math.random() * (MAX_DAILY_PERCENTAGE - MIN_DAILY_PERCENTAGE) + MIN_DAILY_PERCENTAGE) / 100;
+                    
+                    // Daily profit is always a percentage of the ORIGINAL initialAmount
+                    const dailyProfit = initialAmount * randomDailyPercentage;
                     const endBalance = currentBalance + dailyProfit;
 
                     const rowDiv = document.createElement('div');
@@ -2342,11 +2388,41 @@
                 durationInMonths = duration * 12;
             }
 
-            if (durationInMonths < details.minDurationMonths) {
-                showInputError(investmentDurationInput, investmentDurationError, `Minimum duration for ${type} is ${details.minDurationMonths} month(s).`);
+            // --- New Duration Validation based on Amount ---
+            let minAllowedMonthsForAmount;
+            let maxAllowedMonthsForAmount;
+
+            if (amount >= 5000 && amount <= 15000) {
+                minAllowedMonthsForAmount = 1;
+                maxAllowedMonthsForAmount = 1;
+            } else if (amount > 15000) {
+                minAllowedMonthsForAmount = 2;
+                maxAllowedMonthsForAmount = Infinity; // Effectively no upper limit for this rule
+            } else {
+                // This case should ideally be caught by the initial amount validation,
+                // but as a fallback, set impossible duration to trigger error.
+                minAllowedMonthsForAmount = Infinity;
+                maxAllowedMonthsForAmount = 0;
+            }
+
+            // Combine with investment type's minimum duration
+            const finalMinDurationMonths = Math.max(details.minDurationMonths, minAllowedMonthsForAmount);
+
+            if (durationInMonths < finalMinDurationMonths || durationInMonths > maxAllowedMonthsForAmount) {
+                let errorMessage = `For this amount (${formatNaira(amount)}), duration must be `;
+                if (amount >= 5000 && amount <= 15000) {
+                    errorMessage += `exactly 1 month.`;
+                } else if (amount > 15000) {
+                    errorMessage += `at least 2 months.`;
+                } else {
+                    errorMessage += `valid.`; // Fallback for unexpected amount
+                }
+                showInputError(investmentDurationInput, investmentDurationError, errorMessage);
                 stopLoading(submitButton, 'Invest');
                 return;
             }
+            // --- End New Duration Validation ---
+
 
             if (userAccountBalance < amount) {
                 showToast(`Insufficient funds. Your balance is ${formatNaira(userAccountBalance)}.`, 'error');
@@ -2354,8 +2430,8 @@
                 return;
             }
 
-            // Store the fixed daily profit percentage (e.g., 20.0) as annualReturnRate
-            const fixedDailyProfitPercentage = details.typicalAnnualReturn;
+            // Store the base daily profit percentage (e.g., 4.5) for the investment
+            const baseDailyProfitPercentage = details.typicalAnnualReturn;
 
             const newInvestment = {
                 id: Date.now().toString(), // Simple unique ID
@@ -2363,7 +2439,7 @@
                 type,
                 initialAmount: amount,
                 currentValue: amount, // Starts at initial amount
-                annualReturnRate: fixedDailyProfitPercentage, // Storing 20.0 for the 20% daily fixed profit
+                annualReturnRate: baseDailyProfitPercentage, // Storing base percentage for fixed daily profit
                 investDate: new Date().toISOString(),
                 durationMonths: durationInMonths, // Store duration in months
                 profit: 0
