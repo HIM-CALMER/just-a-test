@@ -1218,7 +1218,7 @@
                     <div class="metric-box">
                         <div class="icon-svg">
                             <!-- Piggy Bank icon -->
-                            <svg xmlns="http://www.w3.org/2000/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-piggy-bank"><path d="M19 5c-1.5 0-2.8 1.4-3 2H4"/><path d="M2 8v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-1.5"/><path d="M22 12a4 4 0 0 0-4-4H6a4 4 0 0 0 4 4v.5c0 2.2 1.8 4 4 4h12a4 4 0 0 0 4-4V12z"/><path d="M2 16h.01"/><path d="M21 16h.01"/></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-piggy-bank"><path d="M19 5c-1.5 0-2.8 1.4-3 2H4"/><path d="M2 8v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-1.5"/><path d="M22 12a4 4 0 0 0-4-4H6a4 4 0 0 0 4 4v.5c0 2.2 1.8 4 4 4h12a4 4 0 0 0 4-4V12z"/><path d="M2 16h.01"/><path d="M21 16h.01"/></svg>
                         </div>
                         <div class="metric-value" id="totalProfitLoss">₦0.00</div>
                         <div class="metric-label">Total Profit/Loss</div>
@@ -1241,6 +1241,37 @@
                 <p class="text-sm text-gray-400 mt-4 text-center">Visual representation of your investment distribution.</p>
             </div>
 
+            <!-- New: Transaction History Section -->
+            <div class="card mb-10">
+                <h2 class="section-title">Transaction History</h2>
+                <div class="flex flex-col sm:flex-row gap-4 mb-6">
+                    <div class="flex-1">
+                        <label for="transactionFilter" class="block text-gray-300 text-sm font-bold mb-2">Filter by Type</label>
+                        <select id="transactionFilter" class="form-select w-full">
+                            <option value="All">All Transactions</option>
+                            <option value="Deposit">Deposits</option>
+                            <option value="Withdrawal">Withdrawals</option>
+                            <option value="Investment">Investments</option>
+                            <option value="Cash Out">Cash Outs</option>
+                        </select>
+                    </div>
+                    <div class="flex-1">
+                        <label for="transactionSort" class="block text-gray-300 text-sm font-bold mb-2">Sort by</label>
+                        <select id="transactionSort" class="form-select w-full">
+                            <option value="dateDesc">Date (Newest First)</option>
+                            <option value="dateAsc">Date (Oldest First)</option>
+                            <option value="amountDesc">Amount (High to Low)</option>
+                            <option value="amountAsc">Amount (Low to High)</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="transactionHistoryList" class="space-y-3">
+                    <!-- Transaction items will be populated here by JavaScript -->
+                    <p class="text-center text-gray-500" id="noTransactionsMessage">No transactions recorded yet.</p>
+                </div>
+            </div>
+
+
             <!-- New: Maximize Your Experience Section -->
             <div class="card mb-10">
                 <h2 class="section-title">Maximize Your Grow-with-Core Experience</h2>
@@ -1260,13 +1291,13 @@
                             <span class="font-bold text-white">Cash Out:</span> Once an investment matures, use the "Cash Out" option to realize your profits and add funds back to your available balance.
                         </div>
                     </li>
-                    <li class="flex items-start">
+                    <li>
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-dollar-sign mr-3 mt-1 text-green-400 flex-shrink-0"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 3v18"/></svg>
                         <div>
                             <span class="font-bold text-white">Deposit Funds:</span> Easily add more funds to your account balance using the secure Paystack integration.
                         </div>
                     </li>
-                    <li class="flex items-start">
+                    <li>
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-credit-card mr-3 mt-1 text-red-400 flex-shrink-0"><rect width="20" height="14" x="2" y="5" rx="2"/><path d="M2 10h20"/></svg>
                         <div>
                             <span class="font-bold text-white">Withdraw Funds:</span> Transfer funds from your available balance to your external accounts.
@@ -1279,36 +1310,6 @@
                         </div>
                     </li>
                 </ul>
-            </div>
-
-            <!-- Transaction History Section -->
-            <div class="card">
-                <h2 class="section-title">Transaction History</h2>
-                <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-4 sm:mb-6">
-                    <div class="flex-grow">
-                        <label for="transactionFilter" class="block text-gray-300 text-sm font-bold mb-2">Filter by Type</label>
-                        <select id="transactionFilter" class="form-select">
-                            <option value="All">All</option>
-                            <option value="Deposit">Deposit</option>
-                            <option value="Investment">Investment</option>
-                            <option value="Cash Out">Cash Out</option>
-                            <option value="Withdrawal">Withdrawal</option>
-                        </select>
-                    </div>
-                    <div class="flex-grow">
-                        <label for="transactionSort" class="block text-gray-300 text-sm font-bold mb-2">Sort by</label>
-                        <select id="transactionSort" class="form-select">
-                            <option value="dateDesc">Date (Newest First)</option>
-                            <option value="dateAsc">Date (Oldest First)</option>
-                            <option value="amountDesc">Amount (High to Low)</option>
-                            <option value="amountAsc">Amount (Low to High)</option>
-                        </select>
-                    </div>
-                </div>
-                <div id="transactionHistoryList" class="space-y-2 sm:space-y-3">
-                    <!-- Transaction items will be populated here by JavaScript -->
-                    <p class="text-center text-gray-500" id="noTransactionsMessage">No transactions recorded yet.</p>
-                </div>
             </div>
         </div>
 
@@ -1910,8 +1911,9 @@
         }
 
         // Event listeners for transaction filters/sort
-        transactionFilterSelect.addEventListener('change', renderTransactionHistory);
-        transactionSortSelect.addEventListener('change', renderTransactionHistory);
+        // These will be attached after the DOM is fully loaded, where these elements are guaranteed to exist.
+        // transactionFilterSelect.addEventListener('change', renderTransactionHistory);
+        // transactionSortSelect.addEventListener('change', renderTransactionHistory);
 
 
         /**
@@ -3019,6 +3021,15 @@
                 }
             } else {
                 loadUserData(); // Show login/create account if no user is logged in
+            }
+
+            // Attach event listeners for transaction filters/sort AFTER DOM is loaded
+            // This ensures the elements exist when the listeners are attached.
+            if (transactionFilterSelect) {
+                transactionFilterSelect.addEventListener('change', renderTransactionHistory);
+            }
+            if (transactionSortSelect) {
+                transactionSortSelect.addEventListener('change', renderTransactionHistory);
             }
         });
 
