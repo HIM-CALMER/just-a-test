@@ -263,6 +263,52 @@
                 height: 14px;
             }
         }
+        /* PWA specific styles for the install button */
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+        .animate-bounce-subtle {
+            animation: bounce 1s infinite;
+        }
+        .install-button-container {
+            position: fixed; /* Use fixed to keep it in view on scroll */
+            bottom: 1rem; /* Adjust as needed */
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 2rem); /* Full width minus padding */
+            max-width: 400px; /* Max width for larger screens */
+            padding: 0 1rem; /* Padding on sides */
+            box-sizing: border-box; /* Include padding in width calculation */
+            z-index: 1000; /* Ensure it's above other content */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .install-button {
+            width: 100%; /* Make button take full width of its container */
+            font-size: 1.1rem; /* Slightly larger font for better readability */
+            padding: 0.8rem 1.5rem; /* Adjusted padding */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+            border-radius: 0.75rem; /* Rounded corners */
+        }
+        .install-message {
+            font-size: 0.9rem; /* Slightly larger font for readability */
+            color: #b0b0b0; /* Lighter grey for better contrast */
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+        /* Hide the default message box if it's the install message */
+        .message-box.install-message {
+            background-color: transparent;
+            border: none;
+            box-shadow: none;
+        }
     </style>
 </head>
 <body>
@@ -307,9 +353,9 @@
     </div>
 
     <!-- PWA Install Button and Message (placed outside auth-container for better visibility) -->
-    <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-center">
+    <div class="install-button-container">
         <button id="installAppButton" class="install-button hidden mb-2">Install App</button>
-        <p id="installMessage" class="text-sm text-gray-400"></p>
+        <p id="installMessage" class="install-message"></p>
     </div>
 
     <script>
@@ -486,18 +532,22 @@
         // Event listener for 'beforeinstallprompt':
         // This event fires when the browser determines that the PWA can be installed.
         window.addEventListener('beforeinstallprompt', (e) => {
+            console.log('beforeinstallprompt event fired.');
             // Prevent the default mini-infobar from appearing on mobile.
             e.preventDefault();
             // Stash the event so it can be triggered later by your custom button.
             deferredPrompt = e;
             // Show your custom install button to the user.
             installAppButton.classList.remove('hidden');
-            installMessage.textContent = 'Click the button below to install this app!';
-            console.log('beforeinstallprompt event fired. Custom install button shown.');
+            // Add a subtle bounce animation
+            installAppButton.classList.add('animate-bounce-subtle');
+            installMessage.textContent = 'Click "Install App" or use your browser menu to add this app to your home screen!';
+            console.log('Custom install button shown.');
         });
 
         // Event listener for your custom install button click:
         installAppButton.addEventListener('click', async () => {
+            console.log('Install App button clicked.');
             if (deferredPrompt) {
                 // Show the browser's native install prompt.
                 deferredPrompt.prompt();
@@ -508,6 +558,8 @@
                 deferredPrompt = null;
                 // Hide your custom install button after the prompt has been shown.
                 installAppButton.classList.add('hidden');
+                installAppButton.classList.remove('animate-bounce-subtle'); // Remove animation after click
+
                 if (outcome === 'accepted') {
                     console.log('App installed successfully!');
                     installMessage.textContent = 'App installed successfully!';
@@ -515,6 +567,9 @@
                     console.log('Installation cancelled.');
                     installMessage.textContent = 'Installation cancelled. You can still install it from your browser menu.';
                 }
+            } else {
+                console.log('deferredPrompt not available. User might have already installed or dismissed.');
+                installMessage.textContent = 'You can still install this app from your browser menu (usually 3 dots).';
             }
         });
 
@@ -524,6 +579,7 @@
             console.log('PWA was installed!');
             // Hide the install button if the app is already installed.
             installAppButton.classList.add('hidden');
+            installAppButton.classList.remove('animate-bounce-subtle'); // Remove animation
             installMessage.textContent = 'App installed successfully!';
         });
 
@@ -532,7 +588,11 @@
         if (window.matchMedia('(display-mode: standalone)').matches || navigator.standalone) {
             console.log('App is running in standalone mode.');
             installAppButton.classList.add('hidden'); // Hide install button if already installed
+            installAppButton.classList.remove('animate-bounce-subtle'); // Remove animation
             installMessage.textContent = 'You are running this app in standalone mode!';
+        } else {
+            // Initial message if not yet installed and not in standalone mode
+            installMessage.textContent = 'Look for "Install App" or "Add to Home screen" in your browser menu.';
         }
     </script>
 </body>
