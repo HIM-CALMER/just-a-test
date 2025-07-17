@@ -306,6 +306,12 @@
         </div>
     </div>
 
+    <!-- PWA Install Button and Message (placed outside auth-container for better visibility) -->
+    <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-center">
+        <button id="installAppButton" class="install-button hidden mb-2">Install App</button>
+        <p id="installMessage" class="text-sm text-gray-400"></p>
+    </div>
+
     <script>
         // IMPORTANT SECURITY NOTE:
         // Storing user credentials (even hashed) directly in localStorage is HIGHLY INSECURE
@@ -470,6 +476,64 @@
                 }
             }, 1000);
         });
+
+        // --- PWA Specific JavaScript (Install Button Logic) ---
+        // This code handles the "Add to Home Screen" prompt.
+        let deferredPrompt; // This variable will store the event that triggers the install prompt.
+        const installAppButton = document.getElementById('installAppButton'); // Get your custom install button element.
+        const installMessage = document.getElementById('installMessage'); // Get the message element.
+
+        // Event listener for 'beforeinstallprompt':
+        // This event fires when the browser determines that the PWA can be installed.
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevent the default mini-infobar from appearing on mobile.
+            e.preventDefault();
+            // Stash the event so it can be triggered later by your custom button.
+            deferredPrompt = e;
+            // Show your custom install button to the user.
+            installAppButton.classList.remove('hidden');
+            installMessage.textContent = 'Click the button below to install this app!';
+            console.log('beforeinstallprompt event fired. Custom install button shown.');
+        });
+
+        // Event listener for your custom install button click:
+        installAppButton.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                // Show the browser's native install prompt.
+                deferredPrompt.prompt();
+                // Wait for the user to respond to the prompt (accept or dismiss).
+                const { outcome } = await deferredPrompt.userChoice;
+                console.log(`User response to the A2HS prompt: ${outcome}`);
+                // The prompt can only be used once, so clear the deferredPrompt.
+                deferredPrompt = null;
+                // Hide your custom install button after the prompt has been shown.
+                installAppButton.classList.add('hidden');
+                if (outcome === 'accepted') {
+                    console.log('App installed successfully!');
+                    installMessage.textContent = 'App installed successfully!';
+                } else {
+                    console.log('Installation cancelled.');
+                    installMessage.textContent = 'Installation cancelled. You can still install it from your browser menu.';
+                }
+            }
+        });
+
+        // Event listener for 'appinstalled':
+        // This event fires if the user successfully installs the PWA.
+        window.addEventListener('appinstalled', () => {
+            console.log('PWA was installed!');
+            // Hide the install button if the app is already installed.
+            installAppButton.classList.add('hidden');
+            installMessage.textContent = 'App installed successfully!';
+        });
+
+        // Check if the app is already running in standalone mode (i.e., it's installed).
+        // This helps hide the install button if the user has already installed it.
+        if (window.matchMedia('(display-mode: standalone)').matches || navigator.standalone) {
+            console.log('App is running in standalone mode.');
+            installAppButton.classList.add('hidden'); // Hide install button if already installed
+            installMessage.textContent = 'You are running this app in standalone mode!';
+        }
     </script>
 </body>
 </html>
