@@ -2,11 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
     <title>Grow-with-Core - Login/Register</title>
-    <link rel="manifest" href="/manifest.json">
-    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
-    <meta name="theme-color" content="#212121"> <!-- Dark brand color -->
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -22,7 +19,7 @@
             color: #e0e0e0;
             padding: 1.5rem; /* Increased padding for better spacing on small screens */
             box-sizing: border-box;
-            overflow: hidden; /* Hide overflow for subtle background animation */
+            overflow-y: auto; /* Changed from hidden to auto to allow vertical scrolling */
 
             /* New: Subtle background animation */
             background-size: 200% 200%;
@@ -33,6 +30,15 @@
         @keyframes gradientMove {
             0% { background-position: 0% 0%; }
             100% { background-position: 100% 100%; }
+        }
+
+        .auth-wrapper {
+            display: flex;
+            flex-direction: column; /* Stack on mobile */
+            gap: 2rem; /* Space between auth container and about section */
+            max-width: 900px; /* Max width for the entire wrapper */
+            width: 100%;
+            align-items: center; /* Center items horizontally */
         }
 
         .auth-container {
@@ -46,7 +52,7 @@
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.1); /* Slightly more defined border */
             position: relative; /* For potential pseudo-elements or absolute positioning */
-            overflow: hidden; /* Ensure inner elements don't break rounded corners */
+            /* Removed overflow: hidden; to allow content within to scroll if needed, though body handles main scroll */
         }
 
         .auth-title {
@@ -89,7 +95,7 @@
 
         .form-group label {
             display: block;
-            color: #c0d0d0; /* Softer label color */
+            color: #c0d0c0; /* Softer label color */
             font-size: 1rem; /* Slightly larger label font */
             font-weight: 600;
             margin-bottom: 0.8rem; /* Increased space between label and input */
@@ -113,6 +119,19 @@
             outline: none;
             background-color: #3f3f3f; /* Slightly lighter on focus */
         }
+
+        /* New: Input error styling */
+        .form-input.error {
+            border-color: #FF6B6B; /* Red border for error */
+            box-shadow: 0 0 0 5px rgba(255, 107, 107, 0.3), inset 0 3px 6px rgba(0, 0, 0, 0.4);
+        }
+        .error-text {
+            color: #FF6B6B;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            text-align: left;
+        }
+
 
         .btn-primary {
             /* More vibrant green gradient button with stronger shadow */
@@ -220,9 +239,91 @@
             100% { transform: rotate(360deg); }
         }
 
+        /* About Section Specific Styles */
+        .about-section {
+            background-color: #222222;
+            border-radius: 2.75rem;
+            box-shadow: 0 35px 80px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.05);
+            padding: 3.5rem;
+            max-width: 550px;
+            width: 100%;
+            text-align: left; /* Align text left within about section */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .about-section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #c0d0e0;
+            margin-bottom: 1.8rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 0.85rem;
+            letter-spacing: 0.06em;
+            text-shadow: 0 0 5px rgba(192, 208, 224, 0.2);
+            display: flex; /* For icon alignment */
+            align-items: center;
+            justify-content: center;
+        }
+
+        .about-section-title svg {
+            margin-right: 10px;
+            color: #76E076; /* Green color for the icon */
+            width: 30px;
+            height: 30px;
+        }
+
+        .about-section p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #d0d0d0;
+            margin-bottom: 1rem;
+        }
+
+        .about-section ul {
+            list-style: none; /* Remove default list style */
+            padding: 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-section ul li {
+            background-color: #3a3a3a;
+            border-radius: 0.6rem;
+            padding: 0.8rem 1.2rem;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        .about-section ul li svg {
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+            color: #90D0D0; /* Teal color for list icons */
+            margin-top: 2px; /* Align icon with text */
+        }
+
+        .about-section ul li strong {
+            color: #e8e8e8;
+        }
+
         /* Responsive adjustments */
+        @media (min-width: 768px) {
+            .auth-wrapper {
+                flex-direction: row; /* Side-by-side on larger screens */
+                justify-content: center;
+                align-items: flex-start; /* Align to top */
+            }
+            .auth-container, .about-section {
+                padding: 3.5rem; /* Consistent padding */
+            }
+        }
+
         @media (max-width: 640px) {
-            .auth-container {
+            .auth-container, .about-section {
                 padding: 2rem; /* Smaller padding on very small screens */
                 border-radius: 2rem;
             }
@@ -230,7 +331,7 @@
                 font-size: 2.2rem;
                 margin-bottom: 1.8rem;
             }
-            .form-section-title {
+            .form-section-title, .about-section-title {
                 font-size: 1.6rem;
                 margin-bottom: 1.5rem;
             }
@@ -262,100 +363,334 @@
                 width: 14px;
                 height: 14px;
             }
-        }
-        /* PWA specific styles for the install button */
-        @keyframes bounce {
-            0%, 100% {
-                transform: translateY(0);
+            .about-section ul li {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
             }
-            50% {
-                transform: translateY(-5px);
+            .about-section-title svg {
+                width: 24px;
+                height: 24px;
             }
         }
-        .animate-bounce-subtle {
-            animation: bounce 1s infinite;
+
+        /* New: Form animation for toggling */
+        .form-fade-enter-active, .form-fade-leave-active {
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
         }
-        .install-button-container {
-            position: fixed; /* Use fixed to keep it in view on scroll */
-            bottom: 1rem; /* Adjust as needed */
-            left: 50%;
-            transform: translateX(-50%);
-            width: calc(100% - 2rem); /* Full width minus padding */
-            max-width: 400px; /* Max width for larger screens */
-            padding: 0 1rem; /* Padding on sides */
-            box-sizing: border-box; /* Include padding in width calculation */
-            z-index: 1000; /* Ensure it's above other content */
+        .form-fade-enter-from, .form-fade-leave-to {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        /* Policy Modal Styles */
+        .policy-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
         }
-        .install-button {
-            width: 100%; /* Make button take full width of its container */
-            font-size: 1.1rem; /* Slightly larger font for better readability */
-            padding: 0.8rem 1.5rem; /* Adjusted padding */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Subtle shadow */
-            border-radius: 0.75rem; /* Rounded corners */
+
+        .policy-modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
         }
-        .install-message {
-            font-size: 0.9rem; /* Slightly larger font for readability */
-            color: #b0b0b0; /* Lighter grey for better contrast */
-            margin-top: 0.5rem;
+
+        .policy-modal-content {
+            background-color: #222222;
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .policy-modal-overlay.show .policy-modal-content {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .policy-modal-content h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #76E076;
+            margin-bottom: 1.5rem;
             text-align: center;
         }
-        /* Hide the default message box if it's the install message */
-        .message-box.install-message {
-            background-color: transparent;
+
+        .policy-modal-content p {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: #d0d0d0;
+            margin-bottom: 1rem;
+        }
+
+        .policy-modal-content ul {
+            list-style: none; /* Changed from disc to none for custom icons */
+            padding: 0;
+            margin-bottom: 1.5rem;
+            color: #d0d0d0;
+        }
+
+        .policy-modal-content ul li {
+            margin-bottom: 0.8rem; /* Increased spacing between list items */
+            font-size: 0.9rem;
+            display: flex; /* For icon alignment */
+            align-items: flex-start;
+            gap: 0.8rem;
+            background-color: #3a3a3a; /* Background for list items */
+            border-radius: 0.6rem;
+            padding: 0.8rem 1.2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+        }
+        .policy-modal-content ul li svg {
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+            color: #90D0D0; /* Teal color for list icons */
+            margin-top: 2px; /* Align icon with text */
+        }
+
+        .policy-buttons {
+            display: flex;
+            justify-content: space-around;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .policy-buttons button {
+            flex: 1;
+            padding: 0.9rem 1.5rem;
+            border-radius: 0.8rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .policy-buttons .btn-agree {
+            background: linear-gradient(90deg, #4CAF50, #5CB85C);
+            color: white;
             border: none;
-            box-shadow: none;
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.5);
+        }
+
+        .policy-buttons .btn-agree:hover {
+            filter: brightness(1.1);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(76, 175, 80, 0.7);
+        }
+
+        .policy-buttons .btn-disagree {
+            background-color: #4a4a4a;
+            color: #e0e0e0;
+            border: 1px solid #666666;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .policy-buttons .btn-disagree:hover {
+            background-color: #5a5a5a;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        /* New Loading Overlay Styles */
+        .loading-overlay-full {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85); /* Darker overlay */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1001; /* Above policy modal */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+
+        .loading-overlay-full.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .loading-spinner-large {
+            border: 6px solid rgba(255, 255, 255, 0.3);
+            border-top: 6px solid #76E076; /* Green spinner */
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1.2s linear infinite;
+            margin-bottom: 20px;
+        }
+        .loading-overlay-full p {
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            color: #d0d0d0;
         }
     </style>
 </head>
 <body>
-    <div class="auth-container">
-        <h1 class="auth-title">Grow-with-Core</h1>
+    <div class="auth-wrapper">
+        <div class="auth-container">
+            <h1 class="auth-title">Grow-with-Core</h1>
 
-        <!-- Login Form -->
-        <div id="loginForm">
-            <h2 class="form-section-title">Login to Your Account</h2>
-            <div class="form-group">
-                <label for="loginEmail">Email Address</label>
-                <input type="email" id="loginEmail" class="form-input" placeholder="Enter your email">
+            <!-- Login Form -->
+            <div id="loginForm">
+                <h2 class="form-section-title">Login to Your Account</h2>
+                <div class="form-group">
+                    <label for="loginEmail">Email Address</label>
+                    <input type="email" id="loginEmail" class="form-input" placeholder="Enter your email" autocomplete="email">
+                    <p id="loginEmailError" class="error-text hidden" aria-live="polite"></p>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" class="form-input" placeholder="Enter your password" autocomplete="current-password">
+                    <p id="loginPasswordError" class="error-text hidden" aria-live="polite"></p>
+                </div>
+                <button id="loginBtn" class="btn-primary">
+                    <span>Login</span>
+                </button>
+                <p id="loginMessage" class="message-box hidden" aria-live="polite"></p>
+                <a href="#" id="showRegisterLink" class="toggle-link">Don't have an account? Register here.</a>
             </div>
-            <div class="form-group">
-                <label for="loginPassword">Password</label>
-                <input type="password" id="loginPassword" class="form-input" placeholder="Enter your password">
+
+            <!-- Register Form -->
+            <div id="registerForm" class="hidden">
+                <h2 class="form-section-title">Create New Account</h2>
+                <div class="form-group">
+                    <label for="registerEmail">Email Address</label>
+                    <input type="email" id="registerEmail" class="form-input" placeholder="Enter your email" autocomplete="email">
+                    <p id="registerEmailError" class="error-text hidden" aria-live="polite"></p>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Password</label>
+                    <input type="password" id="registerPassword" class="form-input" placeholder="Choose a password" autocomplete="new-password">
+                    <p id="registerPasswordError" class="error-text hidden" aria-live="polite"></p>
+                </div>
+                <button id="registerBtn" class="btn-primary">
+                    <span>Register</span>
+                </button>
+                <p id="registerMessage" class="message-box hidden" aria-live="polite"></p>
+                <a href="#" id="showLoginLink" class="toggle-link">Already have an account? Login here.</a>
             </div>
-            <button id="loginBtn" class="btn-primary">
-                <span>Login</span>
-            </button>
-            <p id="loginMessage" class="message-box hidden"></p>
-            <a href="#" id="showRegisterLink" class="toggle-link">Don't have an account? Register here.</a>
         </div>
 
-        <!-- Register Form -->
-        <div id="registerForm" class="hidden">
-            <h2 class="form-section-title">Create New Account</h2>
-            <div class="form-group">
-                <label for="registerEmail">Email Address</label>
-                <input type="email" id="registerEmail" class="form-input" placeholder="Enter your email">
-            </div>
-            <div class="form-group">
-                <label for="registerPassword">Password</label>
-                <input type="password" id="registerPassword" class="form-input" placeholder="Choose a password">
-            </div>
-            <button id="registerBtn" class="btn-primary">
-                <span>Register</span>
-            </button>
-            <p id="registerMessage" class="message-box hidden"></p>
-            <a href="#" id="showLoginLink" class="toggle-link">Already have an account? Login here.</a>
+        <!-- About Section -->
+        <div class="about-section">
+            <h2 class="about-section-title">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                About Grow-with-Core
+            </h2>
+            <p>Welcome to Grow-with-Core, your personal investment simulation platform designed to help you explore and understand the dynamics of financial growth. We provide a safe and interactive environment for you to simulate investments, track your portfolio, and learn about potential returns without any real-world financial risk.</p>
+            <p>Our mission is to empower individuals with the knowledge and confidence to make informed investment decisions. Grow-with-Core simplifies complex financial concepts, making investment planning accessible and engaging for everyone.</p>
+
+            <h3>Key Features:</h3>
+            <ul>
+                <li>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+                    <strong>Simulated Investments:</strong> Explore various investment types and see how they perform over time with realistic, simulated market data.
+                </li>
+                <li>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pie-chart"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+                    <strong>Portfolio Tracking:</strong> Monitor your simulated portfolio's performance, track profits, and understand your asset allocation at a glance.
+                </li>
+                <li>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-target"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                    <strong>Goal Setting:</strong> Set financial goals and track your progress, helping you visualize your journey towards your aspirations.
+                </li>
+                <li>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-newspaper"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h2"/><path d="M10 12h8"/><path d="M10 16h8"/><path d="M10 8h8"/></svg>
+                    <strong>Daily Insights:</strong> Stay informed with simulated daily market insights and tips to enhance your understanding of financial trends.
+                </li>
+            </ul>
+
+            <h3>How to Use:</h3>
+            <ul>
+                <li>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-plus"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>
+                    <strong>Create Account:</strong> If you're new, click "Register here". Enter your email and a password (minimum 6 characters) to create your account.
+                </li>
+                <li>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-in"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" x2="3" y1="12" y2="12"/></svg>
+                    <strong>Login:</strong> Use your registered email and password. Upon successful login, you'll be redirected to your personalized dashboard at <code>addup.html</code>.
+                </li>
+                <li>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-save"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                    <strong>Data Persistence:</strong> Your progress and investment data are saved within your browser. This ensures your information is available when you return to the application.
+                </li>
+                <li>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lightbulb"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1.3.5 2.6 1.5 3.5.8.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 22v-4"/></svg>
+                    <strong class="text-blue-400">Learning & Exploration:</strong> Grow-with-Core is designed as an educational tool. Dive in, experiment with different strategies, and discover the potential of smart investing in a risk-free environment.
+                </li>
+            </ul>
         </div>
     </div>
 
-    <!-- PWA Install Button and Message (placed outside auth-container for better visibility) -->
-    <div class="install-button-container">
-        <button id="installAppButton" class="install-button hidden mb-2">Install App</button>
-        <p id="installMessage" class="install-message"></p>
+    <!-- Policy Agreement Modal -->
+    <div id="policyModalOverlay" class="policy-modal-overlay">
+        <div class="policy-modal-content">
+            <h3>Your Journey with Grow-with-Core</h3>
+            <p>Welcome to Grow-with-Core! We're thrilled to have you join our community. Before you dive into your financial exploration, please take a moment to understand how our platform works. By proceeding, you're agreeing to these guiding principles:</p>
+            <ul>
+                <li>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-graduation-cap"><path d="M21.43 14.57l-1.89-1.89a1.99 1.99 0 0 0-2.82 0L15 14.57l-1.89-1.89a1.99 1.99 0 0 0-2.82 0L9 14.57l-1.89-1.89a1.99 1.99 0 0 0-2.82 0L3 14.57V10a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4.57z"/><path d="M12 4V2"/><path d="M5 10.5V7.5C5 6.67 5.67 6 6.5 6H17.5C18.33 6 19 6.67 19 7.5V10.5"/></svg>
+                    <strong>A Safe Learning Space:</strong> Grow-with-Core is your dedicated environment for financial education and simulation. Here, you can freely experiment with investment strategies and observe market dynamics without any real financial risk or actual money transactions. It's all about learning and building your expertise!
+                </li>
+                <li>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lightbulb"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1.3.5 2.6 1.5 3.5.8.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 22v-4"/></svg>
+                    <strong>Empowering Insights:</strong> The data, strategies, and simulated results within Grow-with-Core are powerful tools for understanding financial concepts. While they offer valuable insights for your learning journey, they are purely illustrative and do not constitute professional financial advice. For real-world investment decisions, we always recommend consulting with a certified financial expert.
+                </li>
+                <li>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-database"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></svg>
+                    <strong>Seamless Progress Tracking:</strong> Your simulated investment progress and account details are securely saved directly within your browser. This convenient local storage ensures that your learning journey seamlessly continues right where you left off on this device. Please note that clearing your browser's data will reset your Grow-with-Core progress.
+                </li>
+                <li>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-square"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                    <strong>Need a Hand? We're Here!</strong> Your successful learning journey is our priority. If you encounter any difficulties, have questions, or need a little extra guidance, our support team is ready to assist you. Connect with us instantly on <a href="https://wa.me/2349041994731" target="_blank" class="text-green-400 font-bold hover:underline">WhatsApp</a>.
+                </li>
+                <li>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-refresh-cw"><path d="M21 12a9 9 0 0 0-9-9c-7.2 0-9 1.8-9 9s1.8 9 9 9c1.67 0 3.24-.35 4.7-.98"/><path d="M17 2v5h5"/></svg>
+                    <strong>Evolving with You:</strong> We are continuously improving Grow-with-Core to provide the best possible learning experience. We may introduce new features and content, and update these terms, to enhance your journey. Your continued engagement signifies your acceptance of these exciting developments.
+                </li>
+            </ul>
+            <p>By clicking "I Agree," you confirm your understanding and acceptance of these terms. Get ready to explore the world of investments with confidence!</p>
+            <div class="policy-buttons">
+                <button id="agreePolicyBtn" class="btn-agree">I Agree</button>
+                <button id="disagreePolicyBtn" class="btn-disagree">I Disagree</button>
+            </div>
+            <p id="policyMessage" class="message-box hidden" aria-live="polite"></p>
+        </div>
+    </div>
+
+    <!-- Full-screen Loading Overlay -->
+    <div id="loadingOverlayFull" class="loading-overlay-full">
+        <div class="loading-spinner-large"></div>
+        <p>Preparing your Grow-with-Core experience...</p>
+        <p class="text-sm mt-2 text-gray-400">Please wait a moment while we set things up.</p>
     </div>
 
     <script>
@@ -375,14 +710,30 @@
         const loginPasswordInput = document.getElementById('loginPassword');
         const loginBtn = document.getElementById('loginBtn');
         const loginMessage = document.getElementById('loginMessage');
+        const loginEmailError = document.getElementById('loginEmailError');
+        const loginPasswordError = document.getElementById('loginPasswordError');
+
 
         const registerEmailInput = document.getElementById('registerEmail');
         const registerPasswordInput = document.getElementById('registerPassword');
         const registerBtn = document.getElementById('registerBtn');
         const registerMessage = document.getElementById('registerMessage');
+        const registerEmailError = document.getElementById('registerEmailError');
+        const registerPasswordError = document.getElementById('registerPasswordError');
+
 
         const showRegisterLink = document.getElementById('showRegisterLink');
         const showLoginLink = document.getElementById('showLoginLink');
+
+        // Policy Modal Elements
+        const policyModalOverlay = document.getElementById('policyModalOverlay');
+        const agreePolicyBtn = document.getElementById('agreePolicyBtn');
+        const disagreePolicyBtn = document.getElementById('disagreePolicyBtn');
+        const policyMessage = document.getElementById('policyMessage');
+
+        // New Loading Overlay Element
+        const loadingOverlayFull = document.getElementById('loadingOverlayFull');
+
 
         /**
          * Displays a message in the specified message box.
@@ -394,9 +745,35 @@
             messageBox.textContent = message;
             messageBox.classList.remove('hidden', 'success', 'error');
             messageBox.classList.add(type);
+            // Announce message for screen readers
+            messageBox.setAttribute('aria-live', 'assertive');
             setTimeout(() => {
                 messageBox.classList.add('hidden');
+                messageBox.removeAttribute('aria-live');
             }, 3000); // Hide message after 3 seconds
+        }
+
+        /**
+         * Shows an input-specific error message.
+         * @param {HTMLElement} inputElement The input field.
+         * @param {HTMLElement} errorElement The paragraph to display the error.
+         * @param {string} message The error message.
+         */
+        function showInputError(inputElement, errorElement, message) {
+            inputElement.classList.add('error');
+            errorElement.textContent = message;
+            errorElement.classList.remove('hidden');
+        }
+
+        /**
+         * Clears an input-specific error message.
+         * @param {HTMLElement} inputElement The input field.
+         * @param {HTMLElement} errorElement The paragraph displaying the error.
+         */
+        function clearInputError(inputElement, errorElement) {
+            inputElement.classList.remove('error');
+            errorElement.classList.add('hidden');
+            errorElement.textContent = '';
         }
 
         /**
@@ -426,25 +803,93 @@
             }
         }
 
+        /**
+         * Toggles between login and register forms with a fade animation.
+         * @param {HTMLElement} formToShow The form element to display.
+         * @param {HTMLElement} formToHide The form element to hide.
+         */
+        function toggleForm(formToShow, formToHide) {
+            formToHide.classList.add('form-fade-leave-active');
+            formToHide.classList.add('form-fade-leave-to');
+
+            setTimeout(() => {
+                formToHide.classList.add('hidden');
+                formToHide.classList.remove('form-fade-leave-active', 'form-fade-leave-to');
+
+                formToShow.classList.remove('hidden');
+                formToShow.classList.add('form-fade-enter-active');
+                formToShow.classList.add('form-fade-enter-from');
+
+                setTimeout(() => {
+                    formToShow.classList.remove('form-fade-enter-from');
+                }, 10); // Small delay to trigger transition
+
+                setTimeout(() => {
+                    formToShow.classList.remove('form-fade-enter-active');
+                }, 300); // Match transition duration
+            }, 300); // Match transition duration
+        }
+
+        /**
+         * Displays the policy agreement modal.
+         */
+        function showPolicyAgreement() {
+            // Check if policy has already been agreed to by this user
+            const currentUserEmail = localStorage.getItem('currentUserEmail');
+            if (currentUserEmail && localStorage.getItem(`policyAgreed_${currentUserEmail}`) === 'true') {
+                // If agreed, redirect directly
+                window.location.href = 'addup.html';
+                return;
+            }
+
+            // Otherwise, show the modal
+            policyModalOverlay.classList.add('show');
+            policyMessage.classList.add('hidden'); // Ensure message is hidden on show
+        }
+
+        /**
+         * Hides the policy agreement modal.
+         */
+        function hidePolicyAgreement() {
+            policyModalOverlay.classList.remove('show');
+        }
+
+        /**
+         * Shows the full-screen loading overlay.
+         */
+        function showLoadingOverlayFull() {
+            loadingOverlayFull.classList.add('show');
+        }
+
+        /**
+         * Hides the full-screen loading overlay.
+         */
+        function hideLoadingOverlayFull() {
+            loadingOverlayFull.classList.remove('show');
+        }
+
+
         // Event Listeners for form toggling
         showRegisterLink.addEventListener('click', (e) => {
             e.preventDefault();
-            loginForm.classList.add('hidden');
-            registerForm.classList.remove('hidden');
+            toggleForm(registerForm, loginForm);
             loginMessage.classList.add('hidden'); // Hide any previous login messages
             registerMessage.classList.add('hidden'); // Clear register message on toggle
-            registerEmailInput.value = ''; // Clear inputs on toggle
-            registerPasswordInput.value = '';
+            loginEmailInput.value = ''; // Clear inputs on toggle
+            loginPasswordInput.value = '';
+            clearInputError(loginEmailInput, loginEmailError);
+            clearInputError(loginPasswordInput, loginPasswordError);
         });
 
         showLoginLink.addEventListener('click', (e) => {
             e.preventDefault();
-            registerForm.classList.add('hidden');
-            loginForm.classList.remove('hidden');
+            toggleForm(loginForm, registerForm);
             registerMessage.classList.add('hidden'); // Hide any previous register messages
             loginMessage.classList.add('hidden'); // Clear login message on toggle
-            loginEmailInput.value = ''; // Clear inputs on toggle
-            loginPasswordInput.value = '';
+            registerEmailInput.value = ''; // Clear inputs on toggle
+            registerPasswordInput.value = '';
+            clearInputError(registerEmailInput, registerEmailError);
+            clearInputError(registerPasswordInput, registerPasswordError);
         });
 
         // Register Button Logic
@@ -452,13 +897,30 @@
             const email = registerEmailInput.value.trim();
             const password = registerPasswordInput.value.trim();
 
-            if (!email || !password) {
-                showMessage(registerMessage, 'Please fill in all fields.', 'error');
-                return;
+            let hasError = false;
+
+            // Clear previous errors
+            clearInputError(registerEmailInput, registerEmailError);
+            clearInputError(registerPasswordInput, registerPasswordError);
+
+            if (!email) {
+                showInputError(registerEmailInput, registerEmailError, 'Email address is required.');
+                hasError = true;
+            } else if (!/\S+@\S+\.\S+/.test(email)) {
+                showInputError(registerEmailInput, registerEmailError, 'Please enter a valid email address.');
+                hasError = true;
             }
 
-            if (password.length < 6) {
-                showMessage(registerMessage, 'Password must be at least 6 characters long.', 'error');
+            if (!password) {
+                showInputError(registerPasswordInput, registerPasswordError, 'Password is required.');
+                hasError = true;
+            } else if (password.length < 6) {
+                showInputError(registerPasswordInput, registerPasswordError, 'Password must be at least 6 characters long.');
+                hasError = true;
+            }
+
+            if (hasError) {
+                showMessage(registerMessage, 'Please correct the errors above.', 'error');
                 return;
             }
 
@@ -469,6 +931,7 @@
                 const existingUser = localStorage.getItem(`user_${email}`);
                 if (existingUser) {
                     showMessage(registerMessage, 'Account with this email already exists.', 'error');
+                    showInputError(registerEmailInput, registerEmailError, 'This email is already registered.');
                     stopLoading(registerBtn, 'Register');
                 } else {
                     // Store user credentials in localStorage
@@ -477,8 +940,7 @@
                     stopLoading(registerBtn, 'Register');
                     // Optionally switch to login form after successful registration
                     setTimeout(() => {
-                        registerForm.classList.add('hidden');
-                        loginForm.classList.remove('hidden');
+                        toggleForm(loginForm, registerForm);
                         loginEmailInput.value = email; // Pre-fill login email
                         registerEmailInput.value = ''; // Clear register form
                         registerPasswordInput.value = '';
@@ -492,8 +954,27 @@
             const email = loginEmailInput.value.trim();
             const password = loginPasswordInput.value.trim();
 
-            if (!email || !password) {
-                showMessage(loginMessage, 'Please enter your email and password.', 'error');
+            let hasError = false;
+
+            // Clear previous errors
+            clearInputError(loginEmailInput, loginEmailError);
+            clearInputError(loginPasswordInput, loginPasswordError);
+
+            if (!email) {
+                showInputError(loginEmailInput, loginEmailError, 'Email address is required.');
+                hasError = true;
+            } else if (!/\S+@\S+\.\S+/.test(email)) {
+                showInputError(loginEmailInput, loginEmailError, 'Please enter a valid email address.');
+                hasError = true;
+            }
+
+            if (!password) {
+                showInputError(loginPasswordInput, loginPasswordError, 'Password is required.');
+                hasError = true;
+            }
+
+            if (hasError) {
+                showMessage(loginMessage, 'Please correct the errors above.', 'error');
                 return;
             }
 
@@ -505,95 +986,53 @@
                 if (storedUser) {
                     const userData = JSON.parse(storedUser);
                     if (userData.password === password) {
-                        showMessage(loginMessage, 'Login successful! Redirecting...', 'success');
+                        showMessage(loginMessage, 'Login successful! Please review our policy.', 'success');
                         stopLoading(loginBtn, 'Login');
-                        // Redirect to addup.html on successful login
-                        // Pass user ID/email via localStorage for the dashboard to pick up
+                        // Set current user email and ID in localStorage
                         localStorage.setItem('currentUserEmail', email);
                         localStorage.setItem('currentUserId', email.replace(/[^a-zA-Z0-9]/g, '_')); // Simple ID from email
-                        window.location.href = 'addup.html'; // Changed from dashboard.html to addup.html
+                        
+                        // Show policy agreement after successful login
+                        setTimeout(showPolicyAgreement, 500); // Small delay for message to be seen
                     } else {
                         showMessage(loginMessage, 'Incorrect password.', 'error');
+                        showInputError(loginPasswordInput, loginPasswordError, 'Incorrect password.');
                         stopLoading(loginBtn, 'Login');
                     }
                 } else {
                     showMessage(loginMessage, 'User not found. Please register.', 'error');
+                    showInputError(loginEmailInput, loginEmailError, 'User not found. Please register.');
                     stopLoading(loginBtn, 'Login');
                 }
             }, 1000);
         });
 
-        // --- PWA Specific JavaScript (Install Button Logic) ---
-        // This code handles the "Add to Home Screen" prompt.
-        let deferredPrompt; // This variable will store the event that triggers the install prompt.
-        const installAppButton = document.getElementById('installAppButton'); // Get your custom install button element.
-        const installMessage = document.getElementById('installMessage'); // Get the message element.
+        // Policy Agreement Button Logic
+        agreePolicyBtn.addEventListener('click', () => {
+            const currentUserEmail = localStorage.getItem('currentUserEmail');
+            if (currentUserEmail) {
+                localStorage.setItem(`policyAgreed_${currentUserEmail}`, 'true');
+                hidePolicyAgreement(); // Hide the policy modal
+                showLoadingOverlayFull(); // Show the full-screen loading overlay
 
-        // Event listener for 'beforeinstallprompt':
-        // This event fires when the browser determines that the PWA can be installed.
-        window.addEventListener('beforeinstallprompt', (e) => {
-            console.log('beforeinstallprompt event fired.');
-            // Prevent the default mini-infobar from appearing on mobile.
-            e.preventDefault();
-            // Stash the event so it can be triggered later by your custom button.
-            deferredPrompt = e;
-            // Show your custom install button to the user.
-            installAppButton.classList.remove('hidden');
-            // Add a subtle bounce animation
-            installAppButton.classList.add('animate-bounce-subtle');
-            installMessage.textContent = 'Click "Install App" or use your browser menu to add this app to your home screen!';
-            console.log('Custom install button shown.');
-        });
-
-        // Event listener for your custom install button click:
-        installAppButton.addEventListener('click', async () => {
-            console.log('Install App button clicked.');
-            if (deferredPrompt) {
-                // Show the browser's native install prompt.
-                deferredPrompt.prompt();
-                // Wait for the user to respond to the prompt (accept or dismiss).
-                const { outcome } = await deferredPrompt.userChoice;
-                console.log(`User response to the A2HS prompt: ${outcome}`);
-                // The prompt can only be used once, so clear the deferredPrompt.
-                deferredPrompt = null;
-                // Hide your custom install button after the prompt has been shown.
-                installAppButton.classList.add('hidden');
-                installAppButton.classList.remove('animate-bounce-subtle'); // Remove animation after click
-
-                if (outcome === 'accepted') {
-                    console.log('App installed successfully!');
-                    installMessage.textContent = 'App installed successfully!';
-                } else {
-                    console.log('Installation cancelled.');
-                    installMessage.textContent = 'Installation cancelled. You can still install it from your browser menu.';
-                }
+                // Redirect after 5 seconds
+                setTimeout(() => {
+                    window.location.href = 'addup.html';
+                }, 5000); // 5000 milliseconds = 5 seconds
             } else {
-                console.log('deferredPrompt not available. User might have already installed or dismissed.');
-                installMessage.textContent = 'You can still install this app from your browser menu (usually 3 dots).';
+                showMessage(policyMessage, 'Error: User not identified. Please log in again.', 'error');
+                hidePolicyAgreement(); // Hide modal even on error
             }
         });
 
-        // Event listener for 'appinstalled':
-        // This event fires if the user successfully installs the PWA.
-        window.addEventListener('appinstalled', () => {
-            console.log('PWA was installed!');
-            // Hide the install button if the app is already installed.
-            installAppButton.classList.add('hidden');
-            installAppButton.classList.remove('animate-bounce-subtle'); // Remove animation
-            installMessage.textContent = 'App installed successfully!';
+        disagreePolicyBtn.addEventListener('click', () => {
+            showMessage(policyMessage, 'You must agree to the policy to proceed to the dashboard.', 'error');
+            // Do not redirect. Keep the user on the login/register page.
+            hidePolicyAgreement(); // Hide the modal
+            // Optionally clear current user session if disagreement means they can't proceed
+            localStorage.removeItem('currentUserEmail');
+            localStorage.removeItem('currentUserId');
         });
-
-        // Check if the app is already running in standalone mode (i.e., it's installed).
-        // This helps hide the install button if the user has already installed it.
-        if (window.matchMedia('(display-mode: standalone)').matches || navigator.standalone) {
-            console.log('App is running in standalone mode.');
-            installAppButton.classList.add('hidden'); // Hide install button if already installed
-            installAppButton.classList.remove('animate-bounce-subtle'); // Remove animation
-            installMessage.textContent = 'You are running this app in standalone mode!';
-        } else {
-            // Initial message if not yet installed and not in standalone mode
-            installMessage.textContent = 'Look for "Install App" or "Add to Home screen" in your browser menu.';
-        }
     </script>
 </body>
 </html>
