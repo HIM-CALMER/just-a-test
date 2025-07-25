@@ -30,8 +30,9 @@
             overflow-x: hidden; /* Prevent horizontal scroll */
 
             /* New: Subtle background animation */
-            background-size: 200% 200%;
-            animation: gradientMove 15s ease infinite alternate;
+            background-size: 250% 250%; /* Slightly larger for more movement */
+            animation: gradientMove 20s ease infinite alternate; /* Slower animation for subtlety */
+            transition: background-position 0.5s ease; /* Smooth transition for background position */
         }
 
         /* New: Keyframes for subtle background animation */
@@ -45,14 +46,14 @@
             border-radius: 2.75rem; /* Even more rounded corners */
             /* More pronounced, multi-layered shadow for depth */
             box-shadow: 0 35px 80px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.05);
-            padding: 2.2rem; /* Adjusted padding for mobile */
+            padding: 2rem; /* Adjusted padding for mobile (slightly less) */
             max-width: 1300px; /* Slightly wider max width */
             width: 100%;
             display: grid;
-            gap: 2.2rem; /* Adjusted gap between sections for mobile */
+            gap: 1.6rem; /* Adjusted gap between sections for mobile (slightly less) */
             grid-template-columns: 1fr; /* Single column for mobile */
-            margin-top: 1.8rem; /* Space from top */
-            margin-bottom: 1.8rem; /* Space from bottom */
+            margin-top: 1.5rem; /* Space from top */
+            margin-bottom: 1.5rem; /* Space from bottom */
             border: 1px solid rgba(255, 255, 255, 0.1); /* Slightly more defined border */
         }
 
@@ -61,9 +62,9 @@
                 padding: 25px; /* Restore larger padding on desktop */
             }
             .dashboard-container {
-                padding: 3.5rem; /* Restore larger padding on desktop */
-                gap: 3.5rem; /* Restore larger gap on desktop */
-                grid-template-columns: 2fr 1fr; /* Two columns for tablet/desktop */
+                padding: 3rem; /* Slightly reduced padding on desktop */
+                gap: 2.2rem; /* Adjusted gap on desktop (slightly less) */
+                grid-template-columns: 2.5fr 1fr; /* More balanced distribution */
             }
         }
 
@@ -71,7 +72,7 @@
             /* Richer card gradient with subtle inner shadow */
             background: linear-gradient(45deg, #303030 0%, #404040 100%); /* Deeper card gradient */
             border-radius: 2.25rem; /* More rounded card corners */
-            padding: 1.8rem; /* Adjusted card padding for mobile */
+            padding: 1.6rem; /* Adjusted card padding for mobile (slightly less) */
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), inset 0 0 12px rgba(255, 255, 255, 0.03); /* Enhanced card shadow */
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background 0.3s ease-in-out;
             border: 1px solid rgba(255, 255, 255, 0.08); /* Subtle light border for definition */
@@ -79,21 +80,21 @@
 
         @media (min-width: 768px) {
             .card {
-                padding: 2.8rem; /* Restore larger card padding on desktop */
+                padding: 2.5rem; /* Restore larger card padding on desktop (slightly less) */
             }
         }
 
         .card:hover {
-            transform: translateY(-10px); /* More pronounced lift effect on hover */
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.55);
+            transform: translateY(-12px); /* More pronounced lift effect on hover */
+            box-shadow: 0 28px 55px rgba(0, 0, 0, 0.6); /* Stronger shadow on hover */
             background: linear-gradient(45deg, #353535 0%, #454545 100%); /* Slightly lighter on hover */
         }
 
         .section-title {
-            font-size: 2rem; /* Slightly larger title on mobile */
+            font-size: 2.1rem; /* Slightly larger title on mobile */
             font-weight: 800; /* Bolder */
             color: #c0d0e0; /* Softer blue-grey for titles */
-            margin-bottom: 1.8rem; /* Adjusted space below title */
+            margin-bottom: 1.5rem; /* Adjusted space below title */
             text-align: center;
             position: relative;
             padding-bottom: 0.6rem; /* Adjusted padding */
@@ -103,9 +104,9 @@
 
         @media (min-width: 768px) {
             .section-title {
-                font-size: 2.8rem; /* Restore larger title on desktop */
-                margin-bottom: 2.5rem; /* Restore larger space */
-                padding-bottom: 0.85rem; /* Restore padding */
+                font-size: 2.8rem; /* Restore larger title on desktop (slightly less) */
+                margin-bottom: 2rem; /* Restore larger space (slightly less) */
+                padding-bottom: 0.8rem; /* Restore padding (slightly less) */
             }
         }
 
@@ -115,8 +116,8 @@
             left: 50%;
             bottom: 0;
             transform: translateX(-50%);
-            width: 90px; /* Slightly wider underline on mobile */
-            height: 5px; /* Thicker underline on mobile */
+            width: 75px; /* Slightly narrower underline on mobile */
+            height: 4px; /* Slightly thinner underline on mobile */
             /* Vibrant green gradient underline */
             background: linear-gradient(90deg, #5CB85C, #6FC06F); /* Brighter green gradient */
             border-radius: 4px;
@@ -125,8 +126,8 @@
 
         @media (min-width: 768px) {
             .section-title::after {
-                width: 110px; /* Restore wider underline on desktop */
-                height: 6px; /* Restore thicker underline on desktop */
+                width: 90px; /* Restore wider underline on desktop */
+                height: 5px; /* Restore thicker underline on desktop */
             }
         }
 
@@ -180,7 +181,7 @@
 
         .btn-primary:hover {
             transform: translateY(-5px); /* More pronounced lift */
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.55), 0 0 15px rgba(76, 175, 80, 0.8); /* Stronger shadow with glow */
+            box-shadow: 0 18px 35px rgba(0, 0, 0, 0.6), 0 0 18px rgba(76, 175, 80, 0.8); /* Stronger shadow with glow */
             filter: brightness(1.15); /* Slight brightness increase on hover */
         }
 
@@ -194,8 +195,8 @@
             background-color: #3a3a3a; /* Darker input background */
             border: 1px solid #666666; /* Darker, more defined border */
             color: #e0e0e0; /* Lighter text in inputs */
-            border-radius: 0.6rem; /* Slightly less rounded on mobile */
-            padding: 0.85rem 1.1rem; /* Slightly larger padding on mobile */
+            border-radius: 0.6rem; /* Slightly more rounded on mobile */
+            padding: 0.8rem 1.1rem; /* Slightly larger padding on mobile */
             width: 100%;
             box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.4); /* Deeper inner shadow */
             transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
@@ -204,7 +205,7 @@
 
         @media (min-width: 768px) {
             input[type="number"], input[type="text"], input[type="email"], input[type="password"], textarea, select {
-                border-radius: 0.85rem; /* Restore rounded inputs on desktop */
+                border-radius: 0.8rem; /* Restore rounded inputs on desktop */
                 padding: 1rem 1.3rem; /* Restore larger padding on desktop */
                 font-size: 1.05rem; /* Restore font size */
             }
@@ -221,7 +222,7 @@
             /* Metric box gradient with more contrast */
             background: linear-gradient(135deg, #4a4a4a 0%, #3a3a3a 100%);
             border-radius: 1.1rem; /* Slightly less rounded on mobile */
-            padding: 1.4rem; /* Adjusted padding for mobile */
+            padding: 1.3rem; /* Adjusted padding for mobile */
             text-align: center;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Stronger shadow */
             display: flex;
@@ -242,46 +243,46 @@
 
         @media (min-width: 768px) {
             .metric-box {
-                border-radius: 1.35rem; /* Restore rounded on desktop */
-                padding: 2rem; /* Restore padding on desktop */
+                border-radius: 1.3rem; /* Restore rounded on desktop */
+                padding: 1.9rem; /* Restore padding on desktop */
             }
         }
 
         .metric-box:hover {
-            transform: translateY(-3px);
+            transform: translateY(-4px); /* Slightly more lift on hover */
         }
 
         .metric-value {
-            font-size: 2.2rem; /* Slightly larger metric values on mobile */
+            font-size: 2.1rem; /* Slightly larger metric values on mobile */
             font-weight: 900; /* Extra bold */
             color: #76E076; /* Brighter, more prominent green for key values */
-            margin-bottom: 0.5rem; /* Adjusted margin */
+            margin-bottom: 0.6rem; /* Adjusted margin */
             text-shadow: 0 0 8px rgba(118, 224, 118, 0.6); /* Text glow for depth */
         }
 
         @media (min-width: 768px) {
             .metric-value {
-                font-size: 3rem; /* Restore larger metric values on desktop */
-                margin-bottom: 0.7rem; /* Restore margin */
+                font-size: 2.9rem; /* Restore larger metric values on desktop */
+                margin-bottom: 0.8rem; /* Restore margin */
             }
         }
 
         .metric-label {
-            font-size: 0.95rem; /* Slightly larger label on mobile */
+            font-size: 0.98rem; /* Slightly larger label on mobile */
             color: #c0d0e0; /* Softer grey for labels */
             font-weight: 600; /* Bolder label */
         }
 
         @media (min-width: 768px) {
             .metric-label {
-                font-size: 1.15rem; /* Restore larger label on desktop */
+                font-size: 1.18rem; /* Restore larger label on desktop */
             }
         }
 
         /* SVG Icon styling */
         .icon-svg {
-            width: 30px; /* Slightly larger icons on mobile */
-            height: 30px;
+            width: 32px; /* Slightly larger icons on mobile */
+            height: 32px;
             fill: currentColor; /* Use parent's text color */
             margin-right: 10px; /* Adjusted space */
             vertical-align: middle;
@@ -291,8 +292,8 @@
 
         @media (min-width: 768px) {
             .icon-svg {
-                width: 36px; /* Restore larger icons on desktop */
-                height: 36px;
+                width: 38px; /* Restore larger icons on desktop */
+                height: 38px;
                 margin-right: 12px; /* Restore space */
             }
         }
@@ -302,12 +303,12 @@
             display: grid; /* Use CSS Grid for better control */
             grid-template-columns: auto 1fr; /* Icon + content */
             grid-template-rows: auto auto; /* Name/Type and Value/Profit */
-            gap: 0.5rem 1.2rem; /* Adjusted gaps for mobile */
+            gap: 0.6rem 1.3rem; /* Adjusted gaps for mobile */
             align-items: center;
             padding: 1.2rem 1.5rem; /* Adjusted padding for mobile */
             background-color: #3a3a3a; /* Darker background for list items */
-            border-radius: 0.85rem; /* Slightly more rounded on mobile */
-            margin-bottom: 1.2rem; /* Adjusted space between items */
+            border-radius: 0.8rem; /* Slightly more rounded on mobile */
+            margin-bottom: 1.1rem; /* Adjusted space between items */
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
             border: 1px solid rgba(255, 255, 255, 0.07);
@@ -318,10 +319,10 @@
 
         @media (min-width: 768px) {
             .investment-item {
-                gap: 0.6rem 1.5rem; /* Restore gaps on desktop */
-                padding: 1.8rem 2.2rem; /* Restore padding on desktop */
+                gap: 0.7rem 1.6rem; /* Restore gaps on desktop */
+                padding: 1.7rem 2.1rem; /* Restore padding on desktop */
                 border-radius: 1.1rem; /* Restore rounded on desktop */
-                margin-bottom: 1.5rem; /* Restore margin */
+                margin-bottom: 1.3rem; /* Restore margin */
             }
         }
 
@@ -330,27 +331,27 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 5px; /* Slightly thicker vertical line on mobile */
+            width: 6px; /* Slightly thicker vertical line on mobile */
             height: 100%;
             background: linear-gradient(to bottom, #76E076, #5CB85C); /* Brighter green gradient line */
-            border-radius: 0.6rem 0 0 0.6rem; /* Rounded top-left, bottom-left */
+            border-radius: 0.7rem 0 0 0.7rem; /* Rounded top-left, bottom-left */
             transition: width 0.2s ease-in-out;
         }
 
         @media (min-width: 768px) {
             .investment-item::before {
-                width: 6px; /* Restore width on desktop */
+                width: 7px; /* Restore width on desktop */
             }
         }
 
         .investment-item:hover::before {
-            width: 10px; /* Slightly wider on hover */
+            width: 12px; /* Slightly wider on hover */
         }
 
         .investment-item:hover {
             background-color: #4a4a4a; /* Slightly lighter on hover */
-            transform: translateX(8px); /* More pronounced slide effect on hover */
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            transform: translateX(10px); /* More pronounced slide effect on hover */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45); /* Stronger shadow on hover */
         }
 
         .investment-icon-wrapper {
@@ -358,8 +359,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 40px; /* Slightly larger width for icon area on mobile */
-            height: 40px; /* Slightly larger height for icon area on mobile */
+            width: 42px; /* Slightly larger width for icon area on mobile */
+            height: 42px; /* Slightly larger height for icon area on mobile */
             background-color: #3d4758; /* Darker background for icon */
             border-radius: 50%; /* Circular icon background */
             box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.4); /* Inner shadow for icon circle */
@@ -367,47 +368,47 @@
 
         @media (min-width: 768px) {
             .investment-icon-wrapper {
-                width: 45px; /* Restore width on desktop */
-                height: 45px; /* Restore height on desktop */
+                width: 48px; /* Restore width on desktop */
+                height: 48px; /* Restore height on desktop */
             }
         }
 
         .investment-icon {
-            width: 22px; /* Slightly larger icon inside wrapper on mobile */
-            height: 22px;
+            width: 24px; /* Slightly larger icon inside wrapper on mobile */
+            height: 24px;
             fill: #76E076; /* Green color for the icon itself */
             filter: drop-shadow(0 0 5px rgba(118, 224, 118, 0.6)); /* Subtle glow */
         }
 
         @media (min-width: 768px) {
             .investment-icon {
-                width: 26px; /* Restore icon size on desktop */
-                height: 26px;
+                width: 28px; /* Restore icon size on desktop */
+                height: 28px;
             }
         }
 
         .investment-name {
             font-weight: 700; /* Bolder name */
             color: #e8e8e8; /* Even lighter text for name */
-            font-size: 1.15rem; /* Slightly larger font on mobile */
+            font-size: 1.2rem; /* Slightly larger font on mobile */
             grid-column: 2 / 3; /* Place in second column */
         }
 
         @media (min-width: 768px) {
             .investment-name {
-                font-size: 1.3rem; /* Restore font size on desktop */
+                font-size: 1.35rem; /* Restore font size on desktop */
             }
         }
 
         .investment-type {
-            font-size: 0.9rem; /* Slightly larger type text on mobile */
+            font-size: 0.95rem; /* Slightly larger type text on mobile */
             color: #b5b5b5; /* Softer grey */
             grid-column: 2 / 3; /* Place in second column */
         }
 
         @media (min-width: 768px) {
             .investment-type {
-                font-size: 1rem; /* Restore font size on desktop */
+                font-size: 1.05rem; /* Restore font size on desktop */
             }
         }
 
@@ -417,9 +418,9 @@
             flex-direction: column; /* Stack values vertically on mobile */
             align-items: flex-start; /* Align to start on mobile */
             width: 100%; /* Take full width of its grid cell */
-            padding-top: 0.5rem; /* Adjusted space from type */
+            padding-top: 0.6rem; /* Adjusted space from type */
             border-top: 1px solid rgba(255, 255, 255, 0.07); /* Separator line */
-            margin-top: 0.5rem; /* Adjusted space from separator */
+            margin-top: 0.6rem; /* Adjusted space from separator */
         }
 
         @media (min-width: 768px) {
@@ -427,21 +428,21 @@
                 flex-direction: row; /* Restore horizontal layout on desktop */
                 justify-content: space-between; /* Restore space-between on desktop */
                 align-items: center; /* Restore alignment on desktop */
-                padding-top: 0.6rem; /* Restore padding */
-                margin-top: 0.6rem; /* Restore margin */
+                padding-top: 0.7rem; /* Restore padding */
+                margin-top: 0.7rem; /* Restore margin */
             }
         }
 
         .investment-value {
             font-weight: 800; /* Extra bold for value */
             color: #f0f0f0; /* Even lighter for value */
-            font-size: 1.05rem; /* Slightly larger font on mobile */
-            margin-bottom: 0.3rem; /* Space between stacked values */
+            font-size: 1.1rem; /* Slightly larger font on mobile */
+            margin-bottom: 0.4rem; /* Space between stacked values */
         }
 
         @media (min-width: 768px) {
             .investment-value {
-                font-size: 1.25rem; /* Restore font size on desktop */
+                font-size: 1.3rem; /* Restore font size on desktop */
                 margin-bottom: 0; /* Remove margin when horizontal */
             }
         }
@@ -542,13 +543,13 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.8); /* Darker overlay */
+            background-color: rgba(0, 0, 0, 0.85); /* Darker overlay */
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            backdrop-filter: blur(8px); /* More pronounced frosted glass effect */
-            padding: 1.2rem; /* Add padding to overlay for small screens */
+            backdrop-filter: blur(10px); /* More pronounced frosted glass effect */
+            padding: 1.5rem; /* Add padding to overlay for small screens */
             box-sizing: border-box;
         }
 
@@ -556,27 +557,27 @@
             background: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 100%); /* Darker modal background */
             padding: 1.8rem; /* Adjusted padding for mobile */
             border-radius: 1.2rem; /* Slightly more rounded on mobile */
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6); /* Stronger shadow */
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7); /* Stronger shadow */
             width: 100%; /* Full width on mobile */
-            max-width: 550px; /* Slightly wider default max-width */
+            max-width: 580px; /* Slightly wider default max-width */
             position: relative;
             animation: fadeIn 0.3s ease-out;
-            border: 1px solid rgba(255, 255, 255, 0.15); /* Subtle border */
+            border: 1px solid rgba(255, 255, 255, 0.18); /* Subtle border */
             overflow-y: auto; /* Allow scrolling if content overflows */
             max-height: 90vh; /* Limit height on mobile */
         }
 
         @media (min-width: 768px) {
             .modal-content {
-                padding: 3rem; /* Restore larger padding on desktop */
-                border-radius: 1.8rem; /* Restore rounded on desktop */
+                padding: 2.8rem; /* Restore larger padding on desktop */
+                border-radius: 1.7rem; /* Restore rounded on desktop */
                 max-height: auto; /* Remove max height on desktop */
             }
         }
 
         /* Specific style for the Invest Modal to make it larger */
         #investModal .modal-content {
-            max-width: 850px; /* Larger width for invest modal */
+            max-width: 900px; /* Larger width for invest modal */
             display: grid;
             grid-template-columns: 1fr; /* Single column on mobile */
             gap: 1.8rem; /* Adjusted gap for mobile */
@@ -591,7 +592,7 @@
 
         /* Specific style for the Investment Details Modal to make it larger */
         #investmentDetailsModal .modal-content {
-            max-width: 850px; /* Larger width for invest modal */
+            max-width: 900px; /* Larger width for invest modal */
             display: grid;
             grid-template-columns: 1fr; /* Single column on mobile */
             gap: 1.8rem; /* Adjusted gap for mobile */
@@ -606,17 +607,22 @@
 
         /* Specific style for the Feedback Modal to make it larger */
         #feedbackModal .modal-content {
-            max-width: 600px; /* Adjusted width for feedback modal */
+            max-width: 650px; /* Adjusted width for feedback modal */
+        }
+
+        /* New: Specific style for Profile Setup Modal */
+        #profileSetupModal .modal-content {
+            max-width: 550px; /* Adjusted width for profile modal */
         }
 
 
         .modal-close-btn {
             position: absolute;
-            top: 0.85rem; /* Adjusted position for mobile */
-            right: 0.85rem; /* Adjusted position for mobile */
+            top: 1rem; /* Adjusted position for mobile */
+            right: 1rem; /* Adjusted position for mobile */
             background: none;
             border: none;
-            font-size: 1.6rem; /* Slightly larger close button on mobile */
+            font-size: 1.8rem; /* Slightly larger close button on mobile */
             color: #b0b0b0;
             cursor: pointer;
             transition: color 0.2s ease, transform 0.2s ease;
@@ -624,9 +630,9 @@
 
         @media (min-width: 768px) {
             .modal-close-btn {
-                top: 1.2rem; /* Restore position on desktop */
-                right: 1.2rem; /* Restore position on desktop */
-                font-size: 2rem; /* Restore size on desktop */
+                top: 1.5rem; /* Restore position on desktop */
+                right: 1.5rem; /* Restore position on desktop */
+                font-size: 2.2rem; /* Restore size on desktop */
             }
         }
         .modal-close-btn:hover {
@@ -635,10 +641,10 @@
         }
 
         .modal-title {
-            font-size: 1.8rem; /* Slightly larger modal title on mobile */
+            font-size: 1.9rem; /* Slightly larger modal title on mobile */
             font-weight: 700;
             color: #c0d0e0;
-            margin-bottom: 1.8rem; /* Adjusted space */
+            margin-bottom: 2rem; /* Adjusted space */
             text-align: center;
             grid-column: 1 / -1; /* Span all columns in grid */
             text-shadow: 0 0 5px rgba(192, 208, 224, 0.2);
@@ -646,15 +652,15 @@
 
         @media (min-width: 768px) {
             .modal-title {
-                font-size: 2.2rem; /* Restore size on desktop */
-                margin-bottom: 2.2rem; /* Restore space */
+                font-size: 2.4rem; /* Restore size on desktop */
+                margin-bottom: 2.5rem; /* Restore space */
             }
         }
 
         .transaction-item {
             background-color: #3a3a3a;
-            border-radius: 0.85rem;
-            padding: 1.1rem 1.4rem; /* Adjusted padding for mobile */
+            border-radius: 0.8rem;
+            padding: 1.1rem 1.3rem; /* Adjusted padding for mobile */
             margin-bottom: 0.8rem; /* Adjusted margin */
             display: flex;
             flex-direction: column; /* Stack details vertically on mobile */
@@ -671,11 +677,12 @@
                 flex-direction: row; /* Restore horizontal layout on desktop */
                 justify-content: space-between; /* Restore space-between on desktop */
                 align-items: center; /* Restore alignment on desktop */
+                border-radius: 1rem; /* Restore rounded on desktop */
             }
         }
         .transaction-item:hover {
             background-color: #424242;
-            transform: translateX(3px);
+            transform: translateX(4px); /* Slightly more movement */
         }
 
         .transaction-item div {
@@ -685,7 +692,7 @@
         .transaction-type {
             font-weight: 700;
             color: #76E076; /* Green for positive transactions */
-            font-size: 1.05rem; /* Adjusted font size */
+            font-size: 1.1rem; /* Adjusted font size */
         }
         .transaction-type.withdrawal {
             color: #FF6B6B; /* Red for negative transactions */
@@ -694,8 +701,8 @@
         .transaction-amount {
             font-weight: 700;
             text-align: left; /* Align left on mobile */
-            font-size: 1.05rem; /* Adjusted font size */
-            margin-top: 0.3rem; /* Space when stacked */
+            font-size: 1.1rem; /* Adjusted font size */
+            margin-top: 0.4rem; /* Space when stacked */
             color: #f0f0f0;
         }
         @media (min-width: 768px) {
@@ -705,13 +712,13 @@
             }
             }
         .transaction-date {
-            font-size: 0.8rem; /* Slightly larger font on mobile */
+            font-size: 0.85rem; /* Slightly larger font on mobile */
             color: #b0b0b0;
             text-align: left; /* Align left on mobile */
         }
         @media (min-width: 768px) {
             .transaction-date {
-                font-size: 0.9rem; /* Restore font size on desktop */
+                font-size: 0.95rem; /* Restore font size on desktop */
                 text-align: right; /* Restore align right on desktop */
             }
         }
@@ -719,79 +726,79 @@
         /* User ID display */
         #userIdDisplay {
             word-break: break-all; /* Ensures long IDs wrap */
-            font-size: 0.75rem; /* Slightly larger font on mobile */
+            font-size: 0.8rem; /* Slightly larger font on mobile */
             color: #a0a0a0;
-            margin-top: 1rem; /* Adjusted margin */
+            margin-top: 1.2rem; /* Adjusted margin */
             text-align: center;
-            padding: 0.5rem; /* Adjusted padding */
+            padding: 0.6rem; /* Adjusted padding */
             background-color: #383838; /* Slightly darker background */
-            border-radius: 0.5rem; /* Adjusted rounded corners */
+            border-radius: 0.6rem; /* Adjusted rounded corners */
             box-shadow: inset 0 2px 4px rgba(0,0,0,0.3); /* Deeper inner shadow */
         }
         @media (min-width: 768px) {
             #userIdDisplay {
-                font-size: 0.85rem; /* Restore font size on desktop */
-                margin-top: 1.2rem; /* Restore margin */
-                padding: 0.6rem; /* Restore padding */
-                border-radius: 0.6rem; /* Restore rounded corners */
+                font-size: 0.9rem; /* Restore font size on desktop */
+                margin-top: 1.4rem; /* Restore margin */
+                padding: 0.7rem; /* Restore padding */
+                border-radius: 0.7rem; /* Restore rounded corners */
             }
         }
 
         /* New styles for investment details in modal */
         .investment-details-card {
             background-color: #3a3a3a;
-            border-radius: 0.85rem; /* Slightly more rounded on mobile */
-            padding: 1.4rem; /* Adjusted padding for mobile */
+            border-radius: 0.9rem; /* Slightly more rounded on mobile */
+            padding: 1.5rem; /* Adjusted padding for mobile */
             box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.4); /* Deeper inner shadow */
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
         @media (min-width: 768px) {
             .investment-details-card {
-                border-radius: 1.1rem; /* Restore rounded on desktop */
-                padding: 1.8rem; /* Restore padding on desktop */
+                border-radius: 1.2rem; /* Restore rounded on desktop */
+                padding: 2rem; /* Restore padding on desktop */
             }
         }
 
         .investment-details-card h4 {
-            font-size: 1.4rem; /* Slightly larger h4 on mobile */
+            font-size: 1.5rem; /* Slightly larger h4 on mobile */
             font-weight: 700;
             color: #76E076;
-            margin-bottom: 1rem; /* Adjusted margin */
+            margin-bottom: 1.1rem; /* Adjusted margin */
             text-shadow: 0 0 5px rgba(118, 224, 118, 0.3);
         }
         @media (min-width: 768px) {
             .investment-details-card h4 {
-                font-size: 1.6rem; /* Restore size on desktop */
-                margin-bottom: 1.2rem; /* Restore margin */
+                font-size: 1.7rem; /* Restore size on desktop */
+                margin-bottom: 1.3rem; /* Restore margin */
             }
         }
 
         .investment-details-card p {
-            font-size: 0.9rem; /* Slightly larger font on mobile */
+            font-size: 0.95rem; /* Slightly larger font on mobile */
             color: #e0e0e0;
-            margin-bottom: 0.5rem; /* Adjusted margin */
+            margin-bottom: 0.6rem; /* Adjusted margin */
             display: flex;
             align-items: flex-start; /* Align to start for multi-line descriptions */
         }
         @media (min-width: 768px) {
             .investment-details-card p {
-                font-size: 1.0rem; /* Restore font size on desktop */
-                margin-bottom: 0.6rem; /* Restore margin */
+                font-size: 1.05rem; /* Restore font size on desktop */
+                margin-bottom: 0.7rem; /* Restore margin */
                 align-items: center; /* Restore alignment on desktop */
             }
         }
         .investment-details-card p svg {
-            margin-right: 8px; /* Adjusted margin */
+            margin-right: 9px; /* Adjusted margin */
             color: #90D0D0;
             flex-shrink: 0; /* Prevent icon from shrinking */
-            width: 20px; /* Slightly larger size */
-            height: 20px;
+            width: 21px; /* Slightly larger size */
+            height: 21px;
         }
         @media (min-width: 768px) {
             .investment-details-card p svg {
-                margin-right: 10px; /* Restore margin */
-                width: 22px; /* Restore size */
-                height: 22px;
+                margin-right: 11px; /* Restore margin */
+                width: 23px; /* Restore size */
+                height: 23px;
             }
         }
 
@@ -804,13 +811,13 @@
         .duration-input-group {
             display: flex;
             flex-direction: column; /* Stack on mobile */
-            gap: 0.6rem; /* Adjusted gap */
+            gap: 0.7rem; /* Adjusted gap */
             align-items: flex-start;
         }
         @media (min-width: 768px) {
             .duration-input-group {
                 flex-direction: row; /* Restore row on desktop */
-                gap: 12px; /* Restore gap */
+                gap: 14px; /* Restore gap */
                 align-items: center;
             }
         }
@@ -824,7 +831,7 @@
         @media (min-width: 768px) {
             .duration-input-group select {
                 width: auto; /* Restore auto width on desktop */
-                min-width: 110px; /* Restore min-width on desktop */
+                min-width: 120px; /* Restore min-width on desktop */
             }
         }
 
@@ -835,70 +842,71 @@
             border-radius: 1.2rem; /* Slightly more rounded on mobile */
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
             width: 90%;
-            max-width: 450px;
+            max-width: 480px;
             text-align: center;
             position: relative;
             animation: fadeIn 0.3s ease-out;
             border: 1px solid rgba(255, 255, 255, 0.15);
         }
+
         @media (min-width: 768px) {
             .confirmation-modal-content {
-                padding: 3rem; /* Restore padding on desktop */
-                border-radius: 1.8rem; /* Restore rounded on desktop */
+                padding: 2.8rem; /* Restore padding on desktop */
+                border-radius: 1.7rem; /* Restore rounded on desktop */
             }
         }
         .confirmation-modal-content h3 {
-            font-size: 1.6rem; /* Slightly larger h3 on mobile */
+            font-size: 1.7rem; /* Slightly larger h3 on mobile */
             color: #c0d0e0;
-            margin-bottom: 1.2rem; /* Adjusted margin */
+            margin-bottom: 1.4rem; /* Adjusted margin */
             text-shadow: 0 0 5px rgba(192, 208, 224, 0.2);
         }
         @media (min-width: 768px) {
             .confirmation-modal-content h3 {
-                font-size: 2rem; /* Restore size on desktop */
-                margin-bottom: 1.8rem; /* Restore margin */
+                font-size: 2.1rem; /* Restore size on desktop */
+                margin-bottom: 2rem; /* Restore margin */
             }
         }
         .confirmation-modal-content p {
             color: #e0e0e0;
-            margin-bottom: 1.8rem; /* Adjusted margin */
-            font-size: 0.95rem; /* Slightly larger font on mobile */
+            margin-bottom: 2rem; /* Adjusted margin */
+            font-size: 1rem; /* Slightly larger font on mobile */
         }
         @media (min-width: 768px) {
             .confirmation-modal-content p {
-                margin-bottom: 2.2rem; /* Restore margin */
-                font-size: 1.05rem; /* Restore font size */
+                margin-bottom: 2.5rem; /* Restore margin */
+                font-size: 1.1rem; /* Restore font size */
             }
         }
         .confirmation-modal-buttons {
             display: flex;
             flex-direction: column; /* Stack buttons on mobile */
-            gap: 1rem; /* Adjusted gap */
+            gap: 1.2rem; /* Adjusted gap */
         }
         @media (min-width: 768px) {
             .confirmation-modal-buttons {
                 flex-direction: row; /* Restore row on desktop */
                 justify-content: space-around;
-                gap: 1.2rem; /* Restore gap */
+                gap: 1.5rem; /* Restore gap */
             }
         }
 
         /* Success/Error Message in Modals (now used for toasts) */
         .modal-message {
-            margin-top: 1rem; /* Adjusted margin */
+            margin-top: 1.2rem; /* Adjusted margin */
             font-weight: 600;
-            padding: 0.75rem; /* Adjusted padding */
-            border-radius: 0.5rem; /* Adjusted rounded corners */
+            padding: 0.8rem; /* Adjusted padding */
+            border-radius: 0.6rem; /* Adjusted rounded corners */
             text-align: center;
-            font-size: 0.9rem; /* Slightly larger font on mobile */
+            font-size: 0.95rem; /* Slightly larger font on mobile */
             box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
         }
         @media (min-width: 768px) {
             .modal-message {
-                margin-top: 1.2rem; /* Restore margin */
-                padding: 0.9rem; /* Restore padding */
-                border-radius: 0.6rem; /* Restore rounded corners */
-                font-size: 1.05rem; /* Restore font size */
+                margin-top: 1.4rem; /* Restore margin */
+                padding: 1rem; /* Restore padding */
+                border-radius: 0.7rem; /* Restore rounded corners */
+                font-size: 1.1rem; /* Restore font size */
             }
         }
         .modal-message.success {
@@ -917,30 +925,30 @@
         /* New: Toast Notification Styles */
         #toastContainer {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 25px; /* Slightly lower */
+            right: 25px; /* Slightly further from edge */
             z-index: 1100; /* Above modals */
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px; /* Slightly more gap between toasts */
             pointer-events: none; /* Allow clicks to pass through */
         }
 
         .toast-message {
             background-color: #3a3a3a;
             color: #e0e0e0;
-            padding: 12px 20px;
-            border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            padding: 14px 22px; /* Slightly larger padding */
+            border-radius: 9px; /* Slightly more rounded */
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35); /* Stronger shadow */
             opacity: 0;
-            transform: translateY(-20px);
+            transform: translateY(-25px); /* Slightly more movement */
             animation: slideInToast 0.4s forwards, fadeOutToast 0.5s 2.5s forwards;
-            min-width: 250px;
-            max-width: 350px;
+            min-width: 260px; /* Slightly wider */
+            max-width: 360px; /* Slightly wider */
             text-align: center;
             font-weight: 600;
             pointer-events: auto; /* Re-enable clicks on the toast itself */
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.12); /* Slightly more defined border */
         }
 
         .toast-message.success {
@@ -963,13 +971,13 @@
 
         /* New: Toast animations */
         @keyframes slideInToast {
-            from { opacity: 0; transform: translateY(-20px); }
+            from { opacity: 0; transform: translateY(-25px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes fadeOutToast {
             from { opacity: 1; transform: translateY(0); }
-            to { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 0; transform: translateY(-25px); }
         }
 
         /* New: Loading Spinner Styles */
@@ -977,10 +985,10 @@
             border: 3px solid rgba(255, 255, 255, 0.3);
             border-top: 3px solid #fff;
             border-radius: 50%;
-            width: 16px;
-            height: 16px;
+            width: 18px; /* Slightly larger */
+            height: 18px; /* Slightly larger */
             animation: spin 1s linear infinite;
-            margin-left: 8px;
+            margin-left: 10px; /* Slightly more margin */
             display: inline-block;
         }
 
@@ -992,13 +1000,13 @@
         /* Style for input error feedback */
         .input-error {
             border-color: #FF6B6B;
-            box-shadow: 0 0 0 5px rgba(255, 107, 107, 0.3);
+            box-shadow: 0 0 0 6px rgba(255, 107, 107, 0.35); /* Slightly larger shadow */
         }
         .error-text {
             color: #FF6B6B;
-            font-size: 0.85rem;
-            margin-top: 0.25rem;
-            margin-left: 0.5rem;
+            font-size: 0.9rem; /* Slightly larger */
+            margin-top: 0.3rem; /* Adjusted margin */
+            margin-left: 0.6rem; /* Adjusted margin */
         }
 
         /* Styles for the new projection table */
@@ -1007,17 +1015,17 @@
             justify-content: space-between;
             font-weight: 700;
             color: #c0d0e0;
-            padding-bottom: 0.5rem;
-            margin-bottom: 0.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.9rem; /* Smaller header font on mobile */
+            padding-bottom: 0.6rem; /* Slightly more padding */
+            margin-bottom: 0.6rem; /* Slightly more margin */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12); /* Slightly more defined */
+            font-size: 0.95rem; /* Slightly larger header font on mobile */
         }
         .projection-table-row {
             display: flex;
             justify-content: space-between;
-            padding: 0.4rem 0;
-            border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
-            font-size: 0.85rem; /* Smaller row font on mobile */
+            padding: 0.5rem 0; /* Slightly more padding */
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.06); /* Slightly more defined */
+            font-size: 0.9rem; /* Slightly larger row font on mobile */
         }
         .projection-table-row:last-child {
             border-bottom: none;
@@ -1031,42 +1039,42 @@
             flex: 0.8; /* Adjust width for day column */
         }
         .projection-table-container {
-            max-height: 350px; /* Fixed height for scrollability */
+            max-height: 380px; /* Slightly taller for more content */
             overflow-y: auto;
             background-color: #2d2d2d;
-            border-radius: 0.6rem;
-            padding: 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
+            border-radius: 0.7rem; /* Slightly more rounded */
+            padding: 1.2rem; /* Slightly more padding */
+            border: 1px solid rgba(255, 255, 255, 0.1); /* Slightly more defined */
+            box-shadow: inset 0 3px 7px rgba(0,0,0,0.4); /* Deeper inner shadow */
         }
         .projection-table-empty-message {
             text-align: center;
             color: #a0a0a0;
-            padding: 2rem;
+            padding: 2.5rem; /* Slightly more padding */
             font-style: italic;
         }
 
         /* New style for the total projected amount */
         #finalProjectedTotal {
-            font-size: 1.5rem;
+            font-size: 1.6rem; /* Slightly larger */
             font-weight: 800;
             color: #76E076;
             text-align: center;
-            margin-top: 1.5rem;
-            padding-top: 1rem;
-            border-top: 2px solid rgba(118, 224, 118, 0.3);
-            text-shadow: 0 0 10px rgba(118, 224, 118, 0.7);
+            margin-top: 1.8rem; /* Slightly more margin */
+            padding-top: 1.2rem; /* Slightly more padding */
+            border-top: 2px solid rgba(118, 224, 118, 0.4); /* Stronger border */
+            text-shadow: 0 0 12px rgba(118, 224, 118, 0.8); /* Stronger glow */
         }
 
         @media (min-width: 768px) {
             .projection-table-header {
-                font-size: 1rem; /* Restore header font on desktop */
+                font-size: 1.05rem; /* Restore header font on desktop */
             }
             .projection-table-row {
-                font-size: 0.95rem; /* Restore row font on desktop */
+                font-size: 1rem; /* Restore row font on desktop */
             }
             #finalProjectedTotal {
-                font-size: 1.8rem;
+                font-size: 1.9rem; /* Slightly larger */
             }
         }
 
@@ -1077,43 +1085,43 @@
 
         /* New Feature: Investment Goal Tracker Styles */
         .goal-tracker-container {
-            margin-top: 2rem;
+            margin-top: 2rem; /* Slightly more margin */
             text-align: center;
         }
         .goal-progress-bar {
             width: 100%;
             background-color: #3a3a3a;
-            border-radius: 0.5rem;
-            height: 1.2rem; /* Thicker progress bar */
+            border-radius: 0.6rem; /* Slightly more rounded */
+            height: 1.3rem; /* Thicker progress bar */
             overflow: hidden;
-            margin-top: 1rem;
+            margin-top: 1.2rem; /* Slightly more margin */
             box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
         }
         .goal-progress-fill {
             height: 100%;
             background: linear-gradient(90deg, #5CB85C, #76E076); /* Green gradient fill */
-            border-radius: 0.5rem;
+            border-radius: 0.6rem;
             width: 0%;
             transition: width 1s ease-out; /* Smooth animation for progress */
-            box-shadow: 0 0 8px rgba(118, 224, 118, 0.7); /* Glow on fill */
+            box-shadow: 0 0 10px rgba(118, 224, 118, 0.8); /* Stronger glow on fill */
         }
         .goal-percentage {
             font-weight: 700;
             color: #76E076;
-            margin-top: 0.5rem;
-            font-size: 1.1rem;
+            margin-top: 0.6rem; /* Slightly more margin */
+            font-size: 1.15rem; /* Slightly larger */
         }
         .goal-amount-display {
-            font-size: 1.2rem;
+            font-size: 1.25rem; /* Slightly larger */
             font-weight: 600;
             color: #e0e0e0;
-            margin-top: 0.5rem;
+            margin-top: 0.6rem; /* Slightly more margin */
         }
         .goal-name-display {
-            font-size: 1.4rem;
+            font-size: 1.5rem; /* Slightly larger */
             font-weight: 700;
             color: #c0d0e0;
-            margin-bottom: 0.8rem;
+            margin-bottom: 0.9rem; /* Slightly more margin */
         }
 
         /* New Feature: Daily Market Insights Styles */
@@ -1123,23 +1131,23 @@
             padding: 1.8rem;
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), inset 0 0 12px rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            margin-top: 2rem;
+            margin-top: 2rem; /* Slightly more margin */
         }
         .market-insight-text {
-            font-size: 0.95rem;
+            font-size: 1rem; /* Slightly larger */
             color: #d0d0d0;
             line-height: 1.6;
-            margin-bottom: 1rem;
+            margin-bottom: 1.2rem; /* Slightly more margin */
         }
         .market-insight-source {
-            font-size: 0.8rem;
+            font-size: 0.85rem; /* Slightly larger */
             color: #a0a0a0;
             font-style: italic;
         }
         .market-insight-icon {
-            width: 24px;
-            height: 24px;
-            margin-right: 10px;
+            width: 26px; /* Slightly larger */
+            height: 26px;
+            margin-right: 12px; /* Slightly more margin */
             color: #90D0D0; /* Teal color for insight icons */
             vertical-align: middle;
         }
@@ -1149,10 +1157,136 @@
             margin-bottom: 1rem; /* Consistent spacing */
         }
         .form-group label {
+            display: block; /* Ensure label is on its own line */
             margin-bottom: 0.5rem; /* Space between label and input */
+            font-size: 0.95rem; /* Slightly larger label font for better fit */
+            font-weight: 600; /* Make labels a bit bolder */
+            color: #c0d0e0; /* Softer color for labels */
         }
         .form-group input, .form-group select, .form-group textarea {
-            margin-top: 0.5rem; /* Ensure input is below label */
+            margin-top: 0; /* Remove default margin-top if label is block */
+        }
+
+        /* Adjustments for smaller screens on specific elements */
+        @media (max-width: 640px) {
+            .main-content, .sidebar-content {
+                padding-left: 0.8rem; /* Increased padding */
+                padding-right: 0.8rem; /* Increased padding */
+            }
+            .dashboard-container {
+                padding: 1.8rem; /* Reduce overall container padding on very small screens */
+                gap: 1.6rem;
+            }
+            .card {
+                padding: 1.4rem; /* Reduce card padding on very small screens */
+            }
+            .section-title {
+                font-size: 1.9rem; /* Slightly smaller title on very small screens */
+                margin-bottom: 1.6rem;
+            }
+            .metric-value {
+                font-size: 1.9rem; /* Smaller metric values on very small screens */
+            }
+            .metric-label {
+                font-size: 0.9rem; /* Smaller labels on very small screens */
+            }
+            .btn-primary {
+                padding: 0.9rem 1.6rem; /* Smaller button padding */
+                font-size: 0.9rem; /* Smaller button font */
+            }
+            input[type="number"], input[type="text"], input[type="email"], input[type="password"], textarea, select {
+                padding: 0.8rem 1.1rem; /* Smaller input padding */
+                font-size: 0.9rem; /* Smaller input font */
+            }
+            .modal-content {
+                padding: 1.8rem; /* Smaller modal padding */
+            }
+            .modal-title {
+                font-size: 1.7rem; /* Smaller modal title */
+                margin-bottom: 1.8rem;
+            }
+            .transaction-item {
+                padding: 1rem 1.3rem; /* Smaller transaction item padding */
+                font-size: 0.95rem;
+            }
+            .investment-item {
+                padding: 1.1rem 1.3rem;
+                gap: 0.5rem 1.1rem;
+            }
+            .investment-name {
+                font-size: 1.1rem;
+            }
+            .investment-type {
+                font-size: 0.85rem;
+            }
+            .investment-value {
+                font-size: 1rem;
+            }
+        }
+
+        /* New style for the Maximize Your Experience card */
+        .maximize-experience-card {
+            background: linear-gradient(135deg, #353535 0%, #454545 100%); /* Different, slightly lighter gradient for this card */
+            border-radius: 2.5rem; /* More rounded */
+            padding: 2.2rem; /* Adjusted padding */
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6), inset 0 0 18px rgba(255, 255, 255, 0.05); /* Stronger shadow */
+            border: 2px solid rgba(255, 255, 255, 0.15); /* More prominent border */
+            margin-top: 3rem; /* More space above it */
+        }
+        .maximize-experience-card ul li {
+            margin-bottom: 1.2rem; /* More space between list items */
+            align-items: flex-start; /* Ensure icons align to top for multi-line text */
+        }
+        .maximize-experience-card ul li:last-child {
+            margin-bottom: 0;
+        }
+        .maximize-experience-card svg {
+            margin-top: 0.25rem; /* Adjust icon vertical alignment */
+        }
+
+        /* New: Profile Card specific styles */
+        #profileCard {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+        }
+        #profileAvatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: #5CB85C; /* Green background for avatar */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1rem;
+            box-shadow: 0 0 15px rgba(92, 184, 92, 0.7); /* Glow around avatar */
+            border: 3px solid rgba(255, 255, 255, 0.2);
+        }
+        #profileFullName {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #e0e0e0;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 8px rgba(224, 224, 224, 0.2);
+        }
+        #profileBio {
+            font-size: 1rem;
+            color: #b0b0b0;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+        #profileSetupCta {
+            text-align: center;
+            color: #a0a0a0;
+            margin-top: 1rem;
+        }
+        #profileSetupCta button {
+            margin-top: 0.8rem;
         }
     </style>
 </head>
@@ -1174,6 +1308,23 @@
             <!-- User ID Display -->
             <div id="userIdDisplay" class="mb-8">
                 Loading User ID...
+            </div>
+
+            <!-- New: My Profile Section -->
+            <div class="card mb-10" id="profileCard">
+                <h2 class="section-title">My Profile</h2>
+                <div id="profileContent">
+                    <!-- Profile content will be rendered here by JS -->
+                    <div id="profileAvatar">?</div>
+                    <p id="profileFullName" class="text-xl font-semibold">Guest User</p>
+                    <p id="profileBio" class="text-gray-400 text-sm">Set up your profile to personalize your experience!</p>
+                    <div id="profileSetupCta">
+                        <button id="openProfileSetupModalBtn" class="btn-primary mt-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-cog mr-2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7.9 20.9c-.7-.7-1.4-1.5-1.9-2.4a6.5 6.5 0 0 1-.5-3.5c.3-1.4.9-2.7 1.8-3.8.9-1.1 2.1-2 3.4-2.7.7-.4 1.5-.7 2.3-.9.8-.2 1.6-.3 2.5-.2.9.1 1.7.4 2.5.8.8.4 1.5.9 2.1 1.6.6.7 1.1 1.5 1.4 2.4.3.9.4 1.9.3 2.9-.1 1-.4 2-.8 2.9-.4.9-.9 1.7-1.6 2.4"/><path d="M19 12v1"/><path d="M19.5 14.5l.7.7"/><path d="M18 17h1"/><path d="M14.5 19.5l.7.7"/><path d="M12 20v1"/><path d="M9.5 19.5l-.7.7"/><path d="M7 17H6"/><path d="M4.5 14.5l-.7.7"/></svg>
+                            <span>Set Up Your Profile</span>
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <!-- Investment Overview Section -->
@@ -1284,7 +1435,7 @@
 
 
             <!-- New: Maximize Your Experience Section -->
-            <div class="card mb-10">
+            <div class="card maximize-experience-card mb-10">
                 <h2 class="section-title">Maximize Your Grow-with-Core Experience</h2>
                 <p class="text-gray-400 mb-6 text-center text-sm sm:text-base">
                     Unlock the full potential of your dashboard. Here’s how you can make the most of Grow-with-Core:
@@ -1358,7 +1509,7 @@
                     </li>
                     <li>
                         <button id="openCashOutModalBtn" class="btn-primary w-full !bg-red-600 hover:!bg-red-700">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wallet-minus mr-2"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h12a2 2 0 0 1 0 4H5a2 2 0 0 0 0 4h12a2 2 0 0 0 2-2v-3"/><path d="M10 12h6"/></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wallet-minus mr-2"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h12a2 2 0 0 1 0 4H5a2 2 0 0 0 0 4h12a2 2 0 0 0 2-2v-3"/><path d="M10 12h6"/><path d="M12 10v4"/></svg>
                             <span>Cash Out</span>
                         </button>
                     </li>
@@ -1372,6 +1523,12 @@
                         <button id="openWithdrawModalBtn" class="btn-primary w-full !bg-red-600 hover:!bg-red-700">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-credit-card mr-2"><rect width="20" height="14" x="2" y="5" rx="2"/><path d="M2 10h20"/></svg>
                             <span>Withdraw Funds</span>
+                        </button>
+                    </li>
+                    <li>
+                        <button id="openProfileSetupModalBtnSidebar" class="btn-primary w-full !bg-blue-600 hover:!bg-blue-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-cog mr-2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7.9 20.9c-.7-.7-1.4-1.5-1.9-2.4a6.5 6.5 0 0 1-.5-3.5c.3-1.4.9-2.7 1.8-3.8.9-1.1 2.1-2 3.4-2.7.7-.4 1.5-.7 2.3-.9.8-.2 1.6-.3 2.5-.2.9.1 1.7.4 2.5.8.8.4 1.5.9 2.1 1.6.6.7 1.1 1.5 1.4 2.4.3.9.4 1.9.3 2.9-.1 1-.4 2-.8 2.9-.4.9-.9 1.7-1.6 2.4"/><path d="M19 12v1"/><path d="M19.5 14.5l.7.7"/><path d="M18 17h1"/><path d="M14.5 19.5l.7.7"/><path d="M12 20v1"/><path d="M9.5 19.5l-.7.7"/><path d="M7 17H6"/><path d="M4.5 14.5l-.7.7"/></svg>
+                            <span>Set Up Profile</span>
                         </button>
                     </li>
                     <li>
@@ -1414,7 +1571,7 @@
             <!-- Left column: Investment Details & Inputs -->
             <div class="space-y-4">
                 <div class="form-group">
-                    <label for="investmentCategory" class="block text-gray-300 text-sm font-bold mb-2">Investment Category</label>
+                    <label for="investmentCategory">Investment Category</label>
                     <select id="investmentCategory" class="form-select">
                         <option value="">Select Category</option>
                         <option value="Farming">Farming</option>
@@ -1423,7 +1580,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="investmentType" class="block text-gray-300 text-sm font-bold mb-2">Investment Type</label>
+                    <label for="investmentType">Investment Type</label>
                     <select id="investmentType" class="form-select" disabled>
                         <option value="">Select Type</option>
                     </select>
@@ -1433,17 +1590,17 @@
                 <div id="investmentTypeDetails" class="investment-details-card hidden">
                     <h4 id="detailsTypeName"></h4>
                     <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg><span class="detail-label">Description:</span> <span id="detailsDescription"></span></p>
-                    <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dollar-sign"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><span class="detail-label">Typical Daily Return:</span> <span id="detailsReturnRange"></span></p>
+                    <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dollar-sign"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 1 1 0 7H6"/></svg><span class="detail-label">Typical Daily Return:</span> <span id="detailsReturnRange"></span></p>
                     <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-clock"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span class="detail-label">Minimum Duration:</span> <span id="detailsMinDuration"></span></p>
                 </div>
 
                 <div class="form-group">
-                    <label for="investmentAmount" class="block text-gray-300 text-sm font-bold mb-2">Investment Amount (₦)</label>
+                    <label for="investmentAmount">Investment Amount (₦)</label>
                     <input type="number" id="investmentAmount" class="form-input" placeholder="e.g., 10000" min="5000">
                     <p id="investmentAmountError" class="error-text hidden"></p>
                 </div>
                 <div class="form-group">
-                    <label for="investmentDuration" class="block text-gray-300 text-sm font-bold mb-2">Investment Duration</label>
+                    <label for="investmentDuration">Investment Duration</label>
                     <div class="duration-input-group">
                         <input type="number" id="investmentDuration" class="form-input" placeholder="e.g., 12" min="1">
                         <select id="investmentDurationUnit" class="form-select">
@@ -1481,14 +1638,14 @@
             <h3 class="modal-title">Cash Out Investment</h3>
             <div class="space-y-4">
                 <div class="form-group">
-                    <label for="cashOutInvestmentSelect" class="block text-gray-300 text-sm font-bold mb-2">Select Investment</label>
+                    <label for="cashOutInvestmentSelect">Select Investment</label>
                     <select id="cashOutInvestmentSelect" class="form-select">
                         <option value="">Select an active investment</option>
                     </select>
                     <p id="cashOutInvestmentSelectError" class="error-text hidden"></p>
                 </div>
                 <div class="form-group">
-                    <label for="cashOutAmount" class="block text-gray-300 text-sm font-bold mb-2">Amount to Cash Out (₦)</label>
+                    <label for="cashOutAmount">Amount to Cash Out (₦)</label>
                     <input type="number" id="cashOutAmount" class="form-input" placeholder="e.g., 5000" min="100">
                     <p id="cashOutAmountError" class="error-text hidden"></p>
                 </div>
@@ -1506,12 +1663,12 @@
             <h3 class="modal-title">Deposit Funds via Paystack</h3>
             <div class="space-y-4">
                 <div class="form-group">
-                    <label for="depositEmail" class="block text-gray-300 text-sm font-bold mb-2">Your Email</label>
+                    <label for="depositEmail">Your Email</label>
                     <input type="email" id="depositEmail" class="form-input" placeholder="e.g., your@email.com" required>
                     <p id="depositEmailError" class="error-text hidden"></p>
                 </div>
                 <div class="form-group">
-                    <label for="depositAmount" class="block text-gray-300 text-sm font-bold mb-2">Deposit Amount (₦)</label>
+                    <label for="depositAmount">Deposit Amount (₦)</label>
                     <input type="number" id="depositAmount" class="form-input" placeholder="e.g., 20000" min="100" required>
                     <p id="depositAmountError" class="error-text hidden"></p>
                 </div>
@@ -1529,9 +1686,24 @@
             <h3 class="modal-title">Withdraw Funds</h3>
             <div class="space-y-4">
                 <div class="form-group">
-                    <label for="withdrawAmount" class="block text-gray-300 text-sm font-bold mb-2">Withdraw Amount (₦)</label>
+                    <label for="withdrawAmount">Withdraw Amount (₦)</label>
                     <input type="number" id="withdrawAmount" class="form-input" placeholder="e.g., 5000" min="100">
                     <p id="withdrawAmountError" class="error-text hidden"></p>
+                </div>
+                <div class="form-group">
+                    <label for="bankName">Bank Name</label>
+                    <input type="text" id="bankName" class="form-input" placeholder="e.g., Zenith Bank">
+                    <p id="bankNameError" class="error-text hidden"></p>
+                </div>
+                <div class="form-group">
+                    <label for="accountNumber">Account Number</label>
+                    <input type="text" id="accountNumber" class="form-input" placeholder="e.g., 0123456789">
+                    <p id="accountNumberError" class="error-text hidden"></p>
+                </div>
+                <div class="form-group">
+                    <label for="accountName">Account Name</label>
+                    <input type="text" id="accountName" class="form-input" placeholder="e.g., John Doe">
+                    <p id="accountNameError" class="error-text hidden"></p>
                 </div>
                 <button id="submitWithdrawBtn" class="btn-primary w-full !bg-red-600 hover:!bg-red-700">
                     <span>Confirm Withdrawal</span>
@@ -1567,7 +1739,7 @@
                 <div class="investment-details-card">
                     <h4 id="detailModalTypeName"></h4>
                     <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-tag"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414L12.586 22.414a2 2 0 0 0 2.828 0l7.172-7.172a2 2 0 0 0 0-2.828L12.586 2.586z"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/></svg><span class="detail-label">Category:</span> <span id="detailModalCategory"></span></p>
-                    <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dollar-sign"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><span class="detail-label">Initial Amount:</span> <span id="detailModalInitialAmount"></span></p>
+                    <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-dollar-sign"><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 1 1 0 7H6"/></svg><span class="detail-label">Initial Amount:</span> <span id="detailModalInitialAmount"></span></p>
                     <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg><span class="detail-label">Current Value:</span> <span id="detailModalCurrentValue"></span></p>
                     <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bar-chart-2"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg><span class="detail-label">Total Profit/Loss:</span> <span id="detailModalProfitLoss"></span></p>
                     <p><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg><span class="detail-label">Invest Date:</span> <span id="detailModalInvestDate"></span></p>
@@ -1592,12 +1764,12 @@
             <h3 class="modal-title">Set Your Investment Goal</h3>
             <div class="space-y-4">
                 <div class="form-group">
-                    <label for="goalNameInput" class="block text-gray-300 text-sm font-bold mb-2">Goal Name</label>
+                    <label for="goalNameInput">Goal Name</label>
                     <input type="text" id="goalNameInput" class="form-input" placeholder="e.g., New Car, Down Payment">
                     <p id="goalNameError" class="error-text hidden"></p>
                 </div>
                 <div class="form-group">
-                    <label for="goalAmountInput" class="block text-gray-300 text-sm font-bold mb-2">Target Amount (₦)</label>
+                    <label for="goalAmountInput">Target Amount (₦)</label>
                     <input type="number" id="goalAmountInput" class="form-input" placeholder="e.g., 500000" min="1000">
                     <p id="goalAmountError" class="error-text hidden"></p>
                 </div>
@@ -1618,7 +1790,7 @@
             <h3 class="modal-title">Provide Feedback / Get Support</h3>
             <div class="space-y-4">
                 <div class="form-group">
-                    <label for="feedbackType" class="block text-gray-300 text-sm font-bold mb-2">Type</label>
+                    <label for="feedbackType">Type</label>
                     <select id="feedbackType" class="form-select">
                         <option value="Feedback">General Feedback</option>
                         <option value="Bug Report">Bug Report</option>
@@ -1627,12 +1799,35 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="feedbackMessage" class="block text-gray-300 text-sm font-bold mb-2">Your Message</label>
+                    <label for="feedbackMessage">Your Message</label>
                     <textarea id="feedbackMessage" class="form-input" rows="5" placeholder="Tell us what you think or what you need help with..."></textarea>
                     <p id="feedbackMessageError" class="error-text hidden"></p>
                 </div>
                 <button id="submitFeedbackBtn" class="btn-primary w-full">
                     <span>Submit</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Feature: Profile Setup Modal -->
+    <div id="profileSetupModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button class="modal-close-btn" id="closeProfileSetupModalBtn">&times;</button>
+            <h3 class="modal-title">Set Up Your Profile</h3>
+            <div class="space-y-4">
+                <div class="form-group">
+                    <label for="profileFullNameInput">Full Name</label>
+                    <input type="text" id="profileFullNameInput" class="form-input" placeholder="e.g., Jane Doe">
+                    <p id="profileFullNameError" class="error-text hidden"></p>
+                </div>
+                <div class="form-group">
+                    <label for="profileBioInput">Short Bio / Tagline</label>
+                    <textarea id="profileBioInput" class="form-input" rows="3" placeholder="e.g., Passionate investor and farmer."></textarea>
+                    <p id="profileBioError" class="error-text hidden"></p>
+                </div>
+                <button id="submitProfileBtn" class="btn-primary w-full">
+                    <span>Save Profile</span>
                 </button>
             </div>
         </div>
@@ -1657,7 +1852,8 @@
         let userInvestments = [];
         let userTransactions = [];
         let userAccountBalance = 0;
-        let investmentGoal = null; // New: Stores the user's investment goal
+        let investmentGoal = null; // Stores the user's investment goal
+        let userProfile = { fullName: '', bio: '' }; // New: Stores user profile data
 
         // Paystack Public Key (from user's request)
         const paystackPublicKey = 'pk_live_fa0e4bf22ce6b0279a243185d983ec121b99979c';
@@ -1684,8 +1880,9 @@
         const withdrawModal = document.getElementById('withdrawModal');
         const resetDataModal = document.getElementById('resetDataModal');
         const investmentDetailsModal = document.getElementById('investmentDetailsModal');
-        const setGoalModal = document.getElementById('setGoalModal'); // New: Set Goal Modal
-        const feedbackModal = document.getElementById('feedbackModal'); // New: Feedback Modal
+        const setGoalModal = document.getElementById('setGoalModal');
+        const feedbackModal = document.getElementById('feedbackModal');
+        const profileSetupModal = document.getElementById('profileSetupModal'); // New: Profile Setup Modal
 
         // Invest Modal specific elements
         const investmentCategorySelect = document.getElementById('investmentCategory');
@@ -1720,6 +1917,12 @@
         // Withdraw Modal specific elements
         const withdrawAmountInput = document.getElementById('withdrawAmount');
         const withdrawAmountError = document.getElementById('withdrawAmountError');
+        const bankNameInput = document.getElementById('bankName');
+        const bankNameError = document.getElementById('bankNameError');
+        const accountNumberInput = document.getElementById('accountNumber');
+        const accountNumberError = document.getElementById('accountNumberError');
+        const accountNameInput = document.getElementById('accountName');
+        const accountNameError = document.getElementById('accountNameError');
 
         // Transaction History Filter/Sort elements
         const transactionFilterSelect = document.getElementById('transactionFilter');
@@ -1736,7 +1939,7 @@
         const detailModalMaturity = document.getElementById('detailModalMaturity');
         const investmentHistoryTableContainer = document.getElementById('investmentHistoryTableContainer');
 
-        // New: Goal Tracker elements
+        // Goal Tracker elements
         const goalTrackerContent = document.getElementById('goalTrackerContent');
         const setGoalBtn = document.getElementById('setGoalBtn');
         const goalNameInput = document.getElementById('goalNameInput');
@@ -1746,17 +1949,31 @@
         const submitGoalBtn = document.getElementById('submitGoalBtn');
         const clearGoalBtn = document.getElementById('clearGoalBtn');
 
-        // New: Feedback Modal elements
+        // Feedback Modal elements
         const feedbackTypeSelect = document.getElementById('feedbackType');
         const feedbackMessageTextarea = document.getElementById('feedbackMessage');
         const feedbackMessageError = document.getElementById('feedbackMessageError');
         const submitFeedbackBtn = document.getElementById('submitFeedbackBtn');
-
-        // New: Market Insights elements
+        
+        // Market Insights elements
         const marketInsightContent = document.getElementById('marketInsightContent');
         
-        // New: Logout button
+        // Logout button
         const logoutBtn = document.getElementById('logoutBtn');
+
+        // New: Profile Setup elements
+        const profileCard = document.getElementById('profileCard');
+        const profileAvatar = document.getElementById('profileAvatar');
+        const profileFullNameEl = document.getElementById('profileFullName');
+        const profileBioEl = document.getElementById('profileBio');
+        const profileSetupCta = document.getElementById('profileSetupCta');
+        const openProfileSetupModalBtn = document.getElementById('openProfileSetupModalBtn'); // Button within profile card
+        const openProfileSetupModalBtnSidebar = document.getElementById('openProfileSetupModalBtnSidebar'); // Button in sidebar
+        const profileFullNameInput = document.getElementById('profileFullNameInput');
+        const profileFullNameError = document.getElementById('profileFullNameError');
+        const profileBioInput = document.getElementById('profileBioInput');
+        const profileBioError = document.getElementById('profileBioError');
+        const submitProfileBtn = document.getElementById('submitProfileBtn');
 
 
         // Investment types data
@@ -1798,6 +2015,13 @@
             }
         };
 
+        // SVG Icons for investment categories
+        const investmentCategoryIcons = {
+            "Farming": `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wheat investment-icon"><path d="M2 22s1-4 4-4 4 4 4 4 1-4 4-4 4 4 4 4 1-4 4-4"/><path d="M7 18c-1-1-1-2 0-3c1-1 2-1 3-2"/><path d="M10 16c-1-1-1-2 0-3c1-1 2-1 3-2"/><path d="M13 14c-1-1-1-2 0-3c1-1 2-1 3-2"/></svg>`,
+            "Rearing": `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-beef investment-icon"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z"/><path d="M12 12c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4z"/><path d="M12 16c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4z"/><path d="M12 20c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4z"/></svg>`,
+            "Other Opportunities": `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-box investment-icon"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>`
+        };
+
         // Simulated Market Insights
         const marketInsights = [
             { title: "Global Grain Prices Surge", text: "Wheat and corn futures saw significant gains today due to unexpected weather patterns in major producing regions.", icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bar-chart-2 market-insight-icon"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>` },
@@ -1811,24 +2035,55 @@
         let portfolioChart;
 
         /**
+         * Calculates the maturity date for an investment.
+         * @param {string} investDateString ISO string of investment date.
+         * @param {number} duration The duration number.
+         * @param {string} durationUnit The duration unit ('months' or 'years').
+         * @returns {Date} The calculated maturity date.
+         */
+        function calculateMaturityDate(investDateString, duration, durationUnit) {
+            const investDate = new Date(investDateString);
+            let maturityDate = new Date(investDate);
+            if (durationUnit === 'months') {
+                maturityDate.setMonth(investDate.getMonth() + duration);
+            } else if (durationUnit === 'years') {
+                maturityDate.setFullYear(investDate.getFullYear() + duration);
+            }
+            return maturityDate;
+        }
+
+        /**
          * Loads user data from localStorage for the current user.
          * The user ID is now fixed to 'guest_user' for a direct dashboard experience.
-         * Also loads the new 'investmentGoal' data.
+         * Also loads the new 'investmentGoal' and 'userProfile' data.
          */
         function loadUserData() {
+            // Retrieve current user email from localStorage (set by login page)
+            const storedCurrentUserEmail = localStorage.getItem('currentUserEmail');
+            if (storedCurrentUserEmail) {
+                currentUserEmail = storedCurrentUserEmail;
+                currentUserId = currentUserEmail.replace(/[^a-zA-Z0-9]/g, '_'); // Derive user ID from email
+            } else {
+                // Fallback for direct access without login, or if login data was cleared
+                currentUserEmail = 'guest@growwithcore.com';
+                currentUserId = 'guest_user';
+            }
+
             userIdDisplay.textContent = `User: ${currentUserEmail}`;
 
             const storedInvestments = localStorage.getItem(`growWithCoreInvestments_${currentUserId}`);
             const storedTransactions = localStorage.getItem(`growWithCoreTransactions_${currentUserId}`);
             const storedBalance = localStorage.getItem(`growWithCoreAccountBalance_${currentUserId}`);
-            const storedGoal = localStorage.getItem(`growWithCoreInvestmentGoal_${currentUserId}`); // New: Load goal
+            const storedGoal = localStorage.getItem(`growWithCoreInvestmentGoal_${currentUserId}`);
+            const storedProfile = localStorage.getItem(`growWithCoreUserProfile_${currentUserId}`); // New: Load profile
 
             userInvestments = storedInvestments ? JSON.parse(storedInvestments) : [];
             userTransactions = storedTransactions ? JSON.parse(storedTransactions) : [];
             userAccountBalance = storedBalance ? parseFloat(storedBalance) : 0;
-            investmentGoal = storedGoal ? JSON.parse(storedGoal) : null; // New: Parse goal
+            investmentGoal = storedGoal ? JSON.parse(storedGoal) : null;
+            userProfile = storedProfile ? JSON.parse(storedProfile) : { fullName: '', bio: '' }; // New: Parse profile
 
-            // Simulate growth for existing investments on load
+            // Simulate growth for existing investments on load and calculate maturity
             userInvestments.forEach(inv => {
                 const daysSinceInvest = Math.floor((new Date().getTime() - new Date(inv.investDate).getTime()) / (1000 * 60 * 60 * 24));
                 
@@ -1840,9 +2095,14 @@
                     inv.currentValue += inv.initialAmount * dailyPercentage;
                 }
                 inv.profit = inv.currentValue - inv.initialAmount;
+
+                // Ensure maturityDate is set for older investments
+                if (!inv.maturityDate) {
+                    inv.maturityDate = calculateMaturityDate(inv.investDate, inv.duration, inv.durationUnit).toISOString();
+                }
             });
 
-            // Save updated current values back to ensure consistency
+            // Save updated current values and maturity dates back to ensure consistency
             saveUserData();
             updateDashboard();
 
@@ -1853,13 +2113,14 @@
         /**
          * Saves current user data to localStorage.
          * Data is saved for the fixed 'guest_user' ID.
-         * Also saves the new 'investmentGoal' data.
+         * Also saves the new 'investmentGoal' and 'userProfile' data.
          */
         function saveUserData() {
             localStorage.setItem(`growWithCoreInvestments_${currentUserId}`, JSON.stringify(userInvestments));
             localStorage.setItem(`growWithCoreAccountBalance_${currentUserId}`, userAccountBalance.toString());
             localStorage.setItem(`growWithCoreTransactions_${currentUserId}`, JSON.stringify(userTransactions));
-            localStorage.setItem(`growWithCoreInvestmentGoal_${currentUserId}`, JSON.stringify(investmentGoal)); // New: Save goal
+            localStorage.setItem(`growWithCoreInvestmentGoal_${currentUserId}`, JSON.stringify(investmentGoal));
+            localStorage.setItem(`growWithCoreUserProfile_${currentUserId}`, JSON.stringify(userProfile)); // New: Save profile
         }
 
         /**
@@ -1933,8 +2194,9 @@
 
             renderTransactionHistory();
             updatePortfolioChart();
-            updateGoalTracker(); // New: Update goal tracker
-            displayRandomMarketInsight(); // New: Display market insight
+            updateGoalTracker();
+            displayRandomMarketInsight();
+            updateProfileDisplay(); // New: Update profile display
         }
 
         /**
@@ -2119,7 +2381,6 @@
          * Shows validation error for an input.
          * @param {HTMLElement} inputElement The input element.
          * @param {HTMLElement} errorElement The error text element.
-         * @param {string} message The error message to display.
          */
         function showInputError(inputElement, errorElement, message) {
             inputElement.classList.add('input-error');
@@ -2159,8 +2420,10 @@
         document.getElementById('openDepositModalBtn').addEventListener('click', () => openModal('depositModal'));
         document.getElementById('openWithdrawModalBtn').addEventListener('click', () => openModal('withdrawModal'));
         document.getElementById('openResetDataModalBtn').addEventListener('click', () => openModal('resetDataModal'));
-        document.getElementById('openFeedbackModalBtn').addEventListener('click', () => openModal('feedbackModal')); // New: Open Feedback Modal
-        setGoalBtn.addEventListener('click', () => openModal('setGoalModal')); // New: Open Set Goal Modal
+        document.getElementById('openFeedbackModalBtn').addEventListener('click', () => openModal('feedbackModal'));
+        setGoalBtn.addEventListener('click', () => openModal('setGoalModal'));
+        openProfileSetupModalBtn.addEventListener('click', () => openModal('profileSetupModal')); // New: Open Profile Setup from card
+        openProfileSetupModalBtnSidebar.addEventListener('click', () => openModal('profileSetupModal')); // New: Open Profile Setup from sidebar
 
         // Event Listeners for Modals - Buttons to close modals
         document.getElementById('closeInvestModalBtn').addEventListener('click', () => closeModal('investModal'));
@@ -2170,8 +2433,9 @@
         document.getElementById('closeResetDataModalBtn').addEventListener('click', () => closeModal('resetDataModal'));
         document.getElementById('cancelResetDataBtn').addEventListener('click', () => closeModal('resetDataModal'));
         document.getElementById('closeInvestmentDetailsModalBtn').addEventListener('click', () => closeModal('investmentDetailsModal'));
-        document.getElementById('closeSetGoalModalBtn').addEventListener('click', () => closeModal('setGoalModal')); // New: Close Set Goal Modal
-        document.getElementById('closeFeedbackModalBtn').addEventListener('click', () => closeModal('feedbackModal')); // New: Close Feedback Modal
+        document.getElementById('closeSetGoalModalBtn').addEventListener('click', () => closeModal('setGoalModal'));
+        document.getElementById('closeFeedbackModalBtn').addEventListener('click', () => closeModal('feedbackModal'));
+        document.getElementById('closeProfileSetupModalBtn').addEventListener('click', () => closeModal('profileSetupModal')); // New: Close Profile Setup Modal
 
         // Event Listeners for Modals - Close modal when clicking outside content
         investModal.addEventListener('click', (e) => { if (e.target === investModal) closeModal('investModal'); });
@@ -2180,114 +2444,110 @@
         withdrawModal.addEventListener('click', (e) => { if (e.target === withdrawModal) closeModal('withdrawModal'); });
         resetDataModal.addEventListener('click', (e) => { if (e.target === resetDataModal) closeModal('resetDataModal'); });
         investmentDetailsModal.addEventListener('click', (e) => { if (e.target === investmentDetailsModal) closeModal('investmentDetailsModal'); });
-        setGoalModal.addEventListener('click', (e) => { if (e.target === setGoalModal) closeModal('setGoalModal'); }); // New: Close Set Goal Modal
-        feedbackModal.addEventListener('click', (e) => { if (e.target === feedbackModal) closeModal('feedbackModal'); }); // New: Close Feedback Modal
+        setGoalModal.addEventListener('click', (e) => { if (e.target === setGoalModal) closeModal('setGoalModal'); });
+        feedbackModal.addEventListener('click', (e) => { if (e.target === feedbackModal) closeModal('feedbackModal'); });
+        profileSetupModal.addEventListener('click', (e) => { if (e.target === profileSetupModal) closeModal('profileSetupModal'); }); // New: Close Profile Setup Modal
 
         /**
          * Opens a specified modal by removing the 'hidden' class and preparing its content.
          * @param {string} modalId The ID of the modal to open.
          */
         function openModal(modalId) {
-            document.getElementById(modalId).classList.remove('hidden');
-            // Populate dropdowns if it's the cash out modal
-            if (modalId === 'cashOutModal') {
-                populateCashOutInvestments();
+            // Check for withdrawal conditions before opening the withdraw modal
+            if (modalId === 'withdrawModal') {
+                const hasMadeInvestment = userInvestments.length > 0;
+                const hasMaturedInvestment = userInvestments.some(inv => new Date(inv.maturityDate) <= new Date());
+
+                if (!hasMadeInvestment) {
+                    showToast('You must make an investment before you can withdraw.', 'error');
+                    return; // Prevent modal from opening
+                }
+                if (!hasMaturedInvestment) {
+                    showToast('You can only withdraw once an investment has matured.', 'error');
+                    return; // Prevent modal from opening
+                }
             }
-            // Reset invest modal fields and chart when opened
+
+            document.getElementById(modalId).classList.remove('hidden');
+
+            // Specific modal preparations
             if (modalId === 'investModal') {
+                // Reset form fields
                 investmentCategorySelect.value = '';
-                investmentTypeSelect.innerHTML = '<option value="">Select Type</option>'; // Clear previous options
+                investmentTypeSelect.innerHTML = '<option value="">Select Type</option>';
                 investmentTypeSelect.disabled = true;
-                investmentAmountInput.value = '5000'; // Set minimum investment value
-                investmentDurationInput.value = '1'; // Set minimum duration
+                investmentAmountInput.value = '';
+                investmentDurationInput.value = '';
                 investmentDurationUnitSelect.value = 'months';
                 investmentTypeDetails.classList.add('hidden');
-                updateProjectionTable(0, 0, 0); // Reset table and total
+                projectionTableContainer.innerHTML = '<p class="projection-table-empty-message">Enter investment details to see a daily breakdown.</p>';
+                finalProjectedTotalEl.classList.add('hidden');
+                projectionBasisLabel.textContent = ''; // Clear projection basis label
                 clearInputError(investmentAmountInput, investmentAmountError);
                 clearInputError(investmentDurationInput, investmentDurationError);
-                projectionBasisLabel.textContent = ''; // Clear the basis label on open
-                
-                // Immediately update duration constraints based on default amount
-                updateDurationConstraints();
-            }
-            // Clear errors for other modals on open
-            if (modalId === 'cashOutModal') {
+            } else if (modalId === 'cashOutModal') {
+                populateCashOutInvestments();
+                cashOutAmountInput.value = '';
                 clearInputError(cashOutInvestmentSelect, cashOutInvestmentSelectError);
                 clearInputError(cashOutAmountInput, cashOutAmountError);
-            }
-            if (modalId === 'depositModal') {
+            } else if (modalId === 'depositModal') {
+                depositEmailInput.value = currentUserEmail; // Pre-fill with current user's email
+                depositAmountInput.value = '';
                 clearInputError(depositEmailInput, depositEmailError);
                 clearInputError(depositAmountInput, depositAmountError);
-            }
-            if (modalId === 'withdrawModal') {
+            } else if (modalId === 'withdrawModal') {
+                withdrawAmountInput.value = '';
+                bankNameInput.value = ''; // Clear new fields
+                accountNumberInput.value = ''; // Clear new fields
+                accountNameInput.value = ''; // Clear new fields
                 clearInputError(withdrawAmountInput, withdrawAmountError);
-            }
-            // New: Handle Set Goal Modal open
-            if (modalId === 'setGoalModal') {
-                clearInputError(goalNameInput, goalNameError);
-                clearInputError(goalAmountInput, goalAmountError);
+                clearInputError(bankNameInput, bankNameError); // Clear new errors
+                clearInputError(accountNumberInput, accountNumberError); // Clear new errors
+                clearInputError(accountNameInput, accountNameError); // Clear new errors
+            } else if (modalId === 'setGoalModal') {
                 if (investmentGoal) {
                     goalNameInput.value = investmentGoal.name;
-                    goalAmountInput.value = investmentGoal.targetAmount;
-                    clearGoalBtn.classList.remove('hidden'); // Show clear button if goal exists
+                    goalAmountInput.value = investmentGoal.amount;
+                    submitGoalBtn.querySelector('span').textContent = 'Update Goal';
                 } else {
                     goalNameInput.value = '';
                     goalAmountInput.value = '';
-                    clearGoalBtn.classList.add('hidden'); // Hide clear button if no goal
+                    submitGoalBtn.querySelector('span').textContent = 'Save Goal';
                 }
-            }
-            // New: Handle Feedback Modal open
-            if (modalId === 'feedbackModal') {
+                clearInputError(goalNameInput, goalNameError);
+                clearInputError(goalAmountInput, goalAmountError);
+            } else if (modalId === 'feedbackModal') {
                 feedbackTypeSelect.value = 'Feedback';
                 feedbackMessageTextarea.value = '';
                 clearInputError(feedbackMessageTextarea, feedbackMessageError);
+            } else if (modalId === 'profileSetupModal') { // New: Prepare Profile Setup Modal
+                profileFullNameInput.value = userProfile.fullName;
+                profileBioInput.value = userProfile.bio;
+                clearInputError(profileFullNameInput, profileFullNameError);
+                clearInputError(profileBioInput, profileBioError);
             }
         }
 
         /**
-         * Closes a specified modal by adding the 'hidden' class and clearing its inputs/errors.
+         * Closes a specified modal by adding the 'hidden' class.
          * @param {string} modalId The ID of the modal to close.
          */
         function closeModal(modalId) {
             document.getElementById(modalId).classList.add('hidden');
-            // Clear inputs and errors on close
-            const inputs = document.getElementById(modalId).querySelectorAll('input[type="number"], input[type="text"], input[type="email"], input[type="password"], textarea, select');
-            inputs.forEach(input => {
-                // Do not clear the calculator inputs, only modal specific inputs
-                if (input.id !== 'calcInitialInvestment' && input.id !== 'calcInvestmentDuration' && input.id !== 'calcAnnualReturnRate') {
-                    input.value = '';
-                }
-            });
-            // Reset investment type dropdown if it's the invest modal
-            if (modalId === 'investModal') {
-                document.getElementById('investmentCategory').value = '';
-                document.getElementById('investmentType').innerHTML = '<option value="">Select Type</option>';
-                document.getElementById('investmentType').disabled = true;
-                projectionBasisLabel.textContent = ''; // Clear the basis label on close
-                finalProjectedTotalEl.classList.add('hidden'); // Hide total on close
-            }
-            // Clear all error messages and styles within the closed modal
-            document.getElementById(modalId).querySelectorAll('.input-error').forEach(el => el.classList.remove('input-error'));
-            document.getElementById(modalId).querySelectorAll('.error-text').forEach(el => el.classList.add('hidden'));
         }
 
-        // Investment Category and Type Selection Logic
+        // Invest Modal Logic
         investmentCategorySelect.addEventListener('change', () => {
-            const selectedCategory = investmentCategorySelect.value;
-            investmentTypeSelect.innerHTML = '<option value="">Select Type</option>'; // Clear previous options
+            const category = investmentCategorySelect.value;
+            investmentTypeSelect.innerHTML = '<option value="">Select Type</option>';
             investmentTypeSelect.disabled = true;
-            investmentTypeDetails.classList.add('hidden'); // Hide details when category changes
-            updateProjectionTable(0, 0, 0); // Reset table and total
-            clearInputError(investmentAmountInput, investmentAmountError);
-            clearInputError(investmentDurationInput, investmentDurationError);
-            projectionBasisLabel.textContent = ''; // Clear the basis label
-            
-            // Re-evaluate duration constraints when category changes
-            updateDurationConstraints();
+            investmentTypeDetails.classList.add('hidden');
+            projectionTableContainer.innerHTML = '<p class="projection-table-empty-message">Enter investment details to see a daily breakdown.</p>';
+            finalProjectedTotalEl.classList.add('hidden');
+            projectionBasisLabel.textContent = ''; // Clear projection basis label
 
-            if (selectedCategory && investmentTypes[selectedCategory]) {
-                // Populate types based on selected category
-                for (const type in investmentTypes[selectedCategory]) {
+            if (category && investmentTypes[category]) {
+                for (const type in investmentTypes[category]) {
                     const option = document.createElement('option');
                     option.value = type;
                     option.textContent = type;
@@ -2298,609 +2558,535 @@
         });
 
         investmentTypeSelect.addEventListener('change', () => {
-            const selectedCategory = investmentCategorySelect.value;
-            const selectedType = investmentTypeSelect.value;
-            const details = investmentTypes[selectedCategory]?.[selectedType];
-            clearInputError(investmentAmountInput, investmentAmountError);
-            clearInputError(investmentDurationInput, investmentDurationError);
-
-            if (details) {
-                detailsTypeName.textContent = selectedType;
+            const category = investmentCategorySelect.value;
+            const type = investmentTypeSelect.value;
+            if (category && type && investmentTypes[category] && investmentTypes[category][type]) {
+                const details = investmentTypes[category][type];
+                detailsTypeName.textContent = type;
                 detailsDescription.textContent = details.description;
                 detailsReturnRange.textContent = details.returnRange;
-                
-                // Update duration constraints based on selected type and current amount
-                updateDurationConstraints();
-
+                detailsMinDuration.textContent = `${details.minDurationMonths} month${details.minDurationMonths !== 1 ? 's' : ''}`;
                 investmentTypeDetails.classList.remove('hidden');
-
-                // Update projection table with initial values using debounced function
-                debouncedUpdateProjection();
+                // Trigger projection calculation if amount and duration are already filled
+                calculateProjectionDebounced();
             } else {
                 investmentTypeDetails.classList.add('hidden');
-                updateProjectionTable(0, 0, 0); // Reset table and total
-                projectionBasisLabel.textContent = ''; // Clear the basis label
-                updateDurationConstraints(); // Reset duration constraints if no type selected
+                projectionTableContainer.innerHTML = '<p class="projection-table-empty-message">Enter investment details to see a daily breakdown.</p>';
+                finalProjectedTotalEl.classList.add('hidden');
+                projectionBasisLabel.textContent = '';
             }
         });
 
-        // Debounced function for updating projection table to improve performance
-        const debouncedUpdateProjection = debounce(() => {
+        // Debounced function for projection calculation
+        const calculateProjectionDebounced = debounce(() => {
             const amount = parseFloat(investmentAmountInput.value);
             const duration = parseInt(investmentDurationInput.value);
             const unit = investmentDurationUnitSelect.value;
-            const selectedCategory = investmentCategorySelect.value;
-            const selectedType = investmentTypeSelect.value;
-            const details = investmentTypes[selectedCategory]?.[selectedType];
-            const returnRangeText = details ? details.returnRange : '';
+            const category = investmentCategorySelect.value;
+            const type = investmentTypeSelect.value;
 
-            updateProjectionTable(amount, duration, 0, unit, returnRangeText);
-        }, 300); // 300ms debounce delay
-
-        // Listen for changes in amount and duration to update the projection table
-        investmentAmountInput.addEventListener('input', () => {
-            updateDurationConstraints(); // Update constraints immediately
-            debouncedUpdateProjection(); // Then update projection with debounce
-        });
-        investmentDurationInput.addEventListener('input', debouncedUpdateProjection);
-        investmentDurationUnitSelect.addEventListener('change', debouncedUpdateProjection);
-
-        /**
-         * Dynamically updates the duration input constraints based on the investment amount.
-         */
-        function updateDurationConstraints() {
-            const amount = parseFloat(investmentAmountInput.value);
-            const selectedCategory = investmentCategorySelect.value;
-            const selectedType = investmentTypeSelect.value;
-            const details = investmentTypes[selectedCategory]?.[selectedType];
-
-            // Clear previous errors
+            clearInputError(investmentAmountInput, investmentAmountError);
             clearInputError(investmentDurationInput, investmentDurationError);
 
-            if (!details || isNaN(amount) || amount < 5000) {
-                // No investment type selected, or amount is too low/invalid
-                investmentDurationInput.disabled = true;
-                investmentDurationUnitSelect.disabled = true;
-                investmentDurationInput.value = '';
-                detailsMinDuration.textContent = 'N/A';
-                detailsReturnRange.textContent = 'Enter amount to see details';
+            if (isNaN(amount) || amount < 5000) {
+                showInputError(investmentAmountInput, investmentAmountError, 'Amount must be at least ₦5,000.');
+                projectionTableContainer.innerHTML = '<p class="projection-table-empty-message">Enter investment details to see a daily breakdown.</p>';
+                finalProjectedTotalEl.classList.add('hidden');
+                projectionBasisLabel.textContent = '';
+                return;
+            }
+            if (isNaN(duration) || duration < 1) {
+                showInputError(investmentDurationInput, investmentDurationError, 'Duration must be at least 1.');
+                projectionTableContainer.innerHTML = '<p class="projection-table-empty-message">Enter investment details to see a daily breakdown.</p>';
+                finalProjectedTotalEl.classList.add('hidden');
+                projectionBasisLabel.textContent = '';
                 return;
             }
 
-            let minAllowedMonths = details.minDurationMonths; // Base minimum from investment type
-            let maxAllowedMonths = Infinity; // Default to no explicit max
-
-            if (amount >= 5000 && amount <= 15000) {
-                // For amounts between 5k and 15k, duration must be 1 month
-                minAllowedMonths = Math.max(minAllowedMonths, 1); // Ensure it's at least type's min
-                maxAllowedMonths = 1;
-                investmentDurationUnitSelect.value = 'months'; // Force months
-                investmentDurationUnitSelect.disabled = true; // Disable unit change
-                detailsReturnRange.textContent = `Fixed 4.5% to 5% Daily on Initial Amount (1-month duration)`;
-            } else if (amount > 15000) {
-                // For amounts above 15k, duration must be 2 months or more
-                minAllowedMonths = Math.max(minAllowedMonths, 2); // Ensure it's at least type's min and at least 2 months
-                investmentDurationUnitSelect.disabled = false; // Enable unit change
-                detailsReturnRange.textContent = `Fixed 4.5% to 5% Daily on Initial Amount (2+ month duration)`;
+            if (!category || !type || !investmentTypes[category] || !investmentTypes[category][type]) {
+                showToast('Please select an investment category and type.', 'error');
+                projectionTableContainer.innerHTML = '<p class="projection-table-empty-message">Select an investment type to see projections.</p>';
+                finalProjectedTotalEl.classList.add('hidden');
+                projectionBasisLabel.textContent = '';
+                return;
             }
 
-            investmentDurationInput.disabled = false;
-            investmentDurationInput.min = minAllowedMonths;
-            // No explicit max attribute for duration input, but logic will validate.
-
-            // Adjust current duration value if it's out of bounds
-            let currentDurationValue = parseInt(investmentDurationInput.value);
-            let currentDurationInMonths = currentDurationValue;
-            if (investmentDurationUnitSelect.value === 'years') {
-                currentDurationInMonths = currentDurationValue * 12;
+            const details = investmentTypes[category][type];
+            let totalDays = duration;
+            if (unit === 'months') {
+                totalDays *= 30; // Approximate months to 30 days
+            } else if (unit === 'years') {
+                totalDays *= 365; // Approximate years to 365 days
             }
 
-            if (currentDurationInMonths < minAllowedMonths || (maxAllowedMonths !== Infinity && currentDurationInMonths > maxAllowedMonths)) {
-                investmentDurationInput.value = minAllowedMonths; // Set to minimum allowed
-                investmentDurationUnitSelect.value = 'months'; // Reset unit to months if it was years and now forced to 1 month
-            }
-
-            // Update the displayed minimum duration in the details card
-            let durationDisplay = `${minAllowedMonths} month${minAllowedMonths > 1 ? 's' : ''}`;
-            if (maxAllowedMonths !== Infinity && maxAllowedMonths !== minAllowedMonths) {
-                durationDisplay += ` to ${maxAllowedMonths} month${maxAllowedMonths > 1 ? 's' : ''}`;
-            } else if (maxAllowedMonths === Infinity && minAllowedMonths === 2) {
-                 durationDisplay = `2+ months`;
-            }
-            detailsMinDuration.textContent = durationDisplay;
-        }
-
-
-        /**
-         * Function to update the projection table with fluctuating daily profit.
-         * @param {number} initialAmount The initial investment amount.
-         * @param {number} duration The duration of the investment.
-         * @param {number} dummyFixedDailyPercentage (unused, kept for signature consistency)
-         * @param {string} unit The unit of duration ('months' or 'years').
-         * @param {string} returnRangeText The descriptive text for return range.
-         */
-        function updateProjectionTable(initialAmount, duration, dummyFixedDailyPercentage, unit = 'months', returnRangeText = '') {
-            projectionTableContainer.innerHTML = ''; // Clear previous content
-            finalProjectedTotalEl.classList.add('hidden'); // Hide total by default
-
-            const MIN_DAILY_PERCENTAGE = 4.5;
-            const MAX_DAILY_PERCENTAGE = 5.0;
-
-            if (initialAmount > 0 && duration > 0) {
-                projectionInfo.textContent = `This breakdown illustrates your projected investment growth with **daily additions**, where a fluctuating percentage (${MIN_DAILY_PERCENTAGE}% to ${MAX_DAILY_PERCENTAGE}%) of your initial investment is added each day.`;
-                projectionBasisLabel.textContent = `Based on: Fixed ${MIN_DAILY_PERCENTAGE}% to ${MAX_DAILY_PERCENTAGE}% Daily on Initial Amount`; // Updated label
-
-                let totalDays = duration;
-                if (unit === 'months') {
-                    totalDays = duration * 30; // Approximate 30 days per month
-                } else if (unit === 'years') {
-                    totalDays = duration * 365;
-                }
-
-                let currentBalance = initialAmount;
-
-                // Add header row
-                const headerDiv = document.createElement('div');
-                headerDiv.classList.add('projection-table-header');
-                headerDiv.innerHTML = `
-                    <span style="flex:0.8; text-align:left;">Day</span>
-                    <span style="flex:1;">Start Balance</span>
-                    <span style="flex:1;">Daily Profit</span>
-                    <span style="flex:1;">End Balance</span>
-                `;
-                projectionTableContainer.appendChild(headerDiv);
-
-                // Generate daily breakdown rows
-                for (let day = 1; day <= totalDays; day++) {
-                    const randomDailyPercentage = (Math.random() * (MAX_DAILY_PERCENTAGE - MIN_DAILY_PERCENTAGE) + MIN_DAILY_PERCENTAGE) / 100;
-                    const dailyProfit = initialAmount * randomDailyPercentage; // Profit based on initial amount
-                    const endBalance = currentBalance + dailyProfit;
-
-                    const rowDiv = document.createElement('div');
-                    rowDiv.classList.add('projection-table-row');
-                    rowDiv.innerHTML = `
-                        <span style="flex:0.8; text-align:left;">${day}</span>
-                        <span style="flex:1;">${formatNaira(currentBalance)}</span>
-                        <span style="flex:1; color:#76E076;">+${formatNaira(dailyProfit)}</span>
-                        <span style="flex:1;">${formatNaira(endBalance)}</span>
-                    `;
-                    projectionTableContainer.appendChild(rowDiv);
-                    currentBalance = endBalance; // Update balance for next day's calculation
-                }
-
-                // Display the final projected total
-                finalProjectedTotalEl.textContent = `Projected Total: ${formatNaira(currentBalance)}`;
-                finalProjectedTotalEl.classList.remove('hidden');
-
-            } else {
+            if (duration < details.minDurationMonths && unit === 'months') {
+                showInputError(investmentDurationInput, investmentDurationError, `Minimum duration for ${type} is ${details.minDurationMonths} month(s).`);
                 projectionTableContainer.innerHTML = '<p class="projection-table-empty-message">Enter investment details to see a daily breakdown.</p>';
-                projectionInfo.textContent = 'Adjust amount and duration to see your potential growth.';
-                projectionBasisLabel.textContent = ''; // Clear the basis label if no valid input
-                finalProjectedTotalEl.classList.add('hidden'); // Ensure total is hidden if no valid input
+                finalProjectedTotalEl.classList.add('hidden');
+                projectionBasisLabel.textContent = '';
+                return;
             }
-        }
+            
+            let currentProjectedValue = amount;
+            let tableHtml = `
+                <div class="projection-table-header">
+                    <span>Day</span>
+                    <span>Daily Gain</span>
+                    <span>Total Value</span>
+                </div>
+            `;
+            const dailyProjections = [];
 
+            // Calculate daily projections
+            for (let day = 1; day <= totalDays; day++) {
+                const dailyPercentage = (Math.random() * (5.0 - 4.5) + 4.5) / 100; // Random between 4.5% and 5%
+                const dailyGain = amount * dailyPercentage; // Daily gain is based on initial amount
+                currentProjectedValue += dailyGain;
+                dailyProjections.push({
+                    day: day,
+                    dailyGain: dailyGain,
+                    totalValue: currentProjectedValue
+                });
+            }
 
-        // Submit New Investment
-        document.getElementById('submitInvestmentBtn').addEventListener('click', () => {
-            const submitButton = document.getElementById('submitInvestmentBtn');
-            startLoading(submitButton, 'Investing...');
+            // Display only up to the first 30 days, or all if less than 30
+            const displayLimit = 30;
+            const displayedProjections = dailyProjections.slice(0, displayLimit);
 
+            displayedProjections.forEach(proj => {
+                tableHtml += `
+                    <div class="projection-table-row">
+                        <span>Day ${proj.day}</span>
+                        <span class="profit">${formatNaira(proj.dailyGain)}</span>
+                        <span>${formatNaira(proj.totalValue)}</span>
+                    </div>
+                `;
+            });
+
+            if (totalDays > displayLimit) {
+                tableHtml += `
+                    <div class="projection-table-row text-center text-gray-500">
+                        <span>...</span>
+                        <span>...</span>
+                        <span>...</span>
+                    </div>
+                `;
+            }
+
+            projectionTableContainer.innerHTML = tableHtml;
+            finalProjectedTotalEl.textContent = `Projected Total: ${formatNaira(currentProjectedValue)}`;
+            finalProjectedTotalEl.classList.remove('hidden');
+            projectionBasisLabel.textContent = `Projection for ${totalDays} day${totalDays !== 1 ? 's' : ''}`;
+        }, 300); // Debounce by 300ms
+
+        investmentAmountInput.addEventListener('input', calculateProjectionDebounced);
+        investmentDurationInput.addEventListener('input', calculateProjectionDebounced);
+        investmentDurationUnitSelect.addEventListener('change', calculateProjectionDebounced);
+
+        submitInvestmentBtn.addEventListener('click', () => {
             const category = investmentCategorySelect.value;
             const type = investmentTypeSelect.value;
             const amount = parseFloat(investmentAmountInput.value);
-            let duration = parseInt(investmentDurationInput.value);
-            const durationUnit = investmentDurationUnitSelect.value;
-            const details = investmentTypes[category]?.[type];
-            const MIN_INVESTMENT_AMOUNT = 5000; // Define minimum investment amount
+            const duration = parseInt(investmentDurationInput.value);
+            const unit = investmentDurationUnitSelect.value;
 
             let hasError = false;
-            if (!category || !type || !details) {
+            clearInputError(investmentAmountInput, investmentAmountError);
+            clearInputError(investmentDurationInput, investmentDurationError);
+
+            if (!category || !type) {
                 showToast('Please select an investment category and type.', 'error');
                 hasError = true;
             }
-            if (isNaN(amount) || amount < MIN_INVESTMENT_AMOUNT) {
-                showInputError(investmentAmountInput, investmentAmountError, `Amount must be at least ${formatNaira(MIN_INVESTMENT_AMOUNT)}.`);
+            if (isNaN(amount) || amount < 5000) {
+                showInputError(investmentAmountInput, investmentAmountError, 'Amount must be at least ₦5,000.');
                 hasError = true;
-            } else {
-                clearInputError(investmentAmountInput, investmentAmountError);
             }
-            if (isNaN(duration) || duration <= 0) {
-                showInputError(investmentDurationInput, investmentDurationError, 'Duration must be a positive number.');
+            if (isNaN(duration) || duration < 1) {
+                showInputError(investmentDurationInput, investmentDurationError, 'Duration must be at least 1.');
                 hasError = true;
-            } else {
-                clearInputError(investmentDurationInput, investmentDurationError);
+            }
+
+            const details = investmentTypes[category]?.[type];
+            if (details && duration < details.minDurationMonths && unit === 'months') {
+                showInputError(investmentDurationInput, investmentDurationError, `Minimum duration for ${type} is ${details.minDurationMonths} month(s).`);
+                hasError = true;
             }
 
             if (hasError) {
-                stopLoading(submitButton, 'Invest');
+                showToast('Please correct the investment details.', 'error');
                 return;
             }
-
-            // Convert duration to months for internal consistency
-            let durationInMonths = duration;
-            if (durationUnit === 'years') {
-                durationInMonths = duration * 12;
-            }
-
-            // --- New Duration Validation based on Amount ---
-            let minAllowedMonthsForAmount;
-            let maxAllowedMonthsForAmount;
-
-            if (amount >= 5000 && amount <= 15000) {
-                minAllowedMonthsForAmount = 1;
-                maxAllowedMonthsForAmount = 1;
-            } else if (amount > 15000) {
-                minAllowedMonthsForAmount = 2;
-                maxAllowedMonthsForAmount = Infinity; // Effectively no upper limit for this rule
-            } else {
-                // This case should ideally be caught by the initial amount validation,
-                // but as a fallback, set impossible duration to trigger error.
-                minAllowedMonthsForAmount = Infinity;
-                maxAllowedMonthsForAmount = 0;
-            }
-
-            // Combine with investment type's minimum duration
-            const finalMinDurationMonths = Math.max(details.minDurationMonths, minAllowedMonthsForAmount);
-
-            if (durationInMonths < finalMinDurationMonths || durationInMonths > maxAllowedMonthsForAmount) {
-                let errorMessage = `For this amount (${formatNaira(amount)}), duration must be `;
-                if (amount >= 5000 && amount <= 15000) {
-                    errorMessage += `exactly 1 month.`;
-                } else if (amount > 15000) {
-                    errorMessage += `at least ${finalMinDurationMonths} months.`; // Use finalMinDurationMonths here
-                } else {
-                    errorMessage += `valid.`; // Fallback for unexpected amount
-                }
-                showInputError(investmentDurationInput, investmentDurationError, errorMessage);
-                stopLoading(submitButton, 'Invest');
-                return;
-            }
-            // --- End New Duration Validation ---
-
 
             if (userAccountBalance < amount) {
-                showToast(`Insufficient funds. Your balance is ${formatNaira(userAccountBalance)}.`, 'error');
-                stopLoading(submitButton, 'Invest');
+                showToast('Insufficient balance. Please deposit funds.', 'error');
                 return;
             }
 
-            // Store the base daily profit percentage (e.g., 4.5) for the investment
-            const baseDailyProfitPercentage = details.typicalAnnualReturn;
+            startLoading(submitInvestmentBtn, 'Investing...');
 
-            const newInvestment = {
-                id: Date.now().toString(), // Simple unique ID
-                category,
-                type,
-                initialAmount: amount,
-                currentValue: amount, // Starts at initial amount
-                annualReturnRate: baseDailyProfitPercentage, // Storing base percentage for fixed daily profit
-                investDate: new Date().toISOString(),
-                durationMonths: durationInMonths, // Store duration in months
-                profit: 0
-            };
+            setTimeout(() => {
+                const investDate = new Date();
+                const maturityDate = calculateMaturityDate(investDate.toISOString(), duration, unit);
 
-            userInvestments.push(newInvestment);
-            userAccountBalance -= amount;
+                const newInvestment = {
+                    id: Date.now().toString(), // Unique ID
+                    category,
+                    type,
+                    initialAmount: amount,
+                    currentValue: amount, // Starts at initial amount
+                    profit: 0,
+                    investDate: investDate.toISOString(),
+                    duration: duration,
+                    durationUnit: unit,
+                    maturityDate: maturityDate.toISOString(), // Store maturity date
+                    dailyGrowthHistory: [{ date: investDate.toISOString(), value: amount, gain: 0 }] // Initial entry
+                };
 
-            userTransactions.push({
-                id: Date.now().toString() + '-tx',
-                type: 'Investment',
-                amount: amount,
-                description: `Invested in ${type} (${category}) for ${duration} ${durationUnit}`,
-                date: new Date().toISOString()
-            });
+                userInvestments.push(newInvestment);
+                userAccountBalance -= amount;
 
-            saveUserData();
-            updateDashboard();
-            showToast(`Successfully invested ${formatNaira(amount)} in ${type}!`, 'success');
-            stopLoading(submitButton, 'Invest');
-            setTimeout(() => closeModal('investModal'), 1500);
+                // Add transaction record
+                userTransactions.unshift({
+                    id: Date.now().toString() + '_tx',
+                    type: 'Investment',
+                    amount: amount,
+                    description: `Investment in ${type}`,
+                    date: new Date().toISOString()
+                });
+
+                saveUserData();
+                updateDashboard();
+                showToast('Investment successful!', 'success');
+                closeModal('investModal');
+                stopLoading(submitInvestmentBtn, 'Invest');
+            }, 1500);
         });
 
-        // Populate Cash Out Investments Dropdown
+        // Cash Out Modal Logic
         function populateCashOutInvestments() {
-            cashOutInvestmentSelect.innerHTML = '<option value="">Select an active investment</option>'; // Clear previous options
-            clearInputError(cashOutInvestmentSelect, cashOutInvestmentSelectError);
+            cashOutInvestmentSelect.innerHTML = '<option value="">Select an active investment</option>';
+            // Only list matured investments for cash out
+            const maturedInvestments = userInvestments.filter(inv => new Date(inv.maturityDate) <= new Date());
 
-            if (userInvestments.length === 0) {
+            if (maturedInvestments.length === 0) {
                 const option = document.createElement('option');
-                option.value = "";
-                option.textContent = "No active investments available";
+                option.value = '';
+                option.textContent = 'No matured investments available';
                 option.disabled = true;
                 cashOutInvestmentSelect.appendChild(option);
-                return;
+                cashOutInvestmentSelect.disabled = true;
+                cashOutAmountInput.disabled = true; // Disable amount input if no matured investments
+                showToast('No matured investments to cash out.', 'info');
+            } else {
+                maturedInvestments.forEach(inv => {
+                    const option = document.createElement('option');
+                    option.value = inv.id;
+                    option.textContent = `${inv.type} (Current: ${formatNaira(inv.currentValue)}) - Matured`;
+                    cashOutInvestmentSelect.appendChild(option);
+                });
+                cashOutInvestmentSelect.disabled = false;
+                cashOutAmountInput.disabled = false;
             }
-
-            userInvestments.forEach(inv => {
-                const investDate = new Date(inv.investDate);
-                const maturityDate = new Date(investDate);
-                maturityDate.setMonth(maturityDate.getMonth() + inv.durationMonths);
-                const isMatured = new Date() >= maturityDate;
-
-                const maturityStatus = isMatured ? ' (Matured)' : ` (Matures: ${maturityDate.toLocaleDateString()})`;
-
-                const option = document.createElement('option');
-                option.value = inv.id;
-                option.textContent = `${inv.type} (${inv.category}) - Current Value: ${formatNaira(inv.currentValue)}${maturityStatus}`;
-                option.disabled = !isMatured; // Disable if not matured
-                cashOutInvestmentSelect.appendChild(option);
-            });
         }
 
-        // Submit Cash Out
-        document.getElementById('submitCashOutBtn').addEventListener('click', () => {
-            const submitButton = document.getElementById('submitCashOutBtn');
-            startLoading(submitButton, 'Cashing Out...');
+        cashOutInvestmentSelect.addEventListener('change', () => {
+            const selectedInvestmentId = cashOutInvestmentSelect.value;
+            const selectedInvestment = userInvestments.find(inv => inv.id === selectedInvestmentId);
+            if (selectedInvestment) {
+                cashOutAmountInput.value = selectedInvestment.currentValue.toFixed(2); // Pre-fill with current value
+                cashOutAmountInput.max = selectedInvestment.currentValue.toFixed(2); // Set max
+            } else {
+                cashOutAmountInput.value = '';
+                cashOutAmountInput.max = '';
+            }
+            clearInputError(cashOutInvestmentSelect, cashOutInvestmentSelectError);
+            clearInputError(cashOutAmountInput, cashOutAmountError);
+        });
 
-            const investmentId = cashOutInvestmentSelect.value;
+        submitCashOutBtn.addEventListener('click', () => {
+            const selectedInvestmentId = cashOutInvestmentSelect.value;
             const cashOutAmount = parseFloat(cashOutAmountInput.value);
 
             let hasError = false;
-            if (!investmentId) {
+            clearInputError(cashOutInvestmentSelect, cashOutInvestmentSelectError);
+            clearInputError(cashOutAmountInput, cashOutAmountError);
+
+            if (!selectedInvestmentId) {
                 showInputError(cashOutInvestmentSelect, cashOutInvestmentSelectError, 'Please select an investment.');
                 hasError = true;
-            } else {
-                clearInputError(cashOutInvestmentSelect, cashOutInvestmentSelectError);
             }
             if (isNaN(cashOutAmount) || cashOutAmount <= 0) {
-                showInputError(cashOutAmountInput, cashOutAmountError, 'Please enter a valid amount.');
+                showInputError(cashOutAmountInput, cashOutAmountError, 'Please enter a valid amount to cash out.');
                 hasError = true;
-            } else {
-                clearInputError(cashOutAmountInput, cashOutAmountError);
+            }
+
+            const selectedInvestment = userInvestments.find(inv => inv.id === selectedInvestmentId);
+            if (!selectedInvestment) {
+                showToast('Selected investment not found.', 'error');
+                hasError = true;
+            } else if (cashOutAmount > selectedInvestment.currentValue) {
+                showInputError(cashOutAmountInput, cashOutAmountError, `Amount cannot exceed current value (${formatNaira(selectedInvestment.currentValue)}).`);
+                hasError = true;
+            } else if (new Date(selectedInvestment.maturityDate) > new Date()) { // Double-check maturity
+                showToast('This investment has not yet matured and cannot be cashed out.', 'error');
+                hasError = true;
             }
 
             if (hasError) {
-                stopLoading(submitButton, 'Confirm Cash Out');
+                showToast('Please correct the cash out details.', 'error');
                 return;
             }
 
-            const investmentIndex = userInvestments.findIndex(inv => inv.id === investmentId);
-            if (investmentIndex === -1) {
-                showToast('Selected investment not found.', 'error');
-                stopLoading(submitButton, 'Confirm Cash Out');
-                return;
-            }
+            startLoading(submitCashOutBtn, 'Cashing Out...');
 
-            const investment = userInvestments[investmentIndex];
+            setTimeout(() => {
+                userAccountBalance += cashOutAmount;
+                userInvestments = userInvestments.filter(inv => inv.id !== selectedInvestmentId); // Remove investment
 
-            // Check for maturity before allowing cash out
-            const investDate = new Date(investment.investDate);
-            const maturityDate = new Date(investDate);
-            maturityDate.setMonth(maturityDate.getMonth() + investment.durationMonths);
+                // Add transaction record
+                userTransactions.unshift({
+                    id: Date.now().toString() + '_tx',
+                    type: 'Cash Out',
+                    amount: cashOutAmount,
+                    description: `Cashed out from ${selectedInvestment.type} investment`,
+                    date: new Date().toISOString()
+                });
 
-            if (new Date() < maturityDate) {
-                showToast(`This investment matures on ${maturityDate.toLocaleDateString()}. You cannot cash out before then.`, 'error');
-                stopLoading(submitButton, 'Confirm Cash Out');
-                return;
-            }
-
-            if (cashOutAmount > investment.currentValue) {
-                showToast(`You can only cash out up to ${formatNaira(investment.currentValue)}.`, 'error');
-                showInputError(cashOutAmountInput, cashOutAmountError, `Amount exceeds current value (${formatNaira(investment.currentValue)}).`);
-                stopLoading(submitButton, 'Confirm Cash Out');
-                return;
-            }
-
-            userAccountBalance += cashOutAmount;
-            investment.currentValue -= cashOutAmount;
-            // For partial cash out, adjust initial amount proportionally.
-            // This is a simplified approach; a more complex system might track original investment units.
-            // With fixed daily profit, initialAmount should probably not change for partial cash out.
-            // A better way would be to track 'units' or 'shares'.
-            if (investment.initialAmount > 0) {
-                // If cashing out, the 'initial amount' for remaining investment should be reduced proportionally
-                investment.initialAmount = investment.initialAmount * (investment.currentValue / (investment.currentValue + cashOutAmount));
-            } else {
-                investment.initialAmount = 0;
-            }
-
-            investment.profit = investment.currentValue - investment.initialAmount; // Recalculate profit
-
-            userTransactions.push({
-                id: Date.now().toString() + '-tx',
-                type: 'Cash Out',
-                amount: cashOutAmount,
-                description: `Cashed out from ${investment.type} (${investment.category})`,
-                date: new Date().toISOString()
-            });
-
-            // Remove investment if fully cashed out (or very close to zero due to float precision)
-            if (investment.currentValue < 0.01) {
-                userInvestments.splice(investmentIndex, 1);
-            }
-
-            saveUserData();
-            updateDashboard();
-            showToast(`Successfully cashed out ${formatNaira(cashOutAmount)}!`, 'success');
-            stopLoading(submitButton, 'Confirm Cash Out');
-            setTimeout(() => closeModal('cashOutModal'), 1500);
+                saveUserData();
+                updateDashboard();
+                showToast('Cash out successful!', 'success');
+                closeModal('cashOutModal');
+                stopLoading(submitCashOutBtn, 'Confirm Cash Out');
+            }, 1500);
         });
 
-        // Submit Deposit (modified for Paystack)
-        document.getElementById('submitDepositBtn').addEventListener('click', () => {
-            const submitButton = document.getElementById('submitDepositBtn');
-            startLoading(submitButton, 'Connecting...');
+        // Deposit Modal Logic (Paystack Integration)
+        function isValidEmail(email) {
+            return /\S+@\S+\.\S+/.test(email);
+        }
 
-            const depositEmail = depositEmailInput.value;
-            const depositAmount = parseFloat(depositAmountInput.value);
+        submitDepositBtn.addEventListener('click', () => {
+            const email = depositEmailInput.value.trim();
+            const amount = parseFloat(depositAmountInput.value); // Amount in Naira
 
             let hasError = false;
-            if (!depositEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(depositEmail)) {
+            clearInputError(depositEmailInput, depositEmailError);
+            clearInputError(depositAmountInput, depositAmountError);
+
+            if (!email) {
+                showInputError(depositEmailInput, depositEmailError, 'Email is required.');
+                hasError = true;
+            } else if (!isValidEmail(email)) {
                 showInputError(depositEmailInput, depositEmailError, 'Please enter a valid email address.');
                 hasError = true;
-            } else {
-                clearInputError(depositEmailInput, depositEmailError);
             }
-            if (isNaN(depositAmount) || depositAmount <= 0) {
-                showInputError(depositAmountInput, depositAmountError, 'Please enter a valid amount greater than 0.');
+            if (isNaN(amount) || amount <= 0) {
+                showInputError(depositAmountInput, depositAmountError, 'Please enter a valid amount.');
                 hasError = true;
-            } else {
-                clearInputError(depositAmountInput, depositAmountError);
+            } else if (amount < 100) {
+                showInputError(depositAmountInput, depositAmountError, 'Minimum deposit is ₦100.');
+                hasError = true;
             }
 
             if (hasError) {
-                stopLoading(submitButton, 'Proceed to Paystack');
+                showToast('Please correct the deposit details.', 'error');
                 return;
             }
 
-            // Paystack requires amount in kobo (cents)
-            const amountInKobo = depositAmount * 100;
+            startLoading(submitDepositBtn, 'Opening Paystack...');
+            closeModal('depositModal'); // Close the deposit modal before opening Paystack
 
-            showToast('Redirecting to Paystack...', 'info');
+            // Initialize Paystack payment
+            // Paystack amount is in kobo, so multiply by 100
+            const paystackAmount = amount * 100;
+            const reference = `GWC_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`; // Unique reference
 
-            // Initialize Paystack Pop
             const handler = PaystackPop.setup({
-                key: paystackPublicKey,
-                email: depositEmail,
-                amount: amountInKobo,
-                currency: 'NGN',
-                ref: '' + Math.floor((Math.random() * 1000000000) + 1), // unique ref
+                key: paystackPublicKey, // Replace with your public key
+                email: email,
+                amount: paystackAmount,
+                ref: reference, // unique transaction reference
                 onClose: function(){
-                    showToast('Payment cancelled.', 'error');
-                    stopLoading(submitButton, 'Proceed to Paystack');
+                    // This function is called if the user closes the modal without completing payment
+                    showToast('Payment cancelled by user.', 'info');
+                    stopLoading(submitDepositBtn, 'Proceed to Paystack');
                 },
                 callback: function(response){
-                    // IMPORTANT: In a real application, you MUST verify this transaction on your backend server
-                    // using Paystack's verify endpoint to prevent fraud.
-                    // For this client-side only demonstration, we're assuming success directly.
-                    if (response.status === 'success') {
-                        userAccountBalance += depositAmount;
+                    // This function is called when the payment is successful
+                    // In a real application, you would send response.reference to your backend
+                    // to verify the transaction using your SECRET KEY.
+                    // For this client-side simulation, we'll directly update the balance.
 
-                        userTransactions.push({
-                            id: Date.now().toString() + '-tx',
+                    if (response.status === 'success') {
+                        userAccountBalance += amount; // Add the actual Naira amount
+                        userTransactions.unshift({
+                            id: Date.now().toString() + '_tx',
                             type: 'Deposit',
-                            amount: depositAmount,
-                            description: `Funds deposited via Paystack (Ref: ${response.reference})`,
+                            amount: amount,
+                            description: `Deposit via Paystack (Ref: ${response.reference})`,
                             date: new Date().toISOString()
                         });
-
                         saveUserData();
                         updateDashboard();
-                        showToast(`Successfully deposited ${formatNaira(depositAmount)}!`, 'success');
-                        stopLoading(submitButton, 'Proceed to Paystack');
-                        setTimeout(() => closeModal('depositModal'), 2000);
+                        showToast('Deposit successful!', 'success');
                     } else {
-                        showToast('Payment failed. Please try again.', 'error');
-                        stopLoading(submitButton, 'Proceed to Paystack');
+                        // Handle other statuses if necessary, though 'success' is the main one for callback
+                        showToast('Payment not successful. Please try again.', 'error');
                     }
+                    stopLoading(submitDepositBtn, 'Proceed to Paystack');
                 }
             });
-            handler.openIframe();
+            handler.openIframe(); // Open the Paystack payment modal
         });
 
-        // Submit Withdrawal
-        document.getElementById('submitWithdrawBtn').addEventListener('click', () => {
-            const submitButton = document.getElementById('submitWithdrawBtn');
-            startLoading(submitButton, 'Withdrawing...');
-
+        // Withdraw Modal Logic
+        submitWithdrawBtn.addEventListener('click', () => {
             const withdrawAmount = parseFloat(withdrawAmountInput.value);
+            const bankName = bankNameInput.value.trim();
+            const accountNumber = accountNumberInput.value.trim();
+            const accountName = accountNameInput.value.trim();
 
             let hasError = false;
+            clearInputError(withdrawAmountInput, withdrawAmountError);
+            clearInputError(bankNameInput, bankNameError);
+            clearInputError(accountNumberInput, accountNumberError);
+            clearInputError(accountNameInput, accountNameError);
+
+            // Withdrawal amount validation
             if (isNaN(withdrawAmount) || withdrawAmount <= 0) {
-                showInputError(withdrawAmountInput, withdrawAmountError, 'Please enter a valid withdrawal amount.');
+                showInputError(withdrawAmountInput, withdrawAmountError, 'Please enter a valid amount to withdraw.');
                 hasError = true;
-            } else {
-                clearInputError(withdrawAmountInput, withdrawAmountError);
+            } else if (withdrawAmount < 100) {
+                showInputError(withdrawAmountInput, withdrawAmountError, 'Minimum withdrawal is ₦100.');
+                hasError = true;
+            } else if (withdrawAmount > userAccountBalance) {
+                showInputError(withdrawAmountInput, withdrawAmountError, `Insufficient balance. Available: ${formatNaira(userAccountBalance)}`);
+                hasError = true;
+            }
+
+            // Account details validation
+            if (!bankName) {
+                showInputError(bankNameInput, bankNameError, 'Bank Name is required.');
+                hasError = true;
+            }
+            if (!accountNumber || !/^\d{10}$/.test(accountNumber)) {
+                showInputError(accountNumberInput, accountNumberError, 'Account Number must be 10 digits.');
+                hasError = true;
+            }
+            if (!accountName) {
+                showInputError(accountNameInput, accountNameError, 'Account Name is required.');
+                hasError = true;
+            }
+
+            // New: Check for matured investments (re-check here to prevent direct submission if modal was somehow opened)
+            const hasMadeInvestment = userInvestments.length > 0;
+            const hasMaturedInvestment = userInvestments.some(inv => new Date(inv.maturityDate) <= new Date());
+            if (!hasMadeInvestment) {
+                showToast('You must make an investment before you can withdraw.', 'error');
+                hasError = true;
+            } else if (!hasMaturedInvestment) {
+                showToast('You can only withdraw once an investment has matured.', 'error');
+                hasError = true;
             }
 
             if (hasError) {
-                stopLoading(submitButton, 'Confirm Withdrawal');
+                showToast('Please correct the withdrawal details.', 'error');
                 return;
             }
 
-            if (userAccountBalance < withdrawAmount) {
-                showToast(`Insufficient balance. Your balance is ${formatNaira(userAccountBalance)}.`, 'error');
-                showInputError(withdrawAmountInput, withdrawAmountError, `Insufficient balance (${formatNaira(userAccountBalance)}).`);
-                stopLoading(submitButton, 'Confirm Withdrawal');
-                return;
-            }
+            startLoading(submitWithdrawBtn, 'Processing Withdrawal...');
 
-            userAccountBalance -= withdrawAmount;
+            setTimeout(() => {
+                userAccountBalance -= withdrawAmount;
 
-            userTransactions.push({
-                id: Date.now().toString() + '-tx',
-                type: 'Withdrawal',
-                amount: withdrawAmount,
-                description: 'Funds withdrawn from account',
-                date: new Date().toISOString()
-            });
+                // Add transaction record with account details
+                userTransactions.unshift({
+                    id: Date.now().toString() + '_tx',
+                    type: 'Withdrawal',
+                    amount: withdrawAmount,
+                    description: `Withdrawal to ${accountName} (${accountNumber}, ${bankName})`,
+                    date: new Date().toISOString()
+                });
 
-            saveUserData();
-            updateDashboard();
-            showToast(`Successfully withdrew ${formatNaira(withdrawAmount)}!`, 'success');
-            stopLoading(submitButton, 'Confirm Withdrawal');
-            setTimeout(() => closeModal('withdrawModal'), 1500);
+                saveUserData();
+                updateDashboard();
+                showToast('Withdrawal successful!', 'success');
+                closeModal('withdrawModal');
+                stopLoading(submitWithdrawBtn, 'Confirm Withdrawal');
+            }, 1500);
         });
 
-        // Reset Data Functionality
+        // Reset Data Logic
         document.getElementById('confirmResetDataBtn').addEventListener('click', () => {
-            const submitButton = document.getElementById('confirmResetDataBtn');
-            startLoading(submitButton, 'Resetting...');
-
-            // Clear data specific to the current user ('guest_user')
-            localStorage.removeItem(`growWithCoreInvestments_${currentUserId}`);
-            localStorage.removeItem(`growWithCoreTransactions_${currentUserId}`);
-            localStorage.removeItem(`growWithCoreAccountBalance_${currentUserId}`);
-            localStorage.removeItem(`growWithCoreInvestmentGoal_${currentUserId}`); // New: Clear goal
+            startLoading(document.getElementById('confirmResetDataBtn'), 'Resetting...');
             
-            // Re-initialize in-memory data to empty arrays/zero
-            userInvestments = [];
-            userTransactions = [];
-            userAccountBalance = 0;
-            investmentGoal = null; // New: Reset goal
-
-            showToast('All data has been reset successfully!', 'success');
-            stopLoading(submitButton, 'Yes, Reset All');
             setTimeout(() => {
+                localStorage.removeItem(`growWithCoreInvestments_${currentUserId}`);
+                localStorage.removeItem(`growWithCoreAccountBalance_${currentUserId}`);
+                localStorage.removeItem(`growWithCoreTransactions_${currentUserId}`);
+                localStorage.removeItem(`growWithCoreInvestmentGoal_${currentUserId}`);
+                localStorage.removeItem(`growWithCoreUserProfile_${currentUserId}`); // New: Clear profile
+
+                userInvestments = [];
+                userTransactions = [];
+                userAccountBalance = 0;
+                investmentGoal = null;
+                userProfile = { fullName: '', bio: '' }; // Reset profile in memory
+
+                saveUserData(); // Save the empty state
+                updateDashboard();
+                showToast('All data has been reset!', 'info');
                 closeModal('resetDataModal');
-                loadUserData(); // Reload dashboard with fresh, empty data
-            }, 1500);
+                stopLoading(document.getElementById('confirmResetDataBtn'), 'Yes, Reset All');
+            }, 1000);
         });
 
-        // "Start Fresh" Functionality (clears data, stays on dashboard)
+        // Start Fresh Button Logic
         document.getElementById('startFreshBtn').addEventListener('click', () => {
-            const submitButton = document.getElementById('startFreshBtn');
-            startLoading(submitButton, 'Resetting...');
+            // This button will simulate a "fresh start" by clearing all user data
+            // and then redirecting to the login page.
+            startLoading(document.getElementById('startFreshBtn'), 'Starting Fresh...');
 
-            // Clear data for the current 'guest_user'
-            localStorage.removeItem(`growWithCoreInvestments_${currentUserId}`);
-            localStorage.removeItem(`growWithCoreTransactions_${currentUserId}`);
-            localStorage.removeItem(`growWithCoreAccountBalance_${currentUserId}`);
-            localStorage.removeItem(`growWithCoreInvestmentGoal_${currentUserId}`); // Clear goal
-            
-            // Re-initialize in-memory data to empty arrays/zero
-            userInvestments = [];
-            userTransactions = [];
-            userAccountBalance = 0;
-            investmentGoal = null; // Reset goal
-
-            showToast('Starting fresh! All data cleared.', 'info');
-            stopLoading(submitButton, 'Start Fresh');
             setTimeout(() => {
-                loadUserData(); // Reload dashboard with fresh, empty data
-            }, 1500);
+                // Clear all relevant localStorage items for the current user
+                localStorage.removeItem(`growWithCoreInvestments_${currentUserId}`);
+                localStorage.removeItem(`growWithCoreAccountBalance_${currentUserId}`);
+                localStorage.removeItem(`growWithCoreTransactions_${currentUserId}`);
+                localStorage.removeItem(`growWithCoreInvestmentGoal_${currentUserId}`);
+                localStorage.removeItem(`growWithCoreUserProfile_${currentUserId}`); // New: Clear profile
+                localStorage.removeItem('currentUserEmail'); // Clear current user session
+                localStorage.removeItem('currentUserId');
+                localStorage.removeItem('rememberedEmail'); // Clear remembered email from login page
+
+                // Redirect to the login page
+                window.location.href = 'index.html';
+            }, 1500); // Simulate a short delay for the "fresh start"
         });
 
-        // New: Logout Functionality (redirects to index.html without clearing data)
+        // Logout Button Logic
         logoutBtn.addEventListener('click', () => {
-            const submitButton = logoutBtn;
-            startLoading(submitButton, 'Logging out...');
-
-            // IMPORTANT: Data is NOT cleared from localStorage here.
-            // This allows the user to resume their session when they return.
-
-            // Simulate logout success and redirect
-            showToast('Logged out successfully. Redirecting...', 'info');
-            stopLoading(submitButton, 'Logout');
+            startLoading(logoutBtn, 'Logging Out...');
             setTimeout(() => {
-                window.location.href = 'index.html'; // Redirect to index.html
-            }, 1500);
+                // Clear only the current session data, not all user data
+                localStorage.removeItem('currentUserEmail');
+                localStorage.removeItem('currentUserId');
+                // Optionally keep 'rememberedEmail' if the user checked "remember me" on login
+                // For this scenario, we'll clear it to ensure a full logout experience.
+                localStorage.removeItem('rememberedEmail');
+
+                // Redirect to the login page
+                window.location.href = 'index.html';
+            }, 1000);
         });
 
+
+        // Transaction History Filter/Sort Event Listeners
+        transactionFilterSelect.addEventListener('change', renderTransactionHistory);
+        transactionSortSelect.addEventListener('change', renderTransactionHistory);
 
         /**
-         * Opens the investment details modal and populates it.
+         * Opens the investment details modal and populates it with data for the given investment ID.
          * @param {string} investmentId The ID of the investment to display.
          */
         function openInvestmentDetailsModal(investmentId) {
@@ -2914,141 +3100,79 @@
             detailModalCategory.textContent = investment.category;
             detailModalInitialAmount.textContent = formatNaira(investment.initialAmount);
             detailModalCurrentValue.textContent = formatNaira(investment.currentValue);
-
-            const profitLossClass = investment.profit >= 0 ? 'profit' : 'loss';
-            detailModalProfitLoss.innerHTML = `<span class="${profitLossClass}">${formatNaira(investment.profit)}</span>`;
-
+            detailModalProfitLoss.textContent = formatNaira(investment.profit);
+            detailModalProfitLoss.classList.toggle('profit', investment.profit >= 0);
+            detailModalProfitLoss.classList.toggle('loss', investment.profit < 0);
             detailModalInvestDate.textContent = new Date(investment.investDate).toLocaleDateString();
-            detailModalDuration.textContent = `${investment.durationMonths} months`;
+            detailModalDuration.textContent = `${investment.duration} ${investment.durationUnit}`;
+            
+            // Calculate and display maturity date
+            const maturityDate = calculateMaturityDate(investment.investDate, investment.duration, investment.durationUnit);
+            detailModalMaturity.textContent = maturityDate.toLocaleDateString();
 
-            const investDate = new Date(investment.investDate);
-            const maturityDate = new Date(investDate);
-            maturityDate.setMonth(maturityDate.getMonth() + investment.durationMonths);
-            const isMatured = new Date() >= maturityDate;
-            detailModalMaturity.innerHTML = isMatured ?
-                `<span class="text-green-400 font-semibold">Matured! (${maturityDate.toLocaleDateString()})</span>` :
-                `<span class="text-yellow-400 font-semibold">Matures: ${maturityDate.toLocaleDateString()}</span>`;
-
-            // Populate daily growth history table for the selected investment
-            populateInvestmentHistoryTable(investment);
-
-            investmentDetailsModal.classList.remove('hidden');
-        }
-
-        /**
-         * Populates the daily growth history table within the investment details modal.
-         * @param {object} investment The investment object for which to show history.
-         */
-        function populateInvestmentHistoryTable(investment) {
-            investmentHistoryTableContainer.innerHTML = ''; // Clear previous content
-
-            const MIN_DAILY_PERCENTAGE = 4.5;
-            const MAX_DAILY_PERCENTAGE = 5.0;
-
-            const investDate = new Date(investment.investDate);
-            const today = new Date();
-            const totalDaysElapsed = Math.floor((today.getTime() - investDate.getTime()) / (1000 * 60 * 60 * 24));
-
-            if (totalDaysElapsed <= 0) {
-                investmentHistoryTableContainer.innerHTML = '<p class="projection-table-empty-message">Investment has not started growing yet.</p>';
-                return;
-            }
-
-            let currentSimulatedBalance = investment.initialAmount;
-
-            // Add header row for the history table
-            const headerDiv = document.createElement('div');
-            headerDiv.classList.add('projection-table-header');
-            headerDiv.innerHTML = `
-                <span style="flex:0.8; text-align:left;">Day</span>
-                <span style="flex:1;">Start Balance</span>
-                <span style="flex:1;">Daily Profit</span>
-                <span style="flex:1;">End Balance</span>
-            `;
-            investmentHistoryTableContainer.appendChild(headerDiv);
-
-            // Generate daily breakdown rows for the history
-            for (let day = 1; day <= totalDaysElapsed; day++) {
-                const randomDailyPercentage = (Math.random() * (MAX_DAILY_PERCENTAGE - MIN_DAILY_PERCENTAGE) + MIN_DAILY_PERCENTAGE) / 100;
-                const dailyProfit = investment.initialAmount * randomDailyPercentage; // Profit based on initial amount
-                const endBalance = currentSimulatedBalance + dailyProfit;
-
-                const rowDiv = document.createElement('div');
-                rowDiv.classList.add('projection-table-row');
-                rowDiv.innerHTML = `
-                    <span style="flex:0.8; text-align:left;">${day}</span>
-                    <span style="flex:1;">${formatNaira(currentSimulatedBalance)}</span>
-                    <span style="flex:1; color:#76E076;">+${formatNaira(dailyProfit)}</span>
-                    <span style="flex:1;">${formatNaira(endBalance)}</span>
+            // Populate daily growth history table
+            investmentHistoryTableContainer.innerHTML = '';
+            if (investment.dailyGrowthHistory && investment.dailyGrowthHistory.length > 0) {
+                let tableHtml = `
+                    <div class="projection-table-header">
+                        <span>Date</span>
+                        <span>Daily Gain</span>
+                        <span>Total Value</span>
+                    </div>
                 `;
-                investmentHistoryTableContainer.appendChild(rowDiv);
-                currentSimulatedBalance = endBalance;
+                // Sort history by date descending for display
+                const sortedHistory = [...investment.dailyGrowthHistory].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+                sortedHistory.forEach(historyItem => {
+                    const gainClass = historyItem.gain >= 0 ? 'profit' : 'loss';
+                    tableHtml += `
+                        <div class="projection-table-row">
+                            <span>${new Date(historyItem.date).toLocaleDateString()}</span>
+                            <span class="${gainClass}">${formatNaira(historyItem.gain)}</span>
+                            <span>${formatNaira(historyItem.value)}</span>
+                        </div>
+                    `;
+                });
+                investmentHistoryTableContainer.innerHTML = tableHtml;
+            } else {
+                investmentHistoryTableContainer.innerHTML = '<p class="projection-table-empty-message">No daily growth history available.</p>';
             }
+
+            openModal('investmentDetailsModal');
         }
 
-        // New Feature: Investment Goal Tracker Logic
-        submitGoalBtn.addEventListener('click', () => {
-            const goalName = goalNameInput.value.trim();
-            const goalAmount = parseFloat(goalAmountInput.value);
-
-            let hasError = false;
-            if (goalName.length < 3) {
-                showInputError(goalNameInput, goalNameError, 'Goal name must be at least 3 characters.');
-                hasError = true;
-            } else {
-                clearInputError(goalNameInput, goalNameError);
-            }
-            if (isNaN(goalAmount) || goalAmount <= 0) {
-                showInputError(goalAmountInput, goalAmountError, 'Please enter a valid target amount greater than 0.');
-                hasError = true;
-            } else {
-                clearInputError(goalAmountInput, goalAmountError);
-            }
-
-            if (hasError) {
-                return;
-            }
-
-            investmentGoal = {
-                name: goalName,
-                targetAmount: goalAmount
-            };
-            saveUserData();
-            updateDashboard();
-            showToast('Investment goal saved!', 'success');
-            closeModal('setGoalModal');
-        });
-
-        clearGoalBtn.addEventListener('click', () => {
-            investmentGoal = null;
-            saveUserData();
-            updateDashboard();
-            showToast('Investment goal cleared.', 'info');
-            closeModal('setGoalModal');
-        });
-
-        /**
-         * Updates the display of the investment goal tracker.
-         */
+        // Investment Goal Tracker Logic
         function updateGoalTracker() {
+            goalTrackerContent.innerHTML = ''; // Clear previous content
+
             if (investmentGoal) {
-                const totalCurrentInvestmentValue = userInvestments.reduce((sum, inv) => sum + inv.currentValue, 0);
-                const progress = Math.min((totalCurrentInvestmentValue / investmentGoal.targetAmount) * 100, 100);
+                const totalInvested = userInvestments.reduce((sum, inv) => sum + inv.currentValue, 0);
+                const progressPercentage = Math.min(100, (totalInvested / investmentGoal.amount) * 100);
 
                 goalTrackerContent.innerHTML = `
                     <p class="goal-name-display">${investmentGoal.name}</p>
-                    <p class="goal-amount-display">Target: ${formatNaira(investmentGoal.targetAmount)}</p>
-                    <p class="goal-amount-display">Current: ${formatNaira(totalCurrentInvestmentValue)}</p>
+                    <p class="goal-amount-display">Target: ${formatNaira(investmentGoal.amount)}</p>
+                    <p class="goal-amount-display">Current Progress: ${formatNaira(totalInvested)}</p>
                     <div class="goal-progress-bar">
-                        <div class="goal-progress-fill" style="width: ${progress.toFixed(2)}%;"></div>
+                        <div class="goal-progress-fill" style="width: ${progressPercentage.toFixed(2)}%;"></div>
                     </div>
-                    <p class="goal-percentage">${progress.toFixed(2)}% Achieved</p>
+                    <p class="goal-percentage">${progressPercentage.toFixed(2)}% Achieved</p>
                     <button id="editGoalBtn" class="btn-primary mt-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-edit-3 mr-2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4Z"/><path d="m15 5 3 3"/></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-edit mr-2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
                         <span>Edit Goal</span>
+                    </button>
+                    <button id="removeGoalBtn" class="btn-primary mt-4 !bg-red-600 hover:!bg-red-700 ml-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash-2 mr-2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></svg>
+                        <span>Remove Goal</span>
                     </button>
                 `;
                 document.getElementById('editGoalBtn').addEventListener('click', () => openModal('setGoalModal'));
+                document.getElementById('removeGoalBtn').addEventListener('click', () => {
+                    investmentGoal = null;
+                    saveUserData();
+                    updateGoalTracker();
+                    showToast('Investment goal cleared!', 'info');
+                });
             } else {
                 goalTrackerContent.innerHTML = `
                     <p class="text-gray-500">Set a financial goal to track your progress!</p>
@@ -3061,65 +3185,166 @@
             }
         }
 
-        // New Feature: Feedback/Support System Logic
-        submitFeedbackBtn.addEventListener('click', () => {
-            const feedbackType = feedbackTypeSelect.value;
-            const feedbackMessage = feedbackMessageTextarea.value.trim();
+        submitGoalBtn.addEventListener('click', () => {
+            const name = goalNameInput.value.trim();
+            const amount = parseFloat(goalAmountInput.value);
 
-            if (feedbackMessage.length < 10) {
-                showInputError(feedbackMessageTextarea, feedbackMessageError, 'Message must be at least 10 characters long.');
-                return;
-            } else {
-                clearInputError(feedbackMessageTextarea, feedbackMessageError);
+            let hasError = false;
+            clearInputError(goalNameInput, goalNameError);
+            clearInputError(goalAmountInput, goalAmountError);
+
+            if (!name) {
+                showInputError(goalNameInput, goalNameError, 'Goal name is required.');
+                hasError = true;
+            }
+            if (isNaN(amount) || amount <= 0) {
+                showInputError(goalAmountInput, goalAmountError, 'Please enter a valid target amount.');
+                hasError = true;
+            } else if (amount < 1000) {
+                showInputError(goalAmountInput, goalAmountError, 'Target amount must be at least ₦1,000.');
+                hasError = true;
             }
 
-            // Simulate sending feedback (in a real app, this would go to a backend)
-            startLoading(submitFeedbackBtn, 'Sending...');
+            if (hasError) {
+                showToast('Please correct the goal details.', 'error');
+                return;
+            }
+
+            startLoading(submitGoalBtn, 'Saving...');
+
             setTimeout(() => {
-                showToast(`Your ${feedbackType} has been submitted! Thank you for your feedback.`, 'success');
-                stopLoading(submitFeedbackBtn, 'Submit');
-                closeModal('feedbackModal');
-            }, 1500);
+                investmentGoal = { name, amount };
+                saveUserData();
+                updateGoalTracker();
+                showToast('Investment goal saved!', 'success');
+                closeModal('setGoalModal');
+                stopLoading(submitGoalBtn, 'Save Goal');
+            }, 1000);
         });
 
-        // New Feature: Daily Market News/Tips
+        clearGoalBtn.addEventListener('click', () => {
+            startLoading(clearGoalBtn, 'Clearing...');
+            setTimeout(() => {
+                investmentGoal = null;
+                saveUserData();
+                updateGoalTracker();
+                showToast('Investment goal cleared!', 'info');
+                closeModal('setGoalModal');
+                stopLoading(clearGoalBtn, 'Clear Goal');
+            }, 500);
+        });
+
+        // Daily Market Insights Logic
         function displayRandomMarketInsight() {
             const randomIndex = Math.floor(Math.random() * marketInsights.length);
             const insight = marketInsights[randomIndex];
             marketInsightContent.innerHTML = `
-                <h3 class="text-xl font-semibold text-gray-400 mb-3 flex items-center">
-                    ${insight.icon} ${insight.title}
+                <h3 class="text-lg font-semibold text-gray-200 mb-2 flex items-center">
+                    ${insight.icon}
+                    ${insight.title}
                 </h3>
                 <p class="market-insight-text">${insight.text}</p>
                 <p class="market-insight-source">Source: Simulated Market Data</p>
             `;
         }
 
-        // SVG icons for investment categories
-        const investmentCategoryIcons = {
-            "Farming": `<svg class="investment-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-leaf"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-4.5 6-4.5C15.25 16.5 17 18 17 21"/></svg>`,
-            "Rearing": `<svg class="investment-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cow"><path d="M9 18.5V20h6v-1.5"/><path d="M12 13V2"/><path d="M22 8c0 3.5-2 6-2 6H4s-2-2.5-2-6c0-3.5 2-6 2-6h16c0 0 2 2.5 2 6Z"/><path d="M7 13v.5a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5V13c0-1.5 1-2.5 2-2.5h2"/><path d="M17 13v.5a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V13c0-1.5-1-2.5-2-2.5h-2"/></svg>`,
-            "Other Opportunities": `<svg class="investment-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lightbulb"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1.3.5 2.6 1.5 3.5.8.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 22v-4"/></svg>`
-        };
+        // Feedback Modal Logic
+        submitFeedbackBtn.addEventListener('click', () => {
+            const type = feedbackTypeSelect.value;
+            const message = feedbackMessageTextarea.value.trim();
 
-        // Initialize the dashboard when the DOM is fully loaded
-        document.addEventListener('DOMContentLoaded', () => {
-            // Directly load user data for the predefined guest user
-            loadUserData();
+            let hasError = false;
+            clearInputError(feedbackMessageTextarea, feedbackMessageError);
 
-            // Attach event listeners for transaction filters/sort AFTER DOM is loaded
-            if (transactionFilterSelect) {
-                transactionFilterSelect.addEventListener('change', renderTransactionHistory);
+            if (!message) {
+                showInputError(feedbackMessageTextarea, feedbackMessageError, 'Your message cannot be empty.');
+                hasError = true;
+            } else if (message.length < 10) {
+                showInputError(feedbackMessageTextarea, feedbackMessageError, 'Message must be at least 10 characters long.');
+                hasError = true;
             }
-            if (transactionSortSelect) {
-                transactionSortSelect.addEventListener('change', renderTransactionHistory);
+
+            if (hasError) {
+                showToast('Please enter your feedback message.', 'error');
+                return;
             }
+
+            startLoading(submitFeedbackBtn, 'Sending...');
+
+            setTimeout(() => {
+                // In a real application, this would send data to a backend (e.g., Firebase, email service)
+                console.log(`Feedback Type: ${type}, Message: ${message}`);
+                showToast('Thank you for your feedback!', 'success');
+                closeModal('feedbackModal');
+                stopLoading(submitFeedbackBtn, 'Submit');
+            }, 1500);
         });
 
-        // Handle chart resizing for responsiveness
-        window.addEventListener('resize', () => {
-            if (portfolioChart) portfolioChart.resize();
+        // New Feature: Profile Setup Logic
+        function updateProfileDisplay() {
+            if (userProfile.fullName) {
+                profileFullNameEl.textContent = userProfile.fullName;
+                profileBioEl.textContent = userProfile.bio || 'No bio set yet.';
+                profileAvatar.textContent = userProfile.fullName.charAt(0).toUpperCase(); // First letter as avatar
+                profileSetupCta.classList.add('hidden'); // Hide CTA if profile is set
+            } else {
+                profileFullNameEl.textContent = 'Guest User';
+                profileBioEl.textContent = 'Set up your profile to personalize your experience!';
+                profileAvatar.textContent = '?';
+                profileSetupCta.classList.remove('hidden'); // Show CTA if profile is not set
+            }
+        }
+
+        submitProfileBtn.addEventListener('click', () => {
+            const fullName = profileFullNameInput.value.trim();
+            const bio = profileBioInput.value.trim();
+
+            let hasError = false;
+            clearInputError(profileFullNameInput, profileFullNameError);
+            clearInputError(profileBioInput, profileBioError);
+
+            if (!fullName) {
+                showInputError(profileFullNameInput, profileFullNameError, 'Full Name is required.');
+                hasError = true;
+            } else if (fullName.length < 3) {
+                showInputError(profileFullNameInput, profileFullNameError, 'Full Name must be at least 3 characters.');
+                hasError = true;
+            }
+
+            if (hasError) {
+                showToast('Please correct the profile details.', 'error');
+                return;
+            }
+
+            startLoading(submitProfileBtn, 'Saving Profile...');
+
+            setTimeout(() => {
+                userProfile.fullName = fullName;
+                userProfile.bio = bio;
+                saveUserData();
+                updateProfileDisplay(); // Update the dashboard with new profile
+                showToast('Profile saved successfully!', 'success');
+                closeModal('profileSetupModal');
+                stopLoading(submitProfileBtn, 'Save Profile');
+            }, 1000);
         });
+
+
+        // Initialize dashboard on page load
+        document.addEventListener('DOMContentLoaded', loadUserData);
+
+        // Service Worker for PWA (if manifest.json exists)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    })
+                    .catch(err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
     </script>
 </body>
 </html>
