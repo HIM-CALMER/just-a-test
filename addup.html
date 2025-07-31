@@ -1990,7 +1990,7 @@
         let lastNotificationDate = null; // To track when notifications were last generated
 
         // Paystack Public Key (from user's request)
-        const paystackPublicKey = 'pk_live_fa0e4bf22ce6b0279a243185d983ec121b99979c';
+        const paystackPublicKey = 'pk_test_1c04a20aebf4880f92c3bc072909359055943947';
 
         // DOM Elements
         const dashboardContainer = document.getElementById('dashboard-container');
@@ -3103,7 +3103,7 @@
             const reference = `GWC_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`; // Unique reference
 
             const handler = PaystackPop.setup({
-                key: paystackPublicKey, // Replace with your public key
+                key: pk_test_1c04a20aebf4880f92c3bc072909359055943947, // Replace with your public key
                 email: email,
                 amount: paystackAmount,
                 ref: reference, // unique transaction reference
