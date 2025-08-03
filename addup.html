@@ -3103,7 +3103,7 @@
             const reference = `GWC_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`; // Unique reference
 
             const handler = PaystackPop.setup({
-                key: pk_test_1c04a20aebf4880f92c3bc072909359055943947, // Replace with your public key
+                key: paystackPublicKey, // Replace with your public key
                 email: email,
                 amount: paystackAmount,
                 ref: reference, // unique transaction reference
