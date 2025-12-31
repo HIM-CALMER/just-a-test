@@ -6,12 +6,15 @@
     <title>Grow-with-Core - Login/Register</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         /* Custom styles for the authentication page */
         body {
-            font-family: "Inter", sans-serif;
-            /* Deeper, more vibrant gradient background for a premium feel */
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Inter', sans-serif;
+            /* Richer, layered gradient for a premium, modern look */
+            background: radial-gradient(1200px 600px at 10% 10%, rgba(15,40,60,0.25), transparent 8%),
+                        linear-gradient(135deg, #071427 0%, #0f1724 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -42,7 +45,8 @@
         }
 
         .auth-container {
-            background-color: #222222; /* Slightly darker container background */
+            background-color: rgba(34,34,34,0.66); /* Subtle glass effect */
+            backdrop-filter: blur(6px);
             border-radius: 2.75rem; /* Even more rounded corners */
             /* More pronounced, multi-layered shadow for depth */
             box-shadow: 0 35px 80px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.05);
@@ -64,6 +68,15 @@
             padding-bottom: 0.85rem;
             letter-spacing: 0.06em; /* Slight letter spacing */
             text-shadow: 0 0 8px rgba(192, 208, 224, 0.2); /* Subtle glow for titles */
+        }
+
+        .auth-subtitle {
+            margin-top: -1rem;
+            margin-bottom: 1.8rem;
+            color: #9fc9a8;
+            font-weight: 600;
+            font-size: 1.05rem;
+            opacity: 0.95;
         }
 
         .auth-title::after {
@@ -715,16 +728,31 @@
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(24, 119, 242, 0.4);
         }
+        /* 3D Canvas Container */
+        .three-canvas-container {
+            width: 100%;
+            height: 320px;
+            border-radius: 1rem;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
+            box-shadow: 0 10px 30px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.02);
+        }
+
+        @media (min-width: 768px) {
+            .three-canvas-container { height: 360px; }
+        }
     </style>
 </head>
 <body>
     <div class="auth-wrapper">
         <div class="auth-container">
             <h1 class="auth-title">Grow-with-Core</h1>
+            <p class="auth-subtitle">Invest in real assets. Learn, grow, and watch your capital take root.</p>
 
             <!-- Login Form -->
             <div id="loginForm">
-                <h2 class="form-section-title">Login to Your Account</h2>
+                <h2 class="form-section-title">Welcome back — Sign in to Grow-with-Core</h2>
                 <div class="form-group">
                     <label for="loginEmail">Email Address</label>
                     <input type="email" id="loginEmail" class="form-input" placeholder="Enter your email" autocomplete="email">
@@ -749,7 +777,7 @@
                     <span>Login</span>
                 </button>
                 <p id="loginMessage" class="message-box hidden" aria-live="polite"></p>
-                <a href="#" id="showRegisterLink" class="toggle-link">Don't have an account? Register here.</a>
+                <a href="#" id="showRegisterLink" class="toggle-link">New here? Create an account — it's free.</a>
                 <a href="#" id="forgotPasswordLink" class="toggle-link mt-4 flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-help-circle mr-2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
                     Forgot Password?
@@ -770,7 +798,7 @@
 
             <!-- Register Form -->
             <div id="registerForm" class="hidden">
-                <h2 class="form-section-title">Create New Account</h2>
+                <h2 class="form-section-title">Create your free account</h2>
                 <div class="form-group">
                     <label for="registerEmail">Email Address</label>
                     <input type="email" id="registerEmail" class="form-input" placeholder="Enter your email" autocomplete="email">
@@ -793,7 +821,7 @@
                     <span>Register</span>
                 </button>
                 <p id="registerMessage" class="message-box hidden" aria-live="polite"></p>
-                <a href="#" id="showLoginLink" class="toggle-link">Already have an account? Login here.</a>
+                <a href="#" id="showLoginLink" class="toggle-link">Already have an account? Sign in.</a>
             </div>
         </div>
 
@@ -803,8 +831,8 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
                 About Grow-with-Core
             </h2>
-            <p>Welcome to Grow-with-Core, your personal investment platform designed to help you explore and understand the dynamics of financial growth. We provide a safe and interactive environment for yourinvestments, track your portfolio, and get your potential returns without financial risk.</p>
-            <p>Our mission is to empower individuals with the knowledge and confidence to make informed investment decisions. Grow-with-Core simplifies complex financial concepts, making investment planning accessible and engaging for everyone.</p>
+            <p>Welcome to Grow-with-Core — a friendly, hands-on platform that demystifies investing and helps you build real-world financial confidence. Explore tangible investment opportunities, track your portfolio, and learn how value grows over time — all in a safe, risk-free simulation.</p>
+            <p>Our mission is to empower everyone, whether you're just starting or refining your strategy. We translate complex financial ideas into clear, guided experiences so you can make informed decisions and grow with purpose.</p>
 
             <!-- New Content: Grow with CORE: Your Path to Real Asset Investments -->
             <h3 class="text-xl font-semibold text-gray-200 mt-6 mb-3 text-center">Grow with CORE: Your Path to Real Asset Investments 🏛</h3>
@@ -832,6 +860,9 @@
 
             <p class="text-base text-gray-300 font-semibold text-center mt-6">Ready to plant the seeds of your financial future with Grow with CORE?</p>
             <!-- End New Content -->
+
+            <!-- 3D Visualization Container (non-invasive) -->
+            <div class="three-canvas-container" id="threeContainer" aria-hidden="true"></div>
 
             <h3>Key Features:</h3>
             <ul>
@@ -1555,14 +1586,173 @@
             }, 1000);
         });
 
-        // Initialize "Remember Me" state on page load
+        // Initialize "Remember Me" state on page load and start 3D visualization
         document.addEventListener('DOMContentLoaded', () => {
             const rememberedEmail = localStorage.getItem('rememberedEmail');
             if (rememberedEmail) {
                 loginEmailInput.value = rememberedEmail;
                 rememberMeCheckbox.checked = true;
             }
+            // Initialize 3D visualization (non-blocking)
+            if (typeof initThreeVisualization === 'function') {
+                try { initThreeVisualization(); } catch (e) { console.warn('3D init failed', e); }
+            }
         });
+
+        /* ====== 3D Visualization (Optional, Non-invasive) ======
+         This adds a subtle interactive 3D "growing tree" scene using a minimal subset
+         of Three.js via CDN. It is designed to be purely visual and not interfere
+         with existing functionality. If the CDN fails to load, the feature silently
+         degrades without affecting forms or storage.
+        */
+
+        function initThreeVisualization() {
+            const container = document.getElementById('threeContainer');
+            if (!container) return;
+
+            // Load Three.js dynamically
+            const script = document.createElement('script');
+            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r152/three.min.js';
+            script.onload = () => {
+                try {
+                    const THREE = window.THREE;
+                    const scene = new THREE.Scene();
+                    const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+                    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+                    renderer.setSize(container.clientWidth, container.clientHeight);
+                    renderer.setPixelRatio(window.devicePixelRatio ? window.devicePixelRatio : 1);
+                    container.appendChild(renderer.domElement);
+
+                    // Soft ambient light and directional highlight
+                    scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+                    const dir = new THREE.DirectionalLight(0xffffff, 0.6);
+                    dir.position.set(5, 10, 7.5);
+                    scene.add(dir);
+
+                    // Ground plane
+                    const groundMat = new THREE.MeshStandardMaterial({ color: 0x222222, roughness: 0.9 });
+                    const groundGeo = new THREE.PlaneGeometry(20, 20);
+                    const ground = new THREE.Mesh(groundGeo, groundMat);
+                    ground.rotation.x = -Math.PI / 2;
+                    ground.position.y = -1.25;
+                    scene.add(ground);
+
+                    // Simple stylized tree: trunk (cylinder) + layered leaves (spheres)
+                    const trunkMat = new THREE.MeshStandardMaterial({ color: 0x6b4f2a });
+                    const trunkGeo = new THREE.CylinderGeometry(0.12, 0.18, 1.6, 10);
+                    const trunk = new THREE.Mesh(trunkGeo, trunkMat);
+                    trunk.position.y = -0.2;
+                    scene.add(trunk);
+
+                    const leavesMat = new THREE.MeshStandardMaterial({ color: 0x69b26a, roughness: 0.6, metalness: 0.05 });
+                    const leaves = new THREE.Group();
+                    for (let i = 0; i < 4; i++) {
+                        const s = new THREE.SphereGeometry(0.6 - i * 0.1, 16, 12);
+                        const m = new THREE.Mesh(s, leavesMat);
+                        m.position.y = 0.8 + i * 0.25;
+                        m.scale.setScalar(0.001 + 0.001 * i); // start tiny for growth animation
+                        leaves.add(m);
+                    }
+                    leaves.position.y = 0.4;
+                    scene.add(leaves);
+
+                    camera.position.set(0, 0.8, 3.2);
+
+                    // Subtle orbit controls implementation (lightweight)
+                    let isPointerDown = false;
+                    let lastX = 0;
+                    container.addEventListener('pointerdown', (e) => { isPointerDown = true; lastX = e.clientX; container.style.cursor = 'grabbing'; });
+                    window.addEventListener('pointerup', () => { isPointerDown = false; container.style.cursor = 'auto'; });
+                    window.addEventListener('pointermove', (e) => {
+                        if (!isPointerDown) return;
+                        const dx = (e.clientX - lastX) * 0.005;
+                        lastX = e.clientX;
+                        scene.rotation.y += dx;
+                    });
+
+                    // Resize handling
+                    const onResize = () => {
+                        camera.aspect = container.clientWidth / container.clientHeight;
+                        camera.updateProjectionMatrix();
+                        renderer.setSize(container.clientWidth, container.clientHeight);
+                    };
+                    window.addEventListener('resize', onResize);
+
+                    // Simple growth animation for the leaves
+                    let growProgress = 0; // 0 to 1
+                    const animate = () => {
+                        requestAnimationFrame(animate);
+                        // gentle bobbing
+                        scene.rotation.x = Math.sin(Date.now() * 0.0005) * 0.02;
+                        // grow leaves gradually when scene starts
+                        if (growProgress < 1) growProgress += 0.003;
+                        leaves.children.forEach((c, i) => {
+                            const target = 1 - i * 0.08;
+                            const eased = Math.min(1, growProgress * 1.2 - i * 0.05);
+                            const scale = THREE.MathUtils.lerp(0.001, target, Math.max(0, eased));
+                            c.scale.setScalar(scale);
+                        });
+
+                        renderer.render(scene, camera);
+                    };
+
+                    animate();
+
+                    // Clean-up if the page navigates away
+                    window.addEventListener('beforeunload', () => {
+                        renderer.dispose();
+                    });
+                } catch (err) {
+                    // Fail silently; keep original UI fully functional
+                    console.error('3D init error:', err);
+                }
+            };
+            script.onerror = () => {
+                // CDN failed — insert an accessible static SVG fallback so the UI remains attractive
+                console.warn('Three.js failed to load; inserting static SVG fallback.');
+                try {
+                    const fallback = document.createElement('div');
+                    fallback.setAttribute('aria-hidden', 'true');
+                    fallback.style.display = 'flex';
+                    fallback.style.alignItems = 'center';
+                    fallback.style.justifyContent = 'center';
+                    fallback.style.height = '100%';
+                    fallback.style.padding = '1rem';
+                    fallback.style.boxSizing = 'border-box';
+                    fallback.innerHTML = `
+                        <svg width="100%" height="100%" viewBox="0 0 400 200" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="g" x1="0" x2="0" y1="0" y2="1">
+                                    <stop offset="0%" stop-color="#76E076" stop-opacity="0.95" />
+                                    <stop offset="100%" stop-color="#2f8f3f" stop-opacity="0.95" />
+                                </linearGradient>
+                            </defs>
+                            <rect width="100%" height="100%" fill="transparent" />
+                            <g transform="translate(200,120)">
+                                <g>
+                                    <ellipse cx="0" cy="60" rx="120" ry="18" fill="rgba(0,0,0,0.25)" />
+                                </g>
+                                <g>
+                                    <rect x="-8" y="20" width="16" height="60" rx="4" fill="#6b4f2a" />
+                                </g>
+                                <g>
+                                    <path d="M0 20 C -40 0, -70 -10, -80 -30 C -40 -10, -20 -20, 0 -10 C 20 -20, 40 -10, 80 -30 C 70 -10, 40 0, 0 20 Z" fill="url(#g)" opacity="0.95" />
+                                </g>
+                                <g transform="translate(0,12)">
+                                    <text x="0" y="80" text-anchor="middle" font-family="Inter, system-ui, -apple-system, 'Segoe UI', Roboto" font-size="14" fill="#d0d0d0">Grow with CORE — visualization</text>
+                                </g>
+                            </g>
+                        </svg>
+                    `;
+                    // Clear any previous children and append fallback
+                    container.innerHTML = '';
+                    container.appendChild(fallback);
+                } catch (e) {
+                    console.warn('Fallback insertion failed', e);
+                }
+            };
+            document.head.appendChild(script);
+        }
     </script>
 </body>
 </html>
