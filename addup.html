@@ -14,99 +14,230 @@
     <!-- Paystack Checkout.js CDN for payment integration -->
     <script src="https://js.paystack.co/v1/inline.js"></script>
     <style>
-        /* Custom styles for the dashboard with darker theme and enhanced imagery */
+        /* Custom styles for the dashboard with modern theme */
         body {
             font-family: "Inter", sans-serif; /* Using Inter font */
-            /* Deeper, more vibrant gradient background for a premium feel */
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%); /* Even darker, more subtle gradient */
+            /* Modern gradient background with vibrant teal-blue accent */
+            background: linear-gradient(135deg, #0f1419 0%, #1a2332 50%, #0d1b2a 100%);
             min-height: 100vh; /* Ensure full viewport height */
             margin: 0;
-            padding: 1rem; /* Smaller padding on mobile */
+            padding: 0.75rem; /* Smaller padding on mobile */
             box-sizing: border-box;
-            color: #e0e0e0; /* Lighter text for dark background */
+            color: #e8eef5; /* Lighter text for dark background */
             display: flex;
             justify-content: center;
             align-items: flex-start; /* Align to top for better content flow */
             overflow-x: hidden; /* Prevent horizontal scroll */
 
-            /* New: Subtle background animation */
-            background-size: 250% 250%; /* Slightly larger for more movement */
-            animation: gradientMove 20s ease infinite alternate; /* Slower animation for subtlety */
-            transition: background-position 0.5s ease; /* Smooth transition for background position */
+            /* Subtle background animation */
+            background-size: 250% 250%;
+            animation: gradientMove 20s ease infinite alternate;
+            transition: background-position 0.5s ease;
         }
 
-        /* New: Keyframes for subtle background animation */
+        /* Extra small phones (320px - 374px) */
+        @media (max-width: 374px) {
+            body {
+                padding: 0.5rem;
+                font-size: 14px;
+            }
+        }
+
+        /* Small phones (375px - 480px) */
+        @media (min-width: 375px) and (max-width: 480px) {
+            body {
+                padding: 0.75rem;
+            }
+        }
+
+        /* Medium phones (481px - 600px) */
+        @media (min-width: 481px) and (max-width: 600px) {
+            body {
+                padding: 1rem;
+            }
+        }
+
+        /* Keyframes for subtle background animation */
         @keyframes gradientMove {
             0% { background-position: 0% 0%; }
             100% { background-position: 100% 100%; }
         }
 
         .dashboard-container {
-            background-color: #222222; /* Slightly darker container background */
-            border-radius: 2.75rem; /* Even more rounded corners */
-            /* More pronounced, multi-layered shadow for depth */
-            box-shadow: 0 35px 80px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.05);
-            padding: 2rem; /* Adjusted padding for mobile (slightly less) */
-            max-width: 1300px; /* Slightly wider max width */
+            background-color: #141d2a; /* Updated container background */
+            border-radius: 1.5rem;
+            /* More pronounced shadow with updated colors */
+            box-shadow: 0 35px 80px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(100, 200, 255, 0.08);
+            padding: 1.2rem;
+            max-width: 95vw;
             width: 100%;
             display: grid;
-            gap: 1.6rem; /* Adjusted gap between sections for mobile (slightly less) */
-            grid-template-columns: 1fr; /* Single column for mobile */
-            margin-top: 1.5rem; /* Space from top */
-            margin-bottom: 1.5rem; /* Space from bottom */
-            border: 1px solid rgba(255, 255, 255, 0.1); /* Slightly more defined border */
+            gap: 1rem;
+            grid-template-columns: 1fr;
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(100, 200, 255, 0.15); /* Updated border with teal accent */
+            box-sizing: border-box;
+        }
+
+        /* Extra small phones (320px - 374px) */
+        @media (max-width: 374px) {
+            .dashboard-container {
+                padding: 0.9rem;
+                border-radius: 1.2rem;
+                gap: 0.8rem;
+                margin-top: 0.3rem;
+            }
+        }
+
+        /* Small phones (375px - 480px) */
+        @media (min-width: 375px) and (max-width: 480px) {
+            .dashboard-container {
+                padding: 1.2rem;
+                border-radius: 1.4rem;
+                gap: 1rem;
+            }
+        }
+
+        /* Medium phones (481px - 600px) */
+        @media (min-width: 481px) and (max-width: 600px) {
+            .dashboard-container {
+                padding: 1.5rem;
+                border-radius: 1.6rem;
+                gap: 1.2rem;
+            }
+        }
+
+        /* Tablets (601px - 768px) */
+        @media (min-width: 601px) and (max-width: 768px) {
+            .dashboard-container {
+                padding: 2rem;
+                border-radius: 2rem;
+                gap: 1.5rem;
+            }
         }
 
         @media (min-width: 768px) {
             body {
-                padding: 25px; /* Restore larger padding on desktop */
+                padding: 25px;
             }
             .dashboard-container {
-                padding: 3rem; /* Slightly reduced padding on desktop */
-                gap: 2.2rem; /* Adjusted gap on desktop (slightly less) */
-                grid-template-columns: 2.5fr 1fr; /* More balanced distribution */
+                padding: 3rem;
+                gap: 2.2rem;
+                grid-template-columns: 2.5fr 1fr;
+                border-radius: 2.75rem;
+                max-width: 1300px;
             }
         }
 
         .card {
-            /* Richer card gradient with subtle inner shadow */
-            background: linear-gradient(45deg, #303030 0%, #404040 100%); /* Deeper card gradient */
-            border-radius: 2.25rem; /* More rounded card corners */
-            padding: 1.6rem; /* Adjusted card padding for mobile (slightly less) */
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), inset 0 0 12px rgba(255, 255, 255, 0.03); /* Enhanced card shadow */
+            /* Modern gradient with improved color depth */
+            background: linear-gradient(135deg, #1a2a3a 0%, #243548 100%);
+            border-radius: 1.25rem;
+            padding: 1.2rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), inset 0 0 12px rgba(100, 200, 255, 0.08);
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background 0.3s ease-in-out;
-            border: 1px solid rgba(255, 255, 255, 0.08); /* Subtle light border for definition */
+            border: 1px solid rgba(100, 200, 255, 0.12); /* Updated border */
+        }
+
+        /* Extra small phones (320px - 374px) */
+        @media (max-width: 374px) {
+            .card {
+                padding: 0.9rem;
+                border-radius: 1rem;
+            }
+        }
+
+        /* Small phones (375px - 480px) */
+        @media (min-width: 375px) and (max-width: 480px) {
+            .card {
+                padding: 1rem;
+                border-radius: 1.1rem;
+            }
+        }
+
+        /* Medium phones (481px - 600px) */
+        @media (min-width: 481px) and (max-width: 600px) {
+            .card {
+                padding: 1.3rem;
+                border-radius: 1.3rem;
+            }
+        }
+
+        /* Tablets (601px - 768px) */
+        @media (min-width: 601px) and (max-width: 768px) {
+            .card {
+                padding: 1.8rem;
+                border-radius: 1.75rem;
+            }
         }
 
         @media (min-width: 768px) {
             .card {
-                padding: 2.5rem; /* Restore larger card padding on desktop (slightly less) */
+                padding: 2.5rem;
+                border-radius: 2.25rem;
             }
         }
 
         .card:hover {
-            transform: translateY(-12px); /* More pronounced lift effect on hover */
-            box-shadow: 0 28px 55px rgba(0, 0, 0, 0.6); /* Stronger shadow on hover */
-            background: linear-gradient(45deg, #353535 0%, #454545 100%); /* Slightly lighter on hover */
+            transform: translateY(-12px);
+            box-shadow: 0 28px 55px rgba(0, 0, 0, 0.6), 0 0 20px rgba(100, 200, 255, 0.15);
+            background: linear-gradient(135deg, #1f3349 0%, #2a4058 100%);
         }
 
         .section-title {
-            font-size: 2.1rem; /* Slightly larger title on mobile */
-            font-weight: 800; /* Bolder */
-            color: #c0d0e0; /* Softer blue-grey for titles */
-            margin-bottom: 1.5rem; /* Adjusted space below title */
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #a8d8ff; /* Updated to teal-blue */
+            margin-bottom: 1rem;
             text-align: center;
             position: relative;
-            padding-bottom: 0.6rem; /* Adjusted padding */
-            letter-spacing: 0.06em; /* Slight letter spacing */
-            text-shadow: 0 0 8px rgba(192, 208, 224, 0.2); /* Subtle glow for titles */
+            padding-bottom: 0.5rem;
+            letter-spacing: 0.06em;
+            text-shadow: 0 0 8px rgba(168, 216, 255, 0.25); /* Updated glow */
+        }
+
+        /* Extra small phones (320px - 374px) */
+        @media (max-width: 374px) {
+            .section-title {
+                font-size: 1.3rem;
+                margin-bottom: 0.8rem;
+                padding-bottom: 0.4rem;
+            }
+        }
+
+        /* Small phones (375px - 480px) */
+        @media (min-width: 375px) and (max-width: 480px) {
+            .section-title {
+                font-size: 1.5rem;
+                margin-bottom: 1rem;
+                padding-bottom: 0.5rem;
+            }
+        }
+
+        /* Medium phones (481px - 600px) */
+        @media (min-width: 481px) and (max-width: 600px) {
+            .section-title {
+                font-size: 1.8rem;
+                margin-bottom: 1.2rem;
+                padding-bottom: 0.6rem;
+            }
+        }
+
+        /* Tablets (601px - 768px) */
+        @media (min-width: 601px) and (max-width: 768px) {
+            .section-title {
+                font-size: 2.3rem;
+                margin-bottom: 1.5rem;
+                padding-bottom: 0.7rem;
+            }
         }
 
         @media (min-width: 768px) {
             .section-title {
-                font-size: 2.8rem; /* Restore larger title on desktop (slightly less) */
-                margin-bottom: 2rem; /* Restore larger space (slightly less) */
-                padding-bottom: 0.8rem; /* Restore padding (slightly less) */
+                font-size: 2.8rem;
+                margin-bottom: 2rem;
+                padding-bottom: 0.8rem;
             }
         }
 
@@ -116,47 +247,90 @@
             left: 50%;
             bottom: 0;
             transform: translateX(-50%);
-            width: 75px; /* Slightly narrower underline on mobile */
-            height: 4px; /* Slightly thinner underline on mobile */
-            /* Vibrant green gradient underline */
-            background: linear-gradient(90deg, #5CB85C, #6FC06F); /* Brighter green gradient */
+            width: 75px;
+            height: 4px;
+            /* Modern teal gradient underline */
+            background: linear-gradient(90deg, #4db8ff, #64d8ff);
             border-radius: 4px;
-            box-shadow: 0 0 10px rgba(92, 184, 92, 0.6); /* Glow for the underline */
+            box-shadow: 0 0 10px rgba(100, 216, 255, 0.7);
         }
 
         @media (min-width: 768px) {
             .section-title::after {
-                width: 90px; /* Restore wider underline on desktop */
-                height: 5px; /* Restore thicker underline on desktop */
+                width: 90px;
+                height: 5px;
             }
         }
 
         .btn-primary {
-            /* More vibrant green gradient button with stronger shadow */
-            background: linear-gradient(90deg, #4CAF50 0%, #5CB85C 100%); /* Brighter green gradient */
+            /* Modern teal gradient button */
+            background: linear-gradient(90deg, #3ba8d8 0%, #4db8ff 100%);
             color: white;
-            font-weight: 700; /* Bolder text */
-            padding: 0.9rem 1.8rem; /* Slightly larger padding on mobile */
-            border-radius: 0.85rem; /* Slightly more rounded */
+            font-weight: 700;
+            padding: 0.75rem 1.3rem;
+            border-radius: 0.65rem;
             transition: all 0.3s ease;
-            box-shadow: 0 10px 25px rgba(76, 175, 80, 0.7); /* Stronger green shadow */
+            box-shadow: 0 10px 25px rgba(61, 168, 216, 0.6);
             border: none;
             cursor: pointer;
-            text-transform: uppercase; /* Uppercase text */
-            letter-spacing: 0.06em; /* Slight letter spacing */
-            font-size: 0.95rem; /* Slightly larger font on mobile */
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            font-size: 0.85rem;
             position: relative;
             overflow: hidden;
-            display: flex; /* Ensure flex for spinner */
+            display: flex;
             align-items: center;
             justify-content: center;
+            min-height: 44px;
+            min-width: 44px;
+        }
+
+        /* Extra small phones (320px - 374px) */
+        @media (max-width: 374px) {
+            .btn-primary {
+                padding: 0.65rem 1.1rem;
+                border-radius: 0.6rem;
+                font-size: 0.78rem;
+                min-height: 40px;
+            }
+        }
+
+        /* Small phones (375px - 480px) */
+        @media (min-width: 375px) and (max-width: 480px) {
+            .btn-primary {
+                padding: 0.75rem 1.3rem;
+                border-radius: 0.65rem;
+                font-size: 0.85rem;
+                min-height: 44px;
+            }
+        }
+
+        /* Medium phones (481px - 600px) */
+        @media (min-width: 481px) and (max-width: 600px) {
+            .btn-primary {
+                padding: 0.85rem 1.6rem;
+                border-radius: 0.8rem;
+                font-size: 0.9rem;
+                min-height: 46px;
+            }
+        }
+
+        /* Tablets (601px - 768px) */
+        @media (min-width: 601px) and (max-width: 768px) {
+            .btn-primary {
+                padding: 0.95rem 2rem;
+                border-radius: 0.95rem;
+                font-size: 0.98rem;
+                min-height: 48px;
+            }
         }
 
         @media (min-width: 768px) {
             .btn-primary {
-                padding: 1.1rem 2.5rem; /* Restore larger padding on desktop */
-                border-radius: 1.1rem; /* Restore more rounded */
-                font-size: 1.05rem; /* Restore font size */
+                padding: 1.1rem 2.5rem;
+                border-radius: 1.1rem;
+                font-size: 1.05rem;
+                min-height: 50px;
             }
         }
 
@@ -167,7 +341,7 @@
             left: 50%;
             width: 300%;
             height: 300%;
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.2);
             border-radius: 50%;
             transition: all 0.4s ease-out;
             transform: translate(-50%, -50%) scale(0);
@@ -180,62 +354,102 @@
         }
 
         .btn-primary:hover {
-            transform: translateY(-5px); /* More pronounced lift */
-            box-shadow: 0 18px 35px rgba(0, 0, 0, 0.6), 0 0 18px rgba(76, 175, 80, 0.8); /* Stronger shadow with glow */
-            filter: brightness(1.15); /* Slight brightness increase on hover */
+            transform: translateY(-5px);
+            box-shadow: 0 18px 35px rgba(0, 0, 0, 0.6), 0 0 18px rgba(77, 184, 255, 0.9);
+            filter: brightness(1.15);
         }
 
         .btn-primary:active {
-            transform: translateY(0); /* Press effect */
+            transform: translateY(0);
             box-shadow: 0 5px 12px rgba(0, 0, 0, 0.4);
             filter: brightness(1);
         }
 
         input[type="number"], input[type="text"], input[type="email"], input[type="password"], input[type="tel"], input[type="url"], textarea, select {
-            background-color: #3a3a3a; /* Darker input background */
-            border: 1px solid #666666; /* Darker, more defined border */
-            color: #e0e0e0; /* Lighter text in inputs */
-            border-radius: 0.6rem; /* Slightly more rounded on mobile */
-            padding: 0.8rem 1.1rem; /* Slightly larger padding on mobile */
+            background-color: #1a2f42; /* Updated input background */
+            border: 1px solid rgba(77, 184, 255, 0.25); /* Updated border */
+            color: #e8eef5;
+            border-radius: 0.5rem;
+            padding: 0.7rem 0.9rem;
             width: 100%;
-            box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.4); /* Deeper inner shadow */
+            box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.4), inset 0 0 3px rgba(77, 184, 255, 0.1);
             transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
-            font-size: 0.95rem; /* Slightly larger font on mobile */
+            font-size: 0.9rem;
+            box-sizing: border-box;
+            min-height: 44px;
+        }
+
+        /* Extra small phones (320px - 374px) */
+        @media (max-width: 374px) {
+            input[type="number"], input[type="text"], input[type="email"], input[type="password"], input[type="tel"], input[type="url"], textarea, select {
+                border-radius: 0.45rem;
+                padding: 0.65rem 0.85rem;
+                font-size: 0.85rem;
+                min-height: 40px;
+            }
+        }
+
+        /* Small phones (375px - 480px) */
+        @media (min-width: 375px) and (max-width: 480px) {
+            input[type="number"], input[type="text"], input[type="email"], input[type="password"], input[type="tel"], input[type="url"], textarea, select {
+                border-radius: 0.5rem;
+                padding: 0.7rem 0.9rem;
+                font-size: 0.9rem;
+                min-height: 44px;
+            }
+        }
+
+        /* Medium phones (481px - 600px) */
+        @media (min-width: 481px) and (max-width: 600px) {
+            input[type="number"], input[type="text"], input[type="email"], input[type="password"], input[type="tel"], input[type="url"], textarea, select {
+                border-radius: 0.6rem;
+                padding: 0.75rem 1rem;
+                font-size: 0.95rem;
+                min-height: 46px;
+            }
+        }
+
+        /* Tablets (601px - 768px) */
+        @media (min-width: 601px) and (max-width: 768px) {
+            input[type="number"], input[type="text"], input[type="email"], input[type="password"], input[type="tel"], input[type="url"], textarea, select {
+                border-radius: 0.7rem;
+                padding: 0.85rem 1.1rem;
+                font-size: 1rem;
+                min-height: 48px;
+            }
         }
 
         @media (min-width: 768px) {
             input[type="number"], input[type="text"], input[type="email"], input[type="password"], input[type="tel"], input[type="url"], textarea, select {
-                border-radius: 0.8rem; /* Restore rounded inputs on desktop */
-                padding: 1rem 1.3rem; /* Restore larger padding on desktop */
-                font-size: 1.05rem; /* Restore font size */
+                border-radius: 0.8rem;
+                padding: 1rem 1.3rem;
+                font-size: 1.05rem;
             }
         }
 
         input[type="number"]:focus, input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus, input[type="tel"]:focus, input[type="url"]:focus, textarea:focus, select:focus {
-            border-color: #5CB85C; /* Vibrant green focus border */
-            box-shadow: 0 0 0 5px rgba(92, 184, 92, 0.6), inset 0 3px 6px rgba(0, 0, 0, 0.4); /* Green focus ring with inner shadow */
+            border-color: #64d8ff;
+            box-shadow: 0 0 0 5px rgba(100, 216, 255, 0.3), inset 0 3px 6px rgba(0, 0, 0, 0.4);
             outline: none;
-            background-color: #3f3f3f; /* Slightly lighter on focus */
+            background-color: #1f3a4f;
         }
 
         .metric-box {
-            /* Metric box gradient with more contrast */
-            background: linear-gradient(135deg, #4a4a4a 0%, #3a3a3a 100%);
-            border-radius: 1.1rem; /* Slightly less rounded on mobile */
-            padding: 1.3rem; /* Adjusted padding for mobile */
+            /* Modern gradient with updated colors */
+            background: linear-gradient(135deg, #1f3a4f 0%, #1a2f42 100%);
+            border-radius: 1.1rem;
+            padding: 1.3rem;
             text-align: center;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Stronger shadow */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3), inset 0 0 8px rgba(77, 184, 255, 0.08);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle light border */
+            border: 1px solid rgba(77, 184, 255, 0.15);
             transition: transform 0.2s ease;
-            /* New: Animation for metric updates */
             animation: fadeInScale 0.5s ease-out;
         }
 
-        /* New: Keyframes for metric box update animation */
         @keyframes fadeInScale {
             from { opacity: 0; transform: scale(0.9); }
             to { opacity: 1; transform: scale(1); }
@@ -243,86 +457,194 @@
 
         @media (min-width: 768px) {
             .metric-box {
-                border-radius: 1.3rem; /* Restore rounded on desktop */
-                padding: 1.9rem; /* Restore padding on desktop */
+                border-radius: 1.3rem;
+                padding: 1.9rem;
             }
         }
 
         .metric-box:hover {
-            transform: translateY(-4px); /* Slightly more lift on hover */
+            transform: translateY(-4px);
+        }
+
+        .metric-box {
+            /* Modern gradient with updated colors */
+            background: linear-gradient(135deg, #1f3a4f 0%, #1a2f42 100%);
+            border-radius: 0.9rem;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3), inset 0 0 8px rgba(77, 184, 255, 0.08);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(77, 184, 255, 0.15);
+            transition: transform 0.2s ease;
+            animation: fadeInScale 0.5s ease-out;
+        }
+
+        /* Extra small phones (320px - 374px) */
+        @media (max-width: 374px) {
+            .metric-box {
+                border-radius: 0.8rem;
+                padding: 0.8rem;
+            }
+        }
+
+        /* Small phones (375px - 480px) */
+        @media (min-width: 375px) and (max-width: 480px) {
+            .metric-box {
+                border-radius: 0.9rem;
+                padding: 1rem;
+            }
+        }
+
+        /* Medium phones (481px - 600px) */
+        @media (min-width: 481px) and (max-width: 600px) {
+            .metric-box {
+                border-radius: 1rem;
+                padding: 1.2rem;
+            }
+        }
+
+        /* Tablets (601px - 768px) */
+        @media (min-width: 601px) and (max-width: 768px) {
+            .metric-box {
+                border-radius: 1.15rem;
+                padding: 1.5rem;
+            }
         }
 
         .metric-value {
-            font-size: 2.1rem; /* Slightly larger metric values on mobile */
-            font-weight: 900; /* Extra bold */
-            color: #76E076; /* Brighter, more prominent green for key values */
-            margin-bottom: 0.6rem; /* Adjusted margin */
-            text-shadow: 0 0 8px rgba(118, 224, 118, 0.6); /* Text glow for depth */
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #64d8ff; /* Updated to teal */
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 8px rgba(100, 216, 255, 0.6);
+        }
+
+        /* Extra small phones (320px - 374px) */
+        @media (max-width: 374px) {
+            .metric-value {
+                font-size: 1.3rem;
+                margin-bottom: 0.3rem;
+            }
+        }
+
+        /* Small phones (375px - 480px) */
+        @media (min-width: 375px) and (max-width: 480px) {
+            .metric-value {
+                font-size: 1.6rem;
+                margin-bottom: 0.4rem;
+            }
+        }
+
+        /* Medium phones (481px - 600px) */
+        @media (min-width: 481px) and (max-width: 600px) {
+            .metric-value {
+                font-size: 1.9rem;
+                margin-bottom: 0.5rem;
+            }
+        }
+
+        /* Tablets (601px - 768px) */
+        @media (min-width: 601px) and (max-width: 768px) {
+            .metric-value {
+                font-size: 2.4rem;
+                margin-bottom: 0.7rem;
+            }
         }
 
         @media (min-width: 768px) {
             .metric-value {
-                font-size: 2.9rem; /* Restore larger metric values on desktop */
-                margin-bottom: 0.8rem; /* Restore margin */
+                font-size: 2.9rem;
+                margin-bottom: 0.8rem;
             }
         }
 
         .metric-label {
-            font-size: 0.98rem; /* Slightly larger label on mobile */
-            color: #c0d0e0; /* Softer grey for labels */
-            font-weight: 600; /* Bolder label */
+            font-size: 0.8rem;
+            color: #a8d8ff; /* Updated label color */
+            font-weight: 600;
+        }
+
+        /* Extra small phones (320px - 374px) */
+        @media (max-width: 374px) {
+            .metric-label {
+                font-size: 0.7rem;
+            }
+        }
+
+        /* Small phones (375px - 480px) */
+        @media (min-width: 375px) and (max-width: 480px) {
+            .metric-label {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Medium phones (481px - 600px) */
+        @media (min-width: 481px) and (max-width: 600px) {
+            .metric-label {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Tablets (601px - 768px) */
+        @media (min-width: 601px) and (max-width: 768px) {
+            .metric-label {
+                font-size: 1.05rem;
+            }
         }
 
         @media (min-width: 768px) {
             .metric-label {
-                font-size: 1.18rem; /* Restore larger label on desktop */
+                font-size: 1.18rem;
             }
         }
 
         /* SVG Icon styling */
         .icon-svg {
-            width: 32px; /* Slightly larger icons on mobile */
+            width: 32px;
             height: 32px;
-            fill: currentColor; /* Use parent's text color */
-            margin-right: 10px; /* Adjusted space */
+            fill: currentColor;
+            margin-right: 10px;
             vertical-align: middle;
-            color: #76E076; /* Green for icons */
-            filter: drop-shadow(0 0 7px rgba(118, 224, 118, 0.7)); /* Stronger glow for icons */
+            color: #64d8ff; /* Updated to teal */
+            filter: drop-shadow(0 0 7px rgba(100, 216, 255, 0.7));
         }
 
         @media (min-width: 768px) {
             .icon-svg {
-                width: 38px; /* Restore larger icons on desktop */
+                width: 38px;
                 height: 38px;
-                margin-right: 12px; /* Restore space */
+                margin-right: 12px;
             }
         }
 
         /* Investment item styling */
         .investment-item {
-            display: grid; /* Use CSS Grid for better control */
-            grid-template-columns: auto 1fr; /* Icon + content */
-            grid-template-rows: auto auto; /* Name/Type and Value/Profit */
-            gap: 0.6rem 1.3rem; /* Adjusted gaps for mobile */
+            display: grid;
+            grid-template-columns: auto 1fr;
+            grid-template-rows: auto auto;
+            gap: 0.6rem 1.3rem;
             align-items: center;
-            padding: 1.2rem 1.5rem; /* Adjusted padding for mobile */
-            background-color: #3a3a3a; /* Darker background for list items */
-            border-radius: 0.8rem; /* Slightly more rounded on mobile */
-            margin-bottom: 1.1rem; /* Adjusted space between items */
+            padding: 1.2rem 1.5rem;
+            background-color: #1a2f42; /* Updated background */
+            border-radius: 0.8rem;
+            margin-bottom: 1.1rem;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
-            border: 1px solid rgba(255, 255, 255, 0.07);
-            position: relative; /* For pseudo-elements or absolute positioning */
-            overflow: hidden; /* Hide overflow for subtle effects */
-            cursor: pointer; /* Indicate clickable */
+            border: 1px solid rgba(77, 184, 255, 0.12);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
         }
 
         @media (min-width: 768px) {
             .investment-item {
-                gap: 0.7rem 1.6rem; /* Restore gaps on desktop */
-                padding: 1.7rem 2.1rem; /* Restore padding on desktop */
-                border-radius: 1.1rem; /* Restore rounded on desktop */
-                margin-bottom: 1.3rem; /* Restore margin */
+                gap: 0.7rem 1.6rem;
+                padding: 1.7rem 2.1rem;
+                border-radius: 1.1rem;
+                margin-bottom: 1.3rem;
             }
         }
 
@@ -331,84 +653,84 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 6px; /* Slightly thicker vertical line on mobile */
+            width: 6px;
             height: 100%;
-            background: linear-gradient(to bottom, #76E076, #5CB85C); /* Brighter green gradient line */
-            border-radius: 0.7rem 0 0 0.7rem; /* Rounded top-left, bottom-left */
+            background: linear-gradient(to bottom, #64d8ff, #4db8ff); /* Updated gradient */
+            border-radius: 0.7rem 0 0 0.7rem;
             transition: width 0.2s ease-in-out;
         }
 
         @media (min-width: 768px) {
             .investment-item::before {
-                width: 7px; /* Restore width on desktop */
+                width: 7px;
             }
         }
 
         .investment-item:hover::before {
-            width: 12px; /* Slightly wider on hover */
+            width: 12px;
         }
 
         .investment-item:hover {
-            background-color: #4a4a4a; /* Slightly lighter on hover */
-            transform: translateX(10px); /* More pronounced slide effect on hover */
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45); /* Stronger shadow on hover */
+            background-color: #1f3a4f; /* Updated on hover */
+            transform: translateX(10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
         }
 
         .investment-icon-wrapper {
-            grid-row: 1 / span 2; /* Span two rows */
+            grid-row: 1 / span 2;
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 42px; /* Slightly larger width for icon area on mobile */
-            height: 42px; /* Slightly larger height for icon area on mobile */
-            background-color: #3d4758; /* Darker background for icon */
-            border-radius: 50%; /* Circular icon background */
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.4); /* Inner shadow for icon circle */
+            width: 42px;
+            height: 42px;
+            background-color: #243548; /* Updated background */
+            border-radius: 50%;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.4), 0 0 10px rgba(100, 216, 255, 0.2);
         }
 
         @media (min-width: 768px) {
             .investment-icon-wrapper {
-                width: 48px; /* Restore width on desktop */
-                height: 48px; /* Restore height on desktop */
+                width: 48px;
+                height: 48px;
             }
         }
 
         .investment-icon {
-            width: 24px; /* Slightly larger icon inside wrapper on mobile */
+            width: 24px;
             height: 24px;
-            fill: #76E076; /* Green color for the icon itself */
-            filter: drop-shadow(0 0 5px rgba(118, 224, 118, 0.6)); /* Subtle glow */
+            fill: #64d8ff; /* Updated to teal */
+            filter: drop-shadow(0 0 5px rgba(100, 216, 255, 0.6));
         }
 
         @media (min-width: 768px) {
             .investment-icon {
-                width: 28px; /* Restore icon size on desktop */
+                width: 28px;
                 height: 28px;
             }
         }
 
         .investment-name {
-            font-weight: 700; /* Bolder name */
-            color: #e8e8e8; /* Even lighter text for name */
-            font-size: 1.2rem; /* Slightly larger font on mobile */
-            grid-column: 2 / 3; /* Place in second column */
+            font-weight: 700;
+            color: #e8eef5;
+            font-size: 1.2rem;
+            grid-column: 2 / 3;
         }
 
         @media (min-width: 768px) {
             .investment-name {
-                font-size: 1.35rem; /* Restore font size on desktop */
+                font-size: 1.35rem;
             }
         }
 
         .investment-type {
-            font-size: 0.95rem; /* Slightly larger type text on mobile */
-            color: #b5b5b5; /* Softer grey */
-            grid-column: 2 / 3; /* Place in second column */
+            font-size: 0.95rem;
+            color: #a8b8cc; /* Updated color */
+            grid-column: 2 / 3;
         }
 
         @media (min-width: 768px) {
             .investment-type {
-                font-size: 1.05rem; /* Restore font size on desktop */
+                font-size: 1.05rem;
             }
         }
 
@@ -448,15 +770,15 @@
         }
 
         .profit {
-            color: #76E076; /* Brighter green for profit */
+            color: #64d8ff; /* Updated to teal */
             font-weight: 700;
-            text-shadow: 0 0 5px rgba(118, 224, 118, 0.5); /* Stronger glow for profit text */
+            text-shadow: 0 0 5px rgba(100, 216, 255, 0.5);
         }
 
         .loss {
-            color: #FF6B6B; /* Brighter red for loss */
+            color: #ff6b7a; /* Updated to softer red */
             font-weight: 700;
-            text-shadow: 0 0 5px rgba(255, 107, 107, 0.5); /* Stronger glow for loss text */
+            text-shadow: 0 0 5px rgba(255, 107, 122, 0.5);
         }
 
         /* Expanded Investment Details */
@@ -536,42 +858,99 @@
             animation: pulse 2s infinite ease-in-out;
         }
 
-        /* Modal Styles */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.85); /* Darker overlay */
+            background-color: rgba(0, 0, 0, 0.85);
             display: flex;
             justify-content: center;
             align-items: center;
             z-index: 1000;
-            backdrop-filter: blur(10px); /* More pronounced frosted glass effect */
-            padding: 1.5rem; /* Add padding to overlay for small screens */
+            backdrop-filter: blur(10px);
+            padding: 0.8rem;
             box-sizing: border-box;
         }
 
+        /* Extra small phones (320px - 374px) */
+        @media (max-width: 374px) {
+            .modal-overlay {
+                padding: 0.6rem;
+                align-items: flex-start;
+                padding-top: 1rem;
+            }
+        }
+
+        /* Small phones (375px - 480px) */
+        @media (min-width: 375px) and (max-width: 480px) {
+            .modal-overlay {
+                padding: 0.8rem;
+            }
+        }
+
+        /* Medium phones (481px - 600px) */
+        @media (min-width: 481px) and (max-width: 600px) {
+            .modal-overlay {
+                padding: 1rem;
+            }
+        }
+
         .modal-content {
-            background: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 100%); /* Darker modal background */
-            padding: 1.8rem; /* Adjusted padding for mobile */
-            border-radius: 1.2rem; /* Slightly more rounded on mobile */
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7); /* Stronger shadow */
-            width: 100%; /* Full width on mobile */
-            max-width: 580px; /* Slightly wider default max-width */
+            background: linear-gradient(135deg, #1a2a3a 0%, #243548 100%);
+            padding: 1.4rem;
+            border-radius: 1rem;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+            width: 100%;
+            max-width: 95vw;
             position: relative;
             animation: fadeIn 0.3s ease-out;
-            border: 1px solid rgba(255, 255, 255, 0.18); /* Subtle border */
-            overflow-y: auto; /* Allow scrolling if content overflows */
-            max-height: 90vh; /* Limit height on mobile */
+            border: 1px solid rgba(100, 216, 255, 0.15);
+            overflow-y: auto;
+            max-height: 90vh;
+        }
+
+        /* Extra small phones (320px - 374px) */
+        @media (max-width: 374px) {
+            .modal-content {
+                padding: 1.1rem;
+                border-radius: 0.85rem;
+                max-width: 98vw;
+            }
+        }
+
+        /* Small phones (375px - 480px) */
+        @media (min-width: 375px) and (max-width: 480px) {
+            .modal-content {
+                padding: 1.4rem;
+                border-radius: 1rem;
+            }
+        }
+
+        /* Medium phones (481px - 600px) */
+        @media (min-width: 481px) and (max-width: 600px) {
+            .modal-content {
+                padding: 1.6rem;
+                border-radius: 1.1rem;
+                max-width: 520px;
+            }
+        }
+
+        /* Tablets (601px - 768px) */
+        @media (min-width: 601px) and (max-width: 768px) {
+            .modal-content {
+                padding: 2.2rem;
+                border-radius: 1.4rem;
+                max-width: 560px;
+            }
         }
 
         @media (min-width: 768px) {
             .modal-content {
-                padding: 2.8rem; /* Restore larger padding on desktop */
-                border-radius: 1.7rem; /* Restore rounded on desktop */
-                max-height: auto; /* Remove max height on desktop */
+                padding: 2.8rem;
+                border-radius: 1.7rem;
+                max-height: auto;
             }
         }
 
@@ -646,48 +1025,48 @@
         }
 
         .modal-title {
-            font-size: 1.9rem; /* Slightly larger modal title on mobile */
+            font-size: 1.9rem;
             font-weight: 700;
-            color: #c0d0e0;
-            margin-bottom: 2rem; /* Adjusted space */
+            color: #a8d8ff; /* Updated to teal-blue */
+            margin-bottom: 2rem;
             text-align: center;
-            grid-column: 1 / -1; /* Span all columns in grid */
-            text-shadow: 0 0 5px rgba(192, 208, 224, 0.2);
+            grid-column: 1 / -1;
+            text-shadow: 0 0 5px rgba(168, 216, 255, 0.25);
         }
 
         @media (min-width: 768px) {
             .modal-title {
-                font-size: 2.4rem; /* Restore size on desktop */
-                margin-bottom: 2.5rem; /* Restore space */
+                font-size: 2.4rem;
+                margin-bottom: 2.5rem;
             }
         }
 
         .transaction-item {
-            background-color: #3a3a3a;
+            background-color: #1a2f42;
             border-radius: 0.8rem;
-            padding: 1.1rem 1.3rem; /* Adjusted padding for mobile */
-            margin-bottom: 0.8rem; /* Adjusted margin */
+            padding: 1.1rem 1.3rem;
+            margin-bottom: 0.8rem;
             display: flex;
-            flex-direction: column; /* Stack details vertically on mobile */
-            align-items: flex-start; /* Align to start on mobile */
+            flex-direction: column;
+            align-items: flex-start;
             box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(77, 184, 255, 0.12);
             transition: background-color 0.2s ease, transform 0.1s ease;
         }
 
         @media (min-width: 768px) {
             .transaction-item {
-                padding: 1.2rem 1.8rem; /* Restore padding on desktop */
-                margin-bottom: 1rem; /* Restore margin */
-                flex-direction: row; /* Restore horizontal layout on desktop */
-                justify-content: space-between; /* Restore space-between on desktop */
-                align-items: center; /* Restore alignment on desktop */
-                border-radius: 1rem; /* Restore rounded on desktop */
+                padding: 1.2rem 1.8rem;
+                margin-bottom: 1rem;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                border-radius: 1rem;
             }
         }
         .transaction-item:hover {
-            background-color: #424242;
-            transform: translateX(4px); /* Slightly more movement */
+            background-color: #1f3a4f;
+            transform: translateX(4px);
         }
 
         .transaction-item div {
@@ -696,11 +1075,11 @@
 
         .transaction-type {
             font-weight: 700;
-            color: #76E076; /* Green for positive transactions */
-            font-size: 1.1rem; /* Adjusted font size */
+            color: #64d8ff; /* Updated to teal */
+            font-size: 1.1rem;
         }
         .transaction-type.withdrawal {
-            color: #FF6B6B; /* Red for negative transactions */
+            color: #ff6b7a; /* Updated to softer red */
         }
 
         .transaction-amount {
@@ -749,67 +1128,66 @@
             }
         }
 
-        /* New styles for investment details in modal */
         .investment-details-card {
-            background-color: #3a3a3a;
-            border-radius: 0.9rem; /* Slightly more rounded on mobile */
-            padding: 1.5rem; /* Adjusted padding for mobile */
-            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.4); /* Deeper inner shadow */
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: #1a2f42;
+            border-radius: 0.9rem;
+            padding: 1.5rem;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(77, 184, 255, 0.15);
         }
         @media (min-width: 768px) {
             .investment-details-card {
-                border-radius: 1.2rem; /* Restore rounded on desktop */
-                padding: 2rem; /* Restore padding on desktop */
+                border-radius: 1.2rem;
+                padding: 2rem;
             }
         }
 
         .investment-details-card h4 {
-            font-size: 1.5rem; /* Slightly larger h4 on mobile */
+            font-size: 1.5rem;
             font-weight: 700;
-            color: #76E076;
-            margin-bottom: 1.1rem; /* Adjusted margin */
-            text-shadow: 0 0 5px rgba(118, 224, 118, 0.3);
+            color: #64d8ff; /* Updated to teal */
+            margin-bottom: 1.1rem;
+            text-shadow: 0 0 5px rgba(100, 216, 255, 0.3);
         }
         @media (min-width: 768px) {
             .investment-details-card h4 {
-                font-size: 1.7rem; /* Restore size on desktop */
-                margin-bottom: 1.3rem; /* Restore margin */
+                font-size: 1.7rem;
+                margin-bottom: 1.3rem;
             }
         }
 
         .investment-details-card p {
-            font-size: 0.95rem; /* Slightly larger font on mobile */
-            color: #e0e0e0;
-            margin-bottom: 0.6rem; /* Adjusted margin */
+            font-size: 0.95rem;
+            color: #e8eef5;
+            margin-bottom: 0.6rem;
             display: flex;
-            align-items: flex-start; /* Align to start for multi-line descriptions */
+            align-items: flex-start;
         }
         @media (min-width: 768px) {
             .investment-details-card p {
-                font-size: 1.05rem; /* Restore font size on desktop */
-                margin-bottom: 0.7rem; /* Restore margin */
-                align-items: center; /* Restore alignment on desktop */
+                font-size: 1.05rem;
+                margin-bottom: 0.7rem;
+                align-items: center;
             }
         }
         .investment-details-card p svg {
-            margin-right: 9px; /* Adjusted margin */
-            color: #90D0D0;
-            flex-shrink: 0; /* Prevent icon from shrinking */
-            width: 21px; /* Slightly larger size */
+            margin-right: 9px;
+            color: #64d8ff; /* Updated to teal */
+            flex-shrink: 0;
+            width: 21px;
             height: 21px;
         }
         @media (min-width: 768px) {
             .investment-details-card p svg {
-                margin-right: 11px; /* Restore margin */
-                width: 23px; /* Restore size */
+                margin-right: 11px;
+                width: 23px;
                 height: 23px;
             }
         }
 
         .investment-details-card .detail-label {
             font-weight: 600;
-            color: #c0d0e0;
+            color: #a8d8ff; /* Updated label color */
         }
 
         /* Flex container for duration input and unit */
@@ -940,38 +1318,38 @@
         }
 
         .toast-message {
-            background-color: #3a3a3a;
-            color: #e0e0e0;
-            padding: 14px 22px; /* Slightly larger padding */
-            border-radius: 9px; /* Slightly more rounded */
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35); /* Stronger shadow */
+            background-color: #1a2f42;
+            color: #e8eef5;
+            padding: 14px 22px;
+            border-radius: 9px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
             opacity: 0;
-            transform: translateY(-25px); /* Slightly more movement */
+            transform: translateY(-25px);
             animation: slideInToast 0.4s forwards, fadeOutToast 0.5s 2.5s forwards;
-            min-width: 260px; /* Slightly wider */
-            max-width: 360px; /* Slightly wider */
+            min-width: 260px;
+            max-width: 360px;
             text-align: center;
             font-weight: 600;
-            pointer-events: auto; /* Re-enable clicks on the toast itself */
-            border: 1px solid rgba(255, 255, 255, 0.12); /* Slightly more defined border */
+            pointer-events: auto;
+            border: 1px solid rgba(100, 216, 255, 0.2);
         }
 
         .toast-message.success {
-            background-color: #4CAF50;
+            background-color: #1fa077; /* Updated green */
             color: white;
-            border-color: #66BB6A;
+            border-color: #4db8ff;
         }
 
         .toast-message.error {
-            background-color: #EF5350;
+            background-color: #c94747; /* Updated red */
             color: white;
-            border-color: #FF6B6B;
+            border-color: #ff6b7a;
         }
 
         .toast-message.info {
-            background-color: #26A69A;
+            background-color: #1fa8a8; /* Updated teal */
             color: white;
-            border-color: #4DB6AC;
+            border-color: #4db8ff;
         }
 
         /* New: Toast animations */
@@ -1088,72 +1466,68 @@
             display: none; /* Hide permanently */
         }
 
-        /* New Feature: Investment Goal Tracker Styles */
-        .goal-tracker-container {
-            margin-top: 2rem; /* Slightly more margin */
-            text-align: center;
-        }
         .goal-progress-bar {
             width: 100%;
-            background-color: #3a3a3a;
-            border-radius: 0.6rem; /* Slightly more rounded */
-            height: 1.3rem; /* Thicker progress bar */
+            background-color: #1a2f42;
+            border-radius: 0.6rem;
+            height: 1.3rem;
             overflow: hidden;
-            margin-top: 1.2rem; /* Slightly more margin */
+            margin-top: 1.2rem;
             box-shadow: inset 0 2px 5px rgba(0,0,0,0.3);
+            border: 1px solid rgba(77, 184, 255, 0.15);
         }
         .goal-progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #5CB85C, #76E076); /* Green gradient fill */
+            background: linear-gradient(90deg, #4db8ff, #64d8ff); /* Updated gradient */
             border-radius: 0.6rem;
             width: 0%;
-            transition: width 1s ease-out; /* Smooth animation for progress */
-            box-shadow: 0 0 10px rgba(118, 224, 118, 0.8); /* Stronger glow on fill */
+            transition: width 1s ease-out;
+            box-shadow: 0 0 10px rgba(100, 216, 255, 0.8);
         }
         .goal-percentage {
             font-weight: 700;
-            color: #76E076;
-            margin-top: 0.6rem; /* Slightly more margin */
-            font-size: 1.15rem; /* Slightly larger */
+            color: #64d8ff; /* Updated to teal */
+            margin-top: 0.6rem;
+            font-size: 1.15rem;
         }
         .goal-amount-display {
-            font-size: 1.25rem; /* Slightly larger */
+            font-size: 1.25rem;
             font-weight: 600;
-            color: #e0e0e0;
-            margin-top: 0.6rem; /* Slightly more margin */
+            color: #e8eef5;
+            margin-top: 0.6rem;
         }
         .goal-name-display {
-            font-size: 1.5rem; /* Slightly larger */
+            font-size: 1.5rem;
             font-weight: 700;
-            color: #c0d0e0;
-            margin-bottom: 0.9rem; /* Slightly more margin */
+            color: #a8d8ff; /* Updated to teal-blue */
+            margin-bottom: 0.9rem;
         }
 
         /* New Feature: Daily Market Insights Styles */
         .market-insight-card {
-            background: linear-gradient(45deg, #303030 0%, #404040 100%);
+            background: linear-gradient(135deg, #1a2a3a 0%, #243548 100%);
             border-radius: 2.25rem;
             padding: 1.8rem;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), inset 0 0 12px rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            margin-top: 2rem; /* Slightly more margin */
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4), inset 0 0 12px rgba(100, 200, 255, 0.08);
+            border: 1px solid rgba(100, 200, 255, 0.12);
+            margin-top: 2rem;
         }
         .market-insight-text {
-            font-size: 1rem; /* Slightly larger */
-            color: #d0d0d0;
+            font-size: 1rem;
+            color: #d8e4f0;
             line-height: 1.6;
-            margin-bottom: 1.2rem; /* Slightly more margin */
+            margin-bottom: 1.2rem;
         }
         .market-insight-source {
-            font-size: 0.85rem; /* Slightly larger */
-            color: #a0a0a0;
+            font-size: 0.85rem;
+            color: #8fa0b3;
             font-style: italic;
         }
         .market-insight-icon {
-            width: 26px; /* Slightly larger */
+            width: 26px;
             height: 26px;
-            margin-right: 12px; /* Slightly more margin */
-            color: #90D0D0; /* Teal color for insight icons */
+            margin-right: 12px;
+            color: #64d8ff; /* Updated to teal */
             vertical-align: middle;
         }
 
@@ -1231,22 +1605,22 @@
 
         /* New style for the Maximize Your Experience card */
         .maximize-experience-card {
-            background: linear-gradient(135deg, #353535 0%, #454545 100%); /* Different, slightly lighter gradient for this card */
-            border-radius: 2.5rem; /* More rounded */
-            padding: 2.2rem; /* Adjusted padding */
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6), inset 0 0 18px rgba(255, 255, 255, 0.05); /* Stronger shadow */
-            border: 2px solid rgba(255, 255, 255, 0.15); /* More prominent border */
-            margin-top: 3rem; /* More space above it */
+            background: linear-gradient(135deg, #1f3a4f 0%, #2a4a5f 100%);
+            border-radius: 2.5rem;
+            padding: 2.2rem;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6), inset 0 0 18px rgba(100, 200, 255, 0.08);
+            border: 2px solid rgba(100, 216, 255, 0.2);
+            margin-top: 3rem;
         }
         .maximize-experience-card ul li {
-            margin-bottom: 1.2rem; /* More space between list items */
-            align-items: flex-start; /* Ensure icons align to top for multi-line text */
+            margin-bottom: 1.2rem;
+            align-items: flex-start;
         }
         .maximize-experience-card ul li:last-child {
             margin-bottom: 0;
         }
         .maximize-experience-card svg {
-            margin-top: 0.25rem; /* Adjust icon vertical alignment */
+            margin-top: 0.25rem;
         }
 
         /* New: Profile Card specific styles */
@@ -1261,7 +1635,7 @@
             width: 80px;
             height: 80px;
             border-radius: 50%;
-            background-color: #5CB85C; /* Green background for avatar */
+            background: linear-gradient(135deg, #4db8ff 0%, #64d8ff 100%);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1269,9 +1643,9 @@
             font-weight: 700;
             color: white;
             margin-bottom: 1rem;
-            box-shadow: 0 0 15px rgba(92, 184, 92, 0.7); /* Glow around avatar */
-            border: 3px solid rgba(255, 255, 255, 0.2);
-            overflow: hidden; /* Ensure image fits */
+            box-shadow: 0 0 15px rgba(100, 216, 255, 0.8);
+            border: 3px solid rgba(100, 216, 255, 0.3);
+            overflow: hidden;
         }
         #profileAvatar img {
             width: 100%;
@@ -1281,24 +1655,24 @@
         #profileFullName {
             font-size: 1.8rem;
             font-weight: 800;
-            color: #e0e0e0;
+            color: #e8eef5;
             margin-bottom: 0.5rem;
-            text-shadow: 0 0 8px rgba(224, 224, 224, 0.2);
+            text-shadow: 0 0 8px rgba(168, 216, 255, 0.2);
         }
         #profileBio {
             font-size: 1rem;
-            color: #b0b0b0;
+            color: #a8b8cc;
             line-height: 1.5;
             margin-bottom: 1rem;
         }
         #profilePhoneNumber, #profileAddress {
             font-size: 0.9rem;
-            color: #c0c0c0;
+            color: #c0c8d8;
             margin-bottom: 0.3rem;
         }
         #profileSetupCta {
             text-align: center;
-            color: #a0a0a0;
+            color: #8fa0b3;
             margin-top: 1rem;
         }
         #profileSetupCta button {
@@ -1307,26 +1681,26 @@
 
         /* New: Notification item styles */
         .notification-item {
-            background-color: #3a3a3a;
+            background-color: #1a2f42;
             border-radius: 0.8rem;
             padding: 1.1rem 1.3rem;
             margin-bottom: 0.8rem;
             box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(77, 184, 255, 0.12);
             transition: background-color 0.2s ease;
             position: relative;
         }
         .notification-item.unread {
-            background-color: #4a4a4a; /* Slightly different background for unread */
-            border-left: 5px solid #5CB85C; /* Green indicator for unread */
-            padding-left: calc(1.1rem + 5px); /* Adjust padding for border */
+            background-color: #1f3a4f;
+            border-left: 5px solid #4db8ff; /* Updated to teal */
+            padding-left: calc(1.1rem + 5px);
         }
         .notification-item.unread::after {
             content: 'NEW';
             position: absolute;
             top: 0.5rem;
             right: 0.5rem;
-            background-color: #5CB85C;
+            background-color: #4db8ff;
             color: white;
             font-size: 0.7rem;
             font-weight: bold;
@@ -1335,18 +1709,18 @@
         }
         .notification-item h4 {
             font-weight: 700;
-            color: #e8e8e8;
+            color: #e8eef5;
             font-size: 1.1rem;
             margin-bottom: 0.4rem;
         }
         .notification-item p {
             font-size: 0.95rem;
-            color: #b5b5b5;
+            color: #a8b8cc;
             line-height: 1.4;
         }
         .notification-item .notification-date {
             font-size: 0.8rem;
-            color: #909090;
+            color: #7a8a9d;
             margin-top: 0.6rem;
             text-align: right;
         }
@@ -1356,7 +1730,7 @@
             position: absolute;
             top: -8px;
             right: -8px;
-            background-color: #FF6B6B; /* Red for notifications */
+            background-color: #ff6b7a; /* Updated to softer red */
             color: white;
             border-radius: 50%;
             padding: 0.3em 0.6em;
@@ -1364,17 +1738,392 @@
             font-weight: bold;
             min-width: 24px;
             text-align: center;
-            box-shadow: 0 2px 5px rgba(255, 107, 107, 0.5);
-            display: none; /* Hidden by default, shown when count > 0 */
+            box-shadow: 0 2px 5px rgba(255, 107, 122, 0.5);
+            display: none;
         }
         .notification-button-wrapper {
             position: relative;
             display: inline-block; /* To position badge correctly */
             width: 100%; /* Make button wrapper take full width */
         }
+
+        /* 3D New Year Greeting Animation */
+        .new-year-greeting-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(15, 20, 25, 0.95), rgba(26, 35, 50, 0.95));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            animation: fadeOutGreeting 0.5s ease-in-out 4.5s forwards;
+            backdrop-filter: blur(5px);
+        }
+
+        @keyframes fadeOutGreeting {
+            from {
+                opacity: 1;
+                visibility: visible;
+            }
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        .new-year-greeting-content {
+            perspective: 1000px;
+            text-align: center;
+        }
+
+        .greeting-text-3d {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 900;
+            letter-spacing: 0.05em;
+            animation: floating3D 3s ease-in-out infinite;
+            transform-style: preserve-3d;
+            color: #64d8ff;
+            text-shadow: 
+                0 0 20px rgba(100, 216, 255, 0.8),
+                0 0 40px rgba(100, 216, 255, 0.6),
+                0 0 60px rgba(100, 216, 255, 0.4);
+            margin-bottom: 1rem;
+        }
+
+        @keyframes floating3D {
+            0% {
+                transform: translateY(0) rotateX(0deg) rotateY(-10deg) rotateZ(5deg);
+            }
+            50% {
+                transform: translateY(-20px) rotateX(5deg) rotateY(10deg) rotateZ(-5deg);
+            }
+            100% {
+                transform: translateY(0) rotateX(0deg) rotateY(-10deg) rotateZ(5deg);
+            }
+        }
+
+        .year-text {
+            font-size: clamp(3rem, 12vw, 7rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, #64d8ff, #4db8ff, #a8d8ff, #64d8ff);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 4s ease infinite, slideInText 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            text-shadow: 0 0 30px rgba(100, 216, 255, 0.5);
+            letter-spacing: 0.08em;
+            margin: 1rem 0;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes slideInText {
+            from {
+                opacity: 0;
+                transform: translate(-100px, 100px) rotateX(90deg);
+            }
+            to {
+                opacity: 1;
+                transform: translate(0, 0) rotateX(0deg);
+            }
+        }
+
+        .greeting-subtitle {
+            font-size: clamp(1rem, 3vw, 1.5rem);
+            color: #a8d8ff;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            animation: fadeInUp 1s ease 0.5s both;
+            letter-spacing: 0.1em;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .confetti-particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: linear-gradient(135deg, #64d8ff, #4db8ff);
+            animation: confettiFall 4s ease-in forwards;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(100, 216, 255, 0.8);
+        }
+
+        @keyframes confettiFall {
+            to {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #64d8ff;
+            border-radius: 50%;
+            animation: sparkleAnimation 2s ease-in-out infinite;
+            box-shadow: 0 0 8px rgba(100, 216, 255, 0.9);
+        }
+
+        @keyframes sparkleAnimation {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        /* Improved responsive design */
+        @media (max-width: 320px) {
+            .greeting-text-3d {
+                font-size: 1.8rem;
+            }
+            .year-text {
+                font-size: 2.5rem;
+            }
+            .greeting-subtitle {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (min-width: 321px) and (max-width: 480px) {
+            .greeting-text-3d {
+                font-size: 2rem;
+            }
+            .year-text {
+                font-size: 3rem;
+            }
+            .greeting-subtitle {
+                font-size: 1rem;
+            }
+            body {
+                padding: 0.75rem;
+            }
+            .dashboard-container {
+                padding: 1.25rem;
+                gap: 1.25rem;
+            }
+            .card {
+                padding: 1.25rem;
+            }
+        }
+
+        @media (min-width: 481px) and (max-width: 768px) {
+            .greeting-text-3d {
+                font-size: 3rem;
+            }
+            .year-text {
+                font-size: 4rem;
+            }
+            .greeting-subtitle {
+                font-size: 1.2rem;
+            }
+            body {
+                padding: 1rem;
+            }
+            .dashboard-container {
+                padding: 2rem;
+                gap: 1.8rem;
+            }
+            .card {
+                padding: 1.8rem;
+            }
+            .btn-primary {
+                padding: 0.95rem 2rem;
+                font-size: 0.95rem;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .dashboard-container {
+                grid-template-columns: 1.8fr 1fr;
+                gap: 2rem;
+            }
+            .card {
+                padding: 2rem;
+            }
+        }
+
+        @media (min-width: 1025px) {
+            .dashboard-container {
+                grid-template-columns: 2.5fr 1fr;
+                gap: 2.2rem;
+            }
+        }
+
+        /* Touch-friendly improvements */
+        @media (hover: none) and (pointer: coarse) {
+            .btn-primary {
+                padding: 1rem 2rem;
+                min-height: 48px;
+                min-width: 48px;
+            }
+            
+            input[type="number"], input[type="text"], input[type="email"], input[type="password"], input[type="tel"], input[type="url"], textarea, select {
+                min-height: 44px;
+                padding: 0.9rem 1.2rem;
+            }
+
+            .investment-item {
+                padding: 1.3rem 1.6rem;
+                gap: 0.8rem 1.5rem;
+            }
+        }
+
+        /* Button Group Labels */
+        .button-group-label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #a8d8ff;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid rgba(100, 216, 255, 0.15);
+            list-style: none;
+        }
+
+        .button-group-label:first-child {
+            margin-top: 0;
+            border-top: none;
+            padding-top: 0;
+        }
+        /* Small-screen center/layout fixes */
+        @media (max-width: 600px) {
+            html, body {
+                height: 100%;
+            }
+            body {
+                align-items: center !important;
+                justify-content: center !important;
+                padding-top: 0.6rem;
+                padding-bottom: 0.6rem;
+            }
+            .dashboard-container {
+                margin-top: 0 !important;
+                margin-bottom: 0 !important;
+                max-height: calc(100vh - 24px);
+                overflow-y: auto;
+                width: 100%;
+                max-width: 420px;
+                padding-left: 0.8rem;
+                padding-right: 0.8rem;
+                -webkit-overflow-scrolling: touch;
+            }
+            .main-content, .sidebar-content {
+                padding-left: 0.4rem !important;
+                padding-right: 0.4rem !important;
+            }
+            /* Make quick-action buttons full width and centered */
+            .sidebar-content ul, .sidebar-content .btn-primary {
+                width: 100%;
+                max-width: 420px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .button-group-label {
+                padding-left: 0.4rem;
+                font-size: 0.8rem;
+            }
+            /* Ensure modals fit on small screens */
+            .modal-content {
+                max-width: 96vw !important;
+                margin: 0 8px;
+            }
+        }
+
+        /* Prevent horizontal overflow and disable heavy background animation on small screens to avoid visual shaking */
+        html, body {
+            overflow-x: hidden;
+        }
+
+        /* Global box-sizing for predictable sizing */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        /* Disable moving background on small screens to avoid perceived shaking */
+        @media (max-width: 600px) {
+            body {
+                animation: none !important;
+                background-position: center center !important;
+            }
+            .dashboard-container, .main-content, .sidebar-content {
+                transform: none !important;
+            }
+        }
+
+        /* Additional mobile shrink rules to prevent overflow and force components to fit */
+        @media (max-width: 420px) {
+            /* Force box-sizing and allow children to shrink */
+            .dashboard-container, .main-content, .sidebar-content, .card {
+                box-sizing: border-box;
+                width: 100%;
+                max-width: 420px;
+                min-width: 0;
+                padding-left: 0.6rem !important;
+                padding-right: 0.6rem !important;
+                margin-left: auto !important;
+                margin-right: auto !important;
+            }
+
+            /* Make grid sections responsive and wrap items */
+            .card .grid, .grid.grid-cols-2, .grid.grid-cols-2.lg\:grid-cols-4 {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)) !important;
+                gap: 0.6rem !important;
+            }
+
+            /* Ensure metric boxes and buttons shrink properly */
+            .metric-box, .btn-primary, .investment-item, .transaction-item {
+                width: 100% !important;
+                min-width: 0 !important;
+            }
+
+            /* Make media and SVGs scale down */
+            canvas, img, svg, .icon-svg {
+                max-width: 100% !important;
+                height: auto !important;
+            }
+
+            /* Allow flex children to shrink */
+            .flex, .flex-1, .space-y-4, .space-y-3 {
+                min-width: 0 !important;
+            }
+
+            /* Prevent long text from forcing width */
+            .text-center, .text-sm, .text-base, p, span, li {
+                word-break: break-word;
+                hyphens: auto;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- 3D New Year Greeting Animation -->
+    <div id="newYearGreeting" class="new-year-greeting-container">
+        <div class="new-year-greeting-content">
+            <div class="greeting-text-3d">Welcome to</div>
+            <div class="year-text" id="yearDisplay">2026</div>
+            <div class="greeting-subtitle">Wishing You a Prosperous Year Ahead! 🎉</div>
+        </div>
+    </div>
+
     <!-- Authentication Container (This section is now permanently hidden via CSS, as login/create account functionality has been removed for a direct dashboard experience.) -->
     <div id="auth-container" style="display: none;">
         <!-- Content for login/create account forms would go here if enabled -->
@@ -1587,6 +2336,8 @@
             <div class="card">
                 <h2 class="section-title">Quick Actions</h2>
                 <ul class="space-y-3 sm:space-y-4">
+                    <!-- Investment & Portfolio Management Group -->
+                    <li class="button-group-label">Investment Management</li>
                     <li>
                         <button id="openInvestModalBtn" class="btn-primary w-full">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wallet-plus mr-2"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h12a2 2 0 0 1 0 4H5a2 2 0 0 0 0 4h12a2 2 0 0 0 2-2v-3"/><path d="M10 12h6"/><path d="M12 10v4"/></svg>
@@ -1594,11 +2345,14 @@
                         </button>
                     </li>
                     <li>
-                        <button id="openCashOutModalBtn" class="btn-primary w-full !bg-red-600 hover:!bg-red-700">
+                        <button id="openCashOutModalBtn" class="btn-primary w-full !bg-orange-600 hover:!bg-orange-700">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wallet-minus mr-2"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h12a2 2 0 0 1 0 4H5a2 2 0 0 0 0 4h12a2 2 0 0 0 2-2v-3"/><path d="M10 12h6"/><path d="M12 10v4"/></svg>
                             <span>Cash Out</span>
                         </button>
                     </li>
+
+                    <!-- Account Management Group -->
+                    <li class="button-group-label">Account & Funds</li>
                     <li>
                         <button id="openDepositModalBtn" class="btn-primary w-full">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-dollar-sign mr-2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 3v18"/></svg>
@@ -1611,27 +2365,27 @@
                             <span>Withdraw Funds</span>
                         </button>
                     </li>
+
+                    <!-- Profile & Info Group -->
+                    <li class="button-group-label">Profile & Information</li>
+                    <li>
+                        <button id="openProfileSetupModalBtnSidebar" class="btn-primary w-full !bg-cyan-600 hover:!bg-cyan-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-cog mr-2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7.9 20.9c-.7-.7-1.4-1.5-1.9-2.4a6.5 6.5 0 0 1-.5-3.5c.3-1.4.9-2.7 1.8-3.8.9-1.1 2.1-2 3.4-2.7.7-.4 1.5-.7 2.3-.9.8-.2 1.6-.3 2.5-.2.9.1 1.7.4 2.5.8.8.4 1.5.9 2.1 1.6.6.7 1.1 1.5 1.4 2.4.3.9.4 1.9.3 2.9-.1 1-.4 2-.8 2.9-.4.9-.9 1.7-1.6 2.4"/><path d="M19 12v1"/><path d="M19.5 14.5l.7.7"/><path d="M18 17h1"/><path d="M14.5 19.5l.7.7"/><path d="M12 20v1"/><path d="M9.5 19.5l-.7.7"/><path d="M7 17H6"/><path d="M4.5 14.5l-.7.7"/></svg>
+                            <span>Set Up Profile</span>
+                        </button>
+                    </li>
                     <li>
                         <div class="notification-button-wrapper">
-                            <button id="openNotificationsModalBtn" class="btn-primary w-full !bg-blue-600 hover:!bg-blue-700">
+                            <button id="openNotificationsModalBtn" class="btn-primary w-full !bg-indigo-600 hover:!bg-indigo-700">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell-ring mr-2"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.36 17.02c.48.47.97.92 1.44 1.39.63.64 1.34 1.15 2.1.92.5-.15.93-.53 1.22-.97"/><path d="M12 22v-2"/></svg>
                                 <span>Notifications</span>
                             </button>
                             <span id="unreadNotificationsBadge" class="notification-badge">0</span>
                         </div>
                     </li>
-                    <li>
-                        <button id="openProfileSetupModalBtnSidebar" class="btn-primary w-full !bg-blue-600 hover:!bg-blue-700">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-cog mr-2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7.9 20.9c-.7-.7-1.4-1.5-1.9-2.4a6.5 6.5 0 0 1-.5-3.5c.3-1.4.9-2.7 1.8-3.8.9-1.1 2.1-2 3.4-2.7.7-.4 1.5-.7 2.3-.9.8-.2 1.6-.3 2.5-.2.9.1 1.7.4 2.5.8.8.4 1.5.9 2.1 1.6.6.7 1.1 1.5 1.4 2.4.3.9.4 1.9.3 2.9-.1 1-.4 2-.8 2.9-.4.9-.9 1.7-1.6 2.4"/><path d="M19 12v1"/><path d="M19.5 14.5l.7.7"/><path d="M18 17h1"/><path d="M14.5 19.5l.7.7"/><path d="M12 20v1"/><path d="M9.5 19.5l-.7.7"/><path d="M7 17H6"/><path d="M4.5 14.5l-.7.7"/></svg>
-                            <span>Set Up Profile</span>
-                        </button>
-                    </li>
-                    <li>
-                        <button id="whatsappSupportBtn" class="btn-primary w-full !bg-green-700 hover:!bg-green-800">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle mr-2"><path d="M7.9 20.9c-.7-.7-1.4-1.5-1.9-2.4a6.5 6.5 0 0 1-.5-3.5c.3-1.4.9-2.7 1.8-3.8.9-1.1 2.1-2 3.4-2.7.7-.4 1.5-.7 2.3-.9.8-.2 1.6-.3 2.5-.2.9.1 1.7.4 2.5.8.8.4 1.5.9 2.1 1.6.6.7 1.1 1.5 1.4 2.4.3.9.4 1.9.3 2.9-.1 1-.4 2-.8 2.9-.4.9-.9 1.7-1.6 2.4"/><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                            <span>WhatsApp Support</span>
-                        </button>
-                    </li>
+
+                    <!-- Support & Utilities Group -->
+                    <li class="button-group-label">Support & Utilities</li>
                     <li>
                         <button id="openFeedbackModalBtn" class="btn-primary w-full !bg-purple-600 hover:!bg-purple-700">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-square-more mr-2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 10h.01"/><path d="M12 10h.01"/><path d="M16 10h.01"/></svg>
@@ -1639,19 +2393,28 @@
                         </button>
                     </li>
                     <li>
-                        <button id="openResetDataModalBtn" class="btn-primary w-full !bg-gray-700 hover:!bg-gray-800">
+                        <button id="whatsappSupportBtn" class="btn-primary w-full !bg-emerald-600 hover:!bg-emerald-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle mr-2"><path d="M7.9 20.9c-.7-.7-1.4-1.5-1.9-2.4a6.5 6.5 0 0 1-.5-3.5c.3-1.4.9-2.7 1.8-3.8.9-1.1 2.1-2 3.4-2.7.7-.4 1.5-.7 2.3-.9.8-.2 1.6-.3 2.5-.2.9.1 1.7.4 2.5.8.8.4 1.5.9 2.1 1.6.6.7 1.1 1.5 1.4 2.4.3.9.4 1.9.3 2.9-.1 1-.4 2-.8 2.9-.4.9-.9 1.7-1.6 2.4"/><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                            <span>WhatsApp Support</span>
+                        </button>
+                    </li>
+
+                    <!-- Account Settings Group -->
+                    <li class="button-group-label">Account Settings</li>
+                    <li>
+                        <button id="openResetDataModalBtn" class="btn-primary w-full !bg-slate-600 hover:!bg-slate-700">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-rotate-ccw mr-2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.76 2.75L3 8"/><path d="M3 3v5h5"/></svg>
                             <span>Reset All Data</span>
                         </button>
                     </li>
                     <li>
-                        <button id="startFreshBtn" class="btn-primary w-full !bg-blue-600 hover:!bg-blue-700">
+                        <button id="startFreshBtn" class="btn-primary w-full !bg-teal-600 hover:!bg-teal-700">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-refresh-ccw mr-2"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.76 2.75L3 8"/><path d="M3 3v5h5"/></svg>
                             <span>Start Fresh</span>
                         </button>
                     </li>
                     <li>
-                        <button id="logoutBtn" class="btn-primary w-full !bg-red-800 hover:!bg-red-900">
+                        <button id="logoutBtn" class="btn-primary w-full !bg-rose-700 hover:!bg-rose-800">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out mr-2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
                             <span>Logout</span>
                         </button>
@@ -1969,6 +2732,43 @@
     <div id="toastContainer"></div>
 
     <script>
+        // 3D New Year Greeting Animation - Initialize
+        function initializeNewYearGreeting() {
+            const greetingContainer = document.getElementById('newYearGreeting');
+            const currentYear = new Date().getFullYear() + 1;
+            const yearDisplay = document.getElementById('yearDisplay');
+            
+            // Update year display
+            yearDisplay.textContent = currentYear.toString();
+            
+            // Create confetti particles
+            for (let i = 0; i < 40; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti-particle');
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.delay = (Math.random() * 0.5) + 's';
+                confetti.style.duration = (3 + Math.random() * 1.5) + 's';
+                confetti.style.opacity = Math.random() * 0.7 + 0.3;
+                greetingContainer.appendChild(confetti);
+            }
+            
+            // Create sparkle effects
+            for (let i = 0; i < 30; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.classList.add('sparkle');
+                sparkle.style.left = Math.random() * 100 + '%';
+                sparkle.style.top = Math.random() * 100 + '%';
+                sparkle.style.delay = (Math.random() * 2) + 's';
+                sparkle.style.duration = (1.5 + Math.random()) + 's';
+                greetingContainer.appendChild(sparkle);
+            }
+        }
+        
+        // Initialize greeting when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeNewYearGreeting();
+        });
+
         // IMPORTANT SECURITY NOTE:
         // Storing user credentials (even hashed) and sensitive financial data directly in localStorage
         // is HIGHLY INSECURE for a real-world application. This implementation is provided to meet
