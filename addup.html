@@ -9,6 +9,8 @@
     <meta name="theme-color" content="#212121"> <!-- Dark brand color -->
     <!-- Tailwind CSS CDN for easy styling -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter font for improved typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <!-- Chart.js CDN for portfolio allocation chart -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Paystack Checkout.js CDN for payment integration -->
@@ -2115,6 +2117,47 @@
     </style>
 </head>
 <body>
+    <!-- Top Navigation -->
+    <header class="site-header w-full">
+        <div class="max-w-[1300px] mx-auto flex items-center justify-between px-4 py-3">
+            <div class="brand flex items-center gap-3">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="w-8 h-8 text-white">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 12l2-2 4 4 8-8 4 4" />
+                </svg>
+                <div>
+                    <span class="font-bold text-lg text-white">Grow-with-Core</span>
+                    <div class="text-xs text-gray-300">Smart simulations · Simple investing · Track progress</div>
+                </div>
+            </div>
+
+            <nav id="desktopNav" class="hidden sm:flex items-center gap-6 text-sm text-gray-300">
+                <a href="#" class="hover:text-white">Dashboard</a>
+                <a href="#" class="hover:text-white">Portfolio</a>
+                <a href="#" class="hover:text-white">Transactions</a>
+                <a href="#" class="hover:text-white">Help</a>
+            </nav>
+
+                <div class="flex items-center gap-3">
+                <button class="btn-primary" title="Deposit funds to your account" aria-label="Deposit funds">Deposit Funds</button>
+                <button id="menuToggle" class="sm:hidden text-gray-300 text-xl" aria-label="Open menu">☰</button>
+            </div>
+        </div>
+        <div id="mobileNav" class="sm:hidden hidden px-4 pb-3">
+            <nav class="flex flex-col gap-2 text-sm text-gray-300">
+                <a href="#" class="block py-2 px-3 rounded hover:bg-white/5">Dashboard</a>
+                <a href="#" class="block py-2 px-3 rounded hover:bg-white/5">Portfolio</a>
+                <a href="#" class="block py-2 px-3 rounded hover:bg-white/5">Transactions</a>
+                <a href="#" class="block py-2 px-3 rounded hover:bg-white/5">Help</a>
+            </nav>
+        </div>
+        <script>
+            (function(){
+                var t = document.getElementById('menuToggle');
+                var m = document.getElementById('mobileNav');
+                if(t && m){ t.addEventListener('click', function(){ m.classList.toggle('hidden'); }); }
+            })();
+        </script>
+
     <!-- 3D New Year Greeting Animation -->
     <div id="newYearGreeting" class="new-year-greeting-container">
         <div class="new-year-greeting-content">
@@ -2134,9 +2177,20 @@
         <!-- Main Content Area -->
         <div class="main-content">
             <h1 class="section-title text-center mb-6">Grow-with-Core Dashboard</h1>
-            <p class="text-center text-gray-400 mb-8 max-w-2xl mx-auto text-sm sm:text-base">
-                Welcome to your Grow-with-Core investment hub. Explore real-time investment simulations, manage your portfolio, and track your financial journey.
-            </p>
+
+            <section class="hero-card card mb-6 max-w-3xl mx-auto text-center">
+                <h2 class="text-2xl sm:text-3xl font-semibold text-white mb-2">Manage your investments with clarity</h2>
+                <p class="text-gray-300 mb-4 max-w-xl mx-auto text-sm sm:text-base">Use intuitive simulations, automated allocation suggestions, and clear performance insights to grow your wealth—step by step.</p>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+                    <a href="#portfolio" class="btn-primary" title="Start by exploring your portfolio">Get Started</a>
+                    <a href="#learn" class="btn-primary" style="background:transparent;border:1px solid rgba(255,255,255,0.06); color:#e8eef5;" title="Learn how it works">Learn How</a>
+                </div>
+                <ul class="mt-4 text-xs text-gray-400 flex items-center justify-center gap-4">
+                    <li>Real-time simulations</li>
+                    <li>Secure deposits</li>
+                    <li>Actionable insights</li>
+                </ul>
+            </section>
 
             <!-- User ID Display -->
             <div id="userIdDisplay" class="mb-8">
@@ -2735,7 +2789,7 @@
         // 3D New Year Greeting Animation - Initialize
         function initializeNewYearGreeting() {
             const greetingContainer = document.getElementById('newYearGreeting');
-            const currentYear = new Date().getFullYear() + 1;
+            const currentYear = new Date().getFullYear() += 1;
             const yearDisplay = document.getElementById('yearDisplay');
             
             // Update year display
