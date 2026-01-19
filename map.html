@@ -1,1 +1,888 @@
-hell
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Grow with CORE – Real Asset Investments in Sustainable Sectors</title>
+
+    <style>
+        :root {
+            --primary: #28a745;
+            --primary-dark: #1e7e34;
+            --accent: #ffd700;
+            --secondary: #4CAF50;
+            --text: #ffffff;
+            --card-bg: rgba(255, 255, 255, 0.16);
+            --footer-bg: rgba(0,0,0,0.7);
+            --shadow-soft: 0 10px 30px rgba(0,0,0,0.4);
+            --shadow-hover: 0 35px 70px rgba(0,0,0,0.6);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            color: var(--text);
+            line-height: 1.7;
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -100px;
+            left: 0;
+            background: var(--primary);
+            color: white;
+            padding: 1rem 1.5rem;
+            z-index: 1000;
+        }
+        .skip-link:focus { top: 0; }
+
+        header {
+            text-align: center;
+            padding: clamp(12vh, 20vh, 28vh) 5vw clamp(16vh, 24vh, 32vh);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.75)),
+                        url('https://source.unsplash.com/random/1920x1080/?nature,growth,fields,sunset') center/cover no-repeat fixed;
+            background-blend-mode: multiply;
+            position: relative;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -5vh;
+            left: 0;
+            right: 0;
+            height: 10vh;
+            background: linear-gradient(to bottom, transparent, var(--footer-bg));
+        }
+
+        h1 {
+            font-size: clamp(3rem, 10vw, 7rem);
+            text-shadow: 0 6px 30px rgba(0,0,0,0.9);
+            margin-bottom: 1.2rem;
+            letter-spacing: 1px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px var(--accent), 0 6px 30px rgba(0,0,0,0.9); }
+            to { text-shadow: 0 0 20px var(--accent), 0 6px 30px rgba(0,0,0,0.9); }
+        }
+
+        .lead {
+            font-size: clamp(1.2rem, 4vw, 1.9rem);
+            max-width: 1000px;
+            margin: 0 auto 3rem;
+            opacity: 0.96;
+            font-weight: 300;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.7);
+        }
+
+        main {
+            position: relative;
+            z-index: 2;
+            max-width: 1700px;
+            margin: 0 auto;
+        }
+
+        section {
+            padding: clamp(10vh, 14vh, 18vh) 5vw;
+            text-align: center;
+            position: relative;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: clamp(2rem, 3.5vw, 3.5rem);
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(18px);
+            border-radius: 28px;
+            padding: clamp(2rem, 3vw, 3rem);
+            border: 1px solid rgba(255,255,255,0.18);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            opacity: 0;
+            transform: translateY(70px) rotate(2deg);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .card.visible {
+            opacity: 1;
+            transform: translateY(0) rotate(0);
+        }
+
+        .card:hover, .card:focus-within {
+            transform: translateY(-20px) scale(1.03) rotate(0);
+            box-shadow: var(--shadow-hover);
+            outline: 5px solid var(--accent);
+            outline-offset: 10px;
+        }
+
+        h3 {
+            font-size: clamp(1.7rem, 4.5vw, 2.4rem);
+            margin-bottom: 1.2rem;
+            color: var(--accent);
+            text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+        }
+
+        .section-image {
+            width: 100%;
+            height: auto;
+            max-height: 300px;
+            object-fit: cover;
+            border-radius: 18px;
+            margin: 2rem auto;
+            display: block;
+            box-shadow: 0 18px 50px rgba(0,0,0,0.6);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .card:hover .section-image {
+            transform: scale(1.08) rotate(-1deg);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.7);
+        }
+
+        .cta {
+            display: inline-flex;
+            align-items: center;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            font-size: clamp(1.25rem, 4vw, 1.8rem);
+            font-weight: 700;
+            padding: clamp(1.1rem, 1.8vw, 1.4rem) clamp(3rem, 4.5vw, 4rem);
+            border-radius: 80px;
+            text-decoration: none;
+            margin: 4rem 1rem;
+            box-shadow: 0 18px 50px rgba(40,167,69,0.6);
+            transition: all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.2);
+            transition: left 0.5s;
+        }
+
+        .cta:hover::before, .cta:focus::before {
+            left: 0;
+        }
+
+        .cta:hover, .cta:focus {
+            transform: translateY(-10px) scale(1.08);
+            box-shadow: 0 30px 70px rgba(40,167,69,0.7);
+        }
+
+        /* How It Works Section */
+        #how-it-works {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.5));
+            border-radius: 40px;
+            margin: 6vh 5vw;
+            padding: 8vh 5vw;
+            box-shadow: var(--shadow-hover);
+        }
+
+        .steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .step {
+            flex: 1 1 280px;
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 2rem;
+            text-align: left;
+            transition: all 0.4s;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .step.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .step:hover {
+            transform: translateY(-15px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .step-number {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .step-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* New Interactive Simulator Section */
+        #simulator {
+            background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.55));
+            border-radius: 40px;
+            margin: 8vh 5vw;
+            padding: 10vh 5vw;
+            box-shadow: var(--shadow-hover);
+            position: relative;
+        }
+
+        #simulator-controls {
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #simulator-controls label {
+            font-size: 1.2rem;
+            font-weight: 500;
+            text-shadow: 0 1px 5px rgba(0,0,0,0.6);
+        }
+
+        #simulator-controls input {
+            padding: 0.8rem 1.2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.1);
+            color: var(--text);
+            font-size: 1.1rem;
+            width: 180px;
+            transition: border 0.3s;
+        }
+
+        #simulator-controls input:focus {
+            border-color: var(--accent);
+            outline: none;
+        }
+
+        #simulate-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 5px 15px rgba(40,167,69,0.4);
+        }
+
+        #simulate-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(40,167,69,0.5);
+        }
+
+        #simulator-canvas {
+            width: 100%;
+            max-width: 800px;
+            height: 500px;
+            margin: 0 auto;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+        }
+
+        #growth-result {
+            margin-top: 2rem;
+            font-size: 1.4rem;
+            color: var(--accent);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--footer-bg);
+            backdrop-filter: blur(14px);
+            padding: clamp(5rem, 7vh, 7rem) 5vw clamp(3rem, 5vh, 4rem);
+            text-align: center;
+            border-top: 3px solid rgba(255,255,255,0.25);
+            margin-top: 12vh;
+            position: relative;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: -6vh;
+            left: 0;
+            right: 0;
+            height: 6vh;
+            background: linear-gradient(to top, transparent, var(--footer-bg));
+        }
+
+        footer h3 {
+            font-size: clamp(2rem, 4.5vw, 2.8rem);
+            margin-bottom: 1.8rem;
+            color: var(--accent);
+        }
+
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: clamp(2rem, 3.5vw, 3rem);
+            margin: 3rem 0;
+        }
+
+        .footer-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: clamp(1.05rem, 2.8vw, 1.2rem);
+            transition: color 0.3s, transform 0.3s;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+            transform: translateY(-4px);
+            background: rgba(255,255,255,0.1);
+        }
+
+        .footer-social {
+            display: flex;
+            justify-content: center;
+            gap: clamp(1.2rem, 2.5vw, 2rem);
+            margin: 2.5rem 0;
+        }
+
+        .footer-social a {
+            color: var(--text);
+            font-size: clamp(1.8rem, 4.5vw, 2.5rem);
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .footer-social a:hover {
+            color: var(--accent);
+            transform: scale(1.25) rotate(5deg);
+        }
+
+        .footer-contact {
+            margin: 2.5rem 0;
+            font-size: clamp(1rem, 2.8vw, 1.15rem);
+            opacity: 0.88;
+        }
+
+        .footer-contact p {
+            margin-bottom: 1rem;
+        }
+
+        .copyright {
+            margin-top: 3.5rem;
+            opacity: 0.78;
+            font-size: clamp(0.9rem, 2.2vw, 1rem);
+            border-top: 1px solid rgba(255,255,255,0.15);
+            padding-top: 2rem;
+        }
+
+        #threejs-container {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        /* Enhanced Responsiveness */
+        @media (max-width: 1024px) {
+            header { min-height: 85vh; padding: 16vh 6vw 20vh; }
+            .features { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2.5rem; }
+            .steps { flex-direction: column; gap: 2.5rem; }
+            .card { padding: 2.2rem; }
+            #simulator-canvas { height: 400px; }
+        }
+
+        @media (max-width: 768px) {
+            body { line-height: 1.7; }
+            header { padding: 14vh 7vw 18vh; min-height: 75vh; }
+            h1 { font-size: clamp(2.8rem, 11vw, 5rem); }
+            .lead { font-size: clamp(1.15rem, 4.2vw, 1.6rem); }
+            section { padding: 10vh 7vw; }
+            .features { gap: 2rem; }
+            .card { padding: 2rem; border-radius: 24px; }
+            .section-image { max-height: 240px; }
+            .cta { padding: 1.1rem 3rem; font-size: clamp(1.15rem, 4.2vw, 1.6rem); }
+            footer { padding: 5rem 7vw 3rem; }
+            .footer-links { gap: 2rem; flex-direction: column; }
+            .footer-social { gap: 1.5rem; }
+            #simulator-controls { flex-direction: column; }
+            #simulator-canvas { height: 350px; }
+        }
+
+        @media (max-width: 480px) {
+            header { padding: 12vh 8vw 16vh; }
+            h1 { font-size: 3rem; }
+            .lead { font-size: 1.2rem; }
+            section { padding: 8vh 8vw; }
+            .features { grid-template-columns: 1fr; }
+            .card { padding: 1.8rem; transform: translateY(50px); }
+            .card:hover { transform: translateY(-12px) scale(1.02); }
+            .cta { padding: 1rem 2.5rem; font-size: 1.3rem; }
+            footer { padding: 4rem 8vw 2rem; }
+            .footer-links a { font-size: 1.05rem; }
+            .footer-social a { font-size: 1.8rem; }
+            #simulator-canvas { height: 300px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { transition: none !important; animation: none !important; }
+            .card, .step { transform: none !important; opacity: 1 !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <div id="threejs-container" aria-hidden="true"></div>
+
+    <header>
+        <h1>Grow with CORE</h1>
+        <p class="lead">Your Path to Real Asset Investments 🏛️</p>
+        <p class="lead" style="max-width:950px;">
+            Empower your portfolio with direct, sustainable investments in agriculture, livestock, and essential resources. Experience growth that's tangible, ethical, and impactful – from seed to harvest.
+        </p>
+    </header>
+
+    <main id="main-content">
+        <section>
+            <h2 style="font-size: clamp(2.4rem, 7vw, 4.8rem); margin-bottom: 5rem; color: var(--accent); text-shadow: 0 3px 15px rgba(0,0,0,0.7);">
+                Invest in What Sustains Our World
+            </h2>
+
+            <div class="features">
+                <article class="card">
+                    <h3>Sustainable Agriculture 🌾</h3>
+                    <img src="https://thumbs.dreamstime.com/b/golden-sunset-over-vibrant-field-rows-crops-stretching-to-horizon-ai-generated-405097918.jpg" 
+                         alt="Golden sunset over vibrant sustainable farm fields with thriving crops" 
+                         class="section-image" loading="lazy">
+                    <p>Harness cutting-edge, eco-friendly farming technologies to secure food systems and foster environmental stewardship for future generations.</p>
+                </article>
+
+                <article class="card">
+                    <h3>Thriving Livestock 🐄</h3>
+                    <img src="http://capellacheese.com/cdn/shop/articles/AdobeStock_609677415-blog-header.jpg?v=1718222077&width=2048" 
+                         alt="Happy, healthy cows grazing freely on lush green pastures" 
+                         class="section-image" loading="lazy">
+                    <p>Support humane, welfare-driven animal husbandry practices that build resilient food supply chains with integrity.</p>
+                </article>
+
+                <article class="card">
+                    <h3>Essential Resources 💧</h3>
+                    <img src="https://www.nrdc.org/sites/default/files/styles/huge_16x9_100/public/media-uploads/01_istock_000074694671_large.jpg.jpg?h=c3635fa2&itok=T9RmBNOk" 
+                         alt="Renewable energy infrastructure with water management and clean energy solutions" 
+                         class="section-image" loading="lazy">
+                    <p>Invest in critical water conservation, renewable energy projects, and foundational resources driving global sustainability.</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="how-it-works">
+            <h2 style="font-size: clamp(2.4rem, 7vw, 4.8rem); margin-bottom: 3rem; color: var(--accent); text-shadow: 0 3px 15px rgba(0,0,0,0.7);">
+                How It Works: Your Journey to Sustainable Wealth
+            </h2>
+            <p style="font-size: clamp(1.2rem, 3.8vw, 1.8rem); max-width: 900px; margin: 0 auto 4rem; opacity: 0.9;">
+                Discover the simple steps to start investing with Grow with CORE. Our platform guides you through every stage, from selection to growth monitoring.
+            </p>
+
+            <div class="steps">
+                <article class="step">
+                    <span class="step-icon">🔍</span>
+                    <div class="step-number">Step 1</div>
+                    <h4 style="font-size: 1.8rem; margin-bottom: 1rem;">Explore Opportunities</h4>
+                    <p>Browse curated investments in agriculture, livestock, and resources. Use our interactive tools to filter by impact, return potential, and sustainability metrics.</p>
+                </article>
+
+                <article class="step">
+                    <span class="step-icon">📝</span>
+                    <div class="step-number">Step 2</div>
+                    <h4 style="font-size: 1.8rem; margin-bottom: 1rem;">Build Your Portfolio</h4>
+                    <p>Select assets that align with your goals. Our AI-powered advisor suggests diversified portfolios for optimal growth and risk management.</p>
+                </article>
+
+                <article class="step">
+                    <span class="step-icon">🚀</span>
+                    <div class="step-number">Step 3</div>
+                    <h4 style="font-size: 1.8rem; margin-bottom: 1rem;">Invest & Monitor</h4>
+                    <p>Fund your choices securely. Track real-time progress with dashboards, 3D visualizations of asset growth, and regular impact reports.</p>
+                </article>
+
+                <article class="step">
+                    <span class="step-icon">🌱</span>
+                    <div class="step-number">Step 4</div>
+                    <h4 style="font-size: 1.8rem; margin-bottom: 1rem;">Watch It Grow</h4>
+                    <p>See your investments flourish. Receive sustainable returns while contributing to a greener world – reinvest or withdraw at your pace.</p>
+                </article>
+            </div>
+        </section>
+
+        <section id="simulator">
+            <h2 style="font-size: clamp(2.4rem, 7vw, 4.8rem); margin-bottom: 3rem; color: var(--accent); text-shadow: 0 3px 15px rgba(0,0,0,0.7);">
+                Interactive 3D Investment Simulator
+            </h2>
+            <p style="font-size: clamp(1.2rem, 3.8vw, 1.8rem); max-width: 900px; margin: 0 auto 4rem; opacity: 0.9;">
+                Visualize your potential growth! Enter an investment amount and time period to see a 3D simulation of how your assets might grow over time. (Note: This is for illustration; actual returns vary.)
+            </p>
+
+            <div id="simulator-controls">
+                <label for="investment-amount">Investment Amount ($):</label>
+                <input type="number" id="investment-amount" min="100" value="1000" step="100">
+
+                <label for="investment-years">Years:</label>
+                <input type="number" id="investment-years" min="1" value="5" max="20">
+
+                <button id="simulate-btn">Simulate Growth</button>
+            </div>
+
+            <div id="simulator-canvas"></div>
+
+            <p id="growth-result"></p>
+        </section>
+
+        <section style="padding: clamp(14vh, 20vh, 24vh) 5vw; text-align:center; background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.4)); border-radius: 40px; margin: 0 5vw; box-shadow: var(--shadow-hover);">
+            <h2 style="font-size: clamp(2.6rem, 8vw, 6rem); margin-bottom: 3rem; color: var(--accent); text-shadow: 0 4px 20px rgba(0,0,0,0.8);">
+                Ready to Cultivate Your Financial Future?
+            </h2>
+            <p style="font-size: clamp(1.25rem, 4vw, 1.9rem); max-width: 900px; margin: 0 auto 4rem; font-weight: 300; opacity: 0.92;">
+                Join thousands growing their wealth sustainably with CORE. Start small, impact big.
+            </p>
+            <a href="map.html" class="cta" role="button">Launch Your CORE Journey Now →</a>
+        </section>
+    </main>
+
+    <footer>
+        <h3>Grow with CORE</h3>
+        <nav class="footer-links">
+            <a href="#">About Us</a>
+            <a href="#">Investment Opportunities</a>
+            <a href="#">How It Works</a>
+            <a href="#">Success Stories</a>
+            <a href="#">Blog & Insights</a>
+            <a href="#">Contact Us</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">FAQ</a>
+            <a href="#">Sustainability Report</a>
+        </nav>
+
+        <div class="footer-social">
+            <a href="#" aria-label="Follow us on X (Twitter)">🕊️</a>
+            <a href="#" aria-label="Follow us on LinkedIn">🔗</a>
+            <a href="#" aria-label="Follow us on Instagram">📸</a>
+            <a href="#" aria-label="Follow us on Facebook">📘</a>
+            <a href="#" aria-label="Subscribe to our YouTube channel">🎥</a>
+        </div>
+
+        <div class="footer-contact">
+            <p>Email: info@growwithcore.com</p>
+            <p>Phone: +1 (555) 123-4567</p>
+            <p>Address: 123 Sustainable Ave, Green City, GC 12345</p>
+            <p>We're committed to sustainable investing and ethical practices worldwide. Join our community for exclusive webinars and updates.</p>
+        </div>
+
+        <p class="copyright">
+            ©️ 2026 Grow with CORE. All rights reserved.<br>
+            Empowering real asset investments for a greener, more prosperous tomorrow.
+        </p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script>
+        // Background 3D animation (unchanged)
+        const container = document.getElementById('threejs-container');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(65, window.innerWidth/window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({alpha:true, antialias:true});
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.6));
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        container.appendChild(renderer.domElement);
+
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+        scene.add(ambientLight);
+
+        const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        dirLight.position.set(10, 10, 10);
+        scene.add(dirLight);
+
+        const coreGeometry = new THREE.SphereGeometry(5, 32, 32);
+        const coreMaterial = new THREE.MeshPhongMaterial({
+            color: 0x32CD32,
+            emissive: 0x228B22,
+            shininess: 100,
+            wireframe: false
+        });
+        const core = new THREE.Mesh(coreGeometry, coreMaterial);
+        scene.add(core);
+
+        function createTree(x, y, z, scale = 1) {
+            const group = new THREE.Group();
+
+            const trunk = new THREE.Mesh(
+                new THREE.CylinderGeometry(0.7, 1, 6, 12),
+                new THREE.MeshPhongMaterial({color: 0x8B4513, shininess: 30})
+            );
+            trunk.position.y = 3;
+            group.add(trunk);
+
+            const leafMat = new THREE.MeshPhongMaterial({
+                color: 0x228B22,
+                emissive: 0x006400,
+                shininess: 50,
+                side: THREE.DoubleSide
+            });
+            for (let i = 0; i < 5; i++) {
+                const leaves = new THREE.Mesh(
+                    new THREE.ConeGeometry(3 - i*0.5, 4 - i*0.8, 12),
+                    leafMat
+                );
+                leaves.position.y = 5 + i*2.5;
+                leaves.rotation.x = Math.random() * 0.2 - 0.1;
+                leaves.rotation.z = Math.random() * 0.2 - 0.1;
+                group.add(leaves);
+            }
+
+            group.position.set(x, y, z);
+            group.scale.setScalar(scale);
+            return group;
+        }
+
+        const trees = [
+            createTree(-10, -4, -5, 1.0),
+            createTree(10, -4, -6, 1.2),
+            createTree(-5, -4, 8, 0.95),
+            createTree(6, -4, 9, 1.15),
+            createTree(0, -4, -10, 1.05)
+        ];
+        trees.forEach(tree => scene.add(tree));
+
+        const particleCount = 8000;
+        const positions = new Float32Array(particleCount * 3);
+        const colors = new Float32Array(particleCount * 3);
+        for (let i = 0; i < particleCount * 3; i += 3) {
+            positions[i] = (Math.random() - 0.5) * 50;
+            positions[i+1] = (Math.random() - 0.5) * 50 + 5;
+            positions[i+2] = (Math.random() - 0.5) * 50;
+            colors[i] = 0.35 + Math.random() * 0.65;
+            colors[i+1] = 0.8 + Math.random() * 0.2;
+            colors[i+2] = 0.35 + Math.random() * 0.65;
+        }
+        const particlesGeometry = new THREE.BufferGeometry();
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.08,
+            vertexColors: true,
+            transparent: true,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false
+        });
+        const particles = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particles);
+
+        camera.position.set(0, 5, 25);
+
+        let time = 0;
+        function animateBackground() {
+            if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            requestAnimationFrame(animateBackground);
+            time += 0.003;
+
+            core.rotation.y += 0.001;
+            core.position.y = Math.sin(time * 1.5) * 1.5;
+
+            trees.forEach((tree, i) => {
+                const angle = time * (0.2 + i * 0.05) + i * Math.PI / 2;
+                tree.position.x = Math.cos(angle) * (10 + i * 2);
+                tree.position.z = Math.sin(angle) * (10 + i * 2);
+                tree.rotation.y += 0.0005;
+                const growthFactor = 1 + Math.sin(time + i) * 0.08;
+                tree.scale.setScalar(growthFactor * (0.9 + i * 0.05));
+            });
+
+            const particlePositions = particles.geometry.attributes.position.array;
+            for (let i = 1; i < particleCount * 3; i += 3) {
+                particlePositions[i] += 0.01 * Math.sin(time + i);
+                if (particlePositions[i] > 30) particlePositions[i] = -30;
+            }
+            particles.geometry.attributes.position.needsUpdate = true;
+
+            renderer.render(scene, camera);
+        }
+        animateBackground();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Interactive Simulator 3D
+        const simContainer = document.getElementById('simulator-canvas');
+        const simScene = new THREE.Scene();
+        const simCamera = new THREE.PerspectiveCamera(75, simContainer.clientWidth / simContainer.clientHeight, 0.1, 1000);
+        const simRenderer = new THREE.WebGLRenderer({ antialias: true });
+        simRenderer.setSize(simContainer.clientWidth, simContainer.clientHeight);
+        simContainer.appendChild(simRenderer.domElement);
+
+        const simAmbientLight = new THREE.AmbientLight(0xffffff, 0.7);
+        simScene.add(simAmbientLight);
+
+        const simDirLight = new THREE.DirectionalLight(0xffffff, 1);
+        simDirLight.position.set(5, 10, 5);
+        simScene.add(simDirLight);
+
+        // Ground
+        const groundGeometry = new THREE.PlaneGeometry(20, 20);
+        const groundMaterial = new THREE.MeshPhongMaterial({ color: 0x654321, side: THREE.DoubleSide });
+        const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+        ground.rotation.x = -Math.PI / 2;
+        simScene.add(ground);
+
+        // Simulator tree (starts as seed)
+        let simTree = createTree(0, 0, 0, 0.1); // Small scale for seed
+        simScene.add(simTree);
+
+        simCamera.position.set(0, 5, 10);
+        simCamera.lookAt(0, 0, 0);
+
+        let simTime = 0;
+        let targetScale = 0.1;
+        let currentScale = 0.1;
+
+        function animateSimulator() {
+            requestAnimationFrame(animateSimulator);
+            simTime += 0.01;
+
+            // Interpolate scale
+            currentScale += (targetScale - currentScale) * 0.05;
+            simTree.scale.setScalar(currentScale);
+
+            // Gentle rotation
+            simTree.rotation.y += 0.002;
+
+            simRenderer.render(simScene, simCamera);
+        }
+        animateSimulator();
+
+        // Handle resize for simulator
+        window.addEventListener('resize', () => {
+            simCamera.aspect = simContainer.clientWidth / simContainer.clientHeight;
+            simCamera.updateProjectionMatrix();
+            simRenderer.setSize(simContainer.clientWidth, simContainer.clientHeight);
+        });
+
+        // Simulator logic
+        const simulateBtn = document.getElementById('simulate-btn');
+        const amountInput = document.getElementById('investment-amount');
+        const yearsInput = document.getElementById('investment-years');
+        const resultP = document.getElementById('growth-result');
+
+        simulateBtn.addEventListener('click', () => {
+            const amount = parseFloat(amountInput.value) || 1000;
+            const years = parseInt(yearsInput.value) || 5;
+
+            // Simple growth calculation (e.g., 7% annual compound interest)
+            const rate = 0.07;
+            const finalAmount = amount * Math.pow(1 + rate, years);
+            resultP.textContent = `Estimated value after ${years} years: $${finalAmount.toFixed(2)} (at 7% annual growth)`;
+
+            // Scale tree based on growth (normalize to max scale 2)
+            const growthFactor = Math.min(finalAmount / amount, 2);
+            targetScale = 0.1 + growthFactor * 1.9;
+
+            // Animate particles for growth effect
+            addGrowthParticles();
+        });
+
+        // Function to add temporary growth particles
+        function addGrowthParticles() {
+            const particleGeo = new THREE.BufferGeometry();
+            const particlePos = new Float32Array(1000 * 3);
+            for (let i = 0; i < 1000 * 3; i += 3) {
+                particlePos[i] = (Math.random() - 0.5) * 2;
+                particlePos[i+1] = Math.random() * targetScale * 10;
+                particlePos[i+2] = (Math.random() - 0.5) * 2;
+            }
+            particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePos, 3));
+
+            const particleMat = new THREE.PointsMaterial({
+                color: 0x90EE90,
+                size: 0.1,
+                transparent: true,
+                blending: THREE.AdditiveBlending
+            });
+            const growthParticles = new THREE.Points(particleGeo, particleMat);
+            simScene.add(growthParticles);
+
+            // Animate particles upwards and fade out
+            let particleTime = 0;
+            const particleAnim = () => {
+                if (particleTime > 3) {
+                    simScene.remove(growthParticles);
+                    return;
+                }
+                particleTime += 0.05;
+                const pos = growthParticles.geometry.attributes.position.array;
+                for (let i = 1; i < 1000 * 3; i += 3) {
+                    pos[i] += 0.1;
+                }
+                growthParticles.geometry.attributes.position.needsUpdate = true;
+                growthParticles.material.opacity = 1 - particleTime / 3;
+                requestAnimationFrame(particleAnim);
+            };
+            particleAnim();
+        }
+
+        // Reveal animations
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, index * 250);
+                }
+            });
+        }, {threshold: 0.2});
+
+        document.querySelectorAll('.card, .step').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
+```
