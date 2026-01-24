@@ -3,396 +3,366 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Grow with CORE – Sustainable Real Asset Investments</title>
+    <title>Grow with CORE | Real Asset Investment Platform</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🌲%3C/text%3E%3C/svg%3E">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #2ed573;
-            --primary-dark: #1e90ff;
-            --accent: #ffa502;
-            --bg-dark: #0a0f12;
-            --glass: rgba(255, 255, 255, 0.08);
-            --glass-border: rgba(255, 255, 255, 0.15);
-            --text: #f1f2f6;
-            --shadow-premium: 0 20px 50px rgba(0,0,0,0.5);
+            --primary-glow: rgba(46, 213, 115, 0.3);
+            --bg: #05070a;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #a1a1aa;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            scroll-behavior: smooth;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            background: var(--bg-dark);
-            color: var(--text);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
             line-height: 1.6;
             overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
         }
 
-        /* FLOATING CTA */
+        /* Fixed Background Canvas */
+        #threejs-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            opacity: 0.4;
+        }
+
+        /* Floating CTA */
         .floating-cta {
             position: fixed;
             bottom: 30px;
             right: 30px;
-            z-index: 9999;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            padding: clamp(12px, 2vw, 18px) clamp(20px, 4vw, 35px);
-            border-radius: 50px;
+            z-index: 1000;
+            background: var(--primary);
+            color: #000;
+            padding: 16px 32px;
+            border-radius: 100px;
             text-decoration: none;
             font-weight: 800;
-            font-size: clamp(0.9rem, 1.5vw, 1.1rem);
-            box-shadow: 0 15px 35px rgba(46, 213, 115, 0.4);
+            font-size: 1rem;
+            box-shadow: 0 10px 30px var(--primary-glow);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex;
             align-items: center;
-            gap: 12px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 2px solid rgba(255,255,255,0.2);
-            animation: pulse-float 3s ease-in-out infinite;
+            gap: 10px;
         }
+        .floating-cta:hover { transform: scale(1.05) translateY(-5px); box-shadow: 0 15px 40px var(--primary-glow); }
 
-        @keyframes pulse-float {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-10px) scale(1.05); }
-        }
-
-        #threejs-container {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            opacity: 0.6;
-            pointer-events: none;
-        }
-
+        /* Hero Section */
         header {
-            text-align: center;
-            padding: clamp(10vh, 20vh, 25vh) 5vw;
-            min-height: 100vh;
+            height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            padding: 0 5%;
+            text-align: center;
+            background: radial-gradient(circle at center, rgba(46, 213, 115, 0.05) 0%, transparent 70%);
+        }
+
+        .badge {
+            background: rgba(46, 213, 115, 0.1);
+            color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            border: 1px solid var(--primary-glow);
         }
 
         h1 {
-            font-size: clamp(2.8rem, 10vw, 7.5rem);
-            font-weight: 900;
-            background: linear-gradient(to bottom, #fff 30%, var(--primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 1rem;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+            font-size: clamp(2.5rem, 8vw, 6rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
             letter-spacing: -2px;
         }
 
+        h1 span { color: var(--primary); }
+
         .lead {
-            font-size: clamp(1rem, 2.5vw, 1.6rem);
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            color: var(--text-dim);
             max-width: 800px;
-            margin: 0 auto 2rem;
-            opacity: 0.9;
-            font-weight: 300;
+            margin-bottom: 40px;
         }
 
-        section {
-            padding: clamp(60px, 10vh, 120px) 5vw;
-            max-width: 1400px;
-            margin: 0 auto;
+        /* Section Layouts */
+        section { padding: 100px 5%; max-width: 1400px; margin: 0 auto; }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
         }
 
-        .features {
+        .section-title h2 { font-size: 2.5rem; margin-bottom: 15px; }
+        .section-title p { color: var(--text-dim); font-size: 1.1rem; }
+
+        /* Feature Cards */
+        .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
         }
 
         .card {
-            background: var(--glass);
-            backdrop-filter: blur(15px);
-            border-radius: 30px;
-            padding: clamp(1.5rem, 3vw, 2.5rem);
-            border: 1px solid var(--glass-border);
-            transition: all 0.5s ease;
-            opacity: 0;
-            transform: translateY(30px);
-        }
-
-        .card.visible { opacity: 1; transform: translateY(0); }
-
-        .card:hover {
-            transform: translateY(-10px);
-            border-color: var(--primary);
-            background: rgba(255,255,255,0.12);
-        }
-
-        .section-image {
-            width: 100%;
-            height: clamp(180px, 25vh, 250px);
-            object-fit: cover;
-            border-radius: 20px;
-            margin-bottom: 1.5rem;
-        }
-
-        /* SIMULATOR ENHANCEMENTS */
-        #simulator {
-            background: rgba(15, 25, 30, 0.85);
-            backdrop-filter: blur(10px);
-            border-radius: clamp(20px, 5vw, 50px);
-            border: 1px solid var(--glass-border);
-            padding: clamp(2rem, 5vw, 5rem) clamp(1rem, 3vw, 3rem);
-            margin: 40px auto;
-        }
-
-        #simulator-controls {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-            justify-content: center;
-            margin-bottom: 2rem;
-        }
-
-        .input-group {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 40px;
+            transition: 0.4s;
             position: relative;
-            flex: 1 1 200px;
-            max-width: 300px;
-        }
-
-        /* TOOLTIP LOGIC */
-        .tooltip-icon {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 18px;
-            height: 18px;
-            background: var(--primary);
-            color: #000;
-            border-radius: 50%;
-            font-size: 12px;
-            font-weight: bold;
-            margin-left: 8px;
-            cursor: help;
-            position: relative;
-        }
-
-        .tooltip-text {
-            visibility: hidden;
-            width: 220px;
-            background-color: #1a1a1a;
-            color: #fff;
-            text-align: center;
-            border-radius: 8px;
-            padding: 12px;
-            position: absolute;
-            z-index: 10;
-            bottom: 150%;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            transition: opacity 0.3s;
-            font-size: 0.85rem;
-            line-height: 1.4;
-            border: 1px solid var(--primary);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-            pointer-events: none;
-        }
-
-        .tooltip-text::after {
-            content: "";
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            margin-left: -5px;
-            border-width: 5px;
-            border-style: solid;
-            border-color: var(--primary) transparent transparent transparent;
-        }
-
-        .tooltip-icon:hover .tooltip-text {
-            visibility: visible;
-            opacity: 1;
-        }
-
-        #simulator-controls input {
-            width: 100%;
-            background: rgba(0,0,0,0.5);
-            border: 1px solid var(--glass-border);
-            color: var(--primary);
-            padding: 14px;
-            border-radius: 12px;
-            font-weight: bold;
-            outline: none;
-            margin-top: 8px;
-        }
-
-        #simulator-canvas {
-            width: 100%;
-            height: clamp(300px, 50vh, 500px);
-            border-radius: 20px;
-            border: 2px solid var(--glass-border);
             overflow: hidden;
         }
 
-        footer {
-            background: #050708;
-            padding: clamp(4rem, 10vh, 8rem) 5vw 2rem;
-            border-top: 1px solid var(--glass-border);
-            text-align: center;
+        .card:hover {
+            border-color: var(--primary);
+            background: rgba(255,255,255,0.06);
+            transform: translateY(-10px);
         }
 
-        /* Responsive Fixes for Small Screens */
-        @media (max-width: 480px) {
-            .floating-cta { bottom: 15px; right: 15px; width: calc(100% - 30px); justify-content: center; }
-            h1 { line-height: 1.1; }
-            section { padding: 40px 5vw; }
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            display: block;
         }
+
+        /* Simulator Dashboard Styling */
+        .simulator-box {
+            background: #0a0c10;
+            border-radius: 32px;
+            border: 1px solid var(--border);
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        @media (max-width: 968px) { .simulator-box { grid-template-columns: 1fr; } }
+
+        .sim-controls { display: flex; flex-direction: column; gap: 20px; }
+        .input-group { display: flex; flex-direction: column; gap: 8px; }
+        
+        .input-group label { font-size: 0.8rem; color: var(--text-dim); font-weight: 600; }
+        
+        .input-group input {
+            background: #14171c;
+            border: 1px solid var(--border);
+            color: #fff;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 1rem;
+            outline: none;
+        }
+        .input-group input:focus { border-color: var(--primary); }
+
+        #sim-canvas {
+            width: 100%;
+            height: 400px;
+            background: #000;
+            border-radius: 20px;
+        }
+
+        /* Footer */
+        footer {
+            background: #020305;
+            padding: 80px 5% 40px;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer-logo h3 { font-size: 1.8rem; color: var(--primary); }
+        .footer-contact p { color: var(--text-dim); margin-bottom: 10px; font-size: 0.95rem; }
+        .footer-contact a { color: #fff; text-decoration: none; }
+
+        .copyright {
+            padding-top: 40px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: #555;
+            font-size: 0.85rem;
+        }
+
+        /* Reveal Animation */
+        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s all ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
     </style>
 </head>
 <body>
 
-    <a href="map.html" class="floating-cta">
-        <span>Launch CORE Journey</span> 🚀
+    <a href="https://www.growwithcore.com.ng" class="floating-cta">
+        Launch Platform 🚀
     </a>
 
     <div id="threejs-container"></div>
 
     <header>
-        <h1>Grow with CORE</h1>
-        <p class="lead">Wealth that grows with the planet. 🏛️</p>
+        <div class="badge">United Kingdom • Real Assets • Sustainable</div>
+        <h1>Your Path to <span>Real Asset</span> Investments</h1>
+        <p class="lead">Cultivate your financial future by connecting with essential sectors. Forget abstract stocks—invest in assets you can watch grow from seed to harvest.</p>
+        <div style="display: flex; gap: 20px;">
+            <a href="#how" style="background: #fff; color: #000; padding: 16px 32px; border-radius: 100px; text-decoration: none; font-weight: 700;">Explore Opportunities</a>
+            <a href="#simulator" style="background: rgba(255,255,255,0.1); color: #fff; padding: 16px 32px; border-radius: 100px; text-decoration: none; font-weight: 700; border: 1px solid var(--border);">Try Simulator</a>
+        </div>
     </header>
 
-    <main>
-        <section>
-            <div class="features">
-                <article class="card">
-                    <img src="https://thumbs.dreamstime.com/b/golden-sunset-over-vibrant-field-rows-crops-stretching-to-horizon-ai-generated-405097918.jpg" class="section-image" alt="Agri">
-                    <h3 style="color:var(--primary)">Sustainable Agriculture</h3>
-                    <p>Harnessing tech-driven farming for maximum yield and planet recovery.</p>
-                </article>
-                <article class="card">
-                    <img src="http://capellacheese.com/cdn/shop/articles/AdobeStock_609677415-blog-header.jpg?v=1718222077&width=2048" class="section-image" alt="Livestock">
-                    <h3 style="color:var(--primary)">Ethical Livestock</h3>
-                    <p>Integrity-based husbandry meeting global protein demands sustainably.</p>
-                </article>
+    <section id="how">
+        <div class="section-title reveal">
+            <h2>Fundamental Industries</h2>
+            <p>Direct ownership in the foundational pillars of global stability.</p>
+        </div>
+        <div class="grid">
+            <div class="card reveal">
+                <span class="card-icon">🌾</span>
+                <h3>Sustainable Agriculture</h3>
+                <p>Put your money into the ground. Fund modern farming technology designed for long-term sustainability and yield. Secure food supply while generating returns.</p>
             </div>
-        </section>
+            <div class="card reveal">
+                <span class="card-icon">🐄</span>
+                <h3>Thriving Livestock</h3>
+                <p>Invest in biological growth. Support ethical practices and a robust food supply chain by funding the growth and well-being of essential farm assets.</p>
+            </div>
+            <div class="card reveal">
+                <span class="card-icon">💧</span>
+                <h3>Essential Resources</h3>
+                <p>The backbone of industrial progress. Fund projects in water management and renewable energy that underpin the global economy.</p>
+            </div>
+        </div>
+    </section>
 
-        <section id="simulator">
-            <h2 style="text-align: center; margin-bottom: 2rem;">Visual Wealth Simulator</h2>
-            
-            <div id="simulator-controls">
-                <div class="input-group">
-                    <label style="font-size: 0.8rem; color: #888; font-weight: bold;">
-                        INVESTMENT ($)
-                        <span class="tooltip-icon">?
-                            <span class="tooltip-text">This is the amount of capital you plan to deploy. Minimum recommended is $500 for diversification.</span>
-                        </span>
-                    </label>
-                    <input type="number" id="investment-amount" value="1000">
-                </div>
+    <section id="simulator">
+        <div class="simulator-box reveal">
+            <div class="sim-controls">
+                <h2>Seed to Tree 🌳</h2>
+                <p style="color: var(--text-dim)">Visualise your investment growth. Our assets are tangible—they develop, produce, and mature just like nature.</p>
                 
                 <div class="input-group">
-                    <label style="font-size: 0.8rem; color: #888; font-weight: bold;">
-                        HORIZON (YEARS)
-                        <span class="tooltip-icon">?
-                            <span class="tooltip-text">Real assets like timber or livestock grow over time. Longer horizons typically yield higher compound returns.</span>
-                        </span>
-                    </label>
-                    <input type="number" id="investment-years" value="5">
+                    <label>INVESTMENT AMOUNT ($)</label>
+                    <input type="number" id="amt" value="1000">
                 </div>
-
-                <div style="flex: 1 1 100%; display: flex; justify-content: center; margin-top: 10px;">
-                    <button id="simulate-btn" style="background:var(--primary); color:#000; border:none; padding: 15px 40px; border-radius: 12px; font-weight: 800; cursor:pointer; width: clamp(200px, 50%, 400px);">
-                        UPDATE 3D GROWTH
-                    </button>
+                <div class="input-group">
+                    <label>GROWTH DURATION (YEARS)</label>
+                    <input type="number" id="yrs" value="5">
                 </div>
+                <button id="calc-btn" style="background: var(--primary); border: none; padding: 18px; border-radius: 12px; font-weight: 800; cursor: pointer; margin-top: 10px;">Update Projection</button>
+                <p id="result" style="font-size: 1.5rem; font-weight: 800; color: var(--primary); text-align: center; margin-top: 10px;"></p>
             </div>
+            <div id="sim-canvas"></div>
+        </div>
+    </section>
 
-            <div id="simulator-canvas"></div>
-            <p id="growth-result" style="text-align: center; margin-top: 2rem; font-size: 1.3rem; color: var(--primary); font-weight: bold;"></p>
-        </section>
-    </main>
+    <section class="reveal" style="text-align: center; border-radius: 40px; background: linear-gradient(135deg, rgba(46, 213, 115, 0.1) 0%, transparent 100%); border: 1px solid var(--border);">
+        <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Plant Your Seeds Today</h2>
+        <p style="max-width: 700px; margin: 0 auto 40px; color: var(--text-dim);">Grow with CORE provides the platform and the opportunities; you provide the vision for your financial growth.</p>
+        <a href="https://www.growwithcore.com.ng" style="background: var(--primary); color: #000; padding: 20px 40px; border-radius: 100px; text-decoration: none; font-weight: 800; font-size: 1.1rem; display: inline-block;">Get Started Now</a>
+    </section>
 
     <footer>
-        <p style="opacity: 0.5; font-size: 0.8rem;">© 2026 CORE Asset Management. Secure. Real. Sustainable.</p>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <h3>Grow with <span>CORE</span></h3>
+                <p style="color: var(--text-dim); margin-top: 15px;">Transforming capital into tangible growth through sustainable real-world assets.</p>
+            </div>
+            <div class="footer-contact">
+                <h4>Contact Us</h4>
+                <p>📧 <a href="mailto:contact@growwithcore.com.ng">contact@growwithcore.com.ng</a></p>
+                <p>🌐 <a href="http://www.growwithcore.com.ng">www.growwithcore.com.ng</a></p>
+                <p>📞 +44 7914 612 850</p>
+            </div>
+            <div class="footer-contact">
+                <h4>HQ Location</h4>
+                <p>United Kingdom</p>
+                <p>Strategic Management Hub</p>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2026 Grow with CORE. All rights reserved. Registered in the UK.
+        </div>
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
     <script>
-        // BACKGROUND 3D
+        // Hero Background
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(65, window.innerWidth/window.innerHeight, 0.1, 1000);
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({alpha:true, antialias:true});
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.getElementById('threejs-container').appendChild(renderer.domElement);
-
-        scene.add(new THREE.AmbientLight(0xffffff, 0.7));
-        const core = new THREE.Mesh(new THREE.SphereGeometry(5, 32, 32), new THREE.MeshPhongMaterial({color: 0x32CD32}));
-        scene.add(core);
-        camera.position.z = 25;
+        const geo = new THREE.IcosahedronGeometry(15, 1);
+        const mat = new THREE.MeshPhongMaterial({color: 0x2ed573, wireframe: true, transparent: true, opacity: 0.2});
+        const mesh = new THREE.Mesh(geo, mat);
+        scene.add(mesh);
+        scene.add(new THREE.AmbientLight(0xffffff, 1));
+        camera.position.z = 40;
 
         function animate() {
             requestAnimationFrame(animate);
-            core.rotation.y += 0.005;
+            mesh.rotation.y += 0.001;
             renderer.render(scene, camera);
         }
         animate();
 
-        // SIMULATOR 3D
-        const simContainer = document.getElementById('simulator-canvas');
-        const simScene = new THREE.Scene();
-        const simCamera = new THREE.PerspectiveCamera(75, simContainer.clientWidth / simContainer.clientHeight, 0.1, 1000);
-        const simRenderer = new THREE.WebGLRenderer({ antialias: true });
-        simRenderer.setSize(simContainer.clientWidth, simContainer.clientHeight);
-        simContainer.appendChild(simRenderer.domElement);
-
-        simScene.add(new THREE.AmbientLight(0xffffff, 0.8));
-        const treeTrunk = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.8, 5), new THREE.MeshPhongMaterial({color: 0x8B4513}));
-        const treeLeaves = new THREE.Mesh(new THREE.ConeGeometry(3, 6, 12), new THREE.MeshPhongMaterial({color: 0x228B22}));
-        treeLeaves.position.y = 4;
-        const simTree = new THREE.Group();
-        simTree.add(treeTrunk); simTree.add(treeLeaves);
-        simScene.add(simTree);
-        simCamera.position.set(0, 5, 12);
-
-        let targetScale = 0.5;
-        let currentScale = 0.5;
+        // Simulator Logic
+        const sCanvas = document.getElementById('sim-canvas');
+        const sScene = new THREE.Scene();
+        const sCam = new THREE.PerspectiveCamera(75, sCanvas.clientWidth/sCanvas.clientHeight, 0.1, 1000);
+        const sRen = new THREE.WebGLRenderer({antialias:true});
+        sRen.setSize(sCanvas.clientWidth, sCanvas.clientHeight);
+        sCanvas.appendChild(sRen.domElement);
+        sScene.add(new THREE.AmbientLight(0xffffff, 1));
+        
+        const treeGroup = new THREE.Group();
+        const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.5, 4), new THREE.MeshPhongMaterial({color: 0x4d2a00}));
+        const leaves = new THREE.Mesh(new THREE.SphereGeometry(2, 8, 8), new THREE.MeshPhongMaterial({color: 0x2ed573}));
+        leaves.position.y = 3;
+        treeGroup.add(trunk, leaves);
+        sScene.add(treeGroup);
+        sCam.position.set(0, 4, 10);
 
         function updateSim() {
-            requestAnimationFrame(updateSim);
-            currentScale += (targetScale - currentScale) * 0.05;
-            simTree.scale.setScalar(currentScale);
-            simTree.rotation.y += 0.01;
-            simRenderer.render(simScene, simCamera);
+            const amt = document.getElementById('amt').value;
+            const yrs = document.getElementById('yrs').value;
+            const final = amt * Math.pow(1.1, yrs); // 10% annual avg
+            document.getElementById('result').innerText = `$${Math.round(final).toLocaleString()}`;
+            const scale = 0.5 + (final/amt) * 0.5;
+            treeGroup.scale.setScalar(scale);
         }
+        document.getElementById('calc-btn').addEventListener('click', updateSim);
+        
+        function simAnimate() {
+            requestAnimationFrame(simAnimate);
+            treeGroup.rotation.y += 0.01;
+            sRen.render(sScene, sCam);
+        }
+        simAnimate();
         updateSim();
 
-        document.getElementById('simulate-btn').addEventListener('click', () => {
-            const amount = parseFloat(document.getElementById('investment-amount').value) || 1000;
-            const years = parseInt(document.getElementById('investment-years').value) || 5;
-            const final = amount * Math.pow(1.08, years); // 8% avg growth
-            document.getElementById('growth-result').textContent = `Projected Value: $${final.toLocaleString(undefined, {maximumFractionDigits:0})}`;
-            targetScale = 0.5 + (final / amount) * 0.5;
+        // Scroll Reveal
+        window.addEventListener('scroll', () => {
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach(r => {
+                const top = r.getBoundingClientRect().top;
+                if(top < window.innerHeight - 100) r.classList.add('active');
+            });
         });
-
-        // Resize Handling
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            
-            simCamera.aspect = simContainer.clientWidth / simContainer.clientHeight;
-            simCamera.updateProjectionMatrix();
-            simRenderer.setSize(simContainer.clientWidth, simContainer.clientHeight);
-        });
-
-        // Intersection Observer for Reveal
-        const obs = new IntersectionObserver(es => {
-            es.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
-        }, {threshold: 0.1});
-        document.querySelectorAll('.card').forEach(c => obs.observe(c));
     </script>
 </body>
 </html>
