@@ -3,321 +3,241 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CORE | Elite Real Asset Ecosystem</title>
+    <title>Grow with CORE | Premium Real Asset Platform</title>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
 
     <style>
         :root {
             --primary: #2ed573;
-            --primary-dark: #1cb15d;
-            --bg: #020406;
-            --glass: rgba(255, 255, 255, 0.02);
-            --border: rgba(255, 255, 255, 0.08);
+            --primary-glow: rgba(46, 213, 115, 0.4);
+            --bg: #030508;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-main: #ffffff;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: var(--bg);
-            color: #fff;
+            color: var(--text-main);
             overflow-x: hidden;
-            scroll-behavior: smooth;
         }
 
-        #main-bg { position: fixed; top: 0; left: 0; z-index: -1; }
+        /* Fixed Background Canvas */
+        #main-canvas { position: fixed; top: 0; left: 0; z-index: -1; pointer-events: none; }
 
-        /* Advanced Activity Ticker */
-        .activity-stream {
+        /* Social Proof Ticker */
+        .live-ticker {
             position: fixed;
-            top: 25px;
-            right: 25px;
-            z-index: 2000;
-            perspective: 1000px;
-        }
-
-        .ticker-card {
-            background: rgba(10, 15, 20, 0.9);
-            backdrop-filter: blur(15px);
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
             border: 1px solid var(--primary);
-            padding: 15px 25px;
-            border-radius: 16px;
+            padding: 12px 20px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
-            gap: 15px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-            margin-bottom: 10px;
-            transform-origin: right center;
+            gap: 12px;
+            transform: translateX(120%);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
+        .live-ticker.active { transform: translateX(0); }
+        .ticker-dot { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; box-shadow: 0 0 10px var(--primary); animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
 
-        /* Hero Styling */
-        .hero {
-            height: 110vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            background: radial-gradient(circle at center, rgba(46, 213, 115, 0.08) 0%, transparent 70%);
-        }
-
-        .hero h1 {
-            font-size: clamp(3.5rem, 12vw, 9rem);
-            font-weight: 800;
-            line-height: 0.85;
-            letter-spacing: -5px;
-        }
-
-        /* Parallax Section */
-        .video-wrap {
+        /* Video Section */
+        .video-parallax {
             position: relative;
-            height: 100vh;
-            display: flex;
-            align-items: center;
+            height: 80vh;
+            width: 100%;
             overflow: hidden;
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 100px 0;
         }
-
-        .video-content {
-            z-index: 10;
-            padding: 0 10%;
-            width: 100%;
-        }
-
-        #bg-video {
+        .video-parallax video {
             position: absolute;
-            width: 100%; height: 100%;
-            object-fit: cover;
-            opacity: 0.4;
-            transform: scale(1.1);
+            top: 50%; left: 50%;
+            min-width: 100%; min-height: 100%;
+            width: auto; height: auto;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            filter: brightness(0.3) saturate(0.5);
         }
-
-        /* Map UI */
-        .map-section {
-            background: #05070a;
-            padding: 100px 5%;
+        .testimonial-content {
             text-align: center;
+            max-width: 800px;
+            z-index: 2;
+            padding: 20px;
         }
 
-        .map-placeholder {
-            width: 100%;
-            height: 500px;
-            background: url('https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=2000') center/cover;
+        /* Grid Layouts */
+        section { padding: 100px 7%; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .card { 
+            background: var(--glass); 
+            padding: 40px; 
+            border-radius: 24px; 
+            border: 1px solid var(--glass-border);
+            transition: 0.4s;
+        }
+        .card:hover { border-color: var(--primary); transform: translateY(-10px); }
+
+        /* Simulator UI */
+        .simulator-box {
+            background: #000;
+            border: 1px solid var(--glass-border);
             border-radius: 40px;
-            position: relative;
-            filter: grayscale(1) brightness(0.5);
-            border: 1px solid var(--border);
-            margin-top: 50px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            overflow: hidden;
         }
+        .sim-controls { padding: 50px; }
+        #sim-3d { background: #050505; min-height: 400px; }
 
-        .hotspot {
-            position: absolute;
-            width: 15px; height: 15px;
-            background: var(--primary);
-            border-radius: 50%;
-            box-shadow: 0 0 20px var(--primary);
-            animation: pulse 2s infinite;
+        input {
+            width: 100%; padding: 15px; margin-top: 10px; border-radius: 8px;
+            background: #111; border: 1px solid #333; color: white;
         }
-
-        @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(3); opacity: 0; } }
-
-        .btn-main {
-            background: var(--primary);
-            color: #000;
-            padding: 22px 45px;
-            border-radius: 100px;
-            font-weight: 800;
-            text-decoration: none;
-            display: inline-block;
-            transition: 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .btn-main:hover { transform: translateY(-5px) scale(1.05); box-shadow: 0 20px 40px var(--primary-glow); }
-
     </style>
 </head>
 <body>
 
-    <canvas id="main-bg"></canvas>
+    <canvas id="main-canvas"></canvas>
 
-    <div class="activity-stream" id="activity-stream"></div>
-
-    <section class="hero">
-        <div style="background: rgba(46, 213, 115, 0.1); padding: 8px 20px; border-radius: 50px; color: var(--primary); margin-bottom: 30px; font-weight: 700;">
-            THE FUTURE OF REAL ASSETS IS HERE
+    <div id="activity-ticker" class="live-ticker">
+        <div class="ticker-dot"></div>
+        <div>
+            <p id="ticker-name" style="font-weight: 800; font-size: 0.9rem;">Alex M.</p>
+            <p id="ticker-action" style="font-size: 0.75rem; color: #aaa;">Just started a $2,500 investment</p>
         </div>
-        <h1>CORE <span style="color: var(--primary);">-</span> ASSETS</h1>
-        <p style="font-size: 1.4rem; color: #888; max-width: 600px; margin: 30px 0;">Invest in the biological engines of the world. Agriculture, Livestock, and Resource Management.</p>
-        <a href="#simulator" class="btn-main">Enter Ecosystem</a>
-    </section>
+    </div>
 
-    <section class="video-wrap">
-        <video id="bg-video" autoplay muted loop playsinline>
-            <source src="https://assets.mixkit.co/videos/preview/mixkit-top-view-of-a-field-of-wheat-4152-large.mp4" type="video/mp4">
+    <header style="height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+        <h1 style="font-size: 6vw; font-weight: 800;">Plant Capital. <span style="color:var(--primary)">Harvest Future.</span></h1>
+        <p style="font-size: 1.5rem; color: #aaa; max-width: 700px; margin: 20px 0;">The UK's premier platform for direct investment into sustainable agriculture and biological assets.</p>
+        <a href="#simulator" class="btn" style="background:var(--primary); color:black; padding: 20px 40px; border-radius: 50px; text-decoration:none; font-weight:800; margin-top:30px;">Launch Simulation</a>
+    </header>
+
+    <div class="video-parallax">
+        <video autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1500382017468-9049fed747ef">
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-wind-blowing-in-a-wheat-field-4154-large.mp4" type="video/mp4">
         </video>
-        <div class="video-content">
-            <h2 style="font-size: clamp(2rem, 5vw, 4rem); max-width: 800px; line-height: 1.1;">"We don't just trade data. We grow real wealth that feeds the planet."</h2>
-            <div style="margin-top: 40px; display: flex; align-items: center; gap: 20px;">
-                <div style="width: 60px; height: 60px; border-radius: 50%; background: #2ed573;"></div>
-                <div>
-                    <p style="font-weight: 800;">Daniel Sutherland</p>
-                    <p style="color: var(--primary);">Director of Sustainable Growth</p>
-                </div>
-            </div>
+        <div class="testimonial-content">
+            <h2 style="font-size: 3rem; margin-bottom: 20px;">"Core transformed how I view wealth. I'm not buying digits on a screen; I'm buying the future of food."</h2>
+            <p style="font-size: 1.2rem; color: var(--primary);">— James Henderson, Senior Investor</p>
         </div>
-    </section>
+    </div>
 
-    <section id="simulator" style="padding: 100px 5%;">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 50px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 50px; overflow: hidden;">
-            <div style="padding: 80px;">
-                <h2 style="font-size: 3rem; margin-bottom: 20px;">Growth Simulator</h2>
-                <p style="color: #666; margin-bottom: 40px;">Select your initial seed capital and watch the biological growth compound over time.</p>
+    <section id="simulator">
+        <div class="simulator-box">
+            <div class="sim-controls">
+                <h2>Asset Visualizer</h2>
+                <p style="color:#888; margin-bottom: 30px;">Drag the years to see your capital grow alongside the physical asset.</p>
                 
-                <div style="margin-bottom: 30px;">
-                    <label style="color: var(--primary); font-weight: 700;">CAPITAL INPUT ($)</label>
-                    <input type="number" id="amt" value="25000" style="width: 100%; background: transparent; border: none; border-bottom: 2px solid #333; color: #fff; font-size: 2rem; padding: 10px 0; outline: none;">
-                </div>
-
-                <div style="margin-bottom: 30px;">
-                    <label style="color: var(--primary); font-weight: 700;">HORIZON (YEARS)</label>
-                    <input type="range" id="yrs" min="1" max="30" value="10" style="width: 100%; margin-top: 20px; accent-color: var(--primary);">
-                </div>
-
-                <div id="projection" style="font-size: 4rem; font-weight: 800; color: #fff;">$54,120</div>
+                <label>Capital ($)</label>
+                <input type="number" id="amt" value="10000">
+                
+                <label style="display:block; margin-top:20px;">Time Horizon (Years)</label>
+                <input type="range" id="yrs" min="1" max="25" value="5">
+                
+                <div id="result" style="font-size: 3rem; font-weight: 800; color: var(--primary); margin-top: 40px;">$14,693</div>
             </div>
-            <div id="three-container" style="background: #000; min-height: 500px;"></div>
-        </div>
-    </section>
-
-    <section class="map-section">
-        <h2 style="font-size: 3rem;">Global Asset Distribution</h2>
-        <p style="color: #666;">Real-time locations of CORE-managed agricultural projects.</p>
-        <div class="map-placeholder">
-            <div class="hotspot" style="top: 30%; left: 45%;"></div>
-            <div class="hotspot" style="top: 60%; left: 20%;"></div>
-            <div class="hotspot" style="top: 45%; left: 75%;"></div>
-            <div class="hotspot" style="top: 70%; left: 55%;"></div>
+            <div id="sim-3d"></div>
         </div>
     </section>
 
     <script>
-        // --- 1. GLOBAL BACKGROUND (Three.js) ---
+        // --- 1. THE THREE.JS AMBIANCE ---
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({canvas: document.getElementById('main-bg'), alpha:true});
+        const renderer = new THREE.WebGLRenderer({canvas: document.getElementById('main-canvas'), alpha:true});
         renderer.setSize(window.innerWidth, window.innerHeight);
 
-        const geo = new THREE.BufferGeometry();
-        const count = 4000;
-        const pos = new Float32Array(count * 3);
-        for(let i=0; i<count*3; i++) pos[i] = (Math.random() - 0.5) * 15;
-        geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-        const mat = new THREE.PointsMaterial({color: 0x2ed573, size: 0.01});
-        const points = new THREE.Points(geo, mat);
-        scene.add(points);
-        camera.position.z = 5;
+        const stars = new THREE.BufferGeometry();
+        const starCount = 3000;
+        const starPos = new Float32Array(starCount * 3);
+        for(let i=0; i<starCount*3; i++) starPos[i] = (Math.random() - 0.5) * 10;
+        stars.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+        const starMat = new THREE.PointsMaterial({color: 0x2ed573, size: 0.005});
+        const starMesh = new THREE.Points(stars, starMat);
+        scene.add(starMesh);
+        camera.position.z = 2;
 
-        function animateBg() {
-            requestAnimationFrame(animateBg);
-            points.rotation.y += 0.0005;
+        function animate() {
+            requestAnimationFrame(animate);
+            starMesh.rotation.y += 0.0005;
             renderer.render(scene, camera);
         }
-        animateBg();
+        animate();
 
-        // --- 2. ADVANCED TICKER (The Investor Engine) ---
-        const firstNames = ["James", "Sarah", "Michael", "Elena", "David", "Amara", "Chen", "Oliver", "Sophia", "Liam"];
-        const lastInitials = ["A.", "M.", "W.", "K.", "P.", "S.", "T.", "L.", "B."];
-        const domains = ["gmail.com", "outlook.com", "icloud.com", "proton.me", "yahoo.com"];
+        // --- 2. LIVE TICKER LOGIC (Transiting People) ---
+        const investors = [
+            { name: "Sarah Jenkins", email: "s***a@gmail.com", amount: "$5,000" },
+            { name: "Robert Chen", email: "r***t@outlook.com", amount: "$12,400" },
+            { name: "Michael O'Neil", email: "m***1@icloud.com", amount: "$50,000" },
+            { name: "Elena Rodriguez", email: "e***z@gmail.com", amount: "$2,200" }
+        ];
 
-        function createTicker() {
-            const container = document.getElementById('activity-stream');
-            const name = firstNames[Math.floor(Math.random()*firstNames.length)];
-            const last = lastInitials[Math.floor(Math.random()*lastInitials.length)];
-            const email = `${name.toLowerCase().substring(0,3)}***@${domains[Math.floor(Math.random()*domains.length)]}`;
-            const amount = (Math.floor(Math.random() * 95) + 5) * 500;
+        const ticker = document.getElementById('activity-ticker');
+        const tName = document.getElementById('ticker-name');
+        const tAction = document.getElementById('ticker-action');
 
-            const card = document.createElement('div');
-            card.className = 'ticker-card';
-            card.innerHTML = `
-                <div style="width:10px; height:10px; background:#2ed573; border-radius:50%;"></div>
-                <div>
-                    <p style="font-weight:800; font-size:0.85rem;">${name} ${last} <span style="color:#666; font-weight:400;">(${email})</span></p>
-                    <p style="font-size:0.75rem; color:var(--primary);">Invested $${amount.toLocaleString()}</p>
-                </div>
-            `;
-
-            container.prepend(card);
-            gsap.from(card, { x: 100, opacity: 0, scale: 0.8, duration: 0.6, ease: "back.out" });
-
-            // Remove after a while to keep DOM clean
-            if(container.children.length > 5) {
-                gsap.to(container.lastChild, { opacity:0, x: 50, duration: 0.5, onComplete: () => container.lastChild.remove() });
-            }
+        function updateTicker() {
+            const investor = investors[Math.floor(Math.random() * investors.length)];
+            tName.innerText = `${investor.name} (${investor.email})`;
+            tAction.innerText = `Just started a ${investor.amount} investment`;
+            
+            ticker.classList.add('active');
+            setTimeout(() => ticker.classList.remove('active'), 4000);
         }
 
-        setInterval(createTicker, 4000);
-        setTimeout(createTicker, 1000);
+        setInterval(updateTicker, 8000); // New name every 8 seconds
+        setTimeout(updateTicker, 2000); // Initial start
 
-        // --- 3. THE ASSET MORPH SIMULATOR ---
-        const sContainer = document.getElementById('three-container');
+        // --- 3. THE TREE SIMULATOR (3D) ---
+        const sView = document.getElementById('sim-3d');
         const sScene = new THREE.Scene();
-        const sCam = new THREE.PerspectiveCamera(75, sContainer.clientWidth/sContainer.clientHeight, 0.1, 1000);
+        const sCam = new THREE.PerspectiveCamera(75, sView.clientWidth/sView.clientHeight, 0.1, 1000);
         const sRen = new THREE.WebGLRenderer({antialias: true});
-        sRen.setSize(sContainer.clientWidth, sContainer.clientHeight);
-        sContainer.appendChild(sRen.domElement);
+        sRen.setSize(sView.clientWidth, sView.clientHeight);
+        sView.appendChild(sRen.domElement);
 
-        // Light
-        const pLight = new THREE.PointLight(0x2ed573, 2, 100);
-        pLight.position.set(5, 5, 5);
-        sScene.add(pLight, new THREE.AmbientLight(0xffffff, 0.3));
-
-        // Geometric Asset (Symbolizing a Growing Core)
-        const coreGeo = new THREE.IcosahedronGeometry(1.5, 2);
-        const coreMat = new THREE.MeshPhongMaterial({color: 0x2ed573, wireframe: true, shininess: 100});
-        const core = new THREE.Mesh(coreGeo, coreMat);
-        sScene.add(core);
+        const tree = new THREE.Group();
+        const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.2, 2), new THREE.MeshBasicMaterial({color: 0x443322}));
+        const leaves = new THREE.Mesh(new THREE.SphereGeometry(1, 8, 8), new THREE.MeshBasicMaterial({color: 0x2ed573, wireframe: true}));
+        leaves.position.y = 1.5;
+        tree.add(trunk, leaves);
+        sScene.add(tree);
         sCam.position.z = 5;
 
-        function updateGrowth() {
-            const amt = parseFloat(document.getElementById('amt').value);
-            const yrs = parseInt(document.getElementById('yrs').value);
-            const total = amt * Math.pow(1.09, yrs); // 9% avg
-            document.getElementById('projection').innerText = `$${Math.round(total).toLocaleString()}`;
+        function updateSim() {
+            const amt = document.getElementById('amt').value;
+            const yrs = document.getElementById('yrs').value;
+            const total = amt * Math.pow(1.08, yrs);
+            document.getElementById('result').innerText = `$${Math.round(total).toLocaleString()}`;
             
-            const scale = 0.8 + (yrs / 12);
-            gsap.to(core.scale, {x: scale, y: scale, z: scale, duration: 1, ease: "elastic.out(1, 0.3)"});
-            gsap.to(core.rotation, {y: core.rotation.y + 2, duration: 1});
+            const s = 0.5 + (yrs / 10);
+            gsap.to(tree.scale, {x: s, y: s, z: s, duration: 0.6, ease: "back.out"});
         }
 
-        document.getElementById('yrs').addEventListener('input', updateGrowth);
-        document.getElementById('amt').addEventListener('input', updateGrowth);
+        document.getElementById('yrs').addEventListener('input', updateSim);
+        document.getElementById('amt').addEventListener('input', updateSim);
 
-        function sAnimate() {
-            requestAnimationFrame(sAnimate);
-            core.rotation.x += 0.005;
-            core.rotation.y += 0.005;
+        function simAnimate() {
+            requestAnimationFrame(simAnimate);
+            tree.rotation.y += 0.01;
             sRen.render(sScene, sCam);
         }
-        sAnimate();
-        updateGrowth();
-
-        // Scroll Parallax Effect
-        gsap.to("#bg-video", {
-            scrollTrigger: {
-                trigger: ".video-wrap",
-                start: "top bottom",
-                end: "bottom top",
-                scrub: true
-            },
-            y: 150,
-            scale: 1.2
-        });
+        simAnimate();
+        updateSim();
 
     </script>
 </body>
