@@ -3,104 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Join the Mission | Grow with CORE</title>
+    <title>Careers | Grow with CORE</title>
     <link rel="stylesheet" href="job.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <nav class="navbar">
         <div class="logo">GROW WITH <span>CORE</span></div>
-        <a href="#apply-section" class="nav-btn">Join the Team</a>
+        <div class="nav-links">
+            <a href="#roles">Opportunities</a>
+            <a href="#apply" class="btn-nav">Apply Now</a>
+        </div>
     </nav>
 
     <header class="hero">
+        <div class="hero-overlay"></div>
         <div class="hero-content">
-            <span class="badge">Hiring Visionaries</span>
-            <h1>Help Us Build <br><span class="highlight">Real-World Wealth</span></h1>
-            <p>We’re bridging the gap between investors and sustainable agriculture. Are you ready to take Grow with CORE to the next level?</p>
-            <div class="hero-stats">
-                <div class="stat"><strong>100%</strong><span>Tangible Assets</span></div>
-                <div class="stat"><strong>∞</strong><span>Growth Potential</span></div>
-            </div>
+            <span class="badge">Building the Future of Nigeria</span>
+            <h1>Invest in the Ground. <br><span class="highlight">Watch it Grow.</span></h1>
+            <p>Join a team dedicated to Sustainable Agriculture, Livestock, and Essential Resources. We don't just hire employees; we hire visionaries.</p>
+            <a href="#roles" class="cta-main">Explore Roles <i class="fas fa-arrow-down"></i></a>
         </div>
     </header>
 
-    <section class="roles-section">
+    <section id="roles" class="roles-section">
         <div class="container">
-            <div class="section-header">
-                <h2>Open Opportunities</h2>
-                <p>Pick a sector where you can plant your expertise.</p>
+            <div class="section-title">
+                <h2>Open Strategic Roles</h2>
+                <p>Choose your area of impact to begin your application</p>
             </div>
             
             <div class="roles-grid">
-                <div class="role-card" onclick="selectRole('Growth Advertiser')">
-                    <i class="fas fa-bullhorn"></i>
+                <div class="role-card" onclick="autoSelectRole('Growth Advertiser')">
+                    <div class="icon-box"><i class="fas fa-ad"></i></div>
                     <h3>Growth Advertiser</h3>
-                    <p>Drive digital traffic and tell our story to thousands of potential investors.</p>
-                    <span class="apply-link">Select Role →</span>
+                    <p>Scale our message across digital borders and bring investors to the farm.</p>
+                    <span class="select-text">Select Role <i class="fas fa-chevron-right"></i></span>
                 </div>
-                <div class="role-card" onclick="selectRole('Agri-Tech Lead')">
-                    <i class="fas fa-seedling"></i>
-                    <h3>Agri-Tech Lead</h3>
-                    <p>Oversee the integration of modern technology into our farming systems.</p>
-                    <span class="apply-link">Select Role →</span>
+
+                <div class="role-card" onclick="autoSelectRole('Livestock Lead')">
+                    <div class="icon-box"><i class="fas fa-cow"></i></div>
+                    <h3>Livestock Lead</h3>
+                    <p>Manage the growth and ethical scaling of our thriving livestock assets.</p>
+                    <span class="select-text">Select Role <i class="fas fa-chevron-right"></i></span>
                 </div>
-                <div class="role-card" onclick="selectRole('Resource Strategist')">
-                    <i class="fas fa-faucet"></i>
-                    <h3>Resource Strategist</h3>
-                    <p>Manage projects related to water, energy, and sustainable resources.</p>
-                    <span class="apply-link">Select Role →</span>
+
+                <div class="role-card" onclick="autoSelectRole('Resource Manager')">
+                    <div class="icon-box"><i class="fas fa-tint"></i></div>
+                    <h3>Resource Manager</h3>
+                    <p>Optimizing water and energy resources for long-term sustainability.</p>
+                    <span class="select-text">Select Role <i class="fas fa-chevron-right"></i></span>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="apply-section" class="application-section">
-        <div class="form-container">
-            <div class="form-header">
-                <h2>Submit Your Vision</h2>
-                <p>Fill out the details below to start your journey with us.</p>
-            </div>
+    <section id="apply" class="form-section">
+        <div class="container">
+            <div class="form-card">
+                <div class="form-header">
+                    <h2>Submit Your Vision</h2>
+                    <p>Help us take Grow with CORE to the next level.</p>
+                </div>
 
-            <form id="hiringForm">
-                <div class="input-row">
-                    <div class="input-group">
-                        <label>Full Name</label>
-                        <input type="text" id="userName" placeholder="e.g. Chidi Oke" required>
+                <form id="coreApplicationForm">
+                    <div class="upload-container">
+                        <label>Professional Passport Photo</label>
+                        <div class="upload-box" id="dropZone">
+                            <input type="file" id="passportPhoto" accept="image/*" required>
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p id="fileLabel">Drag & drop or click to upload</p>
+                        </div>
                     </div>
-                    <div class="input-group">
-                        <label>Email Address</label>
-                        <input type="email" id="userEmail" placeholder="name@email.com" required>
+
+                    <div class="form-grid">
+                        <div class="input-group">
+                            <label>Full Name</label>
+                            <input type="text" id="fullName" placeholder="e.g., Samuel Adebayo" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Email Address</label>
+                            <input type="email" id="email" placeholder="samuel@example.com" required>
+                        </div>
+                        <div class="input-group">
+                            <label>WhatsApp Number</label>
+                            <input type="tel" id="phone" placeholder="+234..." required>
+                        </div>
+                        <div class="input-group">
+                            <label>Applying For</label>
+                            <input type="text" id="selectedRole" readonly placeholder="Click a role above">
+                        </div>
                     </div>
+
+                    <div class="input-group">
+                        <label>Portfolio or LinkedIn Link</label>
+                        <input type="url" id="link" placeholder="https://linkedin.com/in/yourprofile">
+                    </div>
+
+                    <div class="input-group">
+                        <label>The Next Level Pitch</label>
+                        <textarea id="pitch" rows="5" placeholder="In simple terms, how will you make us the best investment platform in Nigeria?" required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit" id="submitBtn">
+                        <span>Plant My Application</span>
+                        <i class="fas fa-leaf"></i>
+                    </button>
+                </form>
+
+                <div id="successScreen" class="hidden text-center">
+                    <div class="success-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h2>Application Sent!</h2>
+                    <p>Check your email (<strong><span id="targetEmail"></span></strong>) for a confirmation link.</p>
+                    <div class="process-steps">
+                        <div class="step"><span>1</span> Reviewing Vision</div>
+                        <div class="step"><span>2</span> Strategy Call</div>
+                        <div class="step"><span>3</span> Onboarding</div>
+                    </div>
+                    <button onclick="location.reload()" class="btn-reload">Apply for another role</button>
                 </div>
-
-                <div class="input-group">
-                    <label>Applying For</label>
-                    <input type="text" id="appliedRole" placeholder="Select a role or type one..." required>
-                </div>
-
-                <div class="input-group">
-                    <label>The Next Level Pitch</label>
-                    <textarea id="userPitch" rows="4" placeholder="How will you make Grow with CORE the best platform in Nigeria?"></textarea>
-                </div>
-
-                <button type="submit" class="submit-btn">
-                    <span>Send Application</span>
-                    <i class="fas fa-paper-plane"></i>
-                </button>
-            </form>
-
-            <div id="successMsg" class="success-message hidden">
-                <i class="fas fa-check-circle"></i>
-                <h3>Application Planted!</h3>
-                <p>We'll review your vision and get back to you soon.</p>
             </div>
         </div>
     </section>
 
     <footer>
-        <p>&copy; 2026 Grow with CORE. 🌳 Investing in the ground, watching it grow.</p>
+        <p>&copy; 2026 Grow with CORE. Cultivating Nigeria's Future. 🌳</p>
     </footer>
 
     <script src="job.js"></script>
