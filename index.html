@@ -2,21 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Grow with CORE | Premium Real Asset Platform</title>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Grow with CORE | Real Asset Investment Platform</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🌲%3C/text%3E%3C/svg%3E">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #2ed573;
-            --primary-glow: rgba(46, 213, 115, 0.4);
-            --bg: #030508;
-            --glass: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.08);
+            --primary-glow: rgba(46, 213, 115, 0.3);
+            --bg: #05070a;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.1);
             --text-main: #ffffff;
+            --text-dim: #a1a1aa;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -24,221 +22,347 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: var(--bg);
             color: var(--text-main);
+            line-height: 1.6;
             overflow-x: hidden;
         }
 
         /* Fixed Background Canvas */
-        #main-canvas { position: fixed; top: 0; left: 0; z-index: -1; pointer-events: none; }
-
-        /* Social Proof Ticker */
-        .live-ticker {
+        #threejs-container {
             position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--primary);
-            padding: 12px 20px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            transform: translateX(120%);
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .live-ticker.active { transform: translateX(0); }
-        .ticker-dot { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; box-shadow: 0 0 10px var(--primary); animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
-
-        /* Video Section */
-        .video-parallax {
-            position: relative;
-            height: 80vh;
-            width: 100%;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 100px 0;
-        }
-        .video-parallax video {
-            position: absolute;
-            top: 50%; left: 50%;
-            min-width: 100%; min-height: 100%;
-            width: auto; height: auto;
-            transform: translate(-50%, -50%);
+            top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1;
-            filter: brightness(0.3) saturate(0.5);
+            opacity: 0.4;
         }
-        .testimonial-content {
+
+        /* Floating CTA */
+        .floating-cta {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            background: var(--primary);
+            color: #000;
+            padding: 16px 32px;
+            border-radius: 100px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 1rem;
+            box-shadow: 0 10px 30px var(--primary-glow);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .floating-cta:hover { transform: scale(1.05) translateY(-5px); box-shadow: 0 15px 40px var(--primary-glow); }
+
+        /* Hero Section */
+        header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 5%;
             text-align: center;
+            background: radial-gradient(circle at center, rgba(46, 213, 115, 0.05) 0%, transparent 70%);
+        }
+
+        .badge {
+            background: rgba(46, 213, 115, 0.1);
+            color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            border: 1px solid var(--primary-glow);
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 8vw, 6rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -2px;
+        }
+
+        h1 span { color: var(--primary); }
+
+        .lead {
+            font-size: clamp(1.1rem, 2vw, 1.5rem);
+            color: var(--text-dim);
             max-width: 800px;
-            z-index: 2;
-            padding: 20px;
+            margin-bottom: 40px;
         }
 
-        /* Grid Layouts */
-        section { padding: 100px 7%; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .card { 
-            background: var(--glass); 
-            padding: 40px; 
-            border-radius: 24px; 
-            border: 1px solid var(--glass-border);
-            transition: 0.4s;
-        }
-        .card:hover { border-color: var(--primary); transform: translateY(-10px); }
+        /* Section Layouts */
+        section { padding: 100px 5%; max-width: 1400px; margin: 0 auto; }
 
-        /* Simulator UI */
-        .simulator-box {
-            background: #000;
-            border: 1px solid var(--glass-border);
-            border-radius: 40px;
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 { font-size: 2.5rem; margin-bottom: 15px; }
+        .section-title p { color: var(--text-dim); font-size: 1.1rem; }
+
+        /* Feature Cards */
+        .grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 40px;
+            transition: 0.4s;
+            position: relative;
             overflow: hidden;
         }
-        .sim-controls { padding: 50px; }
-        #sim-3d { background: #050505; min-height: 400px; }
 
-        input {
-            width: 100%; padding: 15px; margin-top: 10px; border-radius: 8px;
-            background: #111; border: 1px solid #333; color: white;
+        .card:hover {
+            border-color: var(--primary);
+            background: rgba(255,255,255,0.06);
+            transform: translateY(-10px);
         }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        /* Simulator Dashboard Styling */
+        .simulator-box {
+            background: #0a0c10;
+            border-radius: 32px;
+            border: 1px solid var(--border);
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        @media (max-width: 968px) { .simulator-box { grid-template-columns: 1fr; } }
+
+        .sim-controls { display: flex; flex-direction: column; gap: 20px; }
+        .input-group { display: flex; flex-direction: column; gap: 8px; }
+        
+        .input-group label { font-size: 0.8rem; color: var(--text-dim); font-weight: 600; }
+        
+        .input-group input {
+            background: #14171c;
+            border: 1px solid var(--border);
+            color: #fff;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 1rem;
+            outline: none;
+        }
+        .input-group input:focus { border-color: var(--primary); }
+
+        #sim-canvas {
+            width: 100%;
+            height: 400px;
+            background: #000;
+            border-radius: 20px;
+        }
+
+        /* Footer */
+        footer {
+            background: #020305;
+            padding: 80px 5% 40px;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer-logo h3 { font-size: 1.8rem; color: var(--primary); }
+        .footer-contact p { color: var(--text-dim); margin-bottom: 10px; font-size: 0.95rem; }
+        .footer-contact a { color: #fff; text-decoration: none; }
+
+        .copyright {
+            padding-top: 40px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: #555;
+            font-size: 0.85rem;
+        }
+
+        /* Reveal Animation */
+        .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s all ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
     </style>
 </head>
 <body>
 
-    <canvas id="main-canvas"></canvas>
+    <a href="map.html" class="floating-cta">
+        Launch Platform 🚀
+    </a>
 
-    <div id="activity-ticker" class="live-ticker">
-        <div class="ticker-dot"></div>
-        <div>
-            <p id="ticker-name" style="font-weight: 800; font-size: 0.9rem;">Alex M.</p>
-            <p id="ticker-action" style="font-size: 0.75rem; color: #aaa;">Just started a $2,500 investment</p>
+    <div id="threejs-container"></div>
+
+    <header>
+        <div class="badge">United Kingdom • Real Assets • Sustainable</div>
+        <h1>Your Path to <span>Real Asset</span> Investments</h1>
+        <p class="lead">Cultivate your financial future by connecting with essential sectors. Forget abstract stocks—invest in assets you can watch grow from seed to harvest.</p>
+        <div style="display: flex; gap: 20px;">
+            <a href="#how" style="background: #fff; color: #000; padding: 16px 32px; border-radius: 100px; text-decoration: none; font-weight: 700;">Explore Opportunities</a>
+            <a href="#simulator" style="background: rgba(255,255,255,0.1); color: #fff; padding: 16px 32px; border-radius: 100px; text-decoration: none; font-weight: 700; border: 1px solid var(--border);">Try Simulator</a>
         </div>
-    </div>
-
-    <header style="height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
-        <h1 style="font-size: 6vw; font-weight: 800;">Plant Capital. <span style="color:var(--primary)">Harvest Future.</span></h1>
-        <p style="font-size: 1.5rem; color: #aaa; max-width: 700px; margin: 20px 0;">The UK's premier platform for direct investment into sustainable agriculture and biological assets.</p>
-        <a href="#simulator" class="btn" style="background:var(--primary); color:black; padding: 20px 40px; border-radius: 50px; text-decoration:none; font-weight:800; margin-top:30px;">Launch Simulation</a>
     </header>
 
-    <div class="video-parallax">
-        <video autoplay muted loop playsinline poster="https://images.unsplash.com/photo-1500382017468-9049fed747ef">
-            <source src="https://assets.mixkit.co/videos/preview/mixkit-wind-blowing-in-a-wheat-field-4154-large.mp4" type="video/mp4">
-        </video>
-        <div class="testimonial-content">
-            <h2 style="font-size: 3rem; margin-bottom: 20px;">"Core transformed how I view wealth. I'm not buying digits on a screen; I'm buying the future of food."</h2>
-            <p style="font-size: 1.2rem; color: var(--primary);">— James Henderson, Senior Investor</p>
+    <section id="how">
+        <div class="section-title reveal">
+            <h2>Fundamental Industries</h2>
+            <p>Direct ownership in the foundational pillars of global stability.</p>
         </div>
-    </div>
-
-    <section id="simulator">
-        <div class="simulator-box">
-            <div class="sim-controls">
-                <h2>Asset Visualizer</h2>
-                <p style="color:#888; margin-bottom: 30px;">Drag the years to see your capital grow alongside the physical asset.</p>
-                
-                <label>Capital ($)</label>
-                <input type="number" id="amt" value="10000">
-                
-                <label style="display:block; margin-top:20px;">Time Horizon (Years)</label>
-                <input type="range" id="yrs" min="1" max="25" value="5">
-                
-                <div id="result" style="font-size: 3rem; font-weight: 800; color: var(--primary); margin-top: 40px;">$14,693</div>
+        <div class="grid">
+            <div class="card reveal">
+                <span class="card-icon">🌾</span>
+                <h3>Sustainable Agriculture</h3>
+                <p>Put your money into the ground. Fund modern farming technology designed for long-term sustainability and yield. Secure food supply while generating returns.</p>
             </div>
-            <div id="sim-3d"></div>
+            <div class="card reveal">
+                <span class="card-icon">🐄</span>
+                <h3>Thriving Livestock</h3>
+                <p>Invest in biological growth. Support ethical practices and a robust food supply chain by funding the growth and well-being of essential farm assets.</p>
+            </div>
+            <div class="card reveal">
+                <span class="card-icon">💧</span>
+                <h3>Essential Resources</h3>
+                <p>The backbone of industrial progress. Fund projects in water management and renewable energy that underpin the global economy.</p>
+            </div>
         </div>
     </section>
 
+    <section id="simulator">
+        <div class="simulator-box reveal">
+            <div class="sim-controls">
+                <h2>Seed to Tree 🌳</h2>
+                <p style="color: var(--text-dim)">Visualise your investment growth. Our assets are tangible—they develop, produce, and mature just like nature.</p>
+                
+                <div class="input-group">
+                    <label>INVESTMENT AMOUNT ($)</label>
+                    <input type="number" id="amt" value="1000">
+                </div>
+                <div class="input-group">
+                    <label>GROWTH DURATION (YEARS)</label>
+                    <input type="number" id="yrs" value="5">
+                </div>
+                <button id="calc-btn" style="background: var(--primary); border: none; padding: 18px; border-radius: 12px; font-weight: 800; cursor: pointer; margin-top: 10px;">Update Projection</button>
+                <p id="result" style="font-size: 1.5rem; font-weight: 800; color: var(--primary); text-align: center; margin-top: 10px;"></p>
+            </div>
+            <div id="sim-canvas"></div>
+        </div>
+    </section>
+
+    <section class="reveal" style="text-align: center; border-radius: 40px; background: linear-gradient(135deg, rgba(46, 213, 115, 0.1) 0%, transparent 100%); border: 1px solid var(--border);">
+        <h2 style="font-size: 2.5rem; margin-bottom: 20px;">Plant Your Seeds Today</h2>
+        <p style="max-width: 700px; margin: 0 auto 40px; color: var(--text-dim);">Grow with CORE provides the platform and the opportunities; you provide the vision for your financial growth.</p>
+        <a href="https://www.growwithcore.com.ng" style="background: var(--primary); color: #000; padding: 20px 40px; border-radius: 100px; text-decoration: none; font-weight: 800; font-size: 1.1rem; display: inline-block;">Get Started Now</a>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <h3>Grow with <span>CORE</span></h3>
+                <p style="color: var(--text-dim); margin-top: 15px;">Transforming capital into tangible growth through sustainable real-world assets.</p>
+            </div>
+            <div class="footer-contact">
+                <h4>Contact Us</h4>
+                <p>📧 <a href="mailto:contact@growwithcore.com.ng">contact@growwithcore.com.ng</a></p>
+                <p>🌐 <a href="http://www.growwithcore.com.ng">www.growwithcore.com.ng</a></p>
+                <p>📞 +44 7914 612 850</p>
+            </div>
+            <div class="footer-contact">
+                <h4>HQ Location</h4>
+                <p>United Kingdom</p>
+                <p>Strategic Management Hub</p>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2026 Grow with CORE. All rights reserved. Registered in the UK.
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
     <script>
-        // --- 1. THE THREE.JS AMBIANCE ---
+        // Hero Background
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({canvas: document.getElementById('main-canvas'), alpha:true});
+        const renderer = new THREE.WebGLRenderer({alpha:true, antialias:true});
         renderer.setSize(window.innerWidth, window.innerHeight);
-
-        const stars = new THREE.BufferGeometry();
-        const starCount = 3000;
-        const starPos = new Float32Array(starCount * 3);
-        for(let i=0; i<starCount*3; i++) starPos[i] = (Math.random() - 0.5) * 10;
-        stars.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
-        const starMat = new THREE.PointsMaterial({color: 0x2ed573, size: 0.005});
-        const starMesh = new THREE.Points(stars, starMat);
-        scene.add(starMesh);
-        camera.position.z = 2;
+        document.getElementById('threejs-container').appendChild(renderer.domElement);
+        const geo = new THREE.IcosahedronGeometry(15, 1);
+        const mat = new THREE.MeshPhongMaterial({color: 0x2ed573, wireframe: true, transparent: true, opacity: 0.2});
+        const mesh = new THREE.Mesh(geo, mat);
+        scene.add(mesh);
+        scene.add(new THREE.AmbientLight(0xffffff, 1));
+        camera.position.z = 40;
 
         function animate() {
             requestAnimationFrame(animate);
-            starMesh.rotation.y += 0.0005;
+            mesh.rotation.y += 0.001;
             renderer.render(scene, camera);
         }
         animate();
 
-        // --- 2. LIVE TICKER LOGIC (Transiting People) ---
-        const investors = [
-            { name: "Sarah Jenkins", email: "s***a@gmail.com", amount: "$5,000" },
-            { name: "Robert Chen", email: "r***t@outlook.com", amount: "$12,400" },
-            { name: "Michael O'Neil", email: "m***1@icloud.com", amount: "$50,000" },
-            { name: "Elena Rodriguez", email: "e***z@gmail.com", amount: "$2,200" }
-        ];
-
-        const ticker = document.getElementById('activity-ticker');
-        const tName = document.getElementById('ticker-name');
-        const tAction = document.getElementById('ticker-action');
-
-        function updateTicker() {
-            const investor = investors[Math.floor(Math.random() * investors.length)];
-            tName.innerText = `${investor.name} (${investor.email})`;
-            tAction.innerText = `Just started a ${investor.amount} investment`;
-            
-            ticker.classList.add('active');
-            setTimeout(() => ticker.classList.remove('active'), 4000);
-        }
-
-        setInterval(updateTicker, 8000); // New name every 8 seconds
-        setTimeout(updateTicker, 2000); // Initial start
-
-        // --- 3. THE TREE SIMULATOR (3D) ---
-        const sView = document.getElementById('sim-3d');
+        // Simulator Logic
+        const sCanvas = document.getElementById('sim-canvas');
         const sScene = new THREE.Scene();
-        const sCam = new THREE.PerspectiveCamera(75, sView.clientWidth/sView.clientHeight, 0.1, 1000);
-        const sRen = new THREE.WebGLRenderer({antialias: true});
-        sRen.setSize(sView.clientWidth, sView.clientHeight);
-        sView.appendChild(sRen.domElement);
-
-        const tree = new THREE.Group();
-        const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.2, 2), new THREE.MeshBasicMaterial({color: 0x443322}));
-        const leaves = new THREE.Mesh(new THREE.SphereGeometry(1, 8, 8), new THREE.MeshBasicMaterial({color: 0x2ed573, wireframe: true}));
-        leaves.position.y = 1.5;
-        tree.add(trunk, leaves);
-        sScene.add(tree);
-        sCam.position.z = 5;
+        const sCam = new THREE.PerspectiveCamera(75, sCanvas.clientWidth/sCanvas.clientHeight, 0.1, 1000);
+        const sRen = new THREE.WebGLRenderer({antialias:true});
+        sRen.setSize(sCanvas.clientWidth, sCanvas.clientHeight);
+        sCanvas.appendChild(sRen.domElement);
+        sScene.add(new THREE.AmbientLight(0xffffff, 1));
+        
+        const treeGroup = new THREE.Group();
+        const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.5, 4), new THREE.MeshPhongMaterial({color: 0x4d2a00}));
+        const leaves = new THREE.Mesh(new THREE.SphereGeometry(2, 8, 8), new THREE.MeshPhongMaterial({color: 0x2ed573}));
+        leaves.position.y = 3;
+        treeGroup.add(trunk, leaves);
+        sScene.add(treeGroup);
+        sCam.position.set(0, 4, 10);
 
         function updateSim() {
             const amt = document.getElementById('amt').value;
             const yrs = document.getElementById('yrs').value;
-            const total = amt * Math.pow(1.08, yrs);
-            document.getElementById('result').innerText = `$${Math.round(total).toLocaleString()}`;
-            
-            const s = 0.5 + (yrs / 10);
-            gsap.to(tree.scale, {x: s, y: s, z: s, duration: 0.6, ease: "back.out"});
+            const final = amt * Math.pow(1.1, yrs); // 10% annual avg
+            document.getElementById('result').innerText = `$${Math.round(final).toLocaleString()}`;
+            const scale = 0.5 + (final/amt) * 0.5;
+            treeGroup.scale.setScalar(scale);
         }
-
-        document.getElementById('yrs').addEventListener('input', updateSim);
-        document.getElementById('amt').addEventListener('input', updateSim);
-
+        document.getElementById('calc-btn').addEventListener('click', updateSim);
+        
         function simAnimate() {
             requestAnimationFrame(simAnimate);
-            tree.rotation.y += 0.01;
+            treeGroup.rotation.y += 0.01;
             sRen.render(sScene, sCam);
         }
         simAnimate();
         updateSim();
 
+        // Scroll Reveal
+        window.addEventListener('scroll', () => {
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach(r => {
+                const top = r.getBoundingClientRect().top;
+                if(top < window.innerHeight - 100) r.classList.add('active');
+            });
+        });
     </script>
 </body>
 </html>
