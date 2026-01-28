@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
-    <link rel="icon" 
+    <link rel="icon"
   href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🌲%3C/text%3E%3C/svg%3E">
 
     <title>Grow-with-Core - Login/Register</title>
@@ -994,7 +994,7 @@
             <button id="closeForgotPasswordModalBtn" class="close-modal-btn">Close</button>
         </div>
     </div>
-
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script>
         // IMPORTANT SECURITY NOTE:
         // Storing user credentials (even hashed) directly in localStorage is HIGHLY INSECURE
@@ -1344,7 +1344,6 @@
 
 
         // Register Button Logic
-        // Register Button Logic
     registerBtn.addEventListener('click', () => {
     const email = registerEmailInput.value.trim();
     const password = registerPasswordInput.value.trim();
@@ -1394,7 +1393,7 @@
             const adminTemplate = "template_nqc1d3s";
             const autoReplyTemplate = "template_6mk9mxa"; // Your new ID
             const publicKey = "gJXrPxYHlp9VFsiDt";
-            
+           
             // 1. Send Alert to Admin (YOU)
             emailjs.send(serviceID, adminTemplate, {
                 user_email: email,
@@ -1411,7 +1410,7 @@
             // UI Feedback and Transition (Your original logic)
             showMessage(registerMessage, 'Account created successfully! You can now log in.', 'success');
             stopLoading(registerBtn, 'Register');
-            
+           
             setTimeout(() => {
                 toggleForm(loginForm, registerForm);
                 loginEmailInput.value = email; // Pre-fill login email
@@ -1421,7 +1420,6 @@
         }
     }, 1000);
 });
-
         // Login Button Logic
         loginBtn.addEventListener('click', () => {
             const email = loginEmailInput.value.trim();
@@ -1472,7 +1470,7 @@
                         } else {
                             localStorage.removeItem('rememberedEmail');
                         }
-                        
+                       
                         // Show policy agreement after successful login
                         setTimeout(showPolicyAgreement, 500); // Small delay for message to be seen
                     } else {
