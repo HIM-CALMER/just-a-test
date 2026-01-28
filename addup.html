@@ -4329,135 +4329,182 @@
         }
 
         // Feedback Modal Logic
-        submitFeedbackBtn.addEventListener('click', () => {
-            const type = feedbackTypeSelect.value;
-            const message = feedbackMessageTextarea.value.trim();
+        // 1. Handshake with EmailJS - This MUST be at the top of your script
+emailjs.init("wyDHSxkJXr5AjAvSR"); 
 
-            let hasError = false;
-            clearInputError(feedbackMessageTextarea, feedbackMessageError);
+// 2. Your original logic
+submitFeedbackBtn.addEventListener('click', () => {
+    const type = feedbackTypeSelect.value;
+    const message = feedbackMessageTextarea.value.trim();
 
-            if (!message) {
-                showInputError(feedbackMessageTextarea, feedbackMessageError, 'Your message cannot be empty.');
-                hasError = true;
-            } else if (message.length < 10) {
-                showInputError(feedbackMessageTextarea, feedbackMessageError, 'Message must be at least 10 characters long.');
-                hasError = true;
-            }
+    let hasError = false;
+    clearInputError(feedbackMessageTextarea, feedbackMessageError);
 
-            if (hasError) {
-                showToast('Please enter your feedback message.', 'error');
-                return;
-            }
+    // --- YOUR EXACT VALIDATION START ---
+    if (!message) {
+        showInputError(feedbackMessageTextarea, feedbackMessageError, 'Your message cannot be empty.');
+        hasError = true;
+    } else if (message.length < 10) {
+        showInputError(feedbackMessageTextarea, feedbackMessageError, 'Message must be at least 10 characters long.');
+        hasError = true;
+    }
 
-            startLoading(submitFeedbackBtn, 'Sending...');
+    if (hasError) {
+        showToast('Please enter your feedback message.', 'error');
+        return;
+    }
+    // --- YOUR EXACT VALIDATION END ---
 
-            setTimeout(() => {
-                // In a real application, this would send data to a backend (e.g., Firebase, email service)
-                console.log(`Feedback Type: ${type}, Message: ${message}`);
-                showToast('Thank you for your feedback!', 'success');
-                closeModal('feedbackModal');
-                stopLoading(submitFeedbackBtn, 'Submit');
-            }, 1500);
+    startLoading(submitFeedbackBtn, 'Sending...');
+
+    // These names MUST match the {{tags}} in your EmailJS template
+    const templateParams = {
+        feedback_type: type,
+        feedback_message: message
+    };
+
+    // Swapping the fake setTimeout for the real EmailJS delivery
+    emailjs.send('service_rx5nqjq', 'template_qdbgkvq', templateParams)
+        .then(() => {
+            // --- YOUR EXACT SUCCESS FUNCTIONALITY ---
+            console.log(`Feedback Type: ${type}, Message: ${message}`);
+            showToast('Thank you for your feedback!', 'success');
+            closeModal('feedbackModal');
+            stopLoading(submitFeedbackBtn, 'Submit');
+            // --- END OF YOUR FUNCTIONALITY ---
+        })
+        .catch((error) => {
+            // Error handling in case the internet or keys fail
+            console.error('EmailJS Error:', error);
+            showToast('Something went wrong. Try again!', 'error');
+            stopLoading(submitFeedbackBtn, 'Submit');
         });
-
+});
         // Profile Setup Logic
-        function updateProfileDisplay() {
-            if (userProfile.fullName) {
-                profileFullNameEl.textContent = userProfile.fullName;
-                profileBioEl.textContent = userProfile.bio || 'No bio set yet.';
-                
-                // Display phone number and address if available
-                if (userProfile.phoneNumber) {
-                    profilePhoneNumberEl.textContent = `Phone: ${userProfile.phoneNumber}`;
-                    profilePhoneNumberEl.classList.remove('hidden');
-                } else {
-                    profilePhoneNumberEl.classList.add('hidden');
-                }
-                if (userProfile.address) {
-                    profileAddressEl.textContent = `Address: ${userProfile.address}`;
-                    profileAddressEl.classList.remove('hidden');
-                } else {
-                    profileAddressEl.classList.add('hidden');
-                }
+        // 1. Initialize EmailJS with your Public Key
+(function() {
+    emailjs.init("btmxg3IffyiB-4XHX");
+})();
 
-                // Handle profile picture
-                if (userProfile.pictureUrl && isValidUrl(userProfile.pictureUrl)) {
-                    profileAvatar.innerHTML = `<img src="${userProfile.pictureUrl}" alt="Profile Picture" onerror="this.onerror=null;this.src='https://placehold.co/80x80/5CB85C/FFFFFF?text=${userProfile.fullName.charAt(0).toUpperCase()}';">`;
-                } else {
-                    profileAvatar.innerHTML = userProfile.fullName.charAt(0).toUpperCase() || '?';
-                }
-                
-                profileSetupCta.classList.add('hidden'); // Hide CTA if profile is set
-            } else {
-                profileFullNameEl.textContent = 'Guest User';
-                profileBioEl.textContent = 'Set up your profile to personalize your experience!';
-                profilePhoneNumberEl.classList.add('hidden');
-                profileAddressEl.classList.add('hidden');
-                profileAvatar.innerHTML = '?';
-                profileSetupCta.classList.remove('hidden'); // Show CTA if profile is not set
-            }
+function updateProfileDisplay() {
+    if (userProfile.fullName) {
+        profileFullNameEl.textContent = userProfile.fullName;
+        profileBioEl.textContent = userProfile.bio || 'No bio set yet.';
+
+        // Display phone number and address if available
+        if (userProfile.phoneNumber) {
+            profilePhoneNumberEl.textContent = `Phone: ${userProfile.phoneNumber}`;
+            profilePhoneNumberEl.classList.remove('hidden');
+        } else {
+            profilePhoneNumberEl.classList.add('hidden');
+        }
+        if (userProfile.address) {
+            profileAddressEl.textContent = `Address: ${userProfile.address}`;
+            profileAddressEl.classList.remove('hidden');
+        } else {
+            profileAddressEl.classList.add('hidden');
         }
 
-        function isValidUrl(string) {
-            try {
-                new URL(string);
-                return true;
-            } catch (e) {
-                return false;
-            }
+        // Handle profile picture
+        if (userProfile.pictureUrl && isValidUrl(userProfile.pictureUrl)) {
+            profileAvatar.innerHTML = `<img src="${userProfile.pictureUrl}" alt="Profile Picture" onerror="this.onerror=null;this.src='https://placehold.co/80x80/5CB85C/FFFFFF?text=${userProfile.fullName.charAt(0).toUpperCase()}';">`;
+        } else {
+            profileAvatar.innerHTML = userProfile.fullName.charAt(0).toUpperCase() || '?';
         }
 
-        submitProfileBtn.addEventListener('click', () => {
-            const fullName = profileFullNameInput.value.trim();
-            const bio = profileBioInput.value.trim();
-            const phoneNumber = profilePhoneNumberInput.value.trim();
-            const address = profileAddressInput.value.trim();
-            const pictureUrl = profilePictureUrlInput.value.trim();
+        profileSetupCta.classList.add('hidden'); // Hide CTA if profile is set
+    } else {
+        profileFullNameEl.textContent = 'Guest User';
+        profileBioEl.textContent = 'Set up your profile to personalize your experience!';
+        profilePhoneNumberEl.classList.add('hidden');
+        profileAddressEl.classList.add('hidden');
+        profileAvatar.innerHTML = '?';
+        profileSetupCta.classList.remove('hidden'); // Show CTA if profile is not set
+    }
+}
 
-            let hasError = false;
-            clearInputError(profileFullNameInput, profileFullNameError);
-            clearInputError(profileBioInput, profileBioError);
-            clearInputError(profilePhoneNumberInput, profilePhoneNumberError);
-            clearInputError(profileAddressInput, profileAddressError);
-            clearInputError(profilePictureUrlInput, profilePictureUrlError);
+function isValidUrl(string) {
+    try {
+        new URL(string);
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
 
-            if (!fullName) {
-                showInputError(profileFullNameInput, profileFullNameError, 'Full Name is required.');
-                hasError = true;
-            } else if (fullName.length < 3) {
-                showInputError(profileFullNameInput, profileFullNameError, 'Full Name must be at least 3 characters.');
-                hasError = true;
-            }
-            if (phoneNumber && !/^\+?\d{10,15}$/.test(phoneNumber)) { // Basic phone number validation
-                showInputError(profilePhoneNumberInput, profilePhoneNumberError, 'Please enter a valid phone number (e.g., +234...).');
-                hasError = true;
-            }
-            if (pictureUrl && !isValidUrl(pictureUrl)) {
-                showInputError(profilePictureUrlInput, profilePictureUrlError, 'Please enter a valid URL for the picture.');
-                hasError = true;
-            }
+submitProfileBtn.addEventListener('click', () => {
+    const fullName = profileFullNameInput.value.trim();
+    const bio = profileBioInput.value.trim();
+    const phoneNumber = profilePhoneNumberInput.value.trim();
+    const address = profileAddressInput.value.trim();
+    const pictureUrl = profilePictureUrlInput.value.trim();
 
-            if (hasError) {
-                showToast('Please correct the profile details.', 'error');
-                return;
-            }
+    let hasError = false;
+    clearInputError(profileFullNameInput, profileFullNameError);
+    clearInputError(profileBioInput, profileBioError);
+    clearInputError(profilePhoneNumberInput, profilePhoneNumberError);
+    clearInputError(profileAddressInput, profileAddressError);
+    clearInputError(profilePictureUrlInput, profilePictureUrlError);
 
-            startLoading(submitProfileBtn, 'Saving Profile...');
+    if (!fullName) {
+        showInputError(profileFullNameInput, profileFullNameError, 'Full Name is required.');
+        hasError = true;
+    } else if (fullName.length < 3) {
+        showInputError(profileFullNameInput, profileFullNameError, 'Full Name must be at least 3 characters.');
+        hasError = true;
+    }
+    if (phoneNumber && !/^\+?\d{10,15}$/.test(phoneNumber)) { // Basic phone number validation
+        showInputError(profilePhoneNumberInput, profilePhoneNumberError, 'Please enter a valid phone number (e.g., +234...).');
+        hasError = true;
+    }
+    if (pictureUrl && !isValidUrl(pictureUrl)) {
+        showInputError(profilePictureUrlInput, profilePictureUrlError, 'Please enter a valid URL for the picture.');
+        hasError = true;
+    }
 
-            setTimeout(() => {
-                userProfile.fullName = fullName;
-                userProfile.bio = bio;
-                userProfile.phoneNumber = phoneNumber;
-                userProfile.address = address;
-                userProfile.pictureUrl = pictureUrl;
-                saveUserData();
-                updateProfileDisplay(); // Update the dashboard with new profile
-                showToast('Profile saved successfully!', 'success');
-                closeModal('profileSetupModal');
-                stopLoading(submitProfileBtn, 'Save Profile');
-            }, 1000);
-        });
+    if (hasError) {
+        showToast('Please correct the profile details.', 'error');
+        return;
+    }
 
+    startLoading(submitProfileBtn, 'Saving Profile...');
+
+    setTimeout(() => {
+        // Update local data (Your original logic)
+        userProfile.fullName = fullName;
+        userProfile.bio = bio;
+        userProfile.phoneNumber = phoneNumber;
+        userProfile.address = address;
+        userProfile.pictureUrl = pictureUrl;
+
+        // --- EMAILJS SEND LOGIC ---
+        // I have explicitly mapped these to standard names. 
+        // PLEASE update your EmailJS Template Body to use the {{}} tags below.
+        const templateParams = {
+            user_name: fullName,
+            user_bio: bio || 'No bio provided',
+            user_phone: phoneNumber || 'Not provided',
+            user_address: address || 'Not provided',
+            user_picture: pictureUrl || 'No image provided',
+            reply_to: localStorage.getItem('currentUserEmail') || 'No Email Found'
+        };
+
+        emailjs.send('service_kkj4kyv', 'template_bm1ofua', templateParams)
+            .then((response) => {
+                console.log('Email successfully sent!', response.status, response.text);
+            })
+            .catch((error) => {
+                console.error('Email failed to send:', error);
+            });
+        // --- END EMAILJS ---
+
+        saveUserData();
+        updateProfileDisplay(); // Update the dashboard with new profile
+        showToast('Profile saved successfully!', 'success');
+        closeModal('profileSetupModal');
+        stopLoading(submitProfileBtn, 'Save Profile');
+    }, 1000);
+});
         // Notifications Logic
         function addNotification(notification) {
             userNotifications.unshift(notification); // Add to the beginning
