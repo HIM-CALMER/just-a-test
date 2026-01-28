@@ -2128,7 +2128,7 @@
                 </svg>
                 <div>
                     <span class="font-bold text-lg text-white">Grow-with-Core</span>
-                    <div class="text-xs text-gray-300">Smart investment · Simple investing · Track progress</div>
+                    <div class="text-xs text-gray-300">Smart simulations · Simple investing · Track progress</div>
                 </div>
             </div>
 
@@ -2149,7 +2149,7 @@
                 <a href="#" class="block py-2 px-3 rounded hover:bg-white/5">Dashboard</a>
                 <a href="#" class="block py-2 px-3 rounded hover:bg-white/5">Portfolio</a>
                 <a href="#" class="block py-2 px-3 rounded hover:bg-white/5">Transactions</a>
-                <a href="help.html" class="block py-2 px-3 rounded hover:bg-white/5">Help</a>
+                <a href="#" class="block py-2 px-3 rounded hover:bg-white/5">Help</a>
             </nav>
         </div>
         <script>
@@ -2182,13 +2182,13 @@
 
             <section class="hero-card card mb-6 max-w-3xl mx-auto text-center">
                 <h2 class="text-2xl sm:text-3xl font-semibold text-white mb-2">Manage your investments with clarity</h2>
-                <p class="text-gray-300 mb-4 max-w-xl mx-auto text-sm sm:text-base">Use intuitive investment, automated allocation suggestions, and clear performance insights to grow your wealth—step by step.</p>
+                <p class="text-gray-300 mb-4 max-w-xl mx-auto text-sm sm:text-base">Use intuitive simulations, automated allocation suggestions, and clear performance insights to grow your wealth—step by step.</p>
                 <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
-                    <a href="explore.html" class="btn-primary" title="Start by exploring your portfolio">Explore deep</a>
-                    <a href="job.html" class="btn-primary" style="background:transparent;border:1px solid rgba(255,255,255,0.06); color:#e8eef5;" title="Learn how it works">GET A JOB WITH GROWWITHCORE </a>
+                    <a href="#portfolio" class="btn-primary" title="Start by exploring your portfolio">EXPLORE DEEP</a>
+                    <a href="job.html" class="btn-primary" style="background:transparent;border:1px solid rgba(255,255,255,0.06); color:#e8eef5;" title="Learn how it works">GET A JOB WITH GROWWITHCORE</a>
                 </div>
                 <ul class="mt-4 text-xs text-gray-400 flex items-center justify-center gap-4">
-                    <li>Real-time investment</li>
+                    <li>Real-time simulations</li>
                     <li>Secure deposits</li>
                     <li>Actionable insights</li>
                 </ul>
@@ -4329,182 +4329,135 @@
         }
 
         // Feedback Modal Logic
-        // 1. Handshake with EmailJS - This MUST be at the top of your script
-emailjs.init("wyDHSxkJXr5AjAvSR"); 
+        submitFeedbackBtn.addEventListener('click', () => {
+            const type = feedbackTypeSelect.value;
+            const message = feedbackMessageTextarea.value.trim();
 
-// 2. Your original logic
-submitFeedbackBtn.addEventListener('click', () => {
-    const type = feedbackTypeSelect.value;
-    const message = feedbackMessageTextarea.value.trim();
+            let hasError = false;
+            clearInputError(feedbackMessageTextarea, feedbackMessageError);
 
-    let hasError = false;
-    clearInputError(feedbackMessageTextarea, feedbackMessageError);
+            if (!message) {
+                showInputError(feedbackMessageTextarea, feedbackMessageError, 'Your message cannot be empty.');
+                hasError = true;
+            } else if (message.length < 10) {
+                showInputError(feedbackMessageTextarea, feedbackMessageError, 'Message must be at least 10 characters long.');
+                hasError = true;
+            }
 
-    // --- YOUR EXACT VALIDATION START ---
-    if (!message) {
-        showInputError(feedbackMessageTextarea, feedbackMessageError, 'Your message cannot be empty.');
-        hasError = true;
-    } else if (message.length < 10) {
-        showInputError(feedbackMessageTextarea, feedbackMessageError, 'Message must be at least 10 characters long.');
-        hasError = true;
-    }
+            if (hasError) {
+                showToast('Please enter your feedback message.', 'error');
+                return;
+            }
 
-    if (hasError) {
-        showToast('Please enter your feedback message.', 'error');
-        return;
-    }
-    // --- YOUR EXACT VALIDATION END ---
+            startLoading(submitFeedbackBtn, 'Sending...');
 
-    startLoading(submitFeedbackBtn, 'Sending...');
-
-    // These names MUST match the {{tags}} in your EmailJS template
-    const templateParams = {
-        feedback_type: type,
-        feedback_message: message
-    };
-
-    // Swapping the fake setTimeout for the real EmailJS delivery
-    emailjs.send('service_rx5nqjq', 'template_qdbgkvq', templateParams)
-        .then(() => {
-            // --- YOUR EXACT SUCCESS FUNCTIONALITY ---
-            console.log(`Feedback Type: ${type}, Message: ${message}`);
-            showToast('Thank you for your feedback!', 'success');
-            closeModal('feedbackModal');
-            stopLoading(submitFeedbackBtn, 'Submit');
-            // --- END OF YOUR FUNCTIONALITY ---
-        })
-        .catch((error) => {
-            // Error handling in case the internet or keys fail
-            console.error('EmailJS Error:', error);
-            showToast('Something went wrong. Try again!', 'error');
-            stopLoading(submitFeedbackBtn, 'Submit');
+            setTimeout(() => {
+                // In a real application, this would send data to a backend (e.g., Firebase, email service)
+                console.log(`Feedback Type: ${type}, Message: ${message}`);
+                showToast('Thank you for your feedback!', 'success');
+                closeModal('feedbackModal');
+                stopLoading(submitFeedbackBtn, 'Submit');
+            }, 1500);
         });
-});
+
         // Profile Setup Logic
-        // 1. Initialize EmailJS with your Public Key
-(function() {
-    emailjs.init("btmxg3IffyiB-4XHX");
-})();
+        function updateProfileDisplay() {
+            if (userProfile.fullName) {
+                profileFullNameEl.textContent = userProfile.fullName;
+                profileBioEl.textContent = userProfile.bio || 'No bio set yet.';
+                
+                // Display phone number and address if available
+                if (userProfile.phoneNumber) {
+                    profilePhoneNumberEl.textContent = `Phone: ${userProfile.phoneNumber}`;
+                    profilePhoneNumberEl.classList.remove('hidden');
+                } else {
+                    profilePhoneNumberEl.classList.add('hidden');
+                }
+                if (userProfile.address) {
+                    profileAddressEl.textContent = `Address: ${userProfile.address}`;
+                    profileAddressEl.classList.remove('hidden');
+                } else {
+                    profileAddressEl.classList.add('hidden');
+                }
 
-function updateProfileDisplay() {
-    if (userProfile.fullName) {
-        profileFullNameEl.textContent = userProfile.fullName;
-        profileBioEl.textContent = userProfile.bio || 'No bio set yet.';
-
-        // Display phone number and address if available
-        if (userProfile.phoneNumber) {
-            profilePhoneNumberEl.textContent = `Phone: ${userProfile.phoneNumber}`;
-            profilePhoneNumberEl.classList.remove('hidden');
-        } else {
-            profilePhoneNumberEl.classList.add('hidden');
+                // Handle profile picture
+                if (userProfile.pictureUrl && isValidUrl(userProfile.pictureUrl)) {
+                    profileAvatar.innerHTML = `<img src="${userProfile.pictureUrl}" alt="Profile Picture" onerror="this.onerror=null;this.src='https://placehold.co/80x80/5CB85C/FFFFFF?text=${userProfile.fullName.charAt(0).toUpperCase()}';">`;
+                } else {
+                    profileAvatar.innerHTML = userProfile.fullName.charAt(0).toUpperCase() || '?';
+                }
+                
+                profileSetupCta.classList.add('hidden'); // Hide CTA if profile is set
+            } else {
+                profileFullNameEl.textContent = 'Guest User';
+                profileBioEl.textContent = 'Set up your profile to personalize your experience!';
+                profilePhoneNumberEl.classList.add('hidden');
+                profileAddressEl.classList.add('hidden');
+                profileAvatar.innerHTML = '?';
+                profileSetupCta.classList.remove('hidden'); // Show CTA if profile is not set
+            }
         }
-        if (userProfile.address) {
-            profileAddressEl.textContent = `Address: ${userProfile.address}`;
-            profileAddressEl.classList.remove('hidden');
-        } else {
-            profileAddressEl.classList.add('hidden');
+
+        function isValidUrl(string) {
+            try {
+                new URL(string);
+                return true;
+            } catch (e) {
+                return false;
+            }
         }
 
-        // Handle profile picture
-        if (userProfile.pictureUrl && isValidUrl(userProfile.pictureUrl)) {
-            profileAvatar.innerHTML = `<img src="${userProfile.pictureUrl}" alt="Profile Picture" onerror="this.onerror=null;this.src='https://placehold.co/80x80/5CB85C/FFFFFF?text=${userProfile.fullName.charAt(0).toUpperCase()}';">`;
-        } else {
-            profileAvatar.innerHTML = userProfile.fullName.charAt(0).toUpperCase() || '?';
-        }
+        submitProfileBtn.addEventListener('click', () => {
+            const fullName = profileFullNameInput.value.trim();
+            const bio = profileBioInput.value.trim();
+            const phoneNumber = profilePhoneNumberInput.value.trim();
+            const address = profileAddressInput.value.trim();
+            const pictureUrl = profilePictureUrlInput.value.trim();
 
-        profileSetupCta.classList.add('hidden'); // Hide CTA if profile is set
-    } else {
-        profileFullNameEl.textContent = 'Guest User';
-        profileBioEl.textContent = 'Set up your profile to personalize your experience!';
-        profilePhoneNumberEl.classList.add('hidden');
-        profileAddressEl.classList.add('hidden');
-        profileAvatar.innerHTML = '?';
-        profileSetupCta.classList.remove('hidden'); // Show CTA if profile is not set
-    }
-}
+            let hasError = false;
+            clearInputError(profileFullNameInput, profileFullNameError);
+            clearInputError(profileBioInput, profileBioError);
+            clearInputError(profilePhoneNumberInput, profilePhoneNumberError);
+            clearInputError(profileAddressInput, profileAddressError);
+            clearInputError(profilePictureUrlInput, profilePictureUrlError);
 
-function isValidUrl(string) {
-    try {
-        new URL(string);
-        return true;
-    } catch (e) {
-        return false;
-    }
-}
+            if (!fullName) {
+                showInputError(profileFullNameInput, profileFullNameError, 'Full Name is required.');
+                hasError = true;
+            } else if (fullName.length < 3) {
+                showInputError(profileFullNameInput, profileFullNameError, 'Full Name must be at least 3 characters.');
+                hasError = true;
+            }
+            if (phoneNumber && !/^\+?\d{10,15}$/.test(phoneNumber)) { // Basic phone number validation
+                showInputError(profilePhoneNumberInput, profilePhoneNumberError, 'Please enter a valid phone number (e.g., +234...).');
+                hasError = true;
+            }
+            if (pictureUrl && !isValidUrl(pictureUrl)) {
+                showInputError(profilePictureUrlInput, profilePictureUrlError, 'Please enter a valid URL for the picture.');
+                hasError = true;
+            }
 
-submitProfileBtn.addEventListener('click', () => {
-    const fullName = profileFullNameInput.value.trim();
-    const bio = profileBioInput.value.trim();
-    const phoneNumber = profilePhoneNumberInput.value.trim();
-    const address = profileAddressInput.value.trim();
-    const pictureUrl = profilePictureUrlInput.value.trim();
+            if (hasError) {
+                showToast('Please correct the profile details.', 'error');
+                return;
+            }
 
-    let hasError = false;
-    clearInputError(profileFullNameInput, profileFullNameError);
-    clearInputError(profileBioInput, profileBioError);
-    clearInputError(profilePhoneNumberInput, profilePhoneNumberError);
-    clearInputError(profileAddressInput, profileAddressError);
-    clearInputError(profilePictureUrlInput, profilePictureUrlError);
+            startLoading(submitProfileBtn, 'Saving Profile...');
 
-    if (!fullName) {
-        showInputError(profileFullNameInput, profileFullNameError, 'Full Name is required.');
-        hasError = true;
-    } else if (fullName.length < 3) {
-        showInputError(profileFullNameInput, profileFullNameError, 'Full Name must be at least 3 characters.');
-        hasError = true;
-    }
-    if (phoneNumber && !/^\+?\d{10,15}$/.test(phoneNumber)) { // Basic phone number validation
-        showInputError(profilePhoneNumberInput, profilePhoneNumberError, 'Please enter a valid phone number (e.g., +234...).');
-        hasError = true;
-    }
-    if (pictureUrl && !isValidUrl(pictureUrl)) {
-        showInputError(profilePictureUrlInput, profilePictureUrlError, 'Please enter a valid URL for the picture.');
-        hasError = true;
-    }
+            setTimeout(() => {
+                userProfile.fullName = fullName;
+                userProfile.bio = bio;
+                userProfile.phoneNumber = phoneNumber;
+                userProfile.address = address;
+                userProfile.pictureUrl = pictureUrl;
+                saveUserData();
+                updateProfileDisplay(); // Update the dashboard with new profile
+                showToast('Profile saved successfully!', 'success');
+                closeModal('profileSetupModal');
+                stopLoading(submitProfileBtn, 'Save Profile');
+            }, 1000);
+        });
 
-    if (hasError) {
-        showToast('Please correct the profile details.', 'error');
-        return;
-    }
-
-    startLoading(submitProfileBtn, 'Saving Profile...');
-
-    setTimeout(() => {
-        // Update local data (Your original logic)
-        userProfile.fullName = fullName;
-        userProfile.bio = bio;
-        userProfile.phoneNumber = phoneNumber;
-        userProfile.address = address;
-        userProfile.pictureUrl = pictureUrl;
-
-        // --- EMAILJS SEND LOGIC ---
-        // I have explicitly mapped these to standard names. 
-        // PLEASE update your EmailJS Template Body to use the {{}} tags below.
-        const templateParams = {
-            user_name: fullName,
-            user_bio: bio || 'No bio provided',
-            user_phone: phoneNumber || 'Not provided',
-            user_address: address || 'Not provided',
-            user_picture: pictureUrl || 'No image provided',
-            reply_to: localStorage.getItem('currentUserEmail') || 'No Email Found'
-        };
-
-        emailjs.send('service_kkj4kyv', 'template_bm1ofua', templateParams)
-            .then((response) => {
-                console.log('Email successfully sent!', response.status, response.text);
-            })
-            .catch((error) => {
-                console.error('Email failed to send:', error);
-            });
-        // --- END EMAILJS ---
-
-        saveUserData();
-        updateProfileDisplay(); // Update the dashboard with new profile
-        showToast('Profile saved successfully!', 'success');
-        closeModal('profileSetupModal');
-        stopLoading(submitProfileBtn, 'Save Profile');
-    }, 1000);
-});
         // Notifications Logic
         function addNotification(notification) {
             userNotifications.unshift(notification); // Add to the beginning
@@ -4621,7 +4574,7 @@ submitProfileBtn.addEventListener('click', () => {
 
         // WhatsApp Support Button Logic
         whatsappSupportBtn.addEventListener('click', () => {
-            const phoneNumber = '+44 7914 612850'; // Replace with your actual WhatsApp number (without + or 00)
+            const phoneNumber = '2348012345678'; // Replace with your actual WhatsApp number (without + or 00)
             const message = encodeURIComponent('Hello, I need assistance with my Grow-with-Core dashboard.');
             const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
             window.open(whatsappUrl, '_blank');
