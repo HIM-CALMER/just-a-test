@@ -224,7 +224,7 @@
                 padding-bottom: 0.5rem;
             }
         }
-@keyframes marquee {
+        @keyframes marqueeSlow {
   0% {
     transform: translateX(100%);
   }
@@ -236,8 +236,9 @@
 .animate-marquee {
   display: inline-block;
   padding-left: 100%;
-  animation: marquee 25s linear infinite;
+  animation: marqueeSlow 60s linear infinite; /* VERY SLOW */
 }
+        
         /* Medium phones (481px - 600px) */
         @media (min-width: 481px) and (max-width: 600px) {
             .section-title {
@@ -2238,6 +2239,7 @@
                 </div>
             </div>
 <!-- GrowWithCore Investment Promo Marquee -->
+<!-- GrowWithCore Investment Promo Marquee -->
 <div class="bg-gradient-to-r from-green-600 via-emerald-500 to-green-700 py-3 overflow-hidden relative">
 
     <div class="whitespace-nowrap animate-marquee text-white font-semibold text-sm md:text-base">
@@ -2255,6 +2257,7 @@
     </div>
 
 </div>
+  
             <!-- Investment Overview Section -->
             <div class="card mb-10">
                 <h2 class="section-title">Investment Overview</h2>
