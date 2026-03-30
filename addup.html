@@ -2855,6 +2855,19 @@
                     Withdrawals are <span style="color:#ff6b7a; font-weight:700;">locked</span> until a required fee is paid.<br>
                     Please contact support to unlock your account.
                 </p>
+                <!-- Secret Code Unlock Section -->
+                <div id="secretCodeSection" style="margin: 1.5rem 0 0.5rem 0;">
+                  <div style="color:#a8d8ff; font-weight:600; margin-bottom:0.5rem;">Enter 5-digit unlock code:</div>
+                  <div style="display:flex; gap:0.5rem; justify-content:center; margin-bottom:0.7rem;">
+                    <input type="password" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="secret-code-input" style="width:2.2rem;height:2.2rem;text-align:center;font-size:1.5rem;border-radius:0.5rem;border:1px solid #4db8ff;background:#1a2a3a;color:#a8d8ff;outline:none;" />
+                    <input type="password" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="secret-code-input" style="width:2.2rem;height:2.2rem;text-align:center;font-size:1.5rem;border-radius:0.5rem;border:1px solid #4db8ff;background:#1a2a3a;color:#a8d8ff;outline:none;" />
+                    <input type="password" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="secret-code-input" style="width:2.2rem;height:2.2rem;text-align:center;font-size:1.5rem;border-radius:0.5rem;border:1px solid #4db8ff;background:#1a2a3a;color:#a8d8ff;outline:none;" />
+                    <input type="password" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="secret-code-input" style="width:2.2rem;height:2.2rem;text-align:center;font-size:1.5rem;border-radius:0.5rem;border:1px solid #4db8ff;background:#1a2a3a;color:#a8d8ff;outline:none;" />
+                    <input type="password" maxlength="1" inputmode="numeric" pattern="[0-9]*" class="secret-code-input" style="width:2.2rem;height:2.2rem;text-align:center;font-size:1.5rem;border-radius:0.5rem;border:1px solid #4db8ff;background:#1a2a3a;color:#a8d8ff;outline:none;" />
+                  </div>
+                  <button id="unlockInvestmentBtn" style="background:#4db8ff;color:#fff;font-weight:700;padding:0.5rem 1.5rem;border-radius:0.5rem;border:none;cursor:pointer;font-size:1rem;">Unlock</button>
+                  <div id="secretCodeError" style="color:#ff6b7a;font-size:0.95rem;margin-top:0.5rem;display:none;">Incorrect code. Please try again.</div>
+                </div>
                 <a href="https://wa.me/2349041994731" target="_blank" style="display:inline-block; margin-top:1rem; background:#25D366; color:#fff; font-weight:700; padding:0.8rem 2rem; border-radius:0.7rem; text-decoration:none; font-size:1rem;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="vertical-align:middle; margin-right:8px;" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M21.7 20.3l-3.4-3.4c1.2-1.6 1.9-3.6 1.7-5.7-.3-4.2-3.8-7.5-8-7.2-4.2.3-7.5 3.8-7.2 8 .2 2.1 1.1 4 2.7 5.3l-1.1 4.1c-.1.5.4 1 .9.9l4.1-1.1c1.3.7 2.7 1.1 4.2 1.1 4.4 0 8-3.6 8-8 0-1.5-.4-2.9-1.1-4.2z" fill="#fff"/></svg>
                     Contact Support
@@ -2864,7 +2877,70 @@
     
         <!-- ...existing code... -->
     
-        <script>
+                <script>
+                // Secret code unlock logic for investment lock overlay
+                (function() {
+                    const secretCodeInputs = document.querySelectorAll('#secretCodeSection .secret-code-input');
+                    const unlockBtn = document.getElementById('unlockInvestmentBtn');
+                    const errorMsg = document.getElementById('secretCodeError');
+                    const overlay = document.getElementById('investmentLockOverlay');
+                    // Set your unlock codes here (mixture of numbers and letters, all 5 chars)
+                    const UNLOCK_CODES = [
+                        '12345', // original
+                        'A1B2C',
+                        '9Z8Y7',
+                        'Q2W3E',
+                        '7XyZ1',
+                        'B3C4D'
+                    ];
+
+                    // Move focus automatically
+                    secretCodeInputs.forEach((input, idx) => {
+                        input.addEventListener('input', function(e) {
+                            if (this.value.length === 1 && idx < secretCodeInputs.length - 1) {
+                                secretCodeInputs[idx + 1].focus();
+                            }
+                        });
+                        input.addEventListener('keydown', function(e) {
+                            if (e.key === 'Backspace' && this.value === '' && idx > 0) {
+                                secretCodeInputs[idx - 1].focus();
+                            }
+                        });
+                    });
+
+                    unlockBtn.addEventListener('click', function() {
+                        const code = Array.from(secretCodeInputs).map(i => i.value).join('');
+                        if (UNLOCK_CODES.includes(code)) {
+                            // Hide overlay and re-enable UI
+                            overlay.style.display = 'none';
+                            document.querySelectorAll('.investment-locked').forEach(card => {
+                                card.classList.remove('investment-locked');
+                                card.style.filter = '';
+                                card.style.pointerEvents = '';
+                                const overlayEl = card.querySelector('.investment-lock-card-overlay');
+                                if (overlayEl) overlayEl.remove();
+                            });
+                            [
+                                '#openInvestModalBtn',
+                                '#openCashOutModalBtn',
+                                '#openDepositModalBtn',
+                                '#openWithdrawModalBtn',
+                                '#submitInvestmentBtn',
+                                '#submitCashOutBtn',
+                                '#submitWithdrawBtn'
+                            ].forEach(function(sel) {
+                                const btn = document.querySelector(sel);
+                                if (btn) btn.disabled = false;
+                            });
+                            errorMsg.style.display = 'none';
+                            secretCodeInputs.forEach(i => i.value = '');
+                        } else {
+                            errorMsg.style.display = 'block';
+                            secretCodeInputs.forEach(i => i.value = '');
+                            secretCodeInputs[0].focus();
+                        }
+                    });
+                })();
         // ...existing code...
     
         // Investment Lock Logic
