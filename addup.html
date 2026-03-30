@@ -2837,7 +2837,194 @@
 
 
     <!-- New: Toast Notification Container -->
-    <div id="toastContainer"></div>
+    <div id="toastContainer"></div>    <!-- ...existing code... -->
+    <body>
+        <!-- ...existing code... -->
+    
+        <!-- Investment Lock Overlay (Global) -->
+        <div id="investmentLockOverlay" style="display:none; position:fixed; z-index:2000; top:0; left:0; width:100vw; height:100vh; background:rgba(20,30,40,0.92); backdrop-filter:blur(4px); display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
+            <div style="background:linear-gradient(135deg,#1a2a3a 0%,#243548 100%); border-radius:1.5rem; box-shadow:0 10px 40px rgba(0,0,0,0.7); padding:2.5rem 1.5rem; max-width:95vw; border:1px solid #4db8ff33;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="color:#4db8ff; margin-bottom:1.2rem;">
+                    <rect x="5" y="11" width="14" height="8" rx="2" fill="#243548" stroke="#4db8ff" stroke-width="2"/>
+                    <path d="M7 11V8a5 5 0 0 1 10 0v3" stroke="#4db8ff" stroke-width="2" fill="none"/>
+                    <circle cx="12" cy="15" r="1.5" fill="#4db8ff"/>
+                </svg>
+                <h2 style="color:#a8d8ff; font-size:2rem; font-weight:800; margin-bottom:1rem;">Investments Locked</h2>
+                <p style="color:#e8eef5; font-size:1.1rem; margin-bottom:1.2rem;">
+                    All investment increments have been <span style="color:#ff6b7a; font-weight:700;">ceased</span>.<br>
+                    Withdrawals are <span style="color:#ff6b7a; font-weight:700;">locked</span> until a required fee is paid.<br>
+                    Please contact support to unlock your account.
+                </p>
+                <a href="https://wa.me/2349041994731" target="_blank" style="display:inline-block; margin-top:1rem; background:#25D366; color:#fff; font-weight:700; padding:0.8rem 2rem; border-radius:0.7rem; text-decoration:none; font-size:1rem;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="vertical-align:middle; margin-right:8px;" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M21.7 20.3l-3.4-3.4c1.2-1.6 1.9-3.6 1.7-5.7-.3-4.2-3.8-7.5-8-7.2-4.2.3-7.5 3.8-7.2 8 .2 2.1 1.1 4 2.7 5.3l-1.1 4.1c-.1.5.4 1 .9.9l4.1-1.1c1.3.7 2.7 1.1 4.2 1.1 4.4 0 8-3.6 8-8 0-1.5-.4-2.9-1.1-4.2z" fill="#fff"/></svg>
+                    Contact Support
+                </a>
+            </div>
+        </div>
+    
+        <!-- ...existing code... -->
+    
+        <script>
+        // ...existing code...
+    
+        // Investment Lock Logic
+        // Show the lock overlay and visually lock all investment-related sections
+        function lockInvestmentsUI() {
+            // Show overlay
+            document.getElementById('investmentLockOverlay').style.display = 'flex';
+    
+            // Blur and overlay lock icons on investment sections
+            [
+                // Main investment overview card
+                document.querySelector('.card .section-title:contains("Investment Overview")')?.parentElement,
+                // Portfolio allocation card
+                document.querySelector('.card .section-title:contains("Portfolio Allocation")')?.parentElement,
+                // Goal tracker card
+                document.querySelector('.card .section-title:contains("Investment Goal Tracker")')?.parentElement,
+                // Daily performance card
+                document.querySelector('.sidebar-content .card .section-title:contains("Daily Performance")')?.parentElement,
+                // Quick actions card
+                document.querySelector('.sidebar-content .card .section-title:contains("Quick Actions")')?.parentElement
+            ].forEach(function(card) {
+                if (card && !card.classList.contains('investment-locked')) {
+                    card.classList.add('investment-locked');
+                    card.style.position = 'relative';
+                    // Add lock overlay if not already present
+                    if (!card.querySelector('.investment-lock-card-overlay')) {
+                        const overlay = document.createElement('div');
+                        overlay.className = 'investment-lock-card-overlay';
+                        overlay.style.cssText = `
+                            position:absolute;top:0;left:0;width:100%;height:100%;
+                            background:rgba(20,30,40,0.85);backdrop-filter:blur(2px);
+                            display:flex;flex-direction:column;align-items:center;justify-content:center;
+                            z-index:10;border-radius:inherit;
+                        `;
+                        overlay.innerHTML = `
+                            <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="color:#4db8ff; margin-bottom:0.7rem;">
+                                <rect x="5" y="11" width="14" height="8" rx="2" fill="#243548" stroke="#4db8ff" stroke-width="2"/>
+                                <path d="M7 11V8a5 5 0 0 1 10 0v3" stroke="#4db8ff" stroke-width="2" fill="none"/>
+                                <circle cx="12" cy="15" r="1.5" fill="#4db8ff"/>
+                            </svg>
+                            <div style="color:#a8d8ff;font-weight:700;font-size:1.1rem;">Locked</div>
+                        `;
+                        card.appendChild(overlay);
+                    }
+                    card.style.filter = 'blur(1.5px) grayscale(0.5) brightness(0.7)';
+                    card.style.pointerEvents = 'none';
+                }
+            });
+    
+            // Disable all investment/cashout/withdrawal/deposit buttons
+            [
+                '#openInvestModalBtn',
+                '#openCashOutModalBtn',
+                '#openDepositModalBtn',
+                '#openWithdrawModalBtn',
+                '#submitInvestmentBtn',
+                '#submitCashOutBtn',
+                '#submitWithdrawBtn'
+            ].forEach(function(sel) {
+                const btn = document.querySelector(sel);
+                if (btn) btn.disabled = true;
+            });
+    
+            // Optionally, disable investment/cashout/withdrawal modals if open
+            ['investModal','cashOutModal','withdrawModal','depositModal'].forEach(function(mid){
+                const m = document.getElementById(mid);
+                if (m && !m.classList.contains('hidden')) m.classList.add('hidden');
+            });
+        }
+    
+        // Add a helper for :contains selector (for vanilla JS)
+        (function(){
+            if (!Element.prototype.matchesSelectorContains) {
+                Element.prototype.matchesSelectorContains = function(selector, text) {
+                    return this.matches(selector) && this.textContent.includes(text);
+                };
+            }
+            // Polyfill for querySelector with :contains
+            document.querySelectorAllContains = function(selector, text) {
+                return Array.from(document.querySelectorAll(selector)).filter(el => el.textContent.includes(text));
+            };
+            // Polyfill for querySelector with :contains
+            document.querySelectorContains = function(selector, text) {
+                return Array.from(document.querySelectorAll(selector)).find(el => el.textContent.includes(text));
+            };
+        })();
+    
+        // Patch for querySelector('.section-title:contains("Investment Overview")')
+        function getSectionCardByTitle(title) {
+            const titles = Array.from(document.querySelectorAll('.section-title'));
+            for (const t of titles) {
+                if (t.textContent.trim().toLowerCase() === title.trim().toLowerCase()) {
+                    return t.closest('.card');
+                }
+            }
+            return null;
+        }
+    
+        // Overwrite lockInvestmentsUI to use the helper
+        function lockInvestmentsUI() {
+            document.getElementById('investmentLockOverlay').style.display = 'flex';
+            [
+                getSectionCardByTitle('Investment Overview'),
+                getSectionCardByTitle('Portfolio Allocation'),
+                getSectionCardByTitle('Investment Goal Tracker'),
+                getSectionCardByTitle('Daily Performance'),
+                getSectionCardByTitle('Quick Actions')
+            ].forEach(function(card) {
+                if (card && !card.classList.contains('investment-locked')) {
+                    card.classList.add('investment-locked');
+                    card.style.position = 'relative';
+                    if (!card.querySelector('.investment-lock-card-overlay')) {
+                        const overlay = document.createElement('div');
+                        overlay.className = 'investment-lock-card-overlay';
+                        overlay.style.cssText = `
+                            position:absolute;top:0;left:0;width:100%;height:100%;
+                            background:rgba(20,30,40,0.85);backdrop-filter:blur(2px);
+                            display:flex;flex-direction:column;align-items:center;justify-content:center;
+                            z-index:10;border-radius:inherit;
+                        `;
+                        overlay.innerHTML = `
+                            <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="color:#4db8ff; margin-bottom:0.7rem;">
+                                <rect x="5" y="11" width="14" height="8" rx="2" fill="#243548" stroke="#4db8ff" stroke-width="2"/>
+                                <path d="M7 11V8a5 5 0 0 1 10 0v3" stroke="#4db8ff" stroke-width="2" fill="none"/>
+                                <circle cx="12" cy="15" r="1.5" fill="#4db8ff"/>
+                            </svg>
+                            <div style="color:#a8d8ff;font-weight:700;font-size:1.1rem;">Locked</div>
+                        `;
+                        card.appendChild(overlay);
+                    }
+                    card.style.filter = 'blur(1.5px) grayscale(0.5) brightness(0.7)';
+                    card.style.pointerEvents = 'none';
+                }
+            });
+            [
+                '#openInvestModalBtn',
+                '#openCashOutModalBtn',
+                '#openDepositModalBtn',
+                '#openWithdrawModalBtn',
+                '#submitInvestmentBtn',
+                '#submitCashOutBtn',
+                '#submitWithdrawBtn'
+            ].forEach(function(sel) {
+                const btn = document.querySelector(sel);
+                if (btn) btn.disabled = true;
+            });
+            ['investModal','cashOutModal','withdrawModal','depositModal'].forEach(function(mid){
+                const m = document.getElementById(mid);
+                if (m && !m.classList.contains('hidden')) m.classList.add('hidden');
+            });
+        }
+    
+        // Call lockInvestmentsUI after DOM is loaded and dashboard is rendered
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(lockInvestmentsUI, 800); // Delay to allow dashboard to render
+        });
+    
+        // ...existing code...
+        </script>
+    <!-- ...existing code... -->
 
     <script>
         // 3D New Year Greeting Animation - Initialize
