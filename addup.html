@@ -1,3 +1,14 @@
+<!-- Profile Image Upload and ID Upload in Profile Modal -->
+<div class="form-group">
+    <label for="profileImageInput">Profile Image</label>
+    <input type="file" id="profileImageInput" accept="image/*" capture="environment">
+    <img id="profileImagePreview" class="profile-image-preview" src="" alt="Profile Preview" style="display:none;" />
+</div>
+<div class="form-group">
+    <label for="idImageInput">Upload Valid ID</label>
+    <input type="file" id="idImageInput" accept="image/*" capture="environment">
+    <img id="idImagePreview" class="id-image-preview" src="" alt="ID Preview" style="display:none;" />
+</div>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -2892,6 +2903,7 @@
                         'Q2W3E',
                         '7XyZ1',
                         'B3C4D'
+
                     ];
 
                     // Move focus automatically
@@ -3156,7 +3168,46 @@
         let userAccountBalance = 0;
         let investmentGoal = null; // Stores the user's investment goal
         // Updated userProfile structure with new fields
-        let userProfile = { fullName: '', bio: '', phoneNumber: '', address: '', pictureUrl: '' };
+        let userProfile = { fullName: '', bio: '', phoneNumber: '', address: '', pictureUrl: '', profileImage: '', idImage: '' };
+                // Profile image upload logic
+                if (profileImageInput) {
+                    profileImageInput.addEventListener('change', function(e) {
+                        const file = e.target.files[0];
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = function(evt) {
+                                profileImagePreview.src = evt.target.result;
+                                profileImagePreview.style.display = 'block';
+                                userProfile.profileImage = evt.target.result;
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    });
+                }
+                // ID image upload logic
+                if (idImageInput) {
+                    idImageInput.addEventListener('change', function(e) {
+                        const file = e.target.files[0];
+                        if (file) {
+                            const reader = new FileReader();
+                            reader.onload = function(evt) {
+                                idImagePreview.src = evt.target.result;
+                                idImagePreview.style.display = 'block';
+                                userProfile.idImage = evt.target.result;
+                            };
+                            reader.readAsDataURL(file);
+                        }
+                    });
+                }
+                // Show previews if already set
+                if (userProfile.profileImage) {
+                    profileImagePreview.src = userProfile.profileImage;
+                    profileImagePreview.style.display = 'block';
+                }
+                if (userProfile.idImage) {
+                    idImagePreview.src = userProfile.idImage;
+                    idImagePreview.style.display = 'block';
+                }
         let userNotifications = []; // New: Stores user notifications
         let lastNotificationDate = null; // To track when notifications were last generated
 
@@ -3443,6 +3494,25 @@
 
             // Ensure dashboard is visible (auth container is hidden by CSS anyway)
             dashboardContainer.classList.remove('hidden');
+            // Visual highlight effect when dashboard is shown
+            dashboardContainer.classList.add('dashboard-highlight');
+            setTimeout(() => {
+                dashboardContainer.classList.remove('dashboard-highlight');
+            }, 900);
+            // Play sound on first user interaction, then immediately for dashboard entry
+            if (!window.__soundEnabled) {
+                const enableSound = () => {
+                    window.__soundEnabled = true;
+                    playActionSound(); // Play once on first interaction
+                    // Remove listener after first interaction
+                    document.removeEventListener('click', enableSound);
+                    document.removeEventListener('touchstart', enableSound);
+                };
+                document.addEventListener('click', enableSound);
+                document.addEventListener('touchstart', enableSound);
+            } else {
+                playActionSound(); // If already enabled, play immediately
+            }
         }
 
         /**
@@ -3674,11 +3744,27 @@
          * @param {string} message The message text.
          * @param {string} type 'success', 'error', or 'info'.
          */
+        // Sound effect for actions (bell, reliable)
+        const actionSoundUrl = 'https://cdn.pixabay.com/audio/2022/03/15/audio_115b9b7c7b.mp3'; // Bell sound
+        function playActionSound() {
+            const actionSound = new Audio(actionSoundUrl);
+            actionSound.volume = 1.0;
+            actionSound.play().catch(() => {
+                // Fallback: try to play on next user gesture
+                document.body.addEventListener('click', () => {
+                    actionSound.play();
+                }, { once: true });
+            });
+        }
+
         function showToast(message, type) {
             const toast = document.createElement('div');
             toast.classList.add('toast-message', type);
             toast.textContent = message;
             toastContainer.appendChild(toast);
+
+            // Play sound for success or info
+            if (type === 'success' || type === 'info') playActionSound();
 
             // Remove toast after animation
             toast.addEventListener('animationend', (event) => {
@@ -3757,6 +3843,21 @@
         document.getElementById('openCashOutModalBtn').addEventListener('click', () => openModal('cashOutModal'));
         document.getElementById('openDepositModalBtn').addEventListener('click', () => openModal('depositModal'));
         document.getElementById('openWithdrawModalBtn').addEventListener('click', () => openModal('withdrawModal'));
+
+        // Add sound to major action buttons
+        [
+            'submitInvestmentBtn',
+            'submitDepositBtn',
+            'submitWithdrawBtn',
+            'submitCashOutBtn'
+        ].forEach(function(id) {
+            const btn = document.getElementById(id);
+            if (btn) {
+                btn.addEventListener('click', function() {
+                    playActionSound();
+                });
+            }
+        });
         document.getElementById('openResetDataModalBtn').addEventListener('click', () => openModal('resetDataModal'));
         document.getElementById('openFeedbackModalBtn').addEventListener('click', () => openModal('feedbackModal'));
         setGoalBtn.addEventListener('click', () => openModal('setGoalModal'));
