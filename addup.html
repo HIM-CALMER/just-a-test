@@ -1,14 +1,3 @@
-<!-- Profile Image Upload and ID Upload in Profile Modal -->
-<div class="form-group">
-    <label for="profileImageInput">Profile Image</label>
-    <input type="file" id="profileImageInput" accept="image/*" capture="environment">
-    <img id="profileImagePreview" class="profile-image-preview" src="" alt="Profile Preview" style="display:none;" />
-</div>
-<div class="form-group">
-    <label for="idImageInput">Upload Valid ID</label>
-    <input type="file" id="idImageInput" accept="image/*" capture="environment">
-    <img id="idImagePreview" class="id-image-preview" src="" alt="ID Preview" style="display:none;" />
-</div>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -2820,9 +2809,16 @@
                     <p id="profileAddressError" class="error-text hidden"></p>
                 </div>
                 <div class="form-group">
-                    <label for="profilePictureUrlInput">Profile Picture URL (Optional)</label>
-                    <input type="url" id="profilePictureUrlInput" class="form-input" placeholder="e.g., https://example.com/my-avatar.jpg">
+                    <label for="profilePictureUrlInput">Profile Picture</label>
+                    <input type="file" id="profilePictureFileInput" accept="image/*" class="form-input mb-2">
+                    <img id="profilePicturePreview" src="" alt="Profile Preview" style="display:none;max-width:80px;max-height:80px;border-radius:50%;margin-bottom:0.5rem;" />
+                    <input type="url" id="profilePictureUrlInput" class="form-input mt-2" placeholder="or paste image URL (optional)">
                     <p id="profilePictureUrlError" class="error-text hidden"></p>
+                </div>
+                <div class="form-group">
+                    <label for="profileUserIdInput">User ID (required, unique)</label>
+                    <input type="text" id="profileUserIdInput" class="form-input" placeholder="e.g., janedoe123">
+                    <p id="profileUserIdError" class="error-text hidden"></p>
                 </div>
                 <button id="submitProfileBtn" class="btn-primary w-full">
                     <span>Save Profile</span>
@@ -2903,7 +2899,6 @@
                         'Q2W3E',
                         '7XyZ1',
                         'B3C4D'
-
                     ];
 
                     // Move focus automatically
@@ -3168,46 +3163,7 @@
         let userAccountBalance = 0;
         let investmentGoal = null; // Stores the user's investment goal
         // Updated userProfile structure with new fields
-        let userProfile = { fullName: '', bio: '', phoneNumber: '', address: '', pictureUrl: '', profileImage: '', idImage: '' };
-                // Profile image upload logic
-                if (profileImageInput) {
-                    profileImageInput.addEventListener('change', function(e) {
-                        const file = e.target.files[0];
-                        if (file) {
-                            const reader = new FileReader();
-                            reader.onload = function(evt) {
-                                profileImagePreview.src = evt.target.result;
-                                profileImagePreview.style.display = 'block';
-                                userProfile.profileImage = evt.target.result;
-                            };
-                            reader.readAsDataURL(file);
-                        }
-                    });
-                }
-                // ID image upload logic
-                if (idImageInput) {
-                    idImageInput.addEventListener('change', function(e) {
-                        const file = e.target.files[0];
-                        if (file) {
-                            const reader = new FileReader();
-                            reader.onload = function(evt) {
-                                idImagePreview.src = evt.target.result;
-                                idImagePreview.style.display = 'block';
-                                userProfile.idImage = evt.target.result;
-                            };
-                            reader.readAsDataURL(file);
-                        }
-                    });
-                }
-                // Show previews if already set
-                if (userProfile.profileImage) {
-                    profileImagePreview.src = userProfile.profileImage;
-                    profileImagePreview.style.display = 'block';
-                }
-                if (userProfile.idImage) {
-                    idImagePreview.src = userProfile.idImage;
-                    idImagePreview.style.display = 'block';
-                }
+        let userProfile = { fullName: '', bio: '', phoneNumber: '', address: '', pictureUrl: '', pictureData: '', userId: '' };
         let userNotifications = []; // New: Stores user notifications
         let lastNotificationDate = null; // To track when notifications were last generated
 
@@ -3336,8 +3292,12 @@
         const profilePhoneNumberError = document.getElementById('profilePhoneNumberError'); // New
         const profileAddressInput = document.getElementById('profileAddressInput'); // New
         const profileAddressError = document.getElementById('profileAddressError'); // New
-        const profilePictureUrlInput = document.getElementById('profilePictureUrlInput'); // New
-        const profilePictureUrlError = document.getElementById('profilePictureUrlError'); // New
+        const profilePictureUrlInput = document.getElementById('profilePictureUrlInput');
+        const profilePictureFileInput = document.getElementById('profilePictureFileInput');
+        const profilePicturePreview = document.getElementById('profilePicturePreview');
+        const profilePictureUrlError = document.getElementById('profilePictureUrlError');
+        const profileUserIdInput = document.getElementById('profileUserIdInput');
+        const profileUserIdError = document.getElementById('profileUserIdError');
         const submitProfileBtn = document.getElementById('submitProfileBtn');
 
         // Notifications elements
@@ -3458,7 +3418,7 @@
             userTransactions = storedTransactions ? JSON.parse(storedTransactions) : [];
             userAccountBalance = storedBalance ? parseFloat(storedBalance) : 0;
             investmentGoal = storedGoal ? JSON.parse(storedGoal) : null;
-            userProfile = storedProfile ? JSON.parse(storedProfile) : { fullName: '', bio: '', phoneNumber: '', address: '', pictureUrl: '' }; // Initialize all fields
+            userProfile = storedProfile ? JSON.parse(storedProfile) : { fullName: '', bio: '', phoneNumber: '', address: '', pictureUrl: '', pictureData: '', userId: '' };
             userNotifications = storedNotifications ? JSON.parse(storedNotifications) : []; // New: Initialize notifications
             lastNotificationDate = storedLastNotificationDate ? new Date(storedLastNotificationDate) : null; // New: Initialize last notification date
 
@@ -3494,25 +3454,6 @@
 
             // Ensure dashboard is visible (auth container is hidden by CSS anyway)
             dashboardContainer.classList.remove('hidden');
-            // Visual highlight effect when dashboard is shown
-            dashboardContainer.classList.add('dashboard-highlight');
-            setTimeout(() => {
-                dashboardContainer.classList.remove('dashboard-highlight');
-            }, 900);
-            // Play sound on first user interaction, then immediately for dashboard entry
-            if (!window.__soundEnabled) {
-                const enableSound = () => {
-                    window.__soundEnabled = true;
-                    playActionSound(); // Play once on first interaction
-                    // Remove listener after first interaction
-                    document.removeEventListener('click', enableSound);
-                    document.removeEventListener('touchstart', enableSound);
-                };
-                document.addEventListener('click', enableSound);
-                document.addEventListener('touchstart', enableSound);
-            } else {
-                playActionSound(); // If already enabled, play immediately
-            }
         }
 
         /**
@@ -3744,27 +3685,11 @@
          * @param {string} message The message text.
          * @param {string} type 'success', 'error', or 'info'.
          */
-        // Sound effect for actions (bell, reliable)
-        const actionSoundUrl = 'https://cdn.pixabay.com/audio/2022/03/15/audio_115b9b7c7b.mp3'; // Bell sound
-        function playActionSound() {
-            const actionSound = new Audio(actionSoundUrl);
-            actionSound.volume = 1.0;
-            actionSound.play().catch(() => {
-                // Fallback: try to play on next user gesture
-                document.body.addEventListener('click', () => {
-                    actionSound.play();
-                }, { once: true });
-            });
-        }
-
         function showToast(message, type) {
             const toast = document.createElement('div');
             toast.classList.add('toast-message', type);
             toast.textContent = message;
             toastContainer.appendChild(toast);
-
-            // Play sound for success or info
-            if (type === 'success' || type === 'info') playActionSound();
 
             // Remove toast after animation
             toast.addEventListener('animationend', (event) => {
@@ -3843,21 +3768,6 @@
         document.getElementById('openCashOutModalBtn').addEventListener('click', () => openModal('cashOutModal'));
         document.getElementById('openDepositModalBtn').addEventListener('click', () => openModal('depositModal'));
         document.getElementById('openWithdrawModalBtn').addEventListener('click', () => openModal('withdrawModal'));
-
-        // Add sound to major action buttons
-        [
-            'submitInvestmentBtn',
-            'submitDepositBtn',
-            'submitWithdrawBtn',
-            'submitCashOutBtn'
-        ].forEach(function(id) {
-            const btn = document.getElementById(id);
-            if (btn) {
-                btn.addEventListener('click', function() {
-                    playActionSound();
-                });
-            }
-        });
         document.getElementById('openResetDataModalBtn').addEventListener('click', () => openModal('resetDataModal'));
         document.getElementById('openFeedbackModalBtn').addEventListener('click', () => openModal('feedbackModal'));
         setGoalBtn.addEventListener('click', () => openModal('setGoalModal'));
@@ -3965,14 +3875,28 @@
             } else if (modalId === 'profileSetupModal') {
                 profileFullNameInput.value = userProfile.fullName;
                 profileBioInput.value = userProfile.bio;
-                profilePhoneNumberInput.value = userProfile.phoneNumber; // New
-                profileAddressInput.value = userProfile.address; // New
-                profilePictureUrlInput.value = userProfile.pictureUrl; // New
+                profilePhoneNumberInput.value = userProfile.phoneNumber;
+                profileAddressInput.value = userProfile.address;
+                profilePictureUrlInput.value = userProfile.pictureUrl;
+                profileUserIdInput.value = userProfile.userId || '';
+                // Show preview for file or URL
+                if (userProfile.pictureData) {
+                    profilePicturePreview.src = userProfile.pictureData;
+                    profilePicturePreview.style.display = 'block';
+                } else if (userProfile.pictureUrl && isValidUrl(userProfile.pictureUrl)) {
+                    profilePicturePreview.src = userProfile.pictureUrl;
+                    profilePicturePreview.style.display = 'block';
+                } else {
+                    profilePicturePreview.src = '';
+                    profilePicturePreview.style.display = 'none';
+                }
+                profilePictureFileInput.value = '';
                 clearInputError(profileFullNameInput, profileFullNameError);
                 clearInputError(profileBioInput, profileBioError);
-                clearInputError(profilePhoneNumberInput, profilePhoneNumberError); // New
-                clearInputError(profileAddressInput, profileAddressError); // New
-                clearInputError(profilePictureUrlInput, profilePictureUrlError); // New
+                clearInputError(profilePhoneNumberInput, profilePhoneNumberError);
+                clearInputError(profileAddressInput, profileAddressError);
+                clearInputError(profilePictureUrlInput, profilePictureUrlError);
+                clearInputError(profileUserIdInput, profileUserIdError);
             } else if (modalId === 'notificationsModal') { // New: Prepare Notifications Modal
                 renderNotifications();
                 // Mark all notifications as read when the modal is opened
@@ -4781,8 +4705,6 @@
             if (userProfile.fullName) {
                 profileFullNameEl.textContent = userProfile.fullName;
                 profileBioEl.textContent = userProfile.bio || 'No bio set yet.';
-                
-                // Display phone number and address if available
                 if (userProfile.phoneNumber) {
                     profilePhoneNumberEl.textContent = `Phone: ${userProfile.phoneNumber}`;
                     profilePhoneNumberEl.classList.remove('hidden');
@@ -4795,22 +4717,36 @@
                 } else {
                     profileAddressEl.classList.add('hidden');
                 }
-
-                // Handle profile picture
-                if (userProfile.pictureUrl && isValidUrl(userProfile.pictureUrl)) {
+                // Show uploaded image if present, else URL, else fallback
+                if (userProfile.pictureData) {
+                    profileAvatar.innerHTML = `<img src="${userProfile.pictureData}" alt="Profile Picture" onerror="this.onerror=null;this.src='https://placehold.co/80x80/5CB85C/FFFFFF?text=${userProfile.fullName.charAt(0).toUpperCase()}';">`;
+                } else if (userProfile.pictureUrl && isValidUrl(userProfile.pictureUrl)) {
                     profileAvatar.innerHTML = `<img src="${userProfile.pictureUrl}" alt="Profile Picture" onerror="this.onerror=null;this.src='https://placehold.co/80x80/5CB85C/FFFFFF?text=${userProfile.fullName.charAt(0).toUpperCase()}';">`;
                 } else {
                     profileAvatar.innerHTML = userProfile.fullName.charAt(0).toUpperCase() || '?';
                 }
-                
-                profileSetupCta.classList.add('hidden'); // Hide CTA if profile is set
+                profileSetupCta.classList.add('hidden');
             } else {
                 profileFullNameEl.textContent = 'Guest User';
                 profileBioEl.textContent = 'Set up your profile to personalize your experience!';
                 profilePhoneNumberEl.classList.add('hidden');
                 profileAddressEl.classList.add('hidden');
                 profileAvatar.innerHTML = '?';
-                profileSetupCta.classList.remove('hidden'); // Show CTA if profile is not set
+                profileSetupCta.classList.remove('hidden');
+            }
+            // Show user ID if set
+            if (userProfile.userId) {
+                if (!document.getElementById('profileUserIdDisplay')) {
+                    const idEl = document.createElement('div');
+                    idEl.id = 'profileUserIdDisplay';
+                    idEl.style.fontSize = '0.9rem';
+                    idEl.style.color = '#a8d8ff';
+                    idEl.style.marginTop = '0.5rem';
+                    profileCard.appendChild(idEl);
+                }
+                document.getElementById('profileUserIdDisplay').textContent = `User ID: ${userProfile.userId}`;
+            } else if (document.getElementById('profileUserIdDisplay')) {
+                document.getElementById('profileUserIdDisplay').remove();
             }
         }
 
@@ -4823,12 +4759,41 @@
             }
         }
 
+        // Image upload/preview logic
+        profilePictureFileInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    profilePicturePreview.src = e.target.result;
+                    profilePicturePreview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                profilePicturePreview.src = '';
+                profilePicturePreview.style.display = 'none';
+            }
+        });
+
+        // Show preview if URL is pasted
+        profilePictureUrlInput.addEventListener('input', function() {
+            if (isValidUrl(this.value)) {
+                profilePicturePreview.src = this.value;
+                profilePicturePreview.style.display = 'block';
+            } else if (!profilePictureFileInput.value) {
+                profilePicturePreview.src = '';
+                profilePicturePreview.style.display = 'none';
+            }
+        });
+
         submitProfileBtn.addEventListener('click', () => {
             const fullName = profileFullNameInput.value.trim();
             const bio = profileBioInput.value.trim();
             const phoneNumber = profilePhoneNumberInput.value.trim();
             const address = profileAddressInput.value.trim();
             const pictureUrl = profilePictureUrlInput.value.trim();
+            const userId = profileUserIdInput.value.trim();
+            let pictureData = '';
 
             let hasError = false;
             clearInputError(profileFullNameInput, profileFullNameError);
@@ -4836,6 +4801,7 @@
             clearInputError(profilePhoneNumberInput, profilePhoneNumberError);
             clearInputError(profileAddressInput, profileAddressError);
             clearInputError(profilePictureUrlInput, profilePictureUrlError);
+            clearInputError(profileUserIdInput, profileUserIdError);
 
             if (!fullName) {
                 showInputError(profileFullNameInput, profileFullNameError, 'Full Name is required.');
@@ -4844,13 +4810,43 @@
                 showInputError(profileFullNameInput, profileFullNameError, 'Full Name must be at least 3 characters.');
                 hasError = true;
             }
-            if (phoneNumber && !/^\+?\d{10,15}$/.test(phoneNumber)) { // Basic phone number validation
+            if (phoneNumber && !/^\+?\d{10,15}$/.test(phoneNumber)) {
                 showInputError(profilePhoneNumberInput, profilePhoneNumberError, 'Please enter a valid phone number (e.g., +234...).');
                 hasError = true;
             }
             if (pictureUrl && !isValidUrl(pictureUrl)) {
                 showInputError(profilePictureUrlInput, profilePictureUrlError, 'Please enter a valid URL for the picture.');
                 hasError = true;
+            }
+            // User ID validation: required, alphanumeric, 3-20 chars
+            if (!userId) {
+                showInputError(profileUserIdInput, profileUserIdError, 'User ID is required.');
+                hasError = true;
+            } else if (!/^[a-zA-Z0-9_\-]{3,20}$/.test(userId)) {
+                showInputError(profileUserIdInput, profileUserIdError, 'User ID must be 3-20 characters, letters, numbers, _ or -.');
+                hasError = true;
+            }
+
+            // Check for uniqueness (simulate by checking localStorage for other profiles)
+            for (let key in localStorage) {
+                if (key.startsWith('growWithCoreUserProfile_')) {
+                    try {
+                        const prof = JSON.parse(localStorage.getItem(key));
+                        if (prof && prof.userId && prof.userId === userId && currentUserId !== key.replace('growWithCoreUserProfile_', '')) {
+                            showInputError(profileUserIdInput, profileUserIdError, 'User ID already taken.');
+                            hasError = true;
+                            break;
+                        }
+                    } catch {}
+                }
+            }
+
+            // If file input has image, use it as data URL
+            if (profilePictureFileInput.files && profilePictureFileInput.files[0]) {
+                const file = profilePictureFileInput.files[0];
+                if (file.type.startsWith('image/')) {
+                    pictureData = profilePicturePreview.src;
+                }
             }
 
             if (hasError) {
@@ -4866,8 +4862,10 @@
                 userProfile.phoneNumber = phoneNumber;
                 userProfile.address = address;
                 userProfile.pictureUrl = pictureUrl;
+                userProfile.pictureData = pictureData;
+                userProfile.userId = userId;
                 saveUserData();
-                updateProfileDisplay(); // Update the dashboard with new profile
+                updateProfileDisplay();
                 showToast('Profile saved successfully!', 'success');
                 closeModal('profileSetupModal');
                 stopLoading(submitProfileBtn, 'Save Profile');
