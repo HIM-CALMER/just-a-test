@@ -2261,6 +2261,7 @@
             <!-- Investment Overview Section -->
             <div class="card mb-10">
                 <h2 class="section-title">Investment Overview</h2>
+                <button id="shiftInvestmentsBtn" class="btn-primary mb-4" style="background:#FFD600;color:#222;">Shift All Investments +6 Months</button>
                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
                     <div class="metric-box">
                         <div class="icon-svg">
@@ -3171,6 +3172,7 @@
         const paystackPublicKey ='pk_test_d56d1a989dcc2421d6bc859a7fa7bb8bdfc6053f';
 
         // DOM Elements
+            const shiftInvestmentsBtn = document.getElementById('shiftInvestmentsBtn');
         const dashboardContainer = document.getElementById('dashboard-container');
 
         const availableBalanceEl = document.getElementById('availableBalance');
@@ -3415,6 +3417,26 @@
             const storedLastNotificationDate = localStorage.getItem(`growWithCoreLastNotificationDate_${currentUserId}`); // New: Load last notification date
 
             userInvestments = storedInvestments ? JSON.parse(storedInvestments) : [];
+            // Automatically shift all investments' maturity dates by 6 months (one-time per load)
+            let shifted = false;
+            userInvestments.forEach(inv => {
+                if (inv.maturityDate && !inv._shiftedBySixMonths) {
+                    const oldDate = new Date(inv.maturityDate);
+                    oldDate.setMonth(oldDate.getMonth() + 6);
+                    inv.maturityDate = oldDate.toISOString();
+                    // Also update duration
+                    if (inv.durationUnit === 'months') {
+                        inv.duration = (parseInt(inv.duration, 10) || 0) + 6;
+                    } else if (inv.durationUnit === 'years') {
+                        inv.duration = (parseFloat(inv.duration) || 0) + 0.5;
+                    }
+                    inv._shiftedBySixMonths = true;
+                    shifted = true;
+                }
+            });
+            if (shifted) {
+                saveUserData();
+            }
             userTransactions = storedTransactions ? JSON.parse(storedTransactions) : [];
             userAccountBalance = storedBalance ? parseFloat(storedBalance) : 0;
             investmentGoal = storedGoal ? JSON.parse(storedGoal) : null;
@@ -3518,14 +3540,18 @@
                 noInvestmentsMessage.classList.add('hidden');
                 userInvestments.forEach(inv => {
                     const profitLossClass = inv.profit >= 0 ? 'profit' : 'loss';
-                    
                     const investmentItemDiv = document.createElement('div');
                     investmentItemDiv.classList.add('investment-item');
                     investmentItemDiv.dataset.investmentId = inv.id; // Store ID for click handling
 
+                    let shiftedTag = '';
+                    if (inv._shiftedBySixMonths) {
+                        shiftedTag = `<span style="background:#FFD600;color:#222;font-size:0.8rem;font-weight:700;padding:2px 8px;border-radius:0.5rem;margin-left:0.5rem;">+6mo extended</span>`;
+                    }
+
                     investmentItemDiv.innerHTML = `
                         <div class="investment-icon-wrapper">${investmentCategoryIcons[inv.category] || ''}</div>
-                        <div class="investment-name">${inv.type}</div>
+                        <div class="investment-name">${inv.type} ${shiftedTag}</div>
                         <div class="investment-type">Category: ${inv.category}</div>
                         <div class="investment-values">
                             <span class="investment-value">Invested: ${formatNaira(inv.initialAmount)}</span>
@@ -3764,6 +3790,26 @@
         }
 
         // Event Listeners for Modals - Buttons to open modals
+                // Shift all investments by 6 months
+                shiftInvestmentsBtn.addEventListener('click', function() {
+                    if (!confirm('Are you sure you want to shift all investments by 6 months? This cannot be undone.')) return;
+                    let changed = false;
+                    userInvestments.forEach(inv => {
+                        if (inv.maturityDate) {
+                            const oldDate = new Date(inv.maturityDate);
+                            oldDate.setMonth(oldDate.getMonth() + 6);
+                            inv.maturityDate = oldDate.toISOString();
+                            changed = true;
+                        }
+                    });
+                    if (changed) {
+                        saveUserData();
+                        updateDashboard();
+                        showToast('All investments shifted by 6 months.', 'success');
+                    } else {
+                        showToast('No investments to shift.', 'info');
+                    }
+                });
         document.getElementById('openInvestModalBtn').addEventListener('click', () => openModal('investModal'));
         document.getElementById('openCashOutModalBtn').addEventListener('click', () => openModal('cashOutModal'));
         document.getElementById('openDepositModalBtn').addEventListener('click', () => openModal('depositModal'));
