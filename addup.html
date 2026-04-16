@@ -1048,6 +1048,56 @@
             transform: rotate(90deg);
         }
 
+        /* Step Indicator for Withdrawal Modal */
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .step {
+            flex: 1;
+            text-align: center;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            background-color: #374151;
+            color: #9ca3af;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .step.active {
+            background-color: #10b981;
+            color: white;
+        }
+        .step.completed {
+            background-color: #059669;
+            color: white;
+        }
+
+        /* Spinner Animation */
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #374151;
+            border-top: 4px solid #10b981;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Withdrawal Steps */
+        .withdrawal-step {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .modal-title {
             font-size: 1.9rem;
             font-weight: 700;
@@ -2200,6 +2250,7 @@
         <!-- Main Content Area -->
         <div class="main-content">
             <h1 class="section-title text-center mb-6">Grow-with-Core Dashboard</h1>
+            <h1 class="text-4xl font-bold text-center mb-6 text-yellow-400">You can now request a withdraw, scroll down to find the request a withdraw button and withdrawl all your investment profit in one hand</h1>
 
             <section class="hero-card card mb-6 max-w-3xl mx-auto text-center">
                 <h2 class="text-2xl sm:text-3xl font-semibold text-white mb-2">Manage your investments with clarity</h2>
@@ -2472,15 +2523,37 @@
                     </li>
     <!-- Request Withdrawal Modal -->
     <div id="requestWithdrawalModal" class="modal-overlay hidden">
-        <div class="modal-content" style="max-width:480px;">
+        <div class="modal-content" style="max-width:520px;">
             <button class="modal-close-btn" id="closeRequestWithdrawalModalBtn">&times;</button>
             <h3 class="modal-title">Request Withdrawal</h3>
-            <div id="requestWithdrawalStep1">
-                <p class="mb-4 text-gray-300 text-center">You can withdraw all your <b>active and postponed investments</b> within <b>72 hours</b>.<br>All profits will be summed for withdrawal.</p>
+            <!-- Step Indicator -->
+            <div class="step-indicator mb-6">
+                <div class="step completed" id="step1" data-step="1">Auth</div>
+                <div class="step" id="step2" data-step="2">Amount</div>
+                <div class="step" id="step3" data-step="3">Details</div>
+                <div class="step" id="step4" data-step="4">Pay Fee</div>
+                <div class="step" id="step5" data-step="5">Process</div>
+            </div>
+            <!-- Step 2: Amount Confirmation -->
+            <div id="requestWithdrawalStep2" class="withdrawal-step">
+                <p class="mb-4 text-gray-300 text-center">Review your withdrawal details below.</p>
                 <div class="form-group">
-                    <label>Total Withdrawable Profit</label>
-                    <div id="totalWithdrawableProfit" class="font-bold text-lg text-green-400 mb-2">₦0.00</div>
+                    <label>Total Withdrawable Amount</label>
+                    <div id="totalWithdrawableAmount" class="font-bold text-lg text-green-400 mb-2">₦0.00</div>
                 </div>
+                <div class="form-group">
+                    <label>Processing Fee (30% of Amount)</label>
+                    <div id="withdrawalFee" class="font-bold text-lg text-orange-400 mb-2">₦0.00</div>
+                </div>
+                <div class="form-group">
+                    <label>Processing Time</label>
+                    <div class="font-bold text-lg text-blue-400 mb-2">14-21 days</div>
+                </div>
+                <button id="confirmAmountBtn" class="btn-primary w-full">Confirm & Proceed</button>
+            </div>
+            <!-- Step 3: Bank Details -->
+            <div id="requestWithdrawalStep3" class="withdrawal-step hidden">
+                <p class="mb-4 text-gray-300 text-center">Enter your bank details for withdrawal.</p>
                 <div class="form-group">
                     <label for="requestBankName">Bank Name</label>
                     <input type="text" id="requestBankName" class="form-input" placeholder="e.g., Zenith Bank">
@@ -2496,21 +2569,30 @@
                     <input type="text" id="requestAccountName" class="form-input" placeholder="e.g., John Doe">
                     <p id="requestAccountNameError" class="error-text hidden"></p>
                 </div>
-                <div class="form-group">
-                    <label>Withdrawal Processing Fee <span class="text-xs text-gray-400">(30% of profit)</span></label>
-                    <div id="dynamicWithdrawalFee" class="font-bold text-orange-400 mb-2">₦0.00</div>
-                </div>
-                <button id="payWithdrawalFeeBtn" class="btn-primary w-full !bg-orange-500 hover:!bg-orange-600">
-                    <span>Pay Fee &amp; Withdraw</span>
-                </button>
+                <button id="submitBankDetailsBtn" class="btn-primary w-full">Submit Details</button>
             </div>
-            <div id="requestWithdrawalStep2" class="hidden text-center">
-                <div class="modal-message info mb-4">To complete your withdrawal, please contact customer care with your payment proof and account details.</div>
-                <a href="https://wa.me/2349041994731" target="_blank" class="btn-primary w-full !bg-green-600 hover:!bg-green-700 mb-2" style="display:inline-block;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle mr-2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-                    Chat Customer Care
-                </a>
-                <button class="btn-primary w-full mt-2" onclick="document.getElementById('requestWithdrawalModal').classList.add('hidden')">Close</button>
+            <!-- Step 4: Fee Payment -->
+            <div id="requestWithdrawalStep4" class="withdrawal-step hidden">
+                <p class="mb-4 text-gray-300 text-center">Pay the processing fee to initiate withdrawal.</p>
+                <div class="text-center">
+                    <div class="spinner mb-4 hidden" id="paymentSpinner"></div>
+                    <button id="payWithdrawalFeeBtn" class="btn-primary w-full !bg-orange-500 hover:!bg-orange-600">
+                        <span>Pay Fee & Withdraw</span>
+                    </button>
+                </div>
+            </div>
+            <!-- Step 5: Processing Status -->
+            <div id="requestWithdrawalStep5" class="withdrawal-step hidden">
+                <div class="text-center">
+                    <div class="spinner mb-4"></div>
+                    <p class="text-gray-300 mb-4">Your withdrawal is being processed...</p>
+                    <div id="processingDetails" class="text-sm text-gray-400"></div>
+                    <a href="https://wa.me/2349041994731" target="_blank" class="btn-primary w-full !bg-green-600 hover:!bg-green-700 mt-4" style="display:inline-block;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle mr-2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                        Contact Support
+                    </a>
+                    <button class="btn-primary w-full mt-2" onclick="document.getElementById('requestWithdrawalModal').classList.add('hidden')">Close</button>
+                </div>
             </div>
         </div>
     </div>
@@ -2519,7 +2601,6 @@
     const openRequestWithdrawalModalBtn = document.getElementById('openRequestWithdrawalModalBtn');
     const requestWithdrawalModal = document.getElementById('requestWithdrawalModal');
     const closeRequestWithdrawalModalBtn = document.getElementById('closeRequestWithdrawalModalBtn');
-    const totalWithdrawableProfit = document.getElementById('totalWithdrawableProfit');
     const requestBankName = document.getElementById('requestBankName');
     const requestBankNameError = document.getElementById('requestBankNameError');
     const requestAccountNumber = document.getElementById('requestAccountNumber');
@@ -2527,36 +2608,66 @@
     const requestAccountName = document.getElementById('requestAccountName');
     const requestAccountNameError = document.getElementById('requestAccountNameError');
     const payWithdrawalFeeBtn = document.getElementById('payWithdrawalFeeBtn');
-    const requestWithdrawalStep1 = document.getElementById('requestWithdrawalStep1');
-    const requestWithdrawalStep2 = document.getElementById('requestWithdrawalStep2');
+    const confirmAmountBtn = document.getElementById('confirmAmountBtn');
+    const submitBankDetailsBtn = document.getElementById('submitBankDetailsBtn');
+    const paymentSpinner = document.getElementById('paymentSpinner');
+    const processingDetails = document.getElementById('processingDetails');
+
+    let currentStep = 1;
+    let totalWithdrawable = 0;
+    let withdrawalFee = 0;
+    let processingDays = 0;
+
+    function updateStepIndicator() {
+        // Step 1 is always completed since auth is done
+        document.getElementById('step1').classList.add('completed');
+        for (let i = 2; i <= 5; i++) {
+            const stepEl = document.getElementById(`step${i}`);
+            stepEl.classList.remove('active', 'completed');
+            if (i < currentStep) {
+                stepEl.classList.add('completed');
+            } else if (i === currentStep) {
+                stepEl.classList.add('active');
+            }
+        }
+    }
+
+    function showStep(step) {
+        for (let i = 2; i <= 5; i++) {
+            const stepEl = document.getElementById(`requestWithdrawalStep${i}`);
+            stepEl.classList.add('hidden');
+        }
+        document.getElementById(`requestWithdrawalStep${step}`).classList.remove('hidden');
+        currentStep = step;
+        updateStepIndicator();
+    }
 
     function openRequestWithdrawalModal() {
-        // Calculate total profit from all investments
-        let totalProfit = 0;
-        if (Array.isArray(userInvestments)) {
-            userInvestments.forEach(inv => {
-                totalProfit += (inv.profit || 0);
-            });
+        // Check profile first
+        if (!userProfile.fullName || !userProfile.phoneNumber || !userProfile.address) {
+            alert('Please set up your profile (full name, phone number, and address) before requesting a withdrawal.');
+            return;
         }
-        totalWithdrawableProfit.textContent = formatNaira(totalProfit);
-        // Calculate 30% fee
-        const fee = Math.max(0, Math.floor(totalProfit * 0.3));
-        document.getElementById('dynamicWithdrawalFee').textContent = formatNaira(fee);
-        requestBankName.value = '';
-        requestAccountNumber.value = '';
-        requestAccountName.value = '';
-        requestWithdrawalStep1.classList.remove('hidden');
-        requestWithdrawalStep2.classList.add('hidden');
-        clearInputError(requestBankName, requestBankNameError);
-        clearInputError(requestAccountNumber, requestAccountNumberError);
-        clearInputError(requestAccountName, requestAccountNameError);
+        // Calculate total withdrawable amount
+        totalWithdrawable = userInvestments.reduce((sum, inv) => sum + (inv.currentValue || 0), 0);
+        withdrawalFee = Math.floor(totalWithdrawable * 0.3);
+        processingDays = Math.floor(Math.random() * 8) + 14; // 14-21 days
+        document.getElementById('totalWithdrawableAmount').textContent = formatNaira(totalWithdrawable);
+        document.getElementById('withdrawalFee').textContent = formatNaira(withdrawalFee);
+        currentStep = 2;
+        showStep(2);
         requestWithdrawalModal.classList.remove('hidden');
     }
+
     openRequestWithdrawalModalBtn.addEventListener('click', openRequestWithdrawalModal);
     closeRequestWithdrawalModalBtn.addEventListener('click', () => requestWithdrawalModal.classList.add('hidden'));
     requestWithdrawalModal.addEventListener('click', (e) => { if (e.target === requestWithdrawalModal) requestWithdrawalModal.classList.add('hidden'); });
 
-    payWithdrawalFeeBtn.addEventListener('click', () => {
+    confirmAmountBtn.addEventListener('click', () => {
+        showStep(3);
+    });
+
+    submitBankDetailsBtn.addEventListener('click', () => {
         let hasError = false;
         clearInputError(requestBankName, requestBankNameError);
         clearInputError(requestAccountNumber, requestAccountNumberError);
@@ -2574,15 +2685,33 @@
             hasError = true;
         }
         if (hasError) return;
-        // Simulate fee payment and show next step
+        showStep(4);
+    });
+
+    payWithdrawalFeeBtn.addEventListener('click', () => {
+        paymentSpinner.classList.remove('hidden');
         payWithdrawalFeeBtn.disabled = true;
-        payWithdrawalFeeBtn.querySelector('span').textContent = 'Processing...';
+        payWithdrawalFeeBtn.querySelector('span').textContent = 'Processing Payment...';
         setTimeout(() => {
+            paymentSpinner.classList.add('hidden');
             payWithdrawalFeeBtn.disabled = false;
             payWithdrawalFeeBtn.querySelector('span').textContent = 'Pay Fee & Withdraw';
-            requestWithdrawalStep1.classList.add('hidden');
-            requestWithdrawalStep2.classList.remove('hidden');
-        }, 1500);
+            // Simulate payment success
+            const completionDate = new Date();
+            completionDate.setDate(completionDate.getDate() + processingDays);
+            processingDetails.innerHTML = `Estimated completion: ${completionDate.toLocaleDateString()}<br>Amount: ${formatNaira(totalWithdrawable - withdrawalFee)}<br>Fee Paid: ${formatNaira(withdrawalFee)}`;
+            showStep(5);
+            // Add to transactions
+            userTransactions.push({
+                id: Date.now(),
+                type: 'Withdrawal',
+                amount: totalWithdrawable - withdrawalFee,
+                date: new Date().toISOString(),
+                description: `Withdrawal request - Processing in ${processingDays} days`
+            });
+            saveUserData();
+            updateDashboard();
+        }, 3000);
     });
     </script>
 
